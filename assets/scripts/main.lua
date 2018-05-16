@@ -8,12 +8,12 @@ local Destroy = function()
 end
 
 local Update = function(timeStep)
-  print("Update", timeStep)
-  njli.World.getInstance():setBackgroundColor(1.000, 1.000, 1.000)
+  -- print("Update", timeStep)
+  njlic.World.getInstance():setBackgroundColor(1.000, 0.000, 0.000)
 end
 
 local Render = function()
-  print("Render")
+  -- print("Render")
 end
 
 local Resize = function(width, height, orientation)
