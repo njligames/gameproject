@@ -1,15 +1,19 @@
+local test = require "tests.newgeo"
 
 local Create = function()
   print("Create")
+  test.create()
 end
 
 local Destroy = function()
   print("Destroy")
+  test.destroy()
 end
 
 local Update = function(timeStep)
   -- print("Update", timeStep)
-  njlic.World.getInstance():setBackgroundColor(1.000, 0.000, 0.000)
+  -- njlic.World.getInstance():setBackgroundColor(1.000, 0.000, 0.000)
+  test.update(timeStep)
 end
 
 local Render = function()
