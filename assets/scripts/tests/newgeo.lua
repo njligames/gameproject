@@ -5,10 +5,8 @@ test.create = function()
 	local scene = njlic.Scene.create()
 
 	local rootNode = njlic.Node.create()
-	rootNode:setOrigin(bullet3.btVector3(0,0,5))
+	rootNode:setOrigin(bullet3.btVector3(0,0,0))
 	
-	scene:addActiveNode(node)
-
 	scene:setRootNode(rootNode)
 
 	local cameraNode = njlic.Node.create()
@@ -35,7 +33,7 @@ test.create = function()
 	scene:getRootNode():addChildNode(node)
 
 	node:setGeometry(geometry)
-	node:setOrigin(bullet3.btVector3(0,0,-3))
+	node:setOrigin(bullet3.btVector3(0,0,2))
 
 	njlic.World.getInstance():setScene(scene)
 	
