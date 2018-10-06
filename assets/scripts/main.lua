@@ -18,6 +18,7 @@ end
 
 local Render = function()
   -- print("Render")
+  test.render()
 end
 
 local Resize = function(width, height, orientation)
