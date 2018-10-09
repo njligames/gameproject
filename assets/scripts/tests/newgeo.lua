@@ -23,7 +23,22 @@ test.create = function()
 	njlic.World.getInstance():getWorldResourceLoader():load("shaders/StandardShader.vert", "shaders/StandardShader.frag", shader)
   
 	local geometry = njlic.MeshGeometry.create()
-	local path = njlic.ASSET_PATH("models/utah-teapot-lowpoly.obj")
+	-- local path = njlic.ASSET_PATH("models/utah-teapot-lowpoly.obj")
+	-- local path = njlic.ASSET_PATH("models/cube.obj")
+	local path = njlic.ASSET_PATH("models/plane.obj")
+	-- local path = njlic.ASSET_PATH("models/uv_sphere.obj")
+	-- local path = njlic.ASSET_PATH("models/ico_sphere.obj")
+	-- local path = njlic.ASSET_PATH("models/cylinder.obj")
+	-- local path = njlic.ASSET_PATH("models/cone.obj")
+	-- local path = njlic.ASSET_PATH("models/torus.obj")
+  -- local path = njlic.ASSET_PATH("models/grid.obj")
+	-- local path = njlic.ASSET_PATH("models/monkey.obj")
+	-- local path = njlic.ASSET_PATH("models/capsule.obj")
+	-- local path = njlic.ASSET_PATH("models/sphere.obj")
+	-- local path = njlic.ASSET_PATH("models/muscular_amazon.obj")
+	-- local path = njlic.ASSET_PATH("models/bunny.obj")
+  -- 
+
 	local f = assert(io.open(path, "r"))
 	local objFileData = f:read("*all")
 	f:close()
@@ -41,7 +56,11 @@ test.create = function()
 
 	njlic.World.getInstance():setScene(scene)
   njlic.World.getInstance():enableDebugDraw(camera)
-	
+
+	test.rotation = 0.0
+
+  local p = njlic:getSublimeCompletions()
+  print(p)
 end
 
 test.destroy = function()
@@ -50,7 +69,12 @@ end
 test.update = function(timeStep)
   njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 0.000)
 
+  local rotX = bullet3.btQuaternion(bullet3.btVector3(1.0, 0.0, 0.0), test.rotation)
+  local rotY = bullet3.btQuaternion(bullet3.btVector3(0.0, 1.0, 0.0), test.rotation)
+  local rotZ = bullet3.btQuaternion(bullet3.btVector3(0.0, 0.0, 1.0), test.rotation)
+  test.rotation = test.rotation + timeStep
 
+  test.vars.node:setRotation(rotX * rotY)
 
 
 
