@@ -74,19 +74,19 @@ test.update = function(timeStep)
   local rotY = bullet3.btQuaternion(bullet3.btVector3(0.0, 1.0, 0.0), test.rotation)
   local rotZ = bullet3.btQuaternion(bullet3.btVector3(0.0, 0.0, 1.0), test.rotation)
 
-  print("test.rotation", test.rotation)
-  print("timeStep", timeStep)
-  print("rotX", rotX)
-  print("rotY", rotY)
-  print("rotZ", rotZ)
+  -- print("test.rotation", test.rotation)
+  -- print("timeStep", timeStep)
+  -- print("rotX", rotX)
+  -- print("rotY", rotY)
+  -- print("rotZ", rotZ)
 
   test.rotation = test.rotation + timeStep
 
   local rot = rotX * rotY
 
-  print(rot)
+  -- print(rot)
 
-  -- test.vars.node:setRotation(rotX * rotY)
+  test.vars.node:setRotation(rotX * rotY)
 
 end
 
