@@ -15,6 +15,7 @@ varying vec3 VertexPosition_cameraspace;
 varying vec3 EyePosition_worldspace;
 
 uniform mat4 modelView;
+uniform bool orthographicCamera;
 
 uniform vec3 RimLightColor;
 uniform float RimLightStart;
@@ -159,9 +160,9 @@ struct MaterialParameters
 
 //#define EMISSION_TEXTURE 1
 //#define AMBIENT_TEXTURE 1 //yes
-//#define DIFFUSE_TEXTURE 1 //yes
+#define DIFFUSE_TEXTURE 1 //yes
 //#define SPECULAR_TEXTURE 1
-//#define ALPHA_TEXTURE 1
+#define ALPHA_TEXTURE 1
 //#define NORMAL_TEXTURE 1
 
 
@@ -546,7 +547,7 @@ void main()
                                      eyeDirection_tangentspace,
                                      textureNormal_tangentspace);
     
-    vec4 baseColor = color * Vertex_color;
+    vec4 baseColor = color;// * Vertex_color;
     vec3 rimColor = computeRim(RimLightColor, RimLightStart, RimLightEnd, RimLightCoefficient);
     baseColor += vec4(rimColor, 0.0);
     
@@ -554,11 +555,16 @@ void main()
     {
         baseColor = computeExponentialFogColor(baseColor);
     }
-    else
+    else if(FogDensity < 0.0)
     {
         baseColor = computeLinearFogColor(baseColor);
     }
     
+    if(orthographicCamera)
+    {
+        baseColor = texture2D(tDiffuseColor, VertexUV_modelspace);
+    }
+//    baseColor = vec4(1.0, 0.0, 0.0, 1.0);
     gl_FragColor = baseColor;
 }
 

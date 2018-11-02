@@ -22,7 +22,8 @@ test.create = function()
 	shader = njlic.ShaderProgram.create()
 	njlic.World.getInstance():getWorldResourceLoader():load("shaders/StandardShader.vert", "shaders/StandardShader.frag", shader)
   
-	local geometry = njlic.MeshGeometry.create()
+	-- local geometry = njlic.MeshGeometry.create()
+  local geometry = njlic.Sprite2D.create()
 	-- local path = njlic.ASSET_PATH("models/utah-teapot-lowpoly.obj")
 	-- local path = njlic.ASSET_PATH("models/cube.obj")
 	-- local path = njlic.ASSET_PATH("models/plane.obj")
@@ -36,13 +37,29 @@ test.create = function()
 	-- local path = njlic.ASSET_PATH("models/capsule.obj")
 	-- local path = njlic.ASSET_PATH("models/sphere.obj")
 	-- local path = njlic.ASSET_PATH("models/muscular_amazon.obj")
-	local path = njlic.ASSET_PATH("models/bunny.obj")
+	-- local path = njlic.ASSET_PATH("models/bunny.obj")
   -- 
 
-	local f = assert(io.open(path, "r"))
-	local objFileData = f:read("*all")
-	f:close()
-	geometry:load(shader, objFileData, 1, 1)
+	-- local f = assert(io.open(path, "r"))
+	-- local objFileData = f:read("*all")
+	-- f:close()
+	geometry:load(shader, 1, 1)
+
+
+
+
+  local image = njlic.Image.create()
+  njlic.World.getInstance():getWorldResourceLoader():load("images/generated/elia_gameplay0.png", image)
+
+  local material = njlic.Material.create()
+  geometry:setMaterial(material)
+  geometry:getMaterial():getDiffuse():loadGPU(image)
+  njlic.Image.destroy(image)
+
+
+
+
+
 
 
 	local node = njlic.Node.create()
@@ -68,7 +85,7 @@ end
 
 test.update = function(timeStep)
 
-  njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 0.000)
+  -- njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 0.000)
 
   local rotX = bullet3.btQuaternion(bullet3.btVector3(1.0, 0.0, 0.0), test.rotation)
   local rotY = bullet3.btQuaternion(bullet3.btVector3(0.0, 1.0, 0.0), test.rotation)
@@ -86,7 +103,7 @@ test.update = function(timeStep)
 
   -- print(rot)
 
-  test.vars.node:setRotation(rotX * rotY)
+  -- test.vars.node:setRotation(rotX * rotY)
 
 end
 

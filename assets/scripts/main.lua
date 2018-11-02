@@ -1,99 +1,95 @@
-local test = require "tests.newgeo"
+function print_r ( t )
+      local print_r_cache={}
+      local function sub_print_r(t,indent)
+        if (print_r_cache[tostring(t)]) then
+          print(indent.."*"..tostring(t))
+        else
+          print_r_cache[tostring(t)]=true
+          if (type(t)=="table") then
+            for pos,val in pairs(t) do
+              if (type(val)=="table") then
+                print(indent.."["..pos.."] => "..tostring(t).." {")
+                sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
+                print(indent..string.rep(" ",string.len(pos)+6).."}")
+              elseif (type(val)=="string") then
+                print(indent.."["..pos..'] => "'..val..'"')
+              else
+                print(indent.."["..pos.."] => "..tostring(val))
+              end
+            end
+          else
+            print(indent..tostring(t))
+          end
+        end
+      end
+      if (type(t)=="table") then
+        print(tostring(t).." {")
+        sub_print_r(t," ")
+        print("}")
+      else
+        sub_print_r(t," ")
+      end
+      print()
+    end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- local test = require "tests.newgeo"
+-- local test = require "tests.spriteatlas"
+local test = require "tests.bitmapfont"
 
 local Create = function()
-  print("Create")
+  -- print("Create")
   test.create()
 end
 
 local Destroy = function()
-  print("Destroy")
+  -- print("Destroy")
   test.destroy()
 end
 
 local Update = function(timeStep)
   -- print("Update", timeStep)
-  -- njlic.World.getInstance():setBackgroundColor(1.000, 0.000, 0.000)
+  njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 1.000)
   test.update(timeStep)
 end
 
-local Render = function()
-  -- print("Render")
-  test.render()
-end
-
-local Resize = function(width, height, orientation)
-  print("Resize", width, height, orientation)
-end
-
-local TouchesDown = function(touches)
-  print("TouchesDown")
-end
-
-local TouchesUp = function(touches)
-  print("TouchesUp")
-end
-
-local TouchesMove = function(touches)
-  print("TouchesMove")
-end
-
-local TouchesCancelled = function(touches)
-  print("TouchesCancelled")
-end
-
-local TouchDown = function(touch)
-  print("TouchDown")
-end
-
-local TouchUp = function(touch)
-  print("TouchUp")
-end
-
-local TouchMove = function(touch)
-  print("TouchMove")
-end
-
-local TouchCancelled = function(touches)
-  print("TouchCancelled")
-end
-
-local MouseDown = function(mouse)
-  print("MouseDown")
-end
-
-local MouseUp = function(mouse)
-  print("MouseUp")
-end
-
-local MouseMove = function(mouse)
-  print("MouseMove")
-end
-
 local KeyDown = function(keycodeName, withCapsLock, withControl, withShift, withAlt, withGui)
-  print("KeyDown", keycodeName, withCapsLock, withControl, withShift, withAlt, withGui)
+  -- print("KeyDown", keycodeName, withCapsLock, withControl, withShift, withAlt, withGui)
 end
 
-local KeyUp = function(keycodeName, withCapsLock, withControl, withShift, withAlt, withGui)
-  print("KeyUp", keycodeName, withCapsLock, withControl, withShift, withAlt, withGui)
+local NodeRayMouseDown = function(rayContact)
+  -- print(NodeRayMouseDown)
+  -- ELIA.states[ELIA:getFrameIndex(currentStateName)].mouseDown(rayContact)
+end
+
+local NodeRayMouseUp = function(rayContact)
+  -- print(NodeRayMouseUp)
+  -- ELIA.states[ELIA:getFrameIndex(currentStateName)].mouseUp(rayContact)
+end
+
+local NodeRayMouseMissed = function(node)
+  -- print(NodeRayMouseUp)
+  -- ELIA.states[ELIA:getFrameIndex(currentStateName)].mouseMissed(node)
 end
 
 RegisterCreate("Create",                                         function() pcall(Create) end)
 RegisterDestroy("Destroy",                                       function() pcall(Destroy) end )
 RegisterUpdate("Update",                                         function(timeStep) pcall(Update, timeStep) end )
-RegisterRender("Render",                                         function() pcall(Render) end )
-RegisterResize("Resize",                                         function(width, height, orientation) pcall(Resize, width, height, orientation) end )
-RegisterTouchesDown("TouchesDown",                               function(touches) pcall(TouchesDown, touches) end )
-RegisterTouchesUp("TouchesUp",                                   function(touches) pcall(TouchesUp, touches) end )
-RegisterTouchesMove("TouchesMove",                               function(touches) pcall(TouchesMove, touches) end )
-RegisterTouchesCancelled("TouchesCancelled",                     function(touches) pcall(TouchesCancelled, touches) end )
-RegisterTouchDown("TouchDown",                                   function(touch) pcall(TouchDown, touch) end )
-RegisterTouchUp("TouchUp",                                       function(touch) pcall(TouchUp, touch) end )
-RegisterTouchMove("TouchMove",                                   function(touch) pcall(TouchMove, touch) end )
-RegisterTouchCancelled("TouchCancelled",                         function(touch) pcall(TouchCancelled, touch) end )
-RegisterMouseDown("MouseDown",                                   function(mouse) pcall(MouseDown, mouse) end )
-RegisterMouseUp("MouseUp",                                       function(mouse) pcall(MouseUp, mouse) end )
-RegisterMouseMove("MouseMove",                                   function(mouse) pcall(MouseMove, mouse) end )
 RegisterKeyDown("KeyDown",                                       function(keycodeName, withCapsLock, withControl, withShift, withAlt, withGui) pcall(KeyDown, keycodeName, withCapsLock, withControl, withShift, withAlt, withGui) end )
-RegisterKeyUp("KeyUp",                                         function(keycodeName, withCapsLock, withControl, withShift, withAlt, withGui) pcall(KeyUp, keycodeName, withCapsLock, withControl, withShift, withAlt, withGui) end )
-
-
+RegisterNodeRayMouseDown("NodeRayMouseDown",                     function(rayContact) pcall(NodeRayMouseDown, rayContact) end )
+RegisterNodeRayMouseUp("NodeRayMouseUp",                         function(rayContact) pcall(NodeRayMouseUp, rayContact) end )
+RegisterNodeRayMouseMissed("NodeRayMouseMissed",                 function(node) pcall(NodeRayMouseMissed, node) end )
