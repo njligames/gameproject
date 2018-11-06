@@ -562,8 +562,14 @@ void main()
     
     if(orthographicCamera)
     {
-        baseColor = texture2D(tDiffuseColor, VertexUV_modelspace);
+        baseColor = texture2D(tDiffuseColor, VertexUV_modelspace) * Vertex_color;
+        if (baseColor.a == 0.0)
+        {
+            discard;
+        }
     }
+    
+    
 //    baseColor = vec4(1.0, 0.0, 0.0, 1.0);
     gl_FragColor = baseColor;
 }

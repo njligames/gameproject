@@ -110,7 +110,7 @@ test.create = function()
 
 
   local function spriteatlas()
-    local TexturePacker = require "NJLI.TexturePacker"
+    local TexturePacker = require "NJLIC.TexturePacker"
     local EliaTexturePacker = TexturePacker({file="elia_gameplay0"})
 
     local node = njlic.Node.create()
@@ -123,7 +123,7 @@ test.create = function()
 
   local function bitmapfont()
 
-    local BitmapFont = require 'NJLI.BitmapFont'
+    local BitmapFont = require 'NJLIC.BitmapFont'
     ELIAFont = BitmapFont(
     {
       names=

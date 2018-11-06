@@ -92,13 +92,11 @@ end
 --############################################################################# 
 
 function TexturePacker:draw(...)
-  print("called draw")
   local arg = ... or {}
   local node = arg.node or njlic.Node.create()
   local name = arg.name or "?"
 
   local frameNumber = self._sheetInfo:getFrameIndex(name)
-  print("the frameNumber is:", frameNumber)
   assert(frameNumber, "no such name in the textrue packer file as " .. name)
 
   local frame = self._sheetInfo.sheet.frames[frameNumber]
