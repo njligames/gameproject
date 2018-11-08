@@ -27,6 +27,7 @@ WORD_ARRAY =
 {
  "Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit", "Donec", "lobortis", "ac", "elit", "ut", "vehicula", "Nam", "vestibulum", "at", "diam", "eget", "pulvinar", "Nunc", "porta", "odio", "metus", "at", "egestas", "sem", "rhoncus", "eu", "Fusce", "sed", "scelerisque", "quam", "consequat", "mollis", "quam", "Pellentesque", "ut", "turpis", "vel", "mauris", "ultrices", "luctus", "Ut", "lorem", "ante", "dictum", "pharetra", "efficitur", "et", "luctus", "vitae", "ligula", "Cras", "pretium", "dolor", "eu", "fermentum", "fermentum", "Nulla", "quis", "urna", "commodo", "molestie", "velit", "vitae", "varius", "odio", "Nulla", "vitae", "fermentum", "justo", "Mauris", "tincidunt", "convallis", "condimentum", "Donec", "mollis", "laoreet", "purus", "ut", "elementum", "Donec", "consectetur", "vestibulum", "nisi", "a", "condimentum", "Sed", "magna", "ligula", "dapibus", "sed", "sagittis", "sed", "viverra", "ac", "nulla", "Aliquam", "quis", "tempor", "nisl", "nec", "dapibus", "ex", "Proin", "condimentum", "est", "ut", "dui", "iaculis", "in", "feugiat", "mauris", "euismod", "Maecenas", "eu", "laoreet", "purus", "Aenean", "blandit", "fermentum", "ligula", "iaculis", "suscipit", "Vivamus", "sagittis", "a", "tortor", "vitae", "egestas", "Nam", "hendrerit", "metus", "finibus", "molestie", "efficitur", "Nulla", "hendrerit", "nisl", "augue", "quis", "venenatis", "elit", "ultrices", "eget", "Integer", "ac", "mi", "vel", "ex", "sodales", "dignissim", "vitae", "vitae", "nunc", "Mauris", "vel", "dapibus", "urna", "at", "finibus", "massa", "Duis", "imperdiet", "malesuada", "sem", "nec", "imperdiet", "Sed", "commodo", "ex", "lacus", "Proin", "viverra", "turpis", "id", "egestas", "tempor", "Maecenas", "eget", "condimentum", "urna", "quis", "fermentum", "odio", "Donec", "facilisis", "nunc", "neque", "ut", "sodales", "tellus", "volutpat", "quis", "Morbi", "bibendum", "luctus", "sem", "Etiam", "consectetur", "dolor", "luctus", "urna", "tincidunt", "molestie", "Aliquam", "non", "purus", "malesuada", "rhoncus", "lectus", "nec", "fermentum", "eros", "Aliquam", "scelerisque", "leo", "lectus", "quis", "euismod", "velit", "mattis", "vitae", "Fusce", "sit", "amet", "lacus", "in", "enim", "porttitor", "dapibus", "quis", "vel", "tellus", "Nullam", "egestas", "tellus", "eu", "est", "viverra", "porttitor", "Sed", "feugiat", "semper", "libero", "Donec", "euismod", "libero", "vel", "molestie", "eleifend", "dui", "massa", "tincidunt", "sem", "vel", "fringilla", "elit", "eros", "at", "risus", "Nullam", "blandit", "laoreet", "purus", "a", "elementum", "tellus", "Integer", "nec", "dignissim", "quam", "Proin", "laoreet", "sodales", "metus", "a", "viverra", "Suspendisse", "scelerisque", "dapibus", "efficitur", "Pellentesque", "nibh", "tellus", "congue", "quis", "commodo", "a", "sagittis", "a", "orci", "Sed", "mauris", "nisl", "mattis", "at", "tellus", "quis", "tempor", "consectetur", "erat", "Quisque", "dignissim", "sem", "et", "auctor", "iaculis", "Duis", "at", "imperdiet", "massa", "Quisque", "id", "libero", "enim", "Mauris", "molestie", "sit", "amet", "dolor", "rutrum", "varius", "Duis", "ut", "massa", "eu", "orci", "euismod", "hendrerit", "Aliquam", "imperdiet", "commodo", "aliquam", "Ut", "elementum", "porttitor", "dictum", "Vestibulum", "fringilla", "feugiat", "erat", "ut", "mollis", "Vestibulum", "est", "nisi", "mattis", "sed", "facilisis", "mattis", "varius", "id", "nisl", "Etiam", "facilisis", "viverra", "suscipit", "Donec", "in", "risus", "fermentum", "gravida", "est", "at", "bibendum", "arcu", "Nullam", "ut", "purus", "ac", "lectus", "tincidunt", "pharetra", "vitae", "id", "est", "Mauris", "at", "ligula", "bibendum", "lacus", "aliquet", "aliquet", "id", "quis", "orci"}
 
+CURRENT_QUOTER = ""
 
 QUOTES =
 {
@@ -54,48 +55,56 @@ function GrabNewWordArray()
     math.random()
     local idx = math.random (#QUOTES.AnselAdams)
     WORD_ARRAY = QUOTES.AnselAdams[idx]
+    CURRENT_QUOTER  = "Ansel Adams"
   elseif idx0 == 2 then
     math.random()
     math.random()
     math.random()
     local idx = math.random (#QUOTES.BenjaminFranklin)
     WORD_ARRAY = QUOTES.BenjaminFranklin[idx]
+    CURRENT_QUOTER  = "Benjamin Franklin"
   elseif idx0 == 3 then
     math.random()
     math.random()
     math.random()
     local idx = math.random (#QUOTES.MarkTwain)
     WORD_ARRAY = QUOTES.MarkTwain[idx]
+    CURRENT_QUOTER  = "Mark Twain"
   elseif idx0 == 4 then
     math.random()
     math.random()
     math.random()
     local idx = math.random (#QUOTES.Roman)
     WORD_ARRAY = QUOTES.Roman[idx]
+    CURRENT_QUOTER  = "Roman"
   elseif idx0 == 5 then
     math.random()
     math.random()
     math.random()
     local idx = math.random (#QUOTES.TeddyRoosevelt)
     WORD_ARRAY = QUOTES.TeddyRoosevelt[idx]
+    CURRENT_QUOTER  = "Teddy Roosevelt"
   elseif idx0 == 6 then
     math.random()
     math.random()
     math.random()
     local idx = math.random (#QUOTES.ThomasJefferson)
     WORD_ARRAY = QUOTES.ThomasJefferson[idx]
+    CURRENT_QUOTER  = "Thomas Jefferson"
   elseif idx0 == 7 then
     math.random()
     math.random()
     math.random()
     local idx = math.random (#QUOTES.WillRogers)
     WORD_ARRAY = QUOTES.WillRogers[idx]
+    CURRENT_QUOTER  = "Will Rogers"
   elseif idx0 == 8 then
     math.random()
     math.random()
     math.random()
     local idx = math.random (#QUOTES.WinstonChurchill)
     WORD_ARRAY = QUOTES.WinstonChurchill[idx]
+    CURRENT_QUOTER  = "Winston Churchill"
   end
 end
 
@@ -287,7 +296,7 @@ ELIA.states =
         ELIA.states[1].vars.currentResetTimer = ELIA.states[1].vars.currentResetTimer + step
 
         if ELIA.states[1].vars.currentResetTimer >= WAIT_TIME then
-          print("repsawn, biatch")
+          print("repsawn")
           ELIA.states[1].vars.resultTextNode:hide(OrthographicCameraNode:getCamera())
 
           ELIA.states[1].vars.currentWordArrayIndex=ELIA.states[1].vars.currentWordArrayIndex+1
@@ -315,97 +324,6 @@ ELIA.states =
       
 
     end,
---     update = function(timeStep)
--- 
---       ELIA.states[1].vars.resultTextNode = DrawResultWord(ELIA.states[1].vars.resultTextNode, ELIA.states[1].vars.currentText)
---       ELIA.states[1].vars.resultTextNode:show(OrthographicCameraNode:getCamera())
---       print(ELIA.states[1].vars.currentResetTimer)
---       -- print('up')
--- 
--- 
---       if ELIA.states[1].vars.currentResetTimer == 0.0 then
---         ELIA.states[1].vars.currentNode:show(OrthographicCameraNode:getCamera())
---         --- ELIA.states[1].vars.resultTextNode:hide(OrthographicCameraNode:getCamera())
---       else
---         ELIA.states[1].vars.resultTextNode:show(OrthographicCameraNode:getCamera())
---       end
--- 
---       -- print('update')
---       if not ELIA.states[1].vars.created then
---         ELIA.states[1].create()
---         ELIA.states[1].vars.currentWordArrayIndex=0
---       end
--- 
---       njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 1.000)
--- 
---       if ELIA.states[1].vars.currentNode then
---         if (ELIA.states[1].vars.currentTypeIndex <=  string.len(ELIA.states[1].vars.currentText)) then
---           --ELIA.states[1].vars.currentNode:show(OrthographicCameraNode:getCamera())
---         else
---           -- if ELIA.states[1].vars.currentResetTimer >= WAIT_TIME then
---           --   ELIA.states[1].vars.currentNode:hide(OrthographicCameraNode:getCamera())
---           -- end
---         end
--- 
---         local origin = ELIA.states[1].vars.currentNode:getOrigin() - bullet.btVector3(SCROLL_SPEED, 0.0, 0.0)
---         ELIA.states[1].vars.currentNode:setOrigin(origin)
--- 
---         if  origin:x() + currentNodeRect.width  < 0 then
---           ELIA.states[1].vars.currentTypeIndex = string.len(ELIA.states[1].vars.currentText) + 1
---         end
---       end
---         
---       if ELIA.states[1].vars.currentTypeIndex > string.len(ELIA.states[1].vars.currentText) then
--- 
---         ELIA.states[1].vars.currentNode:hide(OrthographicCameraNode:getCamera())
--- 
---         ELIA.states[1].vars.currentResetTimer = ELIA.states[1].vars.currentResetTimer + timeStep
--- 
---         if ELIA.states[1].vars.currentResetTimer >= WAIT_TIME then
--- 
---           -- if ELIA.states[1].vars.currentNode then
---           --   ELIA.states[1].vars.currentNode:hide(OrthographicCameraNode:getCamera())
---           -- end
--- 
---           ELIA.states[1].vars.currentWordArrayIndex=ELIA.states[1].vars.currentWordArrayIndex+1
---           if ELIA.states[1].vars.currentWordArrayIndex > #WORD_ARRAY then
---             GrabNewWordArray()
---             ELIA.states[1].vars.currentWordArrayIndex = 1
---           end
---           ELIA.states[1].vars.currentText = string.upper(WORD_ARRAY[ELIA.states[1].vars.currentWordArrayIndex])
---           ELIA.states[1].vars.currentTypeIndex = 1
--- 
---           for i=1, string.len(ELIA.states[1].vars.currentText) do
---             ELIA.states[1].vars.fontIndexTable[i] = 1
---           end
--- 
---           ELIA.states[1].vars.fontIndexTable[ELIA.states[1].vars.currentTypeIndex] = 2
--- 
---           ELIA.states[1].vars.currentNode, currentNodeRect = ELIAFont:printf({
---             mainNode=ELIA.states[1].vars.currentNode,
---             text=ELIA.states[1].vars.currentText,
---             fontIndexTable=ELIA.states[1].vars.fontIndexTable,
---             align="Left",
---           })
---           -- if ELIA.states[1].vars.currentNode then
---           --   ELIA.states[1].vars.currentNode:hide(OrthographicCameraNode:getCamera())
---           -- end
---           -- ELIA.states[1].vars.currentNode:show(OrthographicCameraNode:getCamera())
--- 
---           ELIA.states[1].vars.currentNode:setOrigin(ELIA.states[1].vars.startOrigin)
--- 
---           ELIA.states[1].vars.currentResetTimer = 0.0
--- 
---           ELIA.states[1].vars.currentNumberOfLetters = string.len(ELIA.states[1].vars.currentText)
---           ELIA.states[1].vars.totalNumberOfLetters = ELIA.states[1].vars.totalNumberOfLetters + ELIA.states[1].vars.currentNumberOfLetters
--- 
---           finalAccuracy = AccuracyPercentage(ELIA.states[1].vars.totalNumberOfLetters, ELIA.states[1].vars.currentNumberOfLetters, ELIA.states[1].vars.totalAccurateTyped)
---           ELIA.states[1].vars.accuracyNode = DrawAccuracy(finalAccuracy, ELIA.states[1].vars.accuracyNode)
--- 
---         end
--- 
---       end
---     end,
     destroy = function()
       print('destroy')
       ELIA.states[1].vars.created = false
@@ -509,7 +427,14 @@ ELIA.states =
         ELIA.states[1].vars.currentNumberOfPoints=0
       end
 
-      ELIA.states[1].vars.currentTypeIndex = ELIA.states[1].vars.currentTypeIndex + 1
+      local function envIsAlphaNum(sIn)
+        return (string.match(sIn,"[^%w]") == nil) 
+      end
+
+      repeat
+        ELIA.states[1].vars.currentTypeIndex = ELIA.states[1].vars.currentTypeIndex + 1
+        local targetChar = string.upper(string.sub(ELIA.states[1].vars.currentText, ELIA.states[1].vars.currentTypeIndex, ELIA.states[1].vars.currentTypeIndex))
+      until envIsAlphaNum(targetChar) and (ELIA.states[1].vars.currentTypeIndex <= string.len(ELIA.states[1].vars.currentText))
 
       if ELIA.states[1].vars.currentTypeIndex <= string.len(ELIA.states[1].vars.currentText) then
         ELIA.states[1].vars.fontIndexTable[ELIA.states[1].vars.currentTypeIndex] = 2
