@@ -14,11 +14,16 @@ BitmapFont.__index = BitmapFont
 --  __unLoad()
 --#############################################################################
 
+function envIsAlphaNum(sIn)
+  return (string.match(sIn,"[^%w]") == nil) 
+end
+
 local __ctor = function(self, ...)
   local init = ... or {}
 
   local fonts = init.names
   local maxadvance=init.maxadvance
+
 
   self._maxAdvance = {}
   self._fonts = {}
@@ -28,7 +33,6 @@ local __ctor = function(self, ...)
     local assetPath = njlic.ASSET_PATH("fonts/" .. font .. ".lua")
     local data = loadfile(assetPath)()
 
-    -- self._maxLineHeight = math.max(self._maxLineHeight, data.common.lineHeight)
     self._maxLineHeight = math.max(self._maxLineHeight, data.info.lineHeight)
 
     local image = njlic.Image.create()
@@ -96,7 +100,6 @@ end
 --############################################################################# 
 
 function BitmapFont:maxLineHeight()
-  -- print(self._maxLineHeight)
   return self._maxLineHeight
 end
 
@@ -200,6 +203,7 @@ end
 function BitmapFont:printf(...)
 	local arg = ... or {}
 
+  local maxwidth = arg.maxwidth
 	local text = arg.text or "???"
 	local align = arg.align or "left"
 
@@ -248,7 +252,57 @@ function BitmapFont:printf(...)
     charData, node, recycleNode = self:_renderLetter(paramTable)
   end
 
+  local previous_c = nil
 	for c in string.gmatch( text .. '\n', '(.)' ) do
+
+
+
+
+
+
+
+
+
+    -- Check for line breaks for maxwidth
+    if maxwidth and previous_c then
+
+      local _letterIndex = letterIndex
+      local _c = string.sub(text, _letterIndex, _letterIndex)
+
+      if not envIsAlphaNum(previous_c) and envIsAlphaNum(c) then
+
+        local _xCurrent = xCurrent
+        
+        repeat
+          local _ascii = string.byte(_c)
+          local _charData = self._fonts[fontIndexTable[_letterIndex]].data.frames[_ascii - 31]
+          local _advance = maxadvance or _charData.xadvance
+          _xCurrent = _xCurrent + _advance
+
+          _letterIndex = _letterIndex + 1
+          _c = string.sub(text, _letterIndex, _letterIndex)
+        until not envIsAlphaNum(_c)
+
+        if _xCurrent >= maxwidth then
+          xCurrent = 0
+          yCurrent = yCurrent + self._fonts[fontIndexTable[_letterIndex]].data.info.lineHeight
+        end
+      end
+
+    end
+
+
+
+
+
+
+
+
+
+
+
+
+
     local ascii = string.byte(c)
 
     local paramTable =
@@ -259,7 +313,10 @@ function BitmapFont:printf(...)
       fontIndex = fontIndexTable[letterIndex]
     }
 
+
+
     if (ascii >= 32 and ascii <= 126) then
+
       charData, node, recycleNode = self:_renderLetter(paramTable)
 
       local fontIndex = paramTable.fontIndex or 1
@@ -267,7 +324,6 @@ function BitmapFont:printf(...)
       local base = self._fonts[fontIndex].data.info.base
 
       local xpos = xCurrent + charData.xoffset
-      -- local ypos = (lineHeight - charData.yoffset) - charData.height - (lineHeight - base) - yCurrent
       local ypos = (lineHeight - charData.yoffset) - (lineHeight - base) - yCurrent
 
       local advance = maxadvance or charData.xadvance
@@ -280,6 +336,7 @@ function BitmapFont:printf(...)
           mainNode:addChildNode(node)
         end
       end
+
     else
       -- if LINEFEED
       if ascii == 10 then
@@ -295,7 +352,6 @@ function BitmapFont:printf(...)
           local base = self._fonts[fontIndex].data.info.base
 
           local xpos = xCurrent + charData.xoffset
-          -- local ypos = (lineHeight - charData.yoffset) - charData.height - (lineHeight - base) - yCurrent
           local ypos = (lineHeight - charData.yoffset) - (lineHeight - base) - yCurrent
 
           local advance = maxadvance or charData.xadvance
@@ -314,6 +370,8 @@ function BitmapFont:printf(...)
       end
     end
 
+
+    previous_c = c
     letterIndex = letterIndex + 1
 	end
 

@@ -1,6 +1,5 @@
 local quotes =
 {
-  {"Will Rogers"},
 
   {"People\'s minds are changed through observation and not through argument."},
 

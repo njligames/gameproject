@@ -129,6 +129,7 @@ ELIA.states =
       currentNodeRect = nil,
       currentText = "",
       fontIndexTable = {},
+      displayFontIndexTable = {},
       currentTypeIndex = 1,
       totalAccurateTyped=0.0,
       totalNumberOfLetters=0.0,
@@ -204,7 +205,7 @@ ELIA.states =
       table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.resultTextNode)
       ELIA.states[1].vars.resultTextNode:hide(OrthographicCameraNode:getCamera())
 
-      ELIA.states[1].vars.currentTypeIndex = 1 -- string.len(ELIA.states[1].vars.currentText) + 1
+      ELIA.states[1].vars.currentTypeIndex = 1 
 
       local vert_margin = njlic.SCREEN():y() / 30.0
       local horiz_margin = njlic.SCREEN():x() / 40.0
@@ -219,7 +220,7 @@ ELIA.states =
       ELIA.states[1].vars.accuracyNode = DrawAccuracy(finalAccuracy, ELIA.states[1].vars.accuracyNode)
       table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.accuracyNode)
 
-      ELIA.states[1].vars.doneNode = DrawDoneButton(njlic.SCREEN():x() * 0.5, njlic.SCREEN():y() * 0.5, ELIA.states[1].vars.doneNode)
+      ELIA.states[1].vars.doneNode = DrawDoneButton(njlic.SCREEN():x() * 0.5, (njlic.SCREEN():y() * 0.5) - (njlic.SCREEN():y() / 11), ELIA.states[1].vars.doneNode)
       table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.doneNode)
 
       for i=1, string.len(ELIA.states[1].vars.currentText) do
@@ -244,17 +245,64 @@ ELIA.states =
       
 
       ELIA.states[1].vars.created = true
+
+      for i=1, string.len(ELIA.states[1].vars.currentText) do
+        ELIA.states[1].vars.displayFontIndexTable[i] = 6
+      end
+
+
+
+
+
+      ELIA.states[1].vars.displayNode, displayNodeRect = ELIAFont:printf({
+        mainNode=ELIA.states[1].vars.displayNode,
+        text=ELIA.states[1].vars.currentText,
+        fontIndexTable=ELIA.states[1].vars.displayFontIndexTable,
+        align="Left",
+        maxwidth=(njlic.SCREEN():x()),
+      })
+      table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.displayNode)
+      ELIA.states[1].vars.displayNode:setOrigin(bullet.btVector3(0, njlic.SCREEN():y() - (vert_margin * 9), -1))
+      ELIA.states[1].vars.displayNode:show(OrthographicCameraNode:getCamera())
+      
+      -- local dn = ELIA.states[1].vars.displayNode
+      -- for i=0, ELIA.states[1].vars.displayNode:numberOfChildrenNodes() - 1 do
+      --   ELIA.states[1].vars.fontIndexTable[i] = 1
+      --   local cdn = ELIA.states[1].vars.displayNode:getChildNode(i)
+      --   if cdn then
+      --    cdn:hide(OrthographicCameraNode:getCamera())
+      --   end
+      -- end
+      
     end,
     update = function(timeStep)
+
+      for i=1, string.len(ELIA.states[1].vars.currentText) do
+        ELIA.states[1].vars.displayFontIndexTable[i] = 6
+      end
     
       if not ELIA.states[1].vars.created then
         ELIA.states[1].create()
         ELIA.states[1].vars.currentWordArrayIndex=1
       end
 
-      -- print('ELIA.states[1].vars.currentTypeIndex ' .. ELIA.states[1].vars.currentTypeIndex)
+      ELIA.states[1].vars.displayNode, displayNodeRect = ELIAFont:printf({
+        mainNode=ELIA.states[1].vars.displayNode,
+        text=ELIA.states[1].vars.currentText,
+        fontIndexTable=ELIA.states[1].vars.displayFontIndexTable,
+        align="Left",
+        maxwidth=(njlic.SCREEN():x()),
+      })
+      ELIA.states[1].vars.displayNode:show(OrthographicCameraNode:getCamera())
 
       if not ELIA.states[1].vars.finishedWord then
+
+
+
+
+
+
+
 
         ELIA.states[1].vars.currentNode, currentNodeRect = ELIAFont:printf({
           mainNode=ELIA.states[1].vars.currentNode,
@@ -287,7 +335,6 @@ ELIA.states =
           ELIA.states[1].vars.currentNode:hide(OrthographicCameraNode:getCamera())
         end
 
-
         local step = 1.0 / 60.0
         -- print("ELIA.states[1].vars.currentResetTimer " .. ELIA.states[1].vars.currentResetTimer)
         -- print("timeStep " .. step)
@@ -303,6 +350,7 @@ ELIA.states =
           if ELIA.states[1].vars.currentWordArrayIndex > #WORD_ARRAY then
             GrabNewWordArray()
             ELIA.states[1].vars.currentWordArrayIndex = 1
+            ELIA.states[1].vars.currentTypeIndex = 1
           end
 
           ELIA.states[1].vars.currentText = string.upper(WORD_ARRAY[ELIA.states[1].vars.currentWordArrayIndex])
@@ -312,12 +360,11 @@ ELIA.states =
 
           ELIA.states[1].vars.currentNode:setOrigin(ELIA.states[1].vars.startOrigin)
           
-          ELIA.states[1].vars.currentTypeIndex = 1
-
           for i=1, string.len(ELIA.states[1].vars.currentText) do
             ELIA.states[1].vars.fontIndexTable[i] = 1
           end
           ELIA.states[1].vars.fontIndexTable[ELIA.states[1].vars.currentTypeIndex] = 2
+
         end
 
       end
@@ -390,8 +437,16 @@ ELIA.states =
       end
     end,
     keyDown = function(keycodeName, withCapsLock, withControl, withShift, withAlt, withGui)
+
       print('keyDown')
       if not ELIA.states[1].vars.created then
+        return
+      end
+
+      local currentChar = string.upper(keycodeName)
+
+      print(currentChar)
+      if not envIsAlphaNum(currentChar) or currentChar == "SPACE" or withShift then
         return
       end
 
@@ -402,15 +457,9 @@ ELIA.states =
 
       end
 
-      local currentChar = string.upper(keycodeName)
       local targetChar = string.upper(string.sub(ELIA.states[1].vars.currentText, ELIA.states[1].vars.currentTypeIndex, ELIA.states[1].vars.currentTypeIndex))
 
       local correctlyTyped = (currentChar == targetChar)
-
-      -- print("currentChar " .. currentChar)
-      -- print("ELIA.states[1].vars.currentText " .. ELIA.states[1].vars.currentText)
-      -- print("ELIA.states[1].vars.currentTypeIndex " .. ELIA.states[1].vars.currentTypeIndex)
-      -- print("targetChar " .. targetChar)
 
       if correctlyTyped then
         -- print("correctly Typed")
@@ -427,14 +476,16 @@ ELIA.states =
         ELIA.states[1].vars.currentNumberOfPoints=0
       end
 
-      local function envIsAlphaNum(sIn)
-        return (string.match(sIn,"[^%w]") == nil) 
-      end
+      -- local function envIsAlphaNum(sIn)
+      --   return (string.match(sIn,"[^%w]") == nil) 
+      -- end
 
       repeat
+        -- ELIA.states[1].vars.displayNode:getChildNode(ELIA.states[1].vars.currentTypeIndex - 1):show(OrthographicCameraNode:getCamera())
+
         ELIA.states[1].vars.currentTypeIndex = ELIA.states[1].vars.currentTypeIndex + 1
         local targetChar = string.upper(string.sub(ELIA.states[1].vars.currentText, ELIA.states[1].vars.currentTypeIndex, ELIA.states[1].vars.currentTypeIndex))
-      until envIsAlphaNum(targetChar) and (ELIA.states[1].vars.currentTypeIndex <= string.len(ELIA.states[1].vars.currentText))
+      until envIsAlphaNum(targetChar) or (ELIA.states[1].vars.currentTypeIndex > string.len(ELIA.states[1].vars.currentText))
 
       if ELIA.states[1].vars.currentTypeIndex <= string.len(ELIA.states[1].vars.currentText) then
         ELIA.states[1].vars.fontIndexTable[ELIA.states[1].vars.currentTypeIndex] = 2
@@ -1495,9 +1546,7 @@ local Create = function()
   }
 
 
-  -- njlic.World.getInstance():getWorldResourceLoader():load("sounds/elia.ogg", backgroundSound)
   njlic.World.getInstance():getWorldResourceLoader():load(backround_sound_names[idx_backround_sound_names], backgroundSound)
-  -- njlic.World.getInstance():getWorldResourceLoader():load("sounds/428480__erokia__one-shot-sfx-8.ogg", backgroundSound)
 
   backgroundSound:enableLooping(true)
   backgroundSound:play()
