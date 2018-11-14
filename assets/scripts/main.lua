@@ -10,7 +10,9 @@ ELIAFont = nil
 OrthographicCameraNode = nil
 PerspectiveCameraNode = nil
 
-SCROLL_SPEED=4.0
+SCROLL_SPEED=6.0
+EXTRA_SCROLL_SPEED=SCROLL_SPEED * 2
+
 WAIT_TIME=1.5
 
 POINTS_PER_CORRECT_LETTER = 1.0
@@ -144,6 +146,7 @@ ELIA.states =
       nodes = {},
       finishedWord = false,
       justFinishedShowingWord = true,
+      speedup = 0.0,
     },
     enter = function()
       print('enter')
@@ -172,6 +175,7 @@ ELIA.states =
       ELIA.states[1].vars.currentResetTimer = 0.0
       ELIA.states[1].vars.finishedWord = false
       ELIA.states[1].vars.justFinishedShowingWord = true
+      ELIA.states[1].vars.speedup = 0.0
 
       for i=1, string.len(ELIA.states[1].vars.currentText) do
         ELIA.states[1].vars.fontIndexTable[i] = 1
@@ -180,7 +184,7 @@ ELIA.states =
 
       -- ELIA.states[1].vars.resultTextNode = DrawResultWord(nil, ELIA.states[1].vars.currentText)
       -- table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.resultTextNode)
-      ELIA.states[1].vars.resultTextNode:hide(OrthographicCameraNode:getCamera())
+      -- ELIA.states[1].vars.resultTextNode:hide(OrthographicCameraNode:getCamera())
 
       ELIA.states[1].vars.currentNode:setOrigin(ELIA.states[1].vars.startOrigin)
 
@@ -201,9 +205,9 @@ ELIA.states =
       GrabNewWordArray()
       ELIA.states[1].vars.currentText = string.upper(WORD_ARRAY[ELIA.states[1].vars.currentWordArrayIndex])
 
-      ELIA.states[1].vars.resultTextNode = DrawResultWord(nil, ELIA.states[1].vars.currentText)
-      table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.resultTextNode)
-      ELIA.states[1].vars.resultTextNode:hide(OrthographicCameraNode:getCamera())
+      -- ELIA.states[1].vars.resultTextNode = DrawResultWord(nil, ELIA.states[1].vars.currentText)
+      -- table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.resultTextNode)
+      -- ELIA.states[1].vars.resultTextNode:hide(OrthographicCameraNode:getCamera())
 
       ELIA.states[1].vars.currentTypeIndex = 1 
 
@@ -295,14 +299,26 @@ ELIA.states =
       })
       ELIA.states[1].vars.displayNode:show(OrthographicCameraNode:getCamera())
 
+
+
+
+      if ELIA.states[1].vars.currentTypeIndex and ELIA.states[1].vars.displayNode then
+        local cti = ELIA.states[1].vars.currentTypeIndex - 1
+        for i=0, ELIA.states[1].vars.displayNode:numberOfChildrenNodes() - 1 do
+          local cdn = ELIA.states[1].vars.displayNode:getChildNode(i)
+          if cdn then
+            if i >= cti then
+              cdn:hide(OrthographicCameraNode:getCamera())
+            else
+              cdn:show(OrthographicCameraNode:getCamera())
+            end
+          end
+        end
+      end
+
+
+
       if not ELIA.states[1].vars.finishedWord then
-
-
-
-
-
-
-
 
         ELIA.states[1].vars.currentNode, currentNodeRect = ELIAFont:printf({
           mainNode=ELIA.states[1].vars.currentNode,
@@ -314,7 +330,7 @@ ELIA.states =
 
         if ELIA.states[1].vars.currentNode then
 
-          local origin = ELIA.states[1].vars.currentNode:getOrigin() - bullet.btVector3(SCROLL_SPEED, 0.0, 0.0)
+          local origin = ELIA.states[1].vars.currentNode:getOrigin() - bullet.btVector3(SCROLL_SPEED + ELIA.states[1].vars.speedup, 0.0, 0.0)
           ELIA.states[1].vars.currentNode:setOrigin(origin)
 
           if ELIA.states[1].vars.justFinishedShowingWord then
@@ -324,8 +340,8 @@ ELIA.states =
           end
 
           if  origin:x() + currentNodeRect.width  < 0 then
-            ELIA.states[1].vars.resultTextNode = DrawResultWord(ELIA.states[1].vars.resultTextNode, ELIA.states[1].vars.currentText)
-            ELIA.states[1].vars.resultTextNode:show(OrthographicCameraNode:getCamera())
+            -- ELIA.states[1].vars.resultTextNode = DrawResultWord(ELIA.states[1].vars.resultTextNode, ELIA.states[1].vars.currentText)
+            -- ELIA.states[1].vars.resultTextNode:show(OrthographicCameraNode:getCamera())
             ELIA.states[1].vars.finishedWord = true
             print("hit end")
           end
@@ -344,7 +360,7 @@ ELIA.states =
 
         if ELIA.states[1].vars.currentResetTimer >= WAIT_TIME then
           print("repsawn")
-          ELIA.states[1].vars.resultTextNode:hide(OrthographicCameraNode:getCamera())
+          -- ELIA.states[1].vars.resultTextNode:hide(OrthographicCameraNode:getCamera())
 
           ELIA.states[1].vars.currentWordArrayIndex=ELIA.states[1].vars.currentWordArrayIndex+1
           if ELIA.states[1].vars.currentWordArrayIndex > #WORD_ARRAY then
@@ -447,6 +463,7 @@ ELIA.states =
 
       print(currentChar)
       if not envIsAlphaNum(currentChar) or currentChar == "SPACE" or withShift then
+        ELIA.states[1].vars.speedup = EXTRA_SCROLL_SPEED
         return
       end
 
@@ -503,13 +520,16 @@ ELIA.states =
 
       if ELIA.states[1].vars.currentTypeIndex > string.len(ELIA.states[1].vars.currentText) then
 
-        ELIA.states[1].vars.resultTextNode = DrawResultWord(ELIA.states[1].vars.resultTextNode, ELIA.states[1].vars.currentText)
-        ELIA.states[1].vars.resultTextNode:show(OrthographicCameraNode:getCamera())
+        -- ELIA.states[1].vars.resultTextNode = DrawResultWord(ELIA.states[1].vars.resultTextNode, ELIA.states[1].vars.currentText)
+        -- ELIA.states[1].vars.resultTextNode:show(OrthographicCameraNode:getCamera())
 
         print("finished typing word")
         ELIA.states[1].vars.finishedWord = true
 
       end
+    end,
+    keyUp = function(keycodeName, withCapsLock, withControl, withShift, withAlt, withGui)
+      ELIA.states[1].vars.speedup = 0
     end,
   },
   {
@@ -1617,7 +1637,9 @@ local KeyDown = function(keycodeName, withCapsLock, withControl, withShift, with
   ELIA.states[ELIA:getFrameIndex(currentStateName)].keyDown(keycodeName, withCapsLock, withControl, withShift, withAlt, withGui)
 end
 
-local KeyUp = function(keycodeName, withCapsLock, withControl, withShift, withAlt, withGui) end
+local KeyUp = function(keycodeName, withCapsLock, withControl, withShift, withAlt, withGui) 
+  ELIA.states[ELIA:getFrameIndex(currentStateName)].keyUp(keycodeName, withCapsLock, withControl, withShift, withAlt, withGui)
+end
 local WorldEnterState = function() end
 local WorldUpdateState = function(timeStep) end
 local WorldExitState = function() end

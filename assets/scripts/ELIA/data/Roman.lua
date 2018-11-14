@@ -1,6 +1,5 @@
 local quotes =
 {
-  {"Seneca"},
 
   {"Expecting is the greatest impediment to living. In anticipation of tomorrow, it loses today."},
 
