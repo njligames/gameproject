@@ -1509,7 +1509,7 @@ local Create = function()
 
     OrthographicCameraNode:setCamera(camera)
     
-    njlic.World.getInstance():enableDebugDraw(OrthographicCameraNode:getCamera())
+    -- njlic.World.getInstance():enableDebugDraw(OrthographicCameraNode:getCamera())
     
     rootNode:addChildNode(OrthographicCameraNode)
   end
