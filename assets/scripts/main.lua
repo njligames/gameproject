@@ -224,7 +224,7 @@ ELIA.states =
       ELIA.states[1].vars.accuracyNode = DrawAccuracy(finalAccuracy, ELIA.states[1].vars.accuracyNode)
       table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.accuracyNode)
 
-      ELIA.states[1].vars.doneNode = DrawDoneButton(njlic.SCREEN():x() * 0.5, (njlic.SCREEN():y() * 0.5) - (njlic.SCREEN():y() / 11), ELIA.states[1].vars.doneNode)
+      ELIA.states[1].vars.doneNode = DrawDoneButton(njlic.SCREEN():x() * 0.5, (njlic.SCREEN():y() * 0.5) - (njlic.SCREEN():y() / 4), ELIA.states[1].vars.doneNode)
       table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.doneNode)
 
       for i=1, string.len(ELIA.states[1].vars.currentText) do
