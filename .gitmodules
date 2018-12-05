@@ -1,0 +1,3 @@
+[submodule "assets/scripts/NJLIC"]
+	path = assets/scripts/NJLIC
+	url = https://github.com/njligames/NJLICLua.git
