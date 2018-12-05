@@ -1,24 +1,19 @@
-local test = require "tests.newgeo"
 
 local Create = function()
-  print("Create")
-  test.create()
+  -- print("Create")
+  njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 0.000)
 end
 
 local Destroy = function()
-  print("Destroy")
-  test.destroy()
+  -- print("Destroy")
 end
 
 local Update = function(timeStep)
   -- print("Update", timeStep)
-  -- njlic.World.getInstance():setBackgroundColor(1.000, 0.000, 0.000)
-  test.update(timeStep)
 end
 
 local Render = function()
   -- print("Render")
-  test.render()
 end
 
 local Resize = function(width, height, orientation)
@@ -79,7 +74,24 @@ end
 
 RegisterCreate("Create",                                         function() pcall(Create) end)
 RegisterDestroy("Destroy",                                       function() pcall(Destroy) end )
-RegisterUpdate("Update",                                         function(timeStep) pcall(Update, timeStep) end )
+done = nil
+RegisterUpdate("Update",
+function(timeStep)
+  if done == nil then done = false return end
+  if not done then
+
+    require("mobdebug").on()
+    require("mobdebug").start()
+
+    pcall(Destroy)
+    pcall(Create)
+
+    done = true
+  end
+
+  pcall(Update, timeStep)
+end
+)
 RegisterRender("Render",                                         function() pcall(Render) end )
 RegisterResize("Resize",                                         function(width, height, orientation) pcall(Resize, width, height, orientation) end )
 RegisterTouchesDown("TouchesDown",                               function(touches) pcall(TouchesDown, touches) end )
