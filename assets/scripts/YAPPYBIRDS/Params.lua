@@ -83,8 +83,8 @@ ParamInfo =
 	},
 	Dog = 
 	{
-		MaxSpeed = njli.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
-		MaxForce = njli.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),		
+		MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+		MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),		
 		DazedTime = (0.5 * 1000),
 		CapturedHeight = 20,
 	},
@@ -92,7 +92,7 @@ ParamInfo =
 	{
 		chubiBird =
 		{
-			MaxSpeed = njli.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+			MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
 			MaxForce = 1,
             PursueTime = (6 * 1000),
 			StealSpeed = 1,
@@ -112,8 +112,8 @@ ParamInfo =
 		},
 		garuBird =
 		{
-			MaxSpeed = njli.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
-			MaxForce = njli.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+			MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+			MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
 			PursueTime = (5 * 1000),
 			StealSpeed = 2,
 			YapTime = {low=(10 * 1000), high=(30 * 1000)},
@@ -121,8 +121,8 @@ ParamInfo =
 		},
 		momiBird =
 		{
-			MaxSpeed = njli.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
-			MaxForce = njli.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+			MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+			MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
 			PursueTime = (4 * 1000),
 			StealSpeed = 3,
 			YapTime = {low=(10 * 1000), high=(30 * 1000)},
@@ -130,8 +130,8 @@ ParamInfo =
 		},
 		puffyBird =
 		{
-			MaxSpeed = njli.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
-			MaxForce = njli.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+			MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+			MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
 			PursueTime = (3 * 1000),
 			StealSpeed = 4,
 			YapTime = {low=(10 * 1000), high=(30 * 1000)},
@@ -139,8 +139,8 @@ ParamInfo =
 		},
 		weboBird =
 		{
-			MaxSpeed = njli.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
-			MaxForce = njli.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+			MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+			MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
 			PursueTime = (2 * 1000),
 			StealSpeed = 5,
 			YapTime = {low=(10 * 1000), high=(30 * 1000)},
@@ -148,8 +148,8 @@ ParamInfo =
 		},
 		zuruBird =
 		{
-			MaxSpeed = njli.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
-			MaxForce = njli.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+			MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+			MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
 			PursueTime = (1 * 1000),
 			StealSpeed = 6,
 			YapTime = {low=(10 * 1000), high=(30 * 1000)},
@@ -255,7 +255,7 @@ ParamInfo =
 				local width = v:getSheet().frames[frameIndex].width - 2
 				local height = v:getSheet().frames[frameIndex].height - 2
 				local divisor = self:getGameViewDivisor()
-				local dimSprite = njli.btVector2( (width/divisor)*2, (height/divisor)*2 )
+				local dimSprite = bullet3.btVector2( (width/divisor)*2, (height/divisor)*2 )
 
 				node:addGeometry(geometry[k])
 

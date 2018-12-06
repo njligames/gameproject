@@ -16,8 +16,10 @@ LevelLoader.__index = LevelLoader
 
 local __ctor = function(self, init)
   --TODO: construct this Entity
-  local assetPath = njli.ASSET_PATH("scripts/YAPPYBIRDS/Params.lua")
-  self.Params = loadfile(assetPath)()
+  -- local assetPath = njlic.ASSET_PATH("scripts/YAPPYBIRDS/Params.lua")
+  -- self.Params = loadfile(assetPath)()
+
+  self.Params = init.params or nil
 
 end
 
@@ -39,7 +41,8 @@ end
 function LevelLoader:loadLevel(...)
   arg=...
 
-  local level = arg.level or 0
+  local loc = arg.loc or "country"
+  local levelNum = arg.levelNum or 0
   local mode = arg.mode or 'arcade'
   local debug = arg.debug or false
 
@@ -78,20 +81,23 @@ function LevelLoader:loadLevel(...)
     return _layer, _subLayer
   end
 
-	local filePath = njli.ASSET_PATH("scripts/generated/tiled/country/arcade_00.lua")
+  local path = string.format("scripts/generated/tiled/%s/%s_%02d.lua", loc, mode, levelNum)
+  
+	local filePath = njlic.ASSET_PATH(path)
+  print("filePath", filePath)
 
   if debug then
-    filePath = njli.ASSET_PATH("scripts/generated/tiled/debug/debugLevel.lua")
+    filePath = njlic.ASSET_PATH("scripts/generated/tiled/debug/debugLevel.lua")
   end
   
   local level = loadfile(filePath)()
-  -- print_r(level)
+--  print_r(level)
   
   self.tiles = self:_parseTiles(level)
-  -- print_r(tiles)
+--  print_r("self.tiles", self.tiles)
 
+  self.location = loc
   self.backgroundColor = self:_parseBackgroundColor(level)
-  -- print(tostring(self.backgroundColor))
 
   local instanceCount = 0
 
@@ -128,10 +134,10 @@ function LevelLoader:loadLevel(...)
     end
   end
 
-  -- print(self.backgroundColor)
-  -- print_r(self.tileTable)
-  -- print_r(self.spawnPointTable)
-  -- print_r(self.wayPointTable)
+--   print("self.backgroundColor", self.backgroundColor)
+--   print_r("self.tileTable", self.tileTable)
+--   print_r("self.spawnPointTable", self.spawnPointTable)
+--   print_r("self.wayPointTable", self.wayPointTable)
 
 end
 

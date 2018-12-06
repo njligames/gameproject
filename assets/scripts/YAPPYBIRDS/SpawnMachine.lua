@@ -38,7 +38,7 @@ end
 
 --TODO: write function here for SpawnMachine
 
-function SpawnMachine:tick(timeStep, gameplay)
+function SpawnMachine:tick(gameplay, timeStep)
   self.totalTicks = self.totalTicks + timeStep
   self.gameplay = gameplay
 
@@ -46,11 +46,11 @@ function SpawnMachine:tick(timeStep, gameplay)
 
     if arcadeSpawnPoint.currentTick <= 0 and 
       arcadeSpawnPoint.spawnPoint.spawnAmount > 0 then
-
-      arcadeSpawnPoint.currentTick = 0
-
-      self:createBirdNode(arcadeSpawnPoint)
-
+        
+      if self:createBirdNode(arcadeSpawnPoint) then
+        arcadeSpawnPoint.currentTick = 0
+      end
+      
     end
 
     if self.totalTicks > arcadeSpawnPoint.spawnPoint.timeStart then
@@ -79,20 +79,34 @@ function SpawnMachine:createBirdNode(spawnPoint)
   print("origin", spawnPoint.spawnPoint.origin)
   print("dimensions", spawnPoint.spawnPoint.dimensions)
 
-  print_r(spawnPoint)
+--  print_r(spawnPoint)
 
-  self.gameplay:createBird({
+  if self.gameplay:_spawnBird({
     birdType=spawnPoint.spawnPoint.birdType,
     origin=spawnPoint.spawnPoint.origin,
     dimensions=spawnPoint.spawnPoint.dimensions,
     visible=true,
     debug=debug
-    })
+    }) then
+  
+    spawnPoint.spawnPoint.spawnAmount = spawnPoint.spawnPoint.spawnAmount - 1
+    spawnPoint.currentTick = spawnPoint.spawnPoint.timeFrequency
+    
+    return true
+  end
+  return false
+  
+--  self.gameplay:createBird({
+--    birdType=spawnPoint.spawnPoint.birdType,
+--    origin=spawnPoint.spawnPoint.origin,
+--    dimensions=spawnPoint.spawnPoint.dimensions,
+--    visible=true,
+--    debug=debug
+--    })
 
   -- self.gameplay
 
-  spawnPoint.spawnPoint.spawnAmount = spawnPoint.spawnPoint.spawnAmount - 1
-  spawnPoint.currentTick = spawnPoint.spawnPoint.timeFrequency
+  
 
 end
 
