@@ -7,7 +7,13 @@ local Bird = {
     local bird = {
       inplay=false,
     }
-
+    
+    function bird:load()
+    end
+  
+    function bird:unload()
+    end
+  
     function bird:spawn(...)
       local arg=...
       self.inplay=true
@@ -21,6 +27,12 @@ local Bird = {
 
       -- put back to hiding values
     end
+    
+    function bird:hide()
+    end
+    
+    function bird:show()
+    end
 
     return bird
   end
@@ -33,6 +45,12 @@ local Balloon = {
     local balloon = {
       inplay=false,
     }
+    
+    function balloon:load()
+    end
+  
+    function balloon:unload()
+    end
 
     function balloon:spawn(...)
       local arg=...
@@ -47,6 +65,12 @@ local Balloon = {
 
       -- put back to hiding values
     end
+    
+    function balloon:hide()
+    end
+    
+    function balloon:show()
+    end
 
     return balloon
   end
@@ -59,6 +83,12 @@ local Dog = {
     local dog = {
       inplay=false,
     }
+    
+    function dog:load()
+    end
+  
+    function dog:unload()
+    end
 
     function dog:spawn(...)
       local arg=...
@@ -73,6 +103,12 @@ local Dog = {
 
       -- put back to hiding values
     end
+    
+    function dog:hide()
+    end
+    
+    function dog:show()
+    end
 
     return dog
   end
@@ -85,6 +121,12 @@ local Billboard = {
     local billboard = {
       inplay=false,
     }
+    
+    function billboard:load()
+    end
+  
+    function billboard:unload()
+    end
 
     function billboard:spawn(...)
       local arg=...
@@ -96,6 +138,12 @@ local Billboard = {
       self.inplay=false
 
       -- put back to hiding values
+    end
+    
+    function billboard:hide()
+    end
+    
+    function billboard:show()
     end
 
     return billboard
@@ -135,6 +183,13 @@ local YappyBirds = {
       balloonPool = {},
       dogPool = {},
       billboardPool = {},
+      
+      perspectiveCameraNode = nil,
+      perspectiveCamera = nil,
+      
+      orthographicCameraNode = nil,
+      orthographicCamera = nil,
+      
     }
 
     function game:load()
@@ -145,7 +200,7 @@ local YappyBirds = {
       local shader = njlic.ShaderProgram.create()
       assert(njlic.World.getInstance():getWorldResourceLoader():load("shaders/StandardShader.vert", "shaders/StandardShader.frag", shader))
       self.shader = shader
-
+      
       -- ###################################################################################################
 
       local geometry = njlic.Sprite2D.create()
@@ -155,15 +210,14 @@ local YappyBirds = {
       table.insert(self.levelGeometry, geometry)
 
       local path = njlic.ASSET_PATH(string.format("scripts/generated/texturepacker/%s0.lua", self.levelLoader.location))
-      local sa = loadfile(path)():getSheet()
-      table.insert(self.levelSpriteAtlas, njlic.build(sa, njlic.JLI_OBJECT_TYPE_SpriteFrameAtlas))
+      local sa = njlic.build(loadfile(path)():getSheet(), njlic.JLI_OBJECT_TYPE_SpriteFrameAtlas)
+      table.insert(self.levelSpriteAtlas, sa)
 
       path = string.format("images/generated/%s0.png", self.levelLoader.location)
       local image = njlic.Image.create()
       njlic.World.getInstance():getWorldResourceLoader():load(path, image)
       self.levelGeometry[1]:getMaterial():getDiffuse():loadGPU(image)
       njlic.Image.destroy(image)
-
       -- ###################################################################################################
 
       geometry = njlic.Sprite2D.create()
@@ -173,15 +227,15 @@ local YappyBirds = {
       table.insert(self.gameplayGeometry, geometry)
 
       path = njlic.ASSET_PATH("scripts/generated/texturepacker/gameplay0.lua")
-      sa = loadfile(path)():getSheet()
-      table.insert(self.gameplaySpriteAtlas, njlic.build(sa, njlic.JLI_OBJECT_TYPE_SpriteFrameAtlas))
+      sa = njlic.build(loadfile(path)():getSheet(), njlic.JLI_OBJECT_TYPE_SpriteFrameAtlas)
+      table.insert(self.gameplaySpriteAtlas, sa)
 
       path = "images/generated/gameplay0.png"
       image = njlic.Image.create()
       njlic.World.getInstance():getWorldResourceLoader():load(path, image)
       self.gameplayGeometry[1]:getMaterial():getDiffuse():loadGPU(image)
       njlic.Image.destroy(image)
-
+    
       -- ###################################################################################################
 
       geometry = njlic.Sprite2D.create()
@@ -191,8 +245,8 @@ local YappyBirds = {
       table.insert(self.gameplayGeometry, geometry)
 
       path = njlic.ASSET_PATH("scripts/generated/texturepacker/gameplay1.lua")
-      sa = loadfile(path)():getSheet()
-      table.insert(self.gameplaySpriteAtlas, njlic.build(sa, njlic.JLI_OBJECT_TYPE_SpriteFrameAtlas))
+      sa = njlic.build(loadfile(path)():getSheet(), njlic.JLI_OBJECT_TYPE_SpriteFrameAtlas)
+      table.insert(self.gameplaySpriteAtlas, sa)
 
       path = "images/generated/gameplay1.png"
       image = njlic.Image.create()
@@ -210,16 +264,16 @@ local YappyBirds = {
         table.insert(self.debugGeometry, geometry)
 
         path = njlic.ASSET_PATH("scripts/generated/texturepacker/debug0.lua")
-        sa = loadfile(path)():getSheet()
-        table.insert(self.debugSpriteAtlas, njlic.build(sa, njlic.JLI_OBJECT_TYPE_SpriteFrameAtlas))
-
+        sa = njlic.build(loadfile(path)():getSheet(), njlic.JLI_OBJECT_TYPE_SpriteFrameAtlas)
+        table.insert(self.debugSpriteAtlas, sa)
+  
         path = "images/generated/debug0.png"
         image = njlic.Image.create()
         njlic.World.getInstance():getWorldResourceLoader():load(path, image)
         self.debugGeometry[1]:getMaterial():getDiffuse():loadGPU(image)
         njlic.Image.destroy(image)
       end
-
+      
       -- ###################################################################################################
 
       njlic.World.getInstance():setBackgroundColor(self.levelLoader.backgroundColor)
@@ -244,31 +298,203 @@ local YappyBirds = {
       local numberOfDogs = 10
       local numberOfBalloons = 100
 
+      local bird = nil
       for i = 1, numberOfBirdsEach do
 
-        table.insert(self.chubiBirdPool, Bird.new({name=self.CHUBI}))
-        table.insert(self.garuBirdPool,  Bird.new({name=self.GARU}))
-        table.insert(self.momiBirdPool,  Bird.new({name=self.MOMI}))
-        table.insert(self.puffyBirdPool, Bird.new({name=self.PUFFY}))
-        table.insert(self.weboBirdPool,  Bird.new({name=self.WEBO}))
-        table.insert(self.zuruBirdPool,  Bird.new({name=self.ZURU}))
+        bird = Bird.new({name=self.CHUBI})
+        bird:load()
+        table.insert(self.chubiBirdPool, bird)
 
+        
+        bird = Bird.new({name=self.GARU})
+        bird:load()
+        table.insert(self.garuBirdPool, bird)
+        
+        bird = Bird.new({name=self.MOMI})
+        bird:load()
+        table.insert(self.momiBirdPool, bird)
+        
+        bird = Bird.new({name=self.PUFFY})
+        bird:load()
+        table.insert(self.puffyBirdPool, bird)
+        
+        bird = Bird.new({name=self.WEBO})
+        bird:load()
+        table.insert(self.weboBirdPool, bird)
+        
+        bird = Bird.new({name=self.ZURU})
+        bird:load()
+        table.insert(self.zuruBirdPool, bird)
+        
       end
 
+      local dog = nil
       for i = 1, numberOfDogs do
-        table.insert(self.dogPool, Dog.new())
+        dog = Dog.new()
+        dog:load()
+        table.insert(self.dogPool, dog)
       end
-
+      
+      local balloon = nil
       for i = 1, numberOfBalloons do
         local color = "red"
 
-        table.insert(self.balloonPool, Balloon.new({color=color}))
+        balloon = Balloon.new({color=color})
+        balloon:load()
+        table.insert(self.balloonPool, balloon)
       end
+      
+      -- ###################################################################################################
+      
+      local scene = njlic.Scene.create()
 
+      local rootNode = njlic.Node.create()
+      rootNode:setOrigin(bullet3.btVector3(0,0,0))
+      
+      scene:setRootNode(rootNode)
+      
+      njlic.World.getInstance():setScene(scene)
+
+      -- ###################################################################################################
+      
+      self.perspectiveCameraNode = njlic.Node.create()
+      table.insert(self.nodeTable, self.perspectiveCameraNode)
+      self.perspectiveCameraNode:setName("perspectiveCamera")
+
+      self.perspectiveCamera = njlic.Camera.create()
+      self.perspectiveCamera:enableOrthographic(false)
+      self.perspectiveCamera:setRenderCategory(RenderCategories.perspective)
+      self.perspectiveCamera:setName("perspectiveCamera")
+
+      self.perspectiveCameraNode:setCamera(self.perspectiveCamera)
+      
+      rootNode:addChildNode(self.perspectiveCameraNode)
+
+      -- ###################################################################################################
+      
+      local orthographicCameraNode = njlic.Node.create()
+      table.insert(self.nodeTable, orthographicCameraNode)
+      orthographicCameraNode:setName("perspectiveCamera")
+
+      self.orthographicCamera = njlic.Camera.create()
+      self.orthographicCamera:enableOrthographic(true)
+      self.orthographicCamera:setRenderCategory(RenderCategories.orthographic)
+      self.orthographicCamera:setName("perspectiveCamera")
+
+      orthographicCameraNode:setCamera(self.orthographicCamera)
+      
+      rootNode:addChildNode(orthographicCameraNode)
+      
+      -- ###################################################################################################
+      
     end
 
     function game:unload()
+      njlic.Camera.destroy(self.orthographicCamera)
+      njlic.Node.destroy(self.orthographicCameraNode)
+      
+      njlic.Camera.destroy(self.perspectiveCamera)
+      njlic.Node.destroy(self.perspectiveCameraNode)
+      
+      local scene = njlic.World.getInstance():getScene()
+      local rootNode = scene:getRootNode()
+      njlic.Node.destroy(rootNode)
+      njlic.Scene.destroy(njlic.World.getInstance():getScene())
+      
+      for i = 1, #self.debugGeometry do
+        local geometry = self.debugGeometry[i]
+        
+        geometry:getMaterial():getDiffuse():unLoadGPU()
+        
+        njlic.Sprite2D.destroy(geometry)
+      end
+      self.debugGeometry = {}
+      
+      for i = 1, #self.gameplayGeometry do
+        local geometry = self.gameplayGeometry[i]
+        
+        geometry:getMaterial():getDiffuse():unLoadGPU()
+        
+        njlic.Sprite2D.destroy(geometry)
+      end
+      self.gameplayGeometry = {}
+      
+      for i = 1, #self.levelGeometry do
+        local geometry = self.levelGeometry[i]
+        
+        geometry:getMaterial():getDiffuse():unLoadGPU()
+        
+        njlic.Sprite2D.destroy(geometry)
+      end
+      self.levelGeometry = {}
+      
+      for i = 1, #self.debugSpriteAtlas do
+        local sa = self.debugSpriteAtlas[i]
+        njlic.SpriteFrameAtlas.destroy(sa)
+      end
+      self.debugSpriteAtlas = {}
+      
+      for i = 1, #self.gameplaySpriteAtlas do
+        local sa = self.gameplaySpriteAtlas[i]
+        njlic.SpriteFrameAtlas.destroy(sa)
+      end
+      self.gameplaySpriteAtlas = {}
+      
+      for i = 1, #self.levelSpriteAtlas do
+        local sa = self.levelSpriteAtlas[i]
+        njlic.SpriteFrameAtlas.destroy(sa)
+      end
+      self.levelSpriteAtlas = {}
+      
+      njlic.ShaderProgram.destroy(self.shader)
+      
+      for i = 1, #self.chubiBirdPool do
+        local bird = self.chubiBirdPool[i]
+        bird:unload()
+      end
+      self.chubiBirdPool = {}
 
+      for i = 1, #self.garuBirdPool do
+        local bird = self.garuBirdPool[i]
+        bird:unload()
+      end
+      self.garuBirdPool = {}
+
+      for i = 1, #self.momiBirdPool do
+        local bird = self.momiBirdPool[i]
+        bird:unload()
+      end
+      self.momiBirdPool = {}
+
+      for i = 1, #self.puffyBirdPool do
+        local bird = self.puffyBirdPool[i]
+        bird:unload()
+      end
+      self.puffyBirdPool = {}
+
+      for i = 1, #self.weboBirdPool do
+        local bird = self.weboBirdPool[i]
+        bird:unload()
+      end
+      self.weboBirdPool = {}
+
+      for i = 1, #self.zuruBirdPool do
+        local bird = self.zuruBirdPool[i]
+        bird:unload()
+      end
+      self.zuruBirdPool = {}
+
+      for i = 1, #self.dogPool do
+        local dog = self.dogPool[i]
+        dog:unload()
+      end
+      self.dogPool = {}
+
+      for i = 1, #self.balloonPool do
+        local balloon = self.balloonPool[i]
+        balloon:unload()
+      end
+      self.balloonPool = {}
     end
 
     function game:update(timeStep)
@@ -423,7 +649,7 @@ local TouchCancelled = function(touches)
 end
 
 local MouseDown = function(mouse)
-  print("MouseDown")
+--  print("MouseDown")
   yappyBirds:click(mouse:getPosition():x(), mouse:getPosition():y())
 end
 

@@ -76,7 +76,7 @@ function LevelLoader:loadLevel(...)
     assert(_layer ~= nil, "Unable to extract layer " .. layer)
     assert(_subLayer ~= nil, "Unable to extract subLayer " .. subLayer)
 
-    print("layer = ", layer, "sublayer = ", subLayer)
+--    print("layer = ", layer, "sublayer = ", subLayer)
 
     return _layer, _subLayer
   end
@@ -84,7 +84,6 @@ function LevelLoader:loadLevel(...)
   local path = string.format("scripts/generated/tiled/%s/%s_%02d.lua", loc, mode, levelNum)
   
 	local filePath = njlic.ASSET_PATH(path)
-  print("filePath", filePath)
 
   if debug then
     filePath = njlic.ASSET_PATH("scripts/generated/tiled/debug/debugLevel.lua")
