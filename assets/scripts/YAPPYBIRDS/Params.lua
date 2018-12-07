@@ -158,8 +158,8 @@ ParamInfo =
 		
 	},
 	originForLayer = function(self, tileInfo)
-		local x        = tileInfo.x
-		local y        = tileInfo.y
+		local x        = tileInfo.x or 0
+		local y        = tileInfo.y or 0
 		local layer    = tileInfo.layer or 1
 		local sublayer = tileInfo.sublayer or 1
 		local width    = 1.0

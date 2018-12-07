@@ -20,6 +20,11 @@ local __ctor = function(self, init)
 
   self.totalTicks = 0
   self.arcadeSpawnPoints = {}
+  self.birdQueue = {}
+  self.balloonQueue = {}
+  self.dogQueue = {}
+  
+  self.done = false
 end
 
 local __dtor = function(self)
@@ -39,25 +44,60 @@ end
 --TODO: write function here for SpawnMachine
 
 function SpawnMachine:tick(gameplay, timeStep)
+  
   self.totalTicks = self.totalTicks + timeStep
   self.gameplay = gameplay
 
-  for key, arcadeSpawnPoint in pairs(self.arcadeSpawnPoints) do
-
-    if arcadeSpawnPoint.currentTick <= 0 and 
-      arcadeSpawnPoint.spawnPoint.spawnAmount > 0 then
+  if #self.birdQueue > 0 then
+    local bird = table.remove(self.birdQueue, 1)
+    bird:spawn()
+  end
+  
+  if #self.balloonQueue > 0 then
+    local balloon = table.remove(self.balloonQueue, 1)
+    balloon:spawn()
+  end
+  
+  if #self.dogQueue > 0 then
+    local dog = table.remove(self.dogQueue, 1)
+    balloon:spawn()
+  end
+  
+  self.done = true
+  for i = 1, #self.arcadeSpawnPoints do
+    local spawnPointTable = self.arcadeSpawnPoints[i]
+    
+--    print(i, spawnPointTable.currentTick, spawnPointTable.spawnPoint.spawnAmount)
+    
+    if spawnPointTable.spawnPoint.enabled then
+      
+      if spawnPointTable.spawnPoint.spawnAmount > 0 then
         
-      if self:createBirdNode(arcadeSpawnPoint) then
-        arcadeSpawnPoint.currentTick = 0
+        self.done = false
+        
+        if spawnPointTable.currentTick <= 0 then
+          
+          
+          if self:queueBird(spawnPointTable) then
+            
+            spawnPointTable.spawnPoint.spawnAmount = spawnPointTable.spawnPoint.spawnAmount - 1
+            spawnPointTable.currentTick = spawnPointTable.spawnPoint.timeFrequency
+          end
+          
+        end
+        
+        if spawnPointTable.spawnPoint.spawnAmount > 0 then
+          spawnPointTable.currentTick = spawnPointTable.currentTick - timeStep
+        end
+
+        
       end
       
+      
     end
-
-    if self.totalTicks > arcadeSpawnPoint.spawnPoint.timeStart then
-      arcadeSpawnPoint.currentTick = arcadeSpawnPoint.currentTick - timeStep
-    end
-
+    
   end
+  
 end
 
 function SpawnMachine:addArcadeSpawnPoint(spawnPoint)
@@ -70,44 +110,74 @@ function SpawnMachine:addArcadeSpawnPoint(spawnPoint)
 
 end
 
-function SpawnMachine:createBirdNode(spawnPoint)
-  assert(spawnPoint.spawnPoint.spawnAmount > 0, "There must be more than 0 spawnAmount")
-
-  -- TODO: Actually spawn the bird
-  print("create bird")
-  print("birdType", spawnPoint.spawnPoint.birdType)
-  print("origin", spawnPoint.spawnPoint.origin)
-  print("dimensions", spawnPoint.spawnPoint.dimensions)
-
---  print_r(spawnPoint)
-
-  if self.gameplay:_spawnBird({
-    birdType=spawnPoint.spawnPoint.birdType,
-    origin=spawnPoint.spawnPoint.origin,
-    dimensions=spawnPoint.spawnPoint.dimensions,
-    visible=true,
-    debug=debug
-    }) then
+function SpawnMachine:queueBird(spawnPointTable)
   
-    spawnPoint.spawnPoint.spawnAmount = spawnPoint.spawnPoint.spawnAmount - 1
-    spawnPoint.currentTick = spawnPoint.spawnPoint.timeFrequency
-    
-    return true
+  local name = spawnPointTable.spawnPoint.birdType or "puffy"
+  local origin = spawnPointTable.spawnPoint.origin or bullet.btVector3(0.0, 0.0, 0.0)
+  local dimensions = spawnPointTable.spawnPoint.dimensions or bullet.btVector2(256.0, 256.0)
+  
+  assert(self.gameplay ~= nil)
+
+  local bird = self.gameplay:_availableBird({
+    name=name,
+    origin=origin,
+    dimensions=dimensions,
+    visible=false,
+    debug=false
+  })
+
+  if nil ~= bird then
+    table.insert(self.birdQueue, bird)
   end
-  return false
   
---  self.gameplay:createBird({
---    birdType=spawnPoint.spawnPoint.birdType,
---    origin=spawnPoint.spawnPoint.origin,
---    dimensions=spawnPoint.spawnPoint.dimensions,
---    visible=true,
---    debug=debug
---    })
+  return (bird ~= nil)
 
-  -- self.gameplay
+end
 
+function SpawnMachine:queueBalloon(...)
+  local arg=...
   
+  local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
+  local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
+  
+  assert(self.gameplay ~= nil)
 
+  local balloon = self.gameplay:_availableBalloon({
+    origin=origin,
+    dimensions=dimensions,
+    visible=false,
+    debug=false
+  })
+
+  if nil ~= balloon then
+    table.insert(self.balloonQueue, balloon)
+  end
+  
+  return (balloon ~= nil)
+  
+end
+
+function SpawnMachine:queueDog(...)
+  local arg=...
+  
+  local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
+  local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
+  
+  assert(self.gameplay ~= nil)
+
+  local dog = self.gameplay:_availableDog({
+    origin=origin,
+    dimensions=dimensions,
+    visible=false,
+    debug=false
+  })
+
+  if nil ~= dog then
+    table.insert(self.dogQueue, dog)
+  end
+  
+  return (dog ~= nil)
+  
 end
 
 --############################################################################# 
