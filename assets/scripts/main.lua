@@ -69,7 +69,7 @@ local Balloon = {
       
       self.inplay=true
 
---      print("spawned the balloon")
+      print("spawned the balloon")
     end
 
     function balloon:kill(...)
@@ -152,8 +152,6 @@ local Billboard = {
     function billboard:load(...)
       arg=...
       
-      print_r(arg)
-      
       local name = arg.name or "?"
       local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
       local dimensions = arg.dimensions or bullet.btVector2(0.0, 0.0)
@@ -163,41 +161,22 @@ local Billboard = {
       
       self.node:getGeometry():setDimensions(self.node, dimensions)
       self.node:setOrigin(origin)
-      self.node:hide(self.perspectiveCamera)
+      self:hide()
       
       njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
       
-      print("loaded the billboard")
-      
---      print_r(self.levelTexturePacker)
       return true
       
---      local tableIndex = arg.tableIndex or 1
-      
---      local texturePacker = self.levelTexturePacker[tableIndex] or nil
-      
---      if nil ~= texturePacker then
-        
-----        self.node = njlic.Node.create()
-----        self.node:setGeometry(geometry)
-----        self.node:hide(self.perspectiveCamera)
-        
---        return true
---      end
-      
---      return false
     end
   
     function billboard:unload()
-      print("unloaded the billboard")
+      njlic.Node.destroy(self.node)
     end
 
     function billboard:spawn(...)
       local arg=...
       
-      print("spawned the billboard")
-      
-      self.node:show(self.perspectiveCamera)
+      self:show()
       
       self.inplay=true
     end
@@ -207,13 +186,15 @@ local Billboard = {
       
       self.inplay=false
 
-      -- put back to hiding values
+      self:hide()
     end
     
     function billboard:hide()
+      self.node:hide(self.perspectiveCamera)
     end
     
     function billboard:show()
+      self.node:show(self.perspectiveCamera)
     end
 
     return billboard
@@ -238,14 +219,8 @@ local YappyBirds = {
       levelLoader = LevelLoader({ params = Params }),
       spawnMachine = SpawnMachine(),
       levelTexturePacker = {},
---      levelSpriteAtlas = {},
       gameplayTexturePacker = {},
---      gameplaySpriteAtlas = {},
---      levelGeometry = {},
---      gameplayGeometry = {},
       debugTexturePacker = {},
---      debugSpriteAtlas = {},
---      debugGeometry = {},
       shader = nil,
       chubiBirdPool = {},
       garuBirdPool = {},
@@ -269,8 +244,6 @@ local YappyBirds = {
 
     function game:load()
       local debug = false
-      
-      print("game:load()")
 
       self.levelLoader:loadLevel({debug=debug, loc="country", levelNum=0, mode="arcade"})
 
@@ -278,103 +251,23 @@ local YappyBirds = {
       assert(njlic.World.getInstance():getWorldResourceLoader():load("shaders/StandardShader.vert", "shaders/StandardShader.frag", shader))
       self.shader = shader
       
-      print("shader")
-      
-      
       -- ###################################################################################################
-
---      local geometry = njlic.Sprite2D.create()
---      geometry:load(shader, 1000, 1)
---      local material = njlic.Material.create()
---      geometry:setMaterial(material)
---      table.insert(self.levelGeometry, geometry)
 
       table.insert(self.levelTexturePacker, TexturePacker({file=string.format("%s0", self.levelLoader.location)}))
-      print("levelTexturePacker")
-
-
---      path = string.format("images/generated/%s0.png", self.levelLoader.location)
---      local image = njlic.Image.create()
---      njlic.World.getInstance():getWorldResourceLoader():load(path, image)
---      self.levelGeometry[1]:getMaterial():getDiffuse():loadGPU(image)
---      njlic.Image.destroy(image)
-      -- ###################################################################################################
-
---      geometry = njlic.Sprite2D.create()
---      geometry:load(shader, 4000, 1)
---      material = njlic.Material.create()
---      geometry:setMaterial(material)
---      table.insert(self.gameplayGeometry, geometry)
-
---      path = njlic.ASSET_PATH("scripts/generated/texturepacker/gameplay0.lua")
---      sa = njlic.build(loadfile(path)():getSheet(), njlic.JLI_OBJECT_TYPE_SpriteFrameAtlas)
---      table.insert(self.gameplaySpriteAtlas, sa)
-
       table.insert(self.gameplayTexturePacker, TexturePacker({file="gameplay0"}))
-
-print("gameplayTexturePacker")
---      path = "images/generated/gameplay0.png"
---      image = njlic.Image.create()
---      njlic.World.getInstance():getWorldResourceLoader():load(path, image)
---      self.gameplayGeometry[1]:getMaterial():getDiffuse():loadGPU(image)
---      njlic.Image.destroy(image)
-    
-      -- ###################################################################################################
-
---      geometry = njlic.Sprite2D.create()
---      geometry:load(shader, 4000, 1)
---      material = njlic.Material.create()
---      geometry:setMaterial(material)
---      table.insert(self.gameplayGeometry, geometry)
-
---      path = njlic.ASSET_PATH("scripts/generated/texturepacker/gameplay1.lua")
---      sa = njlic.build(loadfile(path)():getSheet(), njlic.JLI_OBJECT_TYPE_SpriteFrameAtlas)
---      table.insert(self.gameplaySpriteAtlas, sa)
-      
       table.insert(self.gameplayTexturePacker, TexturePacker({file="gameplay1"}))
-print("gameplayTexturePacker")
---      path = "images/generated/gameplay1.png"
---      image = njlic.Image.create()
---      njlic.World.getInstance():getWorldResourceLoader():load(path, image)
---      self.gameplayGeometry[2]:getMaterial():getDiffuse():loadGPU(image)
---      njlic.Image.destroy(image)
-
-      -- ###################################################################################################
-
       if debug then
---        geometry = njlic.Sprite2D.create()
---        geometry:load(shader, 100, 1)
---        material = njlic.Material.create()
---        geometry:setMaterial(material)
---        table.insert(self.debugGeometry, geometry)
-
---        path = njlic.ASSET_PATH("scripts/generated/texturepacker/debug0.lua")
---        sa = njlic.build(loadfile(path)():getSheet(), njlic.JLI_OBJECT_TYPE_SpriteFrameAtlas)
---        table.insert(self.debugSpriteAtlas, sa)
         table.insert(self.debugTexturePacker, TexturePacker({file="debug0"}))
-  
---        path = "images/generated/debug0.png"
---        image = njlic.Image.create()
---        njlic.World.getInstance():getWorldResourceLoader():load(path, image)
---        self.debugGeometry[1]:getMaterial():getDiffuse():loadGPU(image)
---        njlic.Image.destroy(image)
       end
       
       -- ###################################################################################################
 
       njlic.World.getInstance():setBackgroundColor(self.levelLoader.backgroundColor)
       
-      print('backgroundcolor')
       for i = 1, self.levelLoader:numSpawnPoints() do
-        print(i)
-        
         local point = self.levelLoader:getSpawnPoint(i)
         self.spawnMachine:addArcadeSpawnPoint(point)
       end
-      
-      -- ###################################################################################################
-      
-      
       
       -- ###################################################################################################
       
@@ -387,7 +280,6 @@ print("gameplayTexturePacker")
       
       njlic.World.getInstance():setScene(scene)
 
-print('block1')
       -- ###################################################################################################
       
       self.perspectiveCameraNode = njlic.Node.create()
@@ -401,7 +293,7 @@ print('block1')
       self.perspectiveCameraNode:setCamera(self.perspectiveCamera)
       
       rootNode:addChildNode(self.perspectiveCameraNode)
-print('block2')
+      
       -- ###################################################################################################
       
       local orthographicCameraNode = njlic.Node.create()
@@ -415,32 +307,24 @@ print('block2')
       orthographicCameraNode:setCamera(self.orthographicCamera)
       
       rootNode:addChildNode(orthographicCameraNode)
-      print('block3')
+      
       -- ###################################################################################################
       
       self.physicsWorld = njlic.PhysicsWorld.create()
       njlic.World.getInstance():getScene():setPhysicsWorld(self.physicsWorld)
-print('block4')
 
       -- ###################################################################################################
-      
       
       for i = 1, self.levelLoader:numTiles() do
         local billboardParams = self.levelLoader:getBillboardParams(i)
 
         local billboard = Billboard.new({
---            levelSpriteAtlasTable=self.levelSpriteAtlas,
---            levelGeometryTable=self.levelGeometry,
             levelTexturePacker=self.levelTexturePacker,
             perspectiveCamera=self.perspectiveCamera
           })
         
-        print(i)
         if billboard:load(billboardParams) then
           table.insert(self.billboardPool, billboard)
-          print("loaded")
-        else
-          print("not loaded")
         end
         
       end
@@ -494,12 +378,10 @@ print('block4')
         balloon:load()
         table.insert(self.balloonPool, balloon)
       end
-
-      
     end
 
     function game:unload()
-      print("game:unload")
+      
       self.run = false
       
       njlic.PHysicsWorld.destroy(self.physicsWorld)
@@ -515,50 +397,6 @@ print('block4')
       njlic.Node.destroy(rootNode)
       njlic.Scene.destroy(njlic.World.getInstance():getScene())
       
---      for i = 1, #self.debugGeometry do
---        local geometry = self.debugGeometry[i]
-        
---        geometry:getMaterial():getDiffuse():unLoadGPU()
-        
---        njlic.Sprite2D.destroy(geometry)
---      end
---      self.debugGeometry = {}
-      
---      for i = 1, #self.gameplayGeometry do
---        local geometry = self.gameplayGeometry[i]
-        
---        geometry:getMaterial():getDiffuse():unLoadGPU()
-        
---        njlic.Sprite2D.destroy(geometry)
---      end
---      self.gameplayGeometry = {}
-      
---      for i = 1, #self.levelGeometry do
---        local geometry = self.levelGeometry[i]
-        
---        geometry:getMaterial():getDiffuse():unLoadGPU()
-        
---        njlic.Sprite2D.destroy(geometry)
---      end
---      self.levelGeometry = {}
-      
---      for i = 1, #self.debugSpriteAtlas do
---        self.debugSpriteAtlas[i] = nil
---      end
---      self.debugSpriteAtlas = {}
-      
---      for i = 1, #self.gameplaySpriteAtlas do
---        self.gameplaySpriteAtlas[i] = nil
---      end
---      self.gameplaySpriteAtlas = {}
-      
---      for i = 1, #self.levelSpriteAtlas do
---        self.levelSpriteAtlas[i] = nil
---      end
---      self.levelSpriteAtlas = {}
-
-
-
       for i = 1, #self.levelTexturePacker do
         self.levelTexturePacker[i]:_destroy()
       end
@@ -573,10 +411,6 @@ print('block4')
         self.debugTexturePacker[i]:_destroy()
       end
       self.debugTexturePacker = {}
-      
-      
-      
-      
       
       njlic.ShaderProgram.destroy(self.shader)
       
@@ -639,7 +473,6 @@ print('block4')
         end
       end
       
-    
       if not self.run then
         self:start()
       end
@@ -665,11 +498,8 @@ print('block4')
     end
   
     function game:start()
-      print ("start game")
-      print(self.run)
       if not self.run then
         for i = 1, #self.billboardPool do
-          print(i)
           local billboard = self.billboardPool[i]
           billboard:spawn()
         end
