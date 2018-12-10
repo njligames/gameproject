@@ -735,11 +735,21 @@ local YappyBirds = {
   
     function game:start()
       if not self.run then
+        
         for i = 1, #self.billboardPool do
           local billboard = self.billboardPool[i]
           billboard:spawn()
         end
+        
         njlic.World.getInstance():setBackgroundColor(self.levelLoader.backgroundColor)
+        
+        local numWayPoints = self.levelLoader:numDogWayPoints()
+        assert(numWayPoints > 0, "There are no way points")
+        
+        local index = math.random(numWayPoints)
+        local wayPoint = self.levelLoader:getDogWayPointParams(index)
+        
+        print_r(wayPoint)
         
         self.run = true
       end
