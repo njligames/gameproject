@@ -6,6 +6,8 @@ local TexturePacker = require "NJLIC.TexturePacker"
 local Bird = {
   new = function(...)
     arg=... or {}
+    
+    local params = arg.params or nil
 
     local bird = {
       inplay=false,
@@ -56,6 +58,7 @@ local Balloon = {
     local texturePacker=arg.texturePacker or {}
     local perspectiveCamera=arg.perspectiveCamera or nil
     local index = arg.index or 0
+    local params = arg.params or nil
     
     local balloon = {
       inplay=false,
@@ -66,7 +69,8 @@ local Balloon = {
       action = nil,
       index = index,
       currentFrame = 0,
-      animationClock = nil
+      animationClock = nil,
+      params = params
     }
     
     function balloon:load(...)
@@ -142,7 +146,11 @@ local Balloon = {
       self.node:runAction(self.action)
       self.node:setPhysicsBody(self.physicsBody)
       
-      print("spawned the balloon")
+      local azimuth = self.params.Projectile.WaterBalloon.Azimuth
+      local magnitude = self.params.Projectile.WaterBalloon.Magnitude
+      
+      print("spawned the balloon "..azimuth.." "..magnitude)
+      
       
     end
 
@@ -193,11 +201,13 @@ local Dog = {
     
     local texturePacker=arg.texturePacker or {}
     local perspectiveCamera=arg.perspectiveCamera or nil
+    local params = arg.params or nil
 
     local dog = {
       inplay=false,
       texturePacker=texturePacker,
       perspectiveCamera=perspectiveCamera,
+      params=params
     }
     
     function dog:load(...)
@@ -249,6 +259,7 @@ local Billboard = {
     local levelTexturePacker=arg.levelTexturePacker or {}
     local perspectiveCamera=arg.perspectiveCamera or nil
     local index = arg.index or 0
+    local params = arg.params or nil
 
     local billboard = {
       inplay=false,
@@ -256,7 +267,8 @@ local Billboard = {
       levelTexturePacker=levelTexturePacker,
       perspectiveCamera=perspectiveCamera,
       node = nil,
-      index = index
+      index = index,
+      params = params
     }
     
     function billboard:load(...)
@@ -439,7 +451,8 @@ local YappyBirds = {
         local billboard = Billboard.new({
             levelTexturePacker=self.levelTexturePacker,
             perspectiveCamera=self.perspectiveCamera, 
-            index=i
+            index=i,
+            params=self.params,
           })
         
         if billboard:load(billboardParams) then
@@ -455,28 +468,28 @@ local YappyBirds = {
       local bird = nil
       for i = 1, numberOfBirdsEach do
 
-        bird = Bird.new({name=self.CHUBI, index=i})
+        bird = Bird.new({name=self.CHUBI, index=i, params=self.params})
         bird:load()
         table.insert(self.chubiBirdPool, bird)
 
         
-        bird = Bird.new({name=self.GARU, index=i})
+        bird = Bird.new({name=self.GARU, index=i, params=self.params})
         bird:load()
         table.insert(self.garuBirdPool, bird)
         
-        bird = Bird.new({name=self.MOMI, index=i})
+        bird = Bird.new({name=self.MOMI, index=i, params=self.params})
         bird:load()
         table.insert(self.momiBirdPool, bird)
         
-        bird = Bird.new({name=self.PUFFY, index=i})
+        bird = Bird.new({name=self.PUFFY, index=i, params=self.params})
         bird:load()
         table.insert(self.puffyBirdPool, bird)
         
-        bird = Bird.new({name=self.WEBO, index=i})
+        bird = Bird.new({name=self.WEBO, index=i, params=self.params})
         bird:load()
         table.insert(self.weboBirdPool, bird)
         
-        bird = Bird.new({name=self.ZURU, index=i})
+        bird = Bird.new({name=self.ZURU, index=i, params=self.params})
         bird:load()
         table.insert(self.zuruBirdPool, bird)
         
@@ -487,7 +500,7 @@ local YappyBirds = {
       local dog = nil
       for i = 1, numberOfDogs do
         print(i)
-        dog = Dog.new({index=i})
+        dog = Dog.new({index=i, params=self.params})
         dog:load()
         table.insert(self.dogPool, dog)
       end
@@ -501,7 +514,8 @@ local YappyBirds = {
         balloon = Balloon.new({
             texturePacker=self.gameplayTexturePacker,
             perspectiveCamera=self.perspectiveCamera,
-            index=i
+            index=i,
+            params=self.params
             })
         balloon:load({color=color, index=i})
         table.insert(self.balloonPool, balloon)
@@ -631,7 +645,7 @@ local YappyBirds = {
 
       if self.run then
         
-        local origin = self.params:originForLayer({x=x*2.5, y=y*2.5})
+        local origin = self.params:originForLayer({x=x, y=y})
         print("originForLayer")
         print(origin)
 --        origin = self.levelLoader:getDogWayPointParams(1).origin
