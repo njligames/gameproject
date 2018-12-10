@@ -77,6 +77,11 @@ local Balloon = {
       params = params
     }
     
+    function balloon:getFrameName()
+      local name = string.format("projectile_waterBalloon%s_thrown_front/projectile_waterBalloon%s_thrown_front_%05d", self.color, self.color, self.currentFrame)
+      return name
+    end
+    
     function balloon:load(...)
       arg=... or {}
       
@@ -85,7 +90,7 @@ local Balloon = {
       self.color = arg.color or "?"
       local origin = bullet.btVector3(0.0, 0.0, 0.0)
 
-      local name = string.format("projectile_waterBalloon%s_thrown_front/projectile_waterBalloon%s_thrown_front_%05d", self.color, self.color, self.currentFrame)
+      local name = self:getFrameName()
       
       self.node = njlic.Node.create()
       
@@ -166,10 +171,6 @@ local Balloon = {
       self:show()
       self.node:runAction(self.action)
       self.node:setPhysicsBody(self.physicsBody)
---      local origin = self.node:getOrigin()
---      origin:setZ(10.0)
---      self.node:setOrigin(origin)
-      
       
       local azimuth = self.params.Projectile.WaterBalloon.Azimuth
       local magnitude = self.params.Projectile.WaterBalloon.Magnitude
@@ -185,8 +186,6 @@ local Balloon = {
       
       self.node:getPhysicsBody():setMass(mass)
       self.node:getPhysicsBody():applyForce(direction * magnitude, true)
-
-      
       
     end
 
@@ -223,7 +222,7 @@ local Balloon = {
       self.currentFrame = self.currentFrame + 1
       if(self.currentFrame > 2) then self.currentFrame = 0 end
       
-      local name = string.format("projectile_waterBalloon%s_thrown_front/projectile_waterBalloon%s_thrown_front_%05d", self.color, self.color, self.currentFrame)
+      local name = self:getFrameName()
       
       if self.texturePacker[1]:has({name=name}) then
         self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
@@ -235,7 +234,7 @@ local Balloon = {
     
     function balloon:update(timeStep)
       local origin = self.node:getOrigin()
-      print(origin)
+--      print(origin)
 --      origin:setZ(0.0)
 --      self.node:setOrigin(origin)
 
