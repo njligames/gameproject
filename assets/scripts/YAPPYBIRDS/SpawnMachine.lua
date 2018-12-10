@@ -135,8 +135,9 @@ function SpawnMachine:queueBird(spawnPointTable)
 end
 
 function SpawnMachine:queueBalloon(...)
-  local arg=...
+  local arg=... or {}
   
+  print("SpawnMachine:queueBalloon")
   local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
   local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
   
@@ -145,7 +146,6 @@ function SpawnMachine:queueBalloon(...)
   local balloon = self.gameplay:_availableBalloon({
     origin=origin,
     dimensions=dimensions,
-    visible=false,
     debug=false
   })
 

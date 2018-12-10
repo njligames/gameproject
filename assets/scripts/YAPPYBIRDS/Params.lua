@@ -157,6 +157,20 @@ ParamInfo =
 		},
 		
 	},
+  dimensionForLayer = function(self, layer)
+    local width, height = 256, 256
+    
+    local _layer = layer or 1
+    
+    local z = self.World.LayerMax - (self.World.LayerDistance * (4 - _layer))
+    
+    local scaleFactor = (z / self.World.LayerMax)
+    local width = (width) * scaleFactor
+    local height = (height) * scaleFactor
+    local divisor = self:getGameViewDivisor()
+    
+    return bullet.btVector2( (width / divisor) * 2, (height / divisor) * 2 )
+  end,
 	originForLayer = function(self, tileInfo)
 		local x        = tileInfo.x or 0
 		local y        = tileInfo.y or 0
@@ -237,10 +251,10 @@ ParamInfo =
 			height = tile.height or height
 		end
 		
-		local scaleFactor = (z / self.World.LayerMax)
-		local width = (width) * scaleFactor
-    	local height = (height) * scaleFactor
-    	local divisor = self:getGameViewDivisor()
+    local scaleFactor = (z / self.World.LayerMax)
+    width = (width) * scaleFactor
+    height = (height) * scaleFactor
+    local divisor = self:getGameViewDivisor()
 
 		return bullet.btVector2( (width / divisor) * 2, (height / divisor) * 2 )
 	end,

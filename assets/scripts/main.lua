@@ -5,31 +5,31 @@ local TexturePacker = require "NJLIC.TexturePacker"
 
 local Bird = {
   new = function(...)
-    arg=...  
+    arg=... or {}
 
     local bird = {
       inplay=false,
     }
     
     function bird:load(...)
-      arg=...
+      arg=... or {}
       
---      print("loaded the bird")
+      print("loaded the bird")
     end
   
     function bird:unload()
---      print("unloaded the bird")
+      print("unloaded the bird")
     end
   
     function bird:spawn(...)
-      local arg=...
+      local arg=... or {}
       self.inplay=true
 
 --      print("spawned the bird")
     end
 
     function bird:kill(...)
-      local arg=...
+      local arg=... or {}
       
       self.inplay=false
 
@@ -48,42 +48,88 @@ local Bird = {
 
 local Balloon = {
   new = function(...)
-    arg=...
+    arg=... or {}
 
+    local texturePacker=arg.texturePacker or {}
+    local perspectiveCamera=arg.perspectiveCamera or nil
+    
     local balloon = {
       inplay=false,
+      texturePacker=texturePacker,
+      perspectiveCamera=perspectiveCamera,
     }
     
     function balloon:load(...)
-      arg=...
+      arg=... or {}
       
---      print("loaded the balloon")
+      print("loaded the balloon")
+      
+      local color = arg.color or "?"
+      local origin = bullet.btVector3(0.0, 0.0, 0.0)
+
+      local name = string.format("projectile_waterBalloon%s_thrown_front/projectile_waterBalloon%s_thrown_front_%05d", color, color, 0)
+      
+      self.node = njlic.Node.create()
+      
+      if self.texturePacker[1]:has({name=name}) then
+        self.node = self.texturePacker[1]:draw({name=name, node=self.node})
+      elseif self.texturePacker[2]:has({name=name}) then
+        self.node = self.texturePacker[2]:draw({name=name, node=self.node})
+      end
+      
+      self.node:setOrigin(origin)
+      self:hide()
+      
+      njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
+      
     end
   
     function balloon:unload()
---      print("unloaded the balloon")
+      print("unloaded the balloon")
     end
-
-    function balloon:spawn(...)
-      local arg=...
+    
+    function balloon:setup(...)
+      local arg=... or {}
+      
+      local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
+      local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
+      local debug = arg.debug or false
       
       self.inplay=true
 
+      self.node:setOrigin(origin)
+      self.node:getGeometry():setDimensions(self.node, dimensions)
+      
+      print("setup the balloon")
+      
+    end
+
+    function balloon:spawn(...)
+      local arg=... or {}
+      
+      self.inplay=true
+      
+      self:show()
+      
       print("spawned the balloon")
+      
     end
 
     function balloon:kill(...)
-      local arg=...
+      local arg=... or {}
       
       self.inplay=false
 
+      self:hide()
       -- put back to hiding values
     end
     
     function balloon:hide()
+      self.node:hide(self.perspectiveCamera)
     end
     
     function balloon:show()
+      self.node:show(self.perspectiveCamera)
     end
 
     return balloon
@@ -92,42 +138,50 @@ local Balloon = {
 
 local Dog = {
   new = function(...)
-    arg=...
+    arg=... or {}
+    
+    local texturePacker=arg.texturePacker or {}
+    local perspectiveCamera=arg.perspectiveCamera or nil
 
     local dog = {
       inplay=false,
+      texturePacker=texturePacker,
+      perspectiveCamera=perspectiveCamera,
     }
     
     function dog:load(...)
-      arg=...
+      arg=... or {}
       
---      print("loaded the dog")
+      print("loaded the dog")
     end
   
     function dog:unload()
---      print("unloaded the dog")
+      print("unloaded the dog")
     end
 
     function dog:spawn(...)
-      local arg=...
+      local arg=... or {}
       
       self.inplay=true
-
---      print("spawned the dog")
+    
+      print("spawned dog")
+      self:show()
     end
 
     function dog:kill(...)
-      local arg=...
+      local arg=... or {}
       
       self.inplay=false
 
-      -- put back to hiding values
+      self:hide()
     end
     
     function dog:hide()
+      self.node:hide(self.perspectiveCamera)
     end
     
     function dog:show()
+      self.node:show(self.perspectiveCamera)
     end
 
     return dog
@@ -136,7 +190,7 @@ local Dog = {
 
 local Billboard = {
   new = function(...)
-    arg=...
+    arg=... or {}
     
     local levelTexturePacker=arg.levelTexturePacker or {}
     local perspectiveCamera=arg.perspectiveCamera or nil
@@ -150,14 +204,14 @@ local Billboard = {
     }
     
     function billboard:load(...)
-      arg=...
+      arg=... or {}
       
       local name = arg.name or "?"
       local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
       local dimensions = arg.dimensions or bullet.btVector2(0.0, 0.0)
       
       self.node = njlic.Node.create()
-      self.node = levelTexturePacker[1]:draw({name=name, node=self.node})
+      self.node = self.levelTexturePacker[1]:draw({name=name, node=self.node})
       
       self.node:getGeometry():setDimensions(self.node, dimensions)
       self.node:setOrigin(origin)
@@ -174,15 +228,16 @@ local Billboard = {
     end
 
     function billboard:spawn(...)
-      local arg=...
+      local arg=... or {}
       
       self:show()
       
       self.inplay=true
+      print("spawned billboard")
     end
 
     function billboard:kill(...)
-      local arg=...
+      local arg=... or {}
       
       self.inplay=false
 
@@ -203,6 +258,8 @@ local Billboard = {
 
 local YappyBirds = {
   new = function()
+    print("YappyBirds.new() - start")
+  
     local Params = require "YAPPYBIRDS.Params"
     local SpawnMachine = require "YAPPYBIRDS.SpawnMachine"
     local LevelLoader = require "YAPPYBIRDS.LevelLoader"
@@ -243,6 +300,8 @@ local YappyBirds = {
     }
 
     function game:load()
+      print("game:load() - start")
+      
       local debug = false
 
       self.levelLoader:loadLevel({debug=debug, loc="country", levelNum=0, mode="arcade"})
@@ -262,7 +321,7 @@ local YappyBirds = {
       
       -- ###################################################################################################
 
-      njlic.World.getInstance():setBackgroundColor(self.levelLoader.backgroundColor)
+      
       
       for i = 1, self.levelLoader:numSpawnPoints() do
         local point = self.levelLoader:getSpawnPoint(i)
@@ -361,26 +420,37 @@ local YappyBirds = {
         bird:load()
         table.insert(self.zuruBirdPool, bird)
         
+        print(i, numberOfBirdsEach)
       end
 
+      
       local dog = nil
       for i = 1, numberOfDogs do
+        print(i)
         dog = Dog.new()
         dog:load()
         table.insert(self.dogPool, dog)
       end
       
       local balloon = nil
+      local colors = {"Blue", "Green", "Purple", "Red", "Yellow"}
       for i = 1, numberOfBalloons do
-        local color = "red"
+        
+        local color = colors[math.random(5)]
 
-        balloon = Balloon.new({color=color})
-        balloon:load()
+        balloon = Balloon.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            })
+        balloon:load({color=color})
         table.insert(self.balloonPool, balloon)
       end
+    
+      print("game:load() - end")
     end
 
     function game:unload()
+      print("game:unload() - start")
       
       self.run = false
       
@@ -461,6 +531,8 @@ local YappyBirds = {
         balloon:unload()
       end
       self.balloonPool = {}
+    
+      print("game:unload() - end")
     end
 
     function game:update(timeStep)
@@ -479,14 +551,25 @@ local YappyBirds = {
     end
 
     function game:click(x, y)
+      print("game:click("..x..","..y..")")
 
       if self.run then
         
-        local origin = self.params:originForLayer({x=x, y=y})
+        local origin = self.params:originForLayer({x=x*2.5, y=y*2.5})
+        print("originForLayer")
+        print(origin)
+--        origin = self.levelLoader:getDogWayPointParams(1).origin
+--        print("origin for index 1 ")
+--        print(origin)
+        
+        local dimensions = self.params:dimensionForLayer()
+--        print("dimensions)
+        print(dimensions)
 
         local queued = self.spawnMachine:queueBalloon({
             origin = origin,
-            dimensions = bullet.btVector2(256.0, 256.0)})
+            dimensions = dimensions
+            })
       end
       
     end
@@ -503,6 +586,7 @@ local YappyBirds = {
           local billboard = self.billboardPool[i]
           billboard:spawn()
         end
+        njlic.World.getInstance():setBackgroundColor(self.levelLoader.backgroundColor)
         
         self.run = true
       end
@@ -555,10 +639,19 @@ local YappyBirds = {
     end
 
     function game:_availableBalloon(...)
-      arg=...
-
+      arg=... or {}
+      
+      local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
+      local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0) 
+      local debug = arg.debug or true
+      
       for i, v in ipairs(self.balloonPool) do
         if not v.inplay then
+          v:setup({
+              origin=origin,
+              dimensions=dimensions,
+              debug=false
+              })
           return v 
         end
       end
@@ -586,7 +679,6 @@ njlic.World.getInstance():setBackgroundColor(1.000, 0.000, 1.000)
 
 local Create = function()
   yappyBirds = YappyBirds.new()
-  print("newed yappybird")
   yappyBirds:load()
 end
 
@@ -640,7 +732,7 @@ local TouchCancelled = function(touches)
 end
 
 local MouseDown = function(mouse)
---  print("MouseDown")
+  print("MouseDown")
   yappyBirds:click(mouse:getPosition():x(), mouse:getPosition():y())
 end
 
