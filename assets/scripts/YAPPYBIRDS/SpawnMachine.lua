@@ -66,20 +66,29 @@ function SpawnMachine:tick(gameplay, timeStep)
 
   if #self.birdQueue > 0 then
     local bird = table.remove(self.birdQueue, 1)
-    self.gameEntities[bird.node:getName()] = bird
-    bird:spawn()
+    if bird and bird.node then
+      assert(bird.node, "bird node is nil")
+      self.gameEntities[bird.node:getName()] = bird
+      bird:spawn()
+    end
   end
   
   if #self.balloonQueue > 0 then
     local balloon = table.remove(self.balloonQueue, 1)
-    self.gameEntities[balloon.node:getName()] = balloon
-    balloon:spawn()
+    if balloon and balloon.node then
+      assert(balloon.node, "balloon node is nil")
+      self.gameEntities[balloon.node:getName()] = balloon
+      balloon:spawn()
+    end
   end
   
   if #self.dogQueue > 0 then
     local dog = table.remove(self.dogQueue, 1)
-    self.gameEntities[dog.node:getName()] = dog
-    dog:spawn()
+    if dog and dog.node then
+      assert(dog.node, "dog node is nil")
+      self.gameEntities[dog.node:getName()] = dog
+      dog:spawn()
+    end
   end
   
   self.done = true
