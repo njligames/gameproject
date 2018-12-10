@@ -99,9 +99,17 @@ local Balloon = {
       
       njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
       
+      self.physicsBody = njlic.PhysicsBodyRigid.create()          
+      self.physicsShape = njlic.PhysicsShapeCylinder.create()     
+      self.physicsShape:setMargin(1)
+      self.physicsBody:setPhysicsShape(self.physicsShape)   
+      self.physicsBody:setDynamicPhysics()
     end
   
     function balloon:unload()
+      njlic.PhysicsBodyRigid.destroy(self.physicsBody)
+      njlic.PhysicsShapeCylinder.destroy(self.physicsShape) 
+      
       njlic.Clock.destroy(self.animationClock)
       njlic.Action.destroy(self.action)
       njlic.Node.destroy(self.node)
@@ -132,6 +140,7 @@ local Balloon = {
       
       self:show()
       self.node:runAction(self.action)
+      self.node:setPhysicsBody(self.physicsBody)
       
       print("spawned the balloon")
       
@@ -142,6 +151,8 @@ local Balloon = {
       
       self.inplay=false
 
+      self.node:removeAction(self.node:getName())
+      self.node:removePhysicsBody()
       self:hide()
       -- put back to hiding values
     end
@@ -416,6 +427,8 @@ local YappyBirds = {
       -- ###################################################################################################
       
       self.physicsWorld = njlic.PhysicsWorld.create()
+      self.physicsWorld:setGravity(self.params.World.Gravity)
+      
       njlic.World.getInstance():getScene():setPhysicsWorld(self.physicsWorld)
 
       -- ###################################################################################################
