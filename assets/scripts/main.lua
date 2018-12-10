@@ -46,6 +46,10 @@ local Bird = {
   
     function bird:incrementAnimationFrame()
     end
+    
+    function bird:update(timeStep)
+      print("bird")
+    end
 
     return bird
   end
@@ -76,7 +80,7 @@ local Balloon = {
     function balloon:load(...)
       arg=... or {}
       
-      print("loaded the balloon")
+      print("loaded the balloon - start")
       
       self.color = arg.color or "?"
       local origin = bullet.btVector3(0.0, 0.0, 0.0)
@@ -103,14 +107,26 @@ local Balloon = {
       
       njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
       
-      self.physicsBody = njlic.PhysicsBodyRigid.create()          
-      self.physicsShape = njlic.PhysicsShapeCylinder.create()     
+      self.physicsBody = njlic.PhysicsBodyRigid.create()
+      assert(self.physicsBody, "physicsBody is null")
+      
+      self.physicsShape = njlic.PhysicsShapeCylinder.create()
+      assert(self.physicsShape, "physicsShape is null")
+      
       self.physicsShape:setMargin(1)
       self.physicsBody:setPhysicsShape(self.physicsShape)   
       self.physicsBody:setDynamicPhysics()
+      
+      self.sound = njlic.Sound.create()
+--      local soundName = "sounds/projectile_balloon_water-splash.ogg"
+--      njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
+      
+      print("loaded the balloon - end")
     end
   
     function balloon:unload()
+      njlic.Sound.destroy(self.sound)
+      
       njlic.PhysicsBodyRigid.destroy(self.physicsBody)
       njlic.PhysicsShapeCylinder.destroy(self.physicsShape) 
       
@@ -133,12 +149,21 @@ local Balloon = {
       self.node:setOrigin(origin)
       self.node:getGeometry():setDimensions(self.node, dimensions)
       
+      assert(self.physicsBody, "physicsBody is null")
+--      self.physicsBody:clearAllForces()
+--      self.physicsBody:setLinearFactor(bullet.btVector3(0,0,0))
+--      self.physicsBody:setAngularVelocity(bullet.btVector3(0,0,0))
+--      self.physicsBody:setAngularFactor(bullet.btVector3(0,0,0))
+--      self.physicsBody:setLinearVelocity(bullet.btVector3(0,0,0))
+      
       print("setup the balloon")
       
     end
 
     function balloon:spawn(...)
       local arg=... or {}
+      
+      print("spawn balloon")
       
       self.inplay=true
       
@@ -157,11 +182,33 @@ local Balloon = {
     function balloon:kill(...)
       local arg=... or {}
       
+      local playSound = arg.playSound or false
+      
       self.inplay=false
+      
+      if playSound then
+        self.sound:play()
+      end
+      
+--      self.node:getPhysicsBody():setLinearFactor(bullet.btVector3(0,0,0))
+--      self.node:getPhysicsBody():setAngularVelocity(bullet.btVector3(0,0,0))
+--      self.node:getPhysicsBody():setAngularFactor(bullet.btVector3(0,0,0))
+--      self.node:getPhysicsBody():setLinearVelocity(bullet.btVector3(0,0,0))
+      
+--      self.physicsBody:setLinearFactor(bullet.btVector3(0,0,0))
+--      self.physicsBody:setAngularVelocity(bullet.btVector3(0,0,0))
+--      self.physicsBody:setAngularFactor(bullet.btVector3(0,0,0))
+--      self.physicsBody:setLinearVelocity(bullet.btVector3(0,0,0))
+
+--      self.physicsBody:clearAllForces()
 
       self.node:removeAction(self.node:getName())
+      
+      
       self.node:removePhysicsBody()
       self:hide()
+      
+      print("killed balloon")
       -- put back to hiding values
     end
     
@@ -189,6 +236,16 @@ local Balloon = {
       end
       
 --      self.node:getGeometry():setDimensions(self.node, dimensions)
+    end
+    
+    function balloon:update(timeStep)
+      local die = self.params.Projectile.WaterBalloon.DieY
+--      print("balloon")
+      print(self.node:getOrigin():y())
+      if self.node:getOrigin():y() < die then
+        self:kill()
+      end
+--      print(self.node:getOrigin():y(), die)
     end
 
     return balloon
@@ -246,6 +303,10 @@ local Dog = {
     end
   
     function dog:incrementAnimationFrame()
+    end
+    
+    function dog:update(timeStep)
+      print("dog")
     end
 
     return dog
@@ -611,6 +672,7 @@ local YappyBirds = {
     end
 
     function game:update(timeStep)
+      
       if self.run then
         
         self.spawnMachine:tick(self, timeStep)

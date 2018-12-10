@@ -51,11 +51,15 @@ end
 
 function SpawnMachine:tick(gameplay, timeStep)
   
-  for i, gameEntity in ipairs(self.gameEntities) do
-    if not gameEntity.inplay then
-      table.remove(self.gameEntities, i)
+  local i = 1
+  for k,v in pairs(self.gameEntities) do
+    pcall(v.update, v, timeStep)
+    
+    if not v.inplay then
+      self.gameEntities[k]=nil
     end
-  end
+    i = i + 1
+	end
   
   self.totalTicks = self.totalTicks + timeStep
   self.gameplay = gameplay
