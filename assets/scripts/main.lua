@@ -743,13 +743,28 @@ local YappyBirds = {
         
         njlic.World.getInstance():setBackgroundColor(self.levelLoader.backgroundColor)
         
+        local numDogsInLevel = 1
         local numWayPoints = self.levelLoader:numDogWayPoints()
         assert(numWayPoints > 0, "There are no way points")
         
-        local index = math.random(numWayPoints)
-        local wayPoint = self.levelLoader:getDogWayPointParams(index)
+        for i=1, numDogsInLevel do
+          
+          local index = math.random(numWayPoints)
+          local wayPoint = self.levelLoader:getDogWayPointParams(index)
+          
+          print_r(wayPoint)
+          
+--          local queued = self.spawnMachine:queueDog({
+--              origin = wayPoint.origin,
+--              dimensions = wayPoint.dimensions,
+--            })
+--          if not queued then
+--            print("couldn't queue the dog")
+--          end
+        end
         
-        print_r(wayPoint)
+        
+        
         
         self.run = true
       end
