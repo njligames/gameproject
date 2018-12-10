@@ -156,15 +156,17 @@ end
 function SpawnMachine:queueBalloon(...)
   local arg=... or {}
   
-  print("SpawnMachine:queueBalloon")
+--  print("SpawnMachine:queueBalloon")
   local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
   local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
+  local direction = arg.direction or bullet.btVector3(0.0, 1.0, 0.0)
   
   assert(self.gameplay ~= nil)
 
   local balloon = self.gameplay:_availableBalloon({
     origin=origin,
     dimensions=dimensions,
+    direction=direction,
     debug=false
   })
 

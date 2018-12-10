@@ -118,8 +118,9 @@ local Balloon = {
       self.physicsBody:setDynamicPhysics()
       
       self.sound = njlic.Sound.create()
---      local soundName = "sounds/projectile_balloon_water-splash.ogg"
---      njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
+      self.sound:setName("balloonsound_"..self.index)
+      local soundName = "sounds/projectile_balloon_water-splash.ogg"
+      njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
       
       print("loaded the balloon - end")
     end
@@ -142,19 +143,14 @@ local Balloon = {
       
       local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
       local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
+      local direction = arg.direction or bullet.btVector3(0.0, 1.0, 0.0)
       local debug = arg.debug or false
       
       self.inplay=true
 
       self.node:setOrigin(origin)
       self.node:getGeometry():setDimensions(self.node, dimensions)
-      
-      assert(self.physicsBody, "physicsBody is null")
---      self.physicsBody:clearAllForces()
---      self.physicsBody:setLinearFactor(bullet.btVector3(0,0,0))
---      self.physicsBody:setAngularVelocity(bullet.btVector3(0,0,0))
---      self.physicsBody:setAngularFactor(bullet.btVector3(0,0,0))
---      self.physicsBody:setLinearVelocity(bullet.btVector3(0,0,0))
+      self.direction = direction
       
       print("setup the balloon")
       
@@ -170,11 +166,26 @@ local Balloon = {
       self:show()
       self.node:runAction(self.action)
       self.node:setPhysicsBody(self.physicsBody)
+--      local origin = self.node:getOrigin()
+--      origin:setZ(10.0)
+--      self.node:setOrigin(origin)
+      
       
       local azimuth = self.params.Projectile.WaterBalloon.Azimuth
       local magnitude = self.params.Projectile.WaterBalloon.Magnitude
+      local mass = self.params.Projectile.WaterBalloon.Mass
+      local direction = self.direction
       
-      print("spawned the balloon "..azimuth.." "..magnitude)
+      local x = self.node:getWorldTransform():getOrigin():x()
+      local y = self.node:getWorldTransform():getOrigin():y()
+      local z = self.node:getWorldTransform():getOrigin():z()
+      direction = direction:rotate(bullet.btVector3(-1,0,0), math.atan(azimuth, z))
+      direction = direction:rotate(bullet.btVector3(0,1,0), math.atan(x, z))
+      direction = direction:rotate(bullet.btVector3(-1,0,0), math.atan(y, z))
+      
+      self.node:getPhysicsBody():setMass(mass)
+      self.node:getPhysicsBody():applyForce(direction * magnitude, true)
+
       
       
     end
@@ -189,18 +200,6 @@ local Balloon = {
       if playSound then
         self.sound:play()
       end
-      
---      self.node:getPhysicsBody():setLinearFactor(bullet.btVector3(0,0,0))
---      self.node:getPhysicsBody():setAngularVelocity(bullet.btVector3(0,0,0))
---      self.node:getPhysicsBody():setAngularFactor(bullet.btVector3(0,0,0))
---      self.node:getPhysicsBody():setLinearVelocity(bullet.btVector3(0,0,0))
-      
---      self.physicsBody:setLinearFactor(bullet.btVector3(0,0,0))
---      self.physicsBody:setAngularVelocity(bullet.btVector3(0,0,0))
---      self.physicsBody:setAngularFactor(bullet.btVector3(0,0,0))
---      self.physicsBody:setLinearVelocity(bullet.btVector3(0,0,0))
-
---      self.physicsBody:clearAllForces()
 
       self.node:removeAction(self.node:getName())
       
@@ -226,26 +225,24 @@ local Balloon = {
       
       local name = string.format("projectile_waterBalloon%s_thrown_front/projectile_waterBalloon%s_thrown_front_%05d", self.color, self.color, self.currentFrame)
       
---      local dimensions = self.node:getGeometry():getDimensions(self.node)
---      print(dimensions)
-      
       if self.texturePacker[1]:has({name=name}) then
         self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
       elseif self.texturePacker[2]:has({name=name}) then
         self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
       end
       
---      self.node:getGeometry():setDimensions(self.node, dimensions)
     end
     
     function balloon:update(timeStep)
+      local origin = self.node:getOrigin()
+      print(origin)
+--      origin:setZ(0.0)
+--      self.node:setOrigin(origin)
+
       local die = self.params.Projectile.WaterBalloon.DieY
---      print("balloon")
-      print(self.node:getOrigin():y())
       if self.node:getOrigin():y() < die then
         self:kill()
       end
---      print(self.node:getOrigin():y(), die)
     end
 
     return balloon
@@ -703,25 +700,30 @@ local YappyBirds = {
     end
 
     function game:click(x, y)
-      print("game:click("..x..","..y..")")
+--      print("game:click("..x..","..y..")")
 
       if self.run then
         
-        local origin = self.params:originForLayer({x=x, y=y})
-        print("originForLayer")
-        print(origin)
+        local origin = self.params:originForLayer({x=x, y=y}, 10)
+--        print("originForLayer")
+--        print(origin)
 --        origin = self.levelLoader:getDogWayPointParams(1).origin
 --        print("origin for index 1 ")
 --        print(origin)
         
         local dimensions = self.params:dimensionForLayer()
 --        print("dimensions)
-        print(dimensions)
+--        print(dimensions)
 
         local queued = self.spawnMachine:queueBalloon({
             origin = origin,
-            dimensions = dimensions
-            })
+            dimensions = dimensions,
+            direction = self.perspectiveCamera:getForwardVector(),
+          })
+        if not queued then
+          print("couldn't queue the balloon")
+        end
+        
       end
       
     end
@@ -795,6 +797,7 @@ local YappyBirds = {
       
       local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
       local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0) 
+      local direction = arg.direction or bullet.btVector3(0.0, 1.0, 0.0)
       local debug = arg.debug or true
       
       for i, v in ipairs(self.balloonPool) do
@@ -802,6 +805,7 @@ local YappyBirds = {
           v:setup({
               origin=origin,
               dimensions=dimensions,
+              direction=direction,
               debug=false
               })
           return v 
@@ -884,7 +888,7 @@ local TouchCancelled = function(touches)
 end
 
 local MouseDown = function(mouse)
-  print("MouseDown")
+--  print("MouseDown")
   yappyBirds:click(mouse:getPosition():x(), mouse:getPosition():y())
 end
 

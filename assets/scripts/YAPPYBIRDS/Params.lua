@@ -28,8 +28,8 @@ ParamInfo =
 	{
 		WaterBalloon =
 		{
-			Azimuth = 10, --Angle fro mthe ground up
-			Magnitude = 45, --How fast the balloon goes when you tap the screen.
+			Azimuth = 10*0.5, --Angle fro mthe ground up
+			Magnitude = 45*2, --How fast the balloon goes when you tap the screen.
 			DieY = -50, --Y position for when the balloon's memory gets cleaned up.
             Mass = 1, --The mass of the balloon.
             FramesPerSecond = 30.0, -- must be: 1 <= fps <= 60
@@ -171,7 +171,7 @@ ParamInfo =
     
     return bullet.btVector2( (width / divisor) * 2, (height / divisor) * 2 )
   end,
-	originForLayer = function(self, tileInfo)
+	originForLayer = function(self, tileInfo, zzz)
 		local x        = tileInfo.x or 0
 		local y        = tileInfo.y or 0
 		local layer    = tileInfo.layer or 1
@@ -182,11 +182,6 @@ ParamInfo =
 			width    = tileInfo.tile.width or 1.0
 			height   = tileInfo.tile.height or 1.0
 		end
-
-		-- assert((layer >= 1 and layer <= 4), "The layer (" .. layer .. ") number must be one of (1, 2, 3, 4)")
-
-		-- print("width", width)
-		-- print("height", height)
 
 		function transformCoordinate(origin, layerMax)
 			function adjustPosition(oldPosition, newDistance)
@@ -237,7 +232,7 @@ ParamInfo =
 		-- local zz = self.World.LayerMax + (0.1 - (self.World.LayerDistance * (layer - 1))) -- + offset
 
 		-- print_r(tileInfo)
-		local zz = self.World.LayerMax - (self.World.LayerDistance * (4 - layer))
+		local zz = zzz or self.World.LayerMax - (self.World.LayerDistance * (4 - layer))
 		-- print(zz)
 
 		local origin = bullet.btVector3(xx, yy, zz)
