@@ -24,6 +24,8 @@ local __ctor = function(self, init)
   self.balloonQueue = {}
   self.dogQueue = {}
   
+  self.gameEntities = {}
+  
   self.done = false
 end
 
@@ -43,24 +45,37 @@ end
 
 --TODO: write function here for SpawnMachine
 
+function SpawnMachine:gameEntity(name)
+  return self.gameEntities[name]
+end
+
 function SpawnMachine:tick(gameplay, timeStep)
+  
+  for i, gameEntity in ipairs(self.gameEntities) do
+    if not gameEntity.inplay then
+      table.remove(self.gameEntities, i)
+    end
+  end
   
   self.totalTicks = self.totalTicks + timeStep
   self.gameplay = gameplay
 
   if #self.birdQueue > 0 then
     local bird = table.remove(self.birdQueue, 1)
+    self.gameEntities[bird.node:getName()] = bird
     bird:spawn()
   end
   
   if #self.balloonQueue > 0 then
     local balloon = table.remove(self.balloonQueue, 1)
+    self.gameEntities[balloon.node:getName()] = balloon
     balloon:spawn()
   end
   
   if #self.dogQueue > 0 then
     local dog = table.remove(self.dogQueue, 1)
-    balloon:spawn()
+    self.gameEntities[dog.node:getName()] = dog
+    dog:spawn()
   end
   
   self.done = true

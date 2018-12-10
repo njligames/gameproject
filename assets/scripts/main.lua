@@ -41,6 +41,9 @@ local Bird = {
     
     function bird:show()
     end
+  
+    function bird:incrementAnimationFrame()
+    end
 
     return bird
   end
@@ -49,14 +52,21 @@ local Bird = {
 local Balloon = {
   new = function(...)
     arg=... or {}
-
+    
     local texturePacker=arg.texturePacker or {}
     local perspectiveCamera=arg.perspectiveCamera or nil
+    local index = arg.index or 0
     
     local balloon = {
       inplay=false,
       texturePacker=texturePacker,
       perspectiveCamera=perspectiveCamera,
+      color = nil,
+      node = nil,
+      action = nil,
+      index = index,
+      currentFrame = 0,
+      animationClock = nil
     }
     
     function balloon:load(...)
@@ -64,27 +74,38 @@ local Balloon = {
       
       print("loaded the balloon")
       
-      local color = arg.color or "?"
+      self.color = arg.color or "?"
       local origin = bullet.btVector3(0.0, 0.0, 0.0)
 
-      local name = string.format("projectile_waterBalloon%s_thrown_front/projectile_waterBalloon%s_thrown_front_%05d", color, color, 0)
+      local name = string.format("projectile_waterBalloon%s_thrown_front/projectile_waterBalloon%s_thrown_front_%05d", self.color, self.color, self.currentFrame)
       
       self.node = njlic.Node.create()
       
       if self.texturePacker[1]:has({name=name}) then
-        self.node = self.texturePacker[1]:draw({name=name, node=self.node})
+        self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
       elseif self.texturePacker[2]:has({name=name}) then
-        self.node = self.texturePacker[2]:draw({name=name, node=self.node})
+        self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
       end
+      self.node:setName("balloon_"..self.index)
       
       self.node:setOrigin(origin)
       self:hide()
+      
+      self.action = njlic.Action.create()
+      self.action:setRepeatForever()
+      self.action:setName("balloon_"..self.index)
+      
+      self.animationClock = njlic.Clock.create()
       
       njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
       
     end
   
     function balloon:unload()
+      njlic.Clock.destroy(self.animationClock)
+      njlic.Action.destroy(self.action)
+      njlic.Node.destroy(self.node)
+      
       print("unloaded the balloon")
     end
     
@@ -110,6 +131,7 @@ local Balloon = {
       self.inplay=true
       
       self:show()
+      self.node:runAction(self.action)
       
       print("spawned the balloon")
       
@@ -130,6 +152,24 @@ local Balloon = {
     
     function balloon:show()
       self.node:show(self.perspectiveCamera)
+    end
+  
+    function balloon:incrementAnimationFrame()
+      self.currentFrame = self.currentFrame + 1
+      if(self.currentFrame > 2) then self.currentFrame = 0 end
+      
+      local name = string.format("projectile_waterBalloon%s_thrown_front/projectile_waterBalloon%s_thrown_front_%05d", self.color, self.color, self.currentFrame)
+      
+--      local dimensions = self.node:getGeometry():getDimensions(self.node)
+--      print(dimensions)
+      
+      if self.texturePacker[1]:has({name=name}) then
+        self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
+      elseif self.texturePacker[2]:has({name=name}) then
+        self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
+      end
+      
+--      self.node:getGeometry():setDimensions(self.node, dimensions)
     end
 
     return balloon
@@ -183,6 +223,9 @@ local Dog = {
     function dog:show()
       self.node:show(self.perspectiveCamera)
     end
+  
+    function dog:incrementAnimationFrame()
+    end
 
     return dog
   end
@@ -194,6 +237,7 @@ local Billboard = {
     
     local levelTexturePacker=arg.levelTexturePacker or {}
     local perspectiveCamera=arg.perspectiveCamera or nil
+    local index = arg.index or 0
 
     local billboard = {
       inplay=false,
@@ -201,6 +245,7 @@ local Billboard = {
       levelTexturePacker=levelTexturePacker,
       perspectiveCamera=perspectiveCamera,
       node = nil,
+      index = index
     }
     
     function billboard:load(...)
@@ -211,7 +256,8 @@ local Billboard = {
       local dimensions = arg.dimensions or bullet.btVector2(0.0, 0.0)
       
       self.node = njlic.Node.create()
-      self.node = self.levelTexturePacker[1]:draw({name=name, node=self.node})
+      self.node = self.levelTexturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
+      self.node:setName("Billboard_"..name.."_"..self.index)
       
       self.node:getGeometry():setDimensions(self.node, dimensions)
       self.node:setOrigin(origin)
@@ -379,7 +425,8 @@ local YappyBirds = {
 
         local billboard = Billboard.new({
             levelTexturePacker=self.levelTexturePacker,
-            perspectiveCamera=self.perspectiveCamera
+            perspectiveCamera=self.perspectiveCamera, 
+            index=i
           })
         
         if billboard:load(billboardParams) then
@@ -395,28 +442,28 @@ local YappyBirds = {
       local bird = nil
       for i = 1, numberOfBirdsEach do
 
-        bird = Bird.new({name=self.CHUBI})
+        bird = Bird.new({name=self.CHUBI, index=i})
         bird:load()
         table.insert(self.chubiBirdPool, bird)
 
         
-        bird = Bird.new({name=self.GARU})
+        bird = Bird.new({name=self.GARU, index=i})
         bird:load()
         table.insert(self.garuBirdPool, bird)
         
-        bird = Bird.new({name=self.MOMI})
+        bird = Bird.new({name=self.MOMI, index=i})
         bird:load()
         table.insert(self.momiBirdPool, bird)
         
-        bird = Bird.new({name=self.PUFFY})
+        bird = Bird.new({name=self.PUFFY, index=i})
         bird:load()
         table.insert(self.puffyBirdPool, bird)
         
-        bird = Bird.new({name=self.WEBO})
+        bird = Bird.new({name=self.WEBO, index=i})
         bird:load()
         table.insert(self.weboBirdPool, bird)
         
-        bird = Bird.new({name=self.ZURU})
+        bird = Bird.new({name=self.ZURU, index=i})
         bird:load()
         table.insert(self.zuruBirdPool, bird)
         
@@ -427,7 +474,7 @@ local YappyBirds = {
       local dog = nil
       for i = 1, numberOfDogs do
         print(i)
-        dog = Dog.new()
+        dog = Dog.new({index=i})
         dog:load()
         table.insert(self.dogPool, dog)
       end
@@ -441,8 +488,9 @@ local YappyBirds = {
         balloon = Balloon.new({
             texturePacker=self.gameplayTexturePacker,
             perspectiveCamera=self.perspectiveCamera,
+            index=i
             })
-        balloon:load({color=color})
+        balloon:load({color=color, index=i})
         table.insert(self.balloonPool, balloon)
       end
     
@@ -547,6 +595,21 @@ local YappyBirds = {
       
       if not self.run then
         self:start()
+      end
+    end
+    
+    function game:updateAction(action, timeStep)
+      local node = action:getParent()
+      
+      local gameEntity = self.spawnMachine:gameEntity(node:getName())
+      
+      if gameEntity then
+        local animationClock = gameEntity.animationClock
+        if (animationClock:getTimeMilliseconds() / 1000) > (1.0/30.0) then
+          animationClock:reset()
+          gameEntity:incrementAnimationFrame()
+        end
+        
       end
     end
 
@@ -761,7 +824,10 @@ local NodeNear = function(node, otherNode)
 end
 
 local NodeActionUpdate = function(action, timeStep)
-  print("NodeActionUpdate")
+  
+  yappyBirds:updateAction(action, timeStep)
+  
+  
 end
 
 local NodeActionComplete = function(action)
