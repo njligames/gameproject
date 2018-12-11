@@ -64,6 +64,10 @@ local Balloon = {
     local index = arg.index or 0
     local params = arg.params or nil
     
+    assert(texturePacker, "The texturePacker is nil")
+    assert(perspectiveCamera, "The perspectiveCamera is nil")
+    assert(params, "The params is nil")
+    
     local balloon = {
       inplay=false,
       texturePacker=texturePacker,
@@ -88,6 +92,7 @@ local Balloon = {
       print("loaded the balloon - start")
       
       self.color = arg.color or "?"
+      
       local origin = bullet.btVector3(0.0, 0.0, 0.0)
 
       local name = self:getFrameName()
@@ -254,40 +259,151 @@ local Dog = {
     
     local texturePacker=arg.texturePacker or {}
     local perspectiveCamera=arg.perspectiveCamera or nil
+    local index = arg.index or 0
     local params = arg.params or nil
 
+    assert(texturePacker, "The texturePacker is nil")
+    assert(perspectiveCamera, "The perspectiveCamera is nil")
+    assert(params, "The params is nil")
+    
     local dog = {
       inplay=false,
       texturePacker=texturePacker,
       perspectiveCamera=perspectiveCamera,
-      params=params
+      color = nil,
+      node = nil,
+      action = nil,
+      index = index,
+      currentFrame = 0,
+      animationClock = nil,
+      params = params,
+      STATES={fall="fall",grabbed="grabbed",idle="idle",run="run"},
+      
     }
+    
+    function dog:getFrameName()
+      local state = self.currentState
+      local name = string.format("character_dog_%s_side/character_dog_%s_side_%05d", state, state, self.currentFrame)
+      return name
+    end
     
     function dog:load(...)
       arg=... or {}
       
-      print("loaded the dog")
+      print("loaded the dog - start")
+      
+      local origin = bullet.btVector3(0.0, 0.0, 0.0)
+      
+      self.currentState=self.STATES.idle
+      
+      local name = self:getFrameName()
+      
+      if self.texturePacker[1]:has({name=name}) then
+        self.node = njlic.Node.create()
+        self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
+      elseif self.texturePacker[2]:has({name=name}) then
+        self.node = njlic.Node.create()
+        self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
+      end
+      
+      if self.node then
+        self.node:setName("dog_node_"..self.index)
+      
+        self.node:setOrigin(origin)
+        self:hide()
+        
+        self.action = njlic.Action.create()
+        self.action:setRepeatForever()
+        self.action:setName("dog_action_"..self.index)
+        
+        self.animationClock = njlic.Clock.create()
+        
+        njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
+        
+        self.physicsBody = njlic.PhysicsBodyRigid.create()
+        assert(self.physicsBody, "physicsBody is null")
+        
+        self.physicsShape = njlic.PhysicsShapeCylinder.create()
+        assert(self.physicsShape, "physicsShape is null")
+        
+        self.physicsShape:setMargin(1)
+        self.physicsBody:setPhysicsShape(self.physicsShape)   
+        self.physicsBody:setKinematicPhysics()
+        
+        self.sound = njlic.Sound.create()
+        self.sound:setName("dog_sound_"..self.index)
+        local soundName = "sounds/projectile_balloon_water-splash.ogg"
+        njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
+        
+      else
+        print("couldn't load the dog")
+      end
+      
+      print("loaded the dog - end")
+      
     end
   
     function dog:unload()
+      njlic.Sound.destroy(self.sound)
+      
+      njlic.PhysicsBodyRigid.destroy(self.physicsBody)
+      njlic.PhysicsShapeCylinder.destroy(self.physicsShape) 
+      
+      njlic.Clock.destroy(self.animationClock)
+      njlic.Action.destroy(self.action)
+      njlic.Node.destroy(self.node)
+      
       print("unloaded the dog")
+    end
+    
+    function dog:setup(...)
+      local arg=... or {}
+      
+      local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
+      local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
+      local debug = arg.debug or false
+      
+      self.inplay=true
+
+      self.node:setOrigin(origin)
+      self.node:getGeometry():setDimensions(self.node, dimensions)
+      
+      print("setup the dog")
+      
     end
 
     function dog:spawn(...)
       local arg=... or {}
       
+      print("spawn dog")
+      
       self.inplay=true
-    
-      print("spawned dog")
+      
       self:show()
+      self.node:runAction(self.action)
+      self.node:setPhysicsBody(self.physicsBody)
+      
+      self.currentState=STATES.idle
     end
 
     function dog:kill(...)
       local arg=... or {}
       
+--      local playSound = arg.playSound or false
+      
       self.inplay=false
+      
+--      if playSound then
+--        self.sound:play()
+--      end
 
+      self.node:removeAction(self.node:getName())
+      
+      self.node:removePhysicsBody()
       self:hide()
+      
+      print("killed balloon")
+      -- put back to hiding values
     end
     
     function dog:hide()
@@ -299,10 +415,21 @@ local Dog = {
     end
   
     function dog:incrementAnimationFrame()
+      self.currentFrame = self.currentFrame + 1
+      if(self.currentFrame > 2) then self.currentFrame = 0 end
+      
+      local name = self:getFrameName()
+      print("framename "..name)
+      
+      if self.texturePacker[1]:has({name=name}) then
+        self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
+      elseif self.texturePacker[2]:has({name=name}) then
+        self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
+      end
     end
     
     function dog:update(timeStep)
-      print("dog")
+      
     end
 
     return dog
@@ -550,14 +677,17 @@ local YappyBirds = {
         bird:load()
         table.insert(self.zuruBirdPool, bird)
         
-        print(i, numberOfBirdsEach)
       end
 
       
       local dog = nil
       for i = 1, numberOfDogs do
-        print(i)
-        dog = Dog.new({index=i, params=self.params})
+        dog = Dog.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            index=i,
+            params=self.params
+            })
         dog:load()
         table.insert(self.dogPool, dog)
       end
@@ -574,7 +704,7 @@ local YappyBirds = {
             index=i,
             params=self.params
             })
-        balloon:load({color=color, index=i})
+        balloon:load({color=color})
         table.insert(self.balloonPool, balloon)
       end
     
@@ -736,6 +866,8 @@ local YappyBirds = {
     function game:start()
       if not self.run then
         
+        self.spawnMachine.gameplay = self
+        
         for i = 1, #self.billboardPool do
           local billboard = self.billboardPool[i]
           billboard:spawn()
@@ -744,6 +876,7 @@ local YappyBirds = {
         njlic.World.getInstance():setBackgroundColor(self.levelLoader.backgroundColor)
         
         local numDogsInLevel = 1
+        
         local numWayPoints = self.levelLoader:numDogWayPoints()
         assert(numWayPoints > 0, "There are no way points")
         
@@ -754,17 +887,16 @@ local YappyBirds = {
           
           print_r(wayPoint)
           
---          local queued = self.spawnMachine:queueDog({
---              origin = wayPoint.origin,
---              dimensions = wayPoint.dimensions,
---            })
---          if not queued then
---            print("couldn't queue the dog")
---          end
+          local queued = self.spawnMachine:queueDog({
+              origin = wayPoint.origin,
+              dimensions = wayPoint.dimensions,
+            })
+          if not queued then
+            print("couldn't queue the dog")
+          else
+            print("queued the dog")
+          end
         end
-        
-        
-        
         
         self.run = true
       end
@@ -840,10 +972,19 @@ local YappyBirds = {
     end
 
     function game:_availableDog(...)
-      arg=...
+      arg=... or {}
 
+      local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
+      local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
+      local debug = arg.debug or false
+      
       for i, v in ipairs(self.dogPool) do
         if not v.inplay then
+          v:setup({
+              origin=origin,
+              dimensions=dimensions,
+              debug=debug
+              })
           return v 
         end
       end

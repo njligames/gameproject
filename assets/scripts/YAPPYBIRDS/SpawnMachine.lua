@@ -144,7 +144,7 @@ function SpawnMachine:queueBird(spawnPointTable)
   local origin = spawnPointTable.spawnPoint.origin or bullet.btVector3(0.0, 0.0, 0.0)
   local dimensions = spawnPointTable.spawnPoint.dimensions or bullet.btVector2(256.0, 256.0)
   
-  assert(self.gameplay ~= nil)
+  assert(self.gameplay ~= nil, "Gameplay is nil")
 
   local bird = self.gameplay:_availableBird({
     name=name,
@@ -188,17 +188,16 @@ function SpawnMachine:queueBalloon(...)
 end
 
 function SpawnMachine:queueDog(...)
-  local arg=...
+  local arg=... or {}
   
   local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
   local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
   
-  assert(self.gameplay ~= nil)
+  assert(self.gameplay ~= nil, "Gameplay is nil")
 
   local dog = self.gameplay:_availableDog({
     origin=origin,
     dimensions=dimensions,
-    visible=false,
     debug=false
   })
 
