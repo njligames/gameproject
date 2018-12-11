@@ -95,7 +95,7 @@ function SpawnMachine:tick(gameplay, timeStep)
   for i = 1, #self.arcadeSpawnPoints do
     local spawnPointTable = self.arcadeSpawnPoints[i]
     
---    print(i, spawnPointTable.currentTick, spawnPointTable.spawnPoint.spawnAmount)
+    print(i, spawnPointTable.currentTick, spawnPointTable.spawnPoint.spawnAmount)
     
     if spawnPointTable.spawnPoint.enabled then
       

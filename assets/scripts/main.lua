@@ -7,27 +7,136 @@ local Bird = {
   new = function(...)
     arg=... or {}
     
+    local texturePacker=arg.texturePacker or {}
+    local perspectiveCamera=arg.perspectiveCamera or nil
+    local index = arg.index or 0
     local params = arg.params or nil
-
+    local birdName = arg.birdName or nil
+    
+    assert(texturePacker, "The texturePacker is nil")
+    assert(perspectiveCamera, "The perspectiveCamera is nil")
+    assert(params, "The params is nil")
+    assert(birdName, "The birdName is nil")
+ 
     local bird = {
       inplay=false,
+      texturePacker=texturePacker,
+      perspectiveCamera=perspectiveCamera,
+      color = nil,
+      node = nil,
+      action = nil,
+      index = index,
+      currentFrame = 0,
+      animationClock = nil,
+      params = params,
+      STATES={grab="grab",hit="hit",idle="idle"},
+      birdName=birdName,
     }
+    
+    function bird:getFrameName()
+      local state = self.currentState
+      local birdName = self.birdName
+      
+      local name = string.format("character_%sBird_%s_front/character_%sBird_%s_front_%05d", birdName, state, birdName, state, self.currentFrame)
+      return name
+    end
     
     function bird:load(...)
       arg=... or {}
       
-      print("loaded the bird")
+      print("loaded the bird - start")
+      
+      local origin = bullet.btVector3(0.0, 0.0, 0.0)
+      
+      self.currentState=self.STATES.idle
+      
+      local name = self:getFrameName()
+      
+      if self.texturePacker[1]:has({name=name}) then
+        self.node = njlic.Node.create()
+        self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
+      elseif self.texturePacker[2]:has({name=name}) then
+        self.node = njlic.Node.create()
+        self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
+      end
+      
+      if self.node then
+        self.node:setName(string.format("%sbird_node_%05d", self.birdName, self.index))
+      
+        self.node:setOrigin(origin)
+        self:hide()
+        
+        self.action = njlic.Action.create()
+        self.action:setRepeatForever()
+        self.action:setName(string.format("%sbird_action_%05d", self.birdName, self.index))
+        
+        self.animationClock = njlic.Clock.create()
+        
+        njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
+        
+        self.physicsBody = njlic.PhysicsBodyRigid.create()
+        assert(self.physicsBody, "physicsBody is null")
+        
+        self.physicsShape = njlic.PhysicsShapeCylinder.create()
+        assert(self.physicsShape, "physicsShape is null")
+        
+        self.physicsShape:setMargin(1)
+        self.physicsBody:setPhysicsShape(self.physicsShape)   
+        self.physicsBody:setKinematicPhysics()
+        
+        self.sound = njlic.Sound.create()
+        self.sound:setName(string.format("%sbird_sound_%05d", self.birdName, self.index))
+        local soundName = "sounds/projectile_balloon_water-splash.ogg"
+        njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
+        
+      else
+        print("couldn't load the bird")
+      end
+      
+      print("loaded the bird - end")
     end
   
     function bird:unload()
+      njlic.Sound.destroy(self.sound)
+      
+      njlic.PhysicsBodyRigid.destroy(self.physicsBody)
+      njlic.PhysicsShapeCylinder.destroy(self.physicsShape) 
+      
+      njlic.Clock.destroy(self.animationClock)
+      njlic.Action.destroy(self.action)
+      njlic.Node.destroy(self.node)
+      
       print("unloaded the bird")
     end
   
-    function bird:spawn(...)
+    function bird:setup(...)
       local arg=... or {}
+      
+      local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
+      local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
+      local debug = arg.debug or false
+      
       self.inplay=true
 
---      print("spawned the bird")
+      self.node:setOrigin(origin)
+      self.node:getGeometry():setDimensions(self.node, dimensions)
+      
+      print("setup the balloon")
+      
+    end
+    
+    function bird:spawn(...)
+      local arg=... or {}
+      
+      print("spawn bird")
+      
+      self.inplay=true
+      
+      self:show()
+      self.node:runAction(self.action)
+      self.node:setPhysicsBody(self.physicsBody)
+      
+      self.currentState=self.STATES.idle
     end
 
     function bird:kill(...)
@@ -35,20 +144,39 @@ local Bird = {
       
       self.inplay=false
 
+      self.node:removeAction(self.node:getName())
+      
+      self.node:removePhysicsBody()
+      self:hide()
+      
+      print("killed bird")
+
       -- put back to hiding values
     end
     
     function bird:hide()
+      self.node:hide(self.perspectiveCamera)
     end
     
     function bird:show()
+      self.node:show(self.perspectiveCamera)
     end
   
     function bird:incrementAnimationFrame()
+      self.currentFrame = self.currentFrame + 1
+      if(self.currentFrame > 8) then self.currentFrame = 0 end
+      
+      local name = self:getFrameName()
+      
+      if self.texturePacker[1]:has({name=name}) then
+        self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
+      elseif self.texturePacker[2]:has({name=name}) then
+        self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
+      end
     end
     
     function bird:update(timeStep)
-      print("bird")
+--      print("bird")
     end
 
     return bird
@@ -239,9 +367,6 @@ local Balloon = {
     
     function balloon:update(timeStep)
       local origin = self.node:getOrigin()
---      print(origin)
---      origin:setZ(0.0)
---      self.node:setOrigin(origin)
 
       local die = self.params.Projectile.WaterBalloon.DieY
       if self.node:getOrigin():y() < die then
@@ -294,7 +419,7 @@ local Dog = {
       
       local origin = bullet.btVector3(0.0, 0.0, 0.0)
       
-      self.currentState=self.STATES.idle
+      self.currentState=self.STATES.idle 
       
       local name = self:getFrameName()
       
@@ -383,19 +508,13 @@ local Dog = {
       self.node:runAction(self.action)
       self.node:setPhysicsBody(self.physicsBody)
       
-      self.currentState=STATES.idle
+      self.currentState=self.STATES.idle
     end
 
     function dog:kill(...)
       local arg=... or {}
       
---      local playSound = arg.playSound or false
-      
       self.inplay=false
-      
---      if playSound then
---        self.sound:play()
---      end
 
       self.node:removeAction(self.node:getName())
       
@@ -419,7 +538,6 @@ local Dog = {
       if(self.currentFrame > 2) then self.currentFrame = 0 end
       
       local name = self:getFrameName()
-      print("framename "..name)
       
       if self.texturePacker[1]:has({name=name}) then
         self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
@@ -652,33 +770,66 @@ local YappyBirds = {
       local bird = nil
       for i = 1, numberOfBirdsEach do
 
-        bird = Bird.new({name=self.CHUBI, index=i, params=self.params})
+        bird = Bird.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            birdName=self.CHUBI, 
+            index=i, 
+            params=self.params
+            })
         bird:load()
         table.insert(self.chubiBirdPool, bird)
 
         
-        bird = Bird.new({name=self.GARU, index=i, params=self.params})
+        bird = Bird.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            birdName=self.GARU, 
+            index=i, 
+            params=self.params
+            })
         bird:load()
         table.insert(self.garuBirdPool, bird)
         
-        bird = Bird.new({name=self.MOMI, index=i, params=self.params})
+        bird = Bird.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            birdName=self.MOMI, 
+            index=i, 
+            params=self.params})
         bird:load()
         table.insert(self.momiBirdPool, bird)
         
-        bird = Bird.new({name=self.PUFFY, index=i, params=self.params})
+        bird = Bird.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            birdName=self.PUFFY,
+            index=i, 
+            params=self.params
+            })
         bird:load()
         table.insert(self.puffyBirdPool, bird)
         
-        bird = Bird.new({name=self.WEBO, index=i, params=self.params})
+        bird = Bird.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            birdName=self.WEBO, 
+            index=i, 
+            params=self.params
+            })
         bird:load()
         table.insert(self.weboBirdPool, bird)
         
-        bird = Bird.new({name=self.ZURU, index=i, params=self.params})
+        bird = Bird.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            birdName=self.ZURU, 
+            index=i, 
+            params=self.params
+            })
         bird:load()
         table.insert(self.zuruBirdPool, bird)
-        
       end
-
       
       local dog = nil
       for i = 1, numberOfDogs do
@@ -885,8 +1036,6 @@ local YappyBirds = {
           local index = math.random(numWayPoints)
           local wayPoint = self.levelLoader:getDogWayPointParams(index)
           
-          print_r(wayPoint)
-          
           local queued = self.spawnMachine:queueDog({
               origin = wayPoint.origin,
               dimensions = wayPoint.dimensions,
@@ -905,41 +1054,76 @@ local YappyBirds = {
     function game:_availableBird(...)
       arg=...
 
-      assert(arg.name)
+      local origin = arg.origin or nil
+      local dimensions = arg.dimensions or nil
+      local debug = arg.debug or true
+      
+      assert(origin, "origin is nil")
+      assert(dimensions, "dimensions is nil")
 
       if arg.name == self.CHUBI then
         for i, v in ipairs(self.chubiBirdPool) do
           if not v.inplay then
+            v:setup({
+              origin=origin,
+              dimensions=dimensions,
+              debug=debug
+              })
             return v 
           end
         end
       elseif arg.name == self.GARU then
         for i, v in ipairs(self.garuBirdPool) do
           if not v.inplay then
+            v:setup({
+              origin=origin,
+              dimensions=dimensions,
+              debug=debug
+              })
             return v 
           end
         end
       elseif arg.name == self.MOMI then
         for i, v in ipairs(self.momiBirdPool) do
           if not v.inplay then
+            v:setup({
+              origin=origin,
+              dimensions=dimensions,
+              debug=debug
+              })
             return v 
           end
         end
       elseif arg.name == self.PUFFY then
         for i, v in ipairs(self.puffyBirdPool) do
           if not v.inplay then
+            v:setup({
+              origin=origin,
+              dimensions=dimensions,
+              debug=debug
+              })
             return v 
           end
         end
       elseif arg.name == self.WEBO then
         for i, v in ipairs(self.weboBirdPool) do
           if not v.inplay then
+            v:setup({
+              origin=origin,
+              dimensions=dimensions,
+              debug=debug
+              })
             return v 
           end
         end
       elseif arg.name == self.ZURU then
         for i, v in ipairs(self.zuruBirdPool) do
           if not v.inplay then
+            v:setup({
+              origin=origin,
+              dimensions=dimensions,
+              debug=debug
+              })
             return v 
           end
         end
