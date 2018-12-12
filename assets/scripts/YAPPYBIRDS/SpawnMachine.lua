@@ -95,7 +95,7 @@ function SpawnMachine:tick(gameplay, timeStep)
   for i = 1, #self.arcadeSpawnPoints do
     local spawnPointTable = self.arcadeSpawnPoints[i]
     
-    print(i, spawnPointTable.currentTick, spawnPointTable.spawnPoint.spawnAmount)
+--    print(i, spawnPointTable.currentTick, spawnPointTable.spawnPoint.spawnAmount)
     
     if spawnPointTable.spawnPoint.enabled then
       
@@ -190,13 +190,16 @@ end
 function SpawnMachine:queueDog(...)
   local arg=... or {}
   
-  local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
+--  local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
   local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
+  local path = arg.path or nil
   
   assert(self.gameplay ~= nil, "Gameplay is nil")
+  assert(path ~= nil, "The path is nil")
 
   local dog = self.gameplay:_availableDog({
-    origin=origin,
+      path=path,
+--    origin=origin,
     dimensions=dimensions,
     debug=false
   })

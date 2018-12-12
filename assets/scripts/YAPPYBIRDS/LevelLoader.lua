@@ -318,6 +318,27 @@ function LevelLoader:getDogWayPointParams(index)
   return { origin = origin, dimensions = dimensions }
 end
 
+function LevelLoader:createWaypointPath(...)
+  local arg=... or {}
+  
+--  assert(self.steeringBehaviourFollowPath, "The follow path steering behaviour can't be  nil")
+  
+  local numWaypoints = #self.wayPointTable
+  local path = nil
+  
+  if numWaypoints > 0 then
+    path = njlic.Path()
+    
+    for i = 1, numWaypoints do
+      local point = self:getDogWayPointParams(i).origin
+      if point then
+        path:addWayPoint(point)
+      end
+    end
+  end
+  return path
+end
+
 function LevelLoader:numDogWayPoints()
   return #self.wayPointTable
 end

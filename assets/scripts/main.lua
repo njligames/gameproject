@@ -5,7 +5,7 @@ local TexturePacker = require "NJLIC.TexturePacker"
 
 local Bird = {
   new = function(...)
-    arg=... or {}
+    local arg=... or {}
     
     local texturePacker=arg.texturePacker or {}
     local perspectiveCamera=arg.perspectiveCamera or nil
@@ -42,7 +42,7 @@ local Bird = {
     end
     
     function bird:load(...)
-      arg=... or {}
+      local arg=... or {}
       
       print("loaded the bird - start")
       
@@ -185,7 +185,7 @@ local Bird = {
 
 local Balloon = {
   new = function(...)
-    arg=... or {}
+    local arg=... or {}
     
     local texturePacker=arg.texturePacker or {}
     local perspectiveCamera=arg.perspectiveCamera or nil
@@ -215,7 +215,7 @@ local Balloon = {
     end
     
     function balloon:load(...)
-      arg=... or {}
+      local arg=... or {}
       
       print("loaded the balloon - start")
       
@@ -377,10 +377,17 @@ local Balloon = {
     return balloon
   end
 }
+--smb = njlic.SteeringBehaviorMachineWeighted.create()
+--followPathSB = njlic.SteeringBehaviorFollowPath.create()
+--offsetPursuitSB = njlic.SteeringBehaviorOffsetPursuit.create()
+--pursuitSB = njlic.SteeringBehaviorPursuit.create()
+--evadeSB = njlic.SteeringBehaviorEvade.create()
 
+--node = njlic.Node.create()
+--path = njlic.Path()
 local Dog = {
   new = function(...)
-    arg=... or {}
+    local arg=... or {}
     
     local texturePacker=arg.texturePacker or {}
     local perspectiveCamera=arg.perspectiveCamera or nil
@@ -413,7 +420,7 @@ local Dog = {
     end
     
     function dog:load(...)
-      arg=... or {}
+      local arg=... or {}
       
       print("loaded the dog - start")
       
@@ -460,6 +467,15 @@ local Dog = {
         local soundName = "sounds/projectile_balloon_water-splash.ogg"
         njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
         
+        print("start steering behaviour for dog")
+        self.steeringBehaviourMachine = njlic.SteeringBehaviorMachineWeighted.create()
+        self.steeringBehaviourFollowPath = njlic.SteeringBehaviorFollowPath.create()
+        
+        self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourFollowPath, 1.0)
+        
+        self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
+        
+        print("end steering behaviour for dog")
       else
         print("couldn't load the dog")
       end
@@ -467,6 +483,31 @@ local Dog = {
       print("loaded the dog - end")
       
     end
+    
+--    function dog:setWaypointPath(...)
+--      local arg=... or {}
+      
+--      assert(self.steeringBehaviourFollowPath, "The follow path steering behaviour can't be  nil")
+      
+--      local numWaypoints = 0
+      
+--      if numWaypoints > 0 then
+--        local path = njlic.Path()
+        
+--        for i = 1, numWaypoints do
+--          local point = nil
+--          if point then
+--            self.path:addWayPoint(point)
+--          end
+--        end
+        
+--        self.steeringBehaviourFollowPath:setPath(path)
+        
+--        return path
+--      end
+--      return nil
+--    end
+    
   
     function dog:unload()
       njlic.Sound.destroy(self.sound)
@@ -484,14 +525,21 @@ local Dog = {
     function dog:setup(...)
       local arg=... or {}
       
-      local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
+--      local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
       local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
+      local path = arg.path or nil
       local debug = arg.debug or false
       
       self.inplay=true
 
-      self.node:setOrigin(origin)
+      
       self.node:getGeometry():setDimensions(self.node, dimensions)
+      
+      assert(path, "The path is nil")
+      
+      local origin = path:currentWaypoint()
+      self.node:setOrigin(origin)
+      self.steeringBehaviourFollowPath:setPath(path)
       
       print("setup the dog")
       
@@ -507,6 +555,7 @@ local Dog = {
       self:show()
       self.node:runAction(self.action)
       self.node:setPhysicsBody(self.physicsBody)
+      self.steeringBehaviourMachine:enable()
       
       self.currentState=self.STATES.idle
     end
@@ -520,6 +569,7 @@ local Dog = {
       
       self.node:removePhysicsBody()
       self:hide()
+      self.steeringBehaviourMachine:enable(false)
       
       print("killed balloon")
       -- put back to hiding values
@@ -556,7 +606,7 @@ local Dog = {
 
 local Billboard = {
   new = function(...)
-    arg=... or {}
+    local arg=... or {}
     
     local levelTexturePacker=arg.levelTexturePacker or {}
     local perspectiveCamera=arg.perspectiveCamera or nil
@@ -574,7 +624,7 @@ local Billboard = {
     }
     
     function billboard:load(...)
-      arg=... or {}
+      local arg=... or {}
       
       local name = arg.name or "?"
       local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
@@ -764,7 +814,7 @@ local YappyBirds = {
       end
 
       local numberOfBirdsEach = 10
-      local numberOfDogs = 10
+      local numberOfDogs = 1
       local numberOfBalloons = 100
 
       local bird = nil
@@ -1034,10 +1084,14 @@ local YappyBirds = {
         for i=1, numDogsInLevel do
           
           local index = math.random(numWayPoints)
-          local wayPoint = self.levelLoader:getDogWayPointParams(index)
+          local wayPoint = self.levelLoader:getDogWayPointParams(1)
+          
+          local path = self.levelLoader:createWaypointPath()
+          
+          assert(path, "The path is nil")
           
           local queued = self.spawnMachine:queueDog({
-              origin = wayPoint.origin,
+              path=path,
               dimensions = wayPoint.dimensions,
             })
           if not queued then
@@ -1052,7 +1106,7 @@ local YappyBirds = {
     end
 
     function game:_availableBird(...)
-      arg=...
+      local arg=... or {}
 
       local origin = arg.origin or nil
       local dimensions = arg.dimensions or nil
@@ -1133,7 +1187,7 @@ local YappyBirds = {
     end
 
     function game:_availableBalloon(...)
-      arg=... or {}
+      local arg=... or {}
       
       local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
       local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0) 
@@ -1156,16 +1210,18 @@ local YappyBirds = {
     end
 
     function game:_availableDog(...)
-      arg=... or {}
+      local arg=... or {}
 
-      local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
+--      local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
       local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
+      local path = arg.path or nil
       local debug = arg.debug or false
       
       for i, v in ipairs(self.dogPool) do
         if not v.inplay then
           v:setup({
-              origin=origin,
+              path=path,
+--              origin=origin,
               dimensions=dimensions,
               debug=debug
               })
