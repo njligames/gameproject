@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.10.0</string>
+        <string>4.11.0</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -56,7 +56,7 @@
         <key>jxrCompressionLevel</key>
         <uint>0</uint>
         <key>ditherType</key>
-        <enum type="SettingsBase::DitherType">NearestNeighbour</enum>
+        <enum type="SettingsBase::DitherType">PngQuantLow</enum>
         <key>backgroundColor</key>
         <uint>0</uint>
         <key>libGdx</key>
@@ -82,7 +82,7 @@
         <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
-        <enum type="SettingsBase::TextureFormat">png</enum>
+        <enum type="SettingsBase::TextureFormat">png8</enum>
         <key>borderPadding</key>
         <uint>0</uint>
         <key>maxTextureSize</key>
@@ -553,6 +553,15 @@
             <key type="filename">TexturePacker/character_dog_fall_side/character_dog_fall_side_00006.png</key>
             <key type="filename">TexturePacker/character_dog_fall_side/character_dog_fall_side_00007.png</key>
             <key type="filename">TexturePacker/character_dog_fall_side/character_dog_fall_side_00008.png</key>
+            <key type="filename">TexturePacker/character_dog_fall_side_left/character_dog_fall_side_left_00000.png</key>
+            <key type="filename">TexturePacker/character_dog_fall_side_left/character_dog_fall_side_left_00001.png</key>
+            <key type="filename">TexturePacker/character_dog_fall_side_left/character_dog_fall_side_left_00002.png</key>
+            <key type="filename">TexturePacker/character_dog_fall_side_left/character_dog_fall_side_left_00003.png</key>
+            <key type="filename">TexturePacker/character_dog_fall_side_left/character_dog_fall_side_left_00004.png</key>
+            <key type="filename">TexturePacker/character_dog_fall_side_left/character_dog_fall_side_left_00005.png</key>
+            <key type="filename">TexturePacker/character_dog_fall_side_left/character_dog_fall_side_left_00006.png</key>
+            <key type="filename">TexturePacker/character_dog_fall_side_left/character_dog_fall_side_left_00007.png</key>
+            <key type="filename">TexturePacker/character_dog_fall_side_left/character_dog_fall_side_left_00008.png</key>
             <key type="filename">TexturePacker/character_dog_grabbed_side/character_dog_grabbed_side_00000.png</key>
             <key type="filename">TexturePacker/character_dog_grabbed_side/character_dog_grabbed_side_00001.png</key>
             <key type="filename">TexturePacker/character_dog_grabbed_side/character_dog_grabbed_side_00002.png</key>
@@ -562,6 +571,15 @@
             <key type="filename">TexturePacker/character_dog_grabbed_side/character_dog_grabbed_side_00006.png</key>
             <key type="filename">TexturePacker/character_dog_grabbed_side/character_dog_grabbed_side_00007.png</key>
             <key type="filename">TexturePacker/character_dog_grabbed_side/character_dog_grabbed_side_00008.png</key>
+            <key type="filename">TexturePacker/character_dog_grabbed_side_left/character_dog_grabbed_side_left_00000.png</key>
+            <key type="filename">TexturePacker/character_dog_grabbed_side_left/character_dog_grabbed_side_left_00001.png</key>
+            <key type="filename">TexturePacker/character_dog_grabbed_side_left/character_dog_grabbed_side_left_00002.png</key>
+            <key type="filename">TexturePacker/character_dog_grabbed_side_left/character_dog_grabbed_side_left_00003.png</key>
+            <key type="filename">TexturePacker/character_dog_grabbed_side_left/character_dog_grabbed_side_left_00004.png</key>
+            <key type="filename">TexturePacker/character_dog_grabbed_side_left/character_dog_grabbed_side_left_00005.png</key>
+            <key type="filename">TexturePacker/character_dog_grabbed_side_left/character_dog_grabbed_side_left_00006.png</key>
+            <key type="filename">TexturePacker/character_dog_grabbed_side_left/character_dog_grabbed_side_left_00007.png</key>
+            <key type="filename">TexturePacker/character_dog_grabbed_side_left/character_dog_grabbed_side_left_00008.png</key>
             <key type="filename">TexturePacker/character_dog_idle_side/character_dog_idle_side_00000.png</key>
             <key type="filename">TexturePacker/character_dog_idle_side/character_dog_idle_side_00001.png</key>
             <key type="filename">TexturePacker/character_dog_idle_side/character_dog_idle_side_00002.png</key>
@@ -571,6 +589,15 @@
             <key type="filename">TexturePacker/character_dog_idle_side/character_dog_idle_side_00006.png</key>
             <key type="filename">TexturePacker/character_dog_idle_side/character_dog_idle_side_00007.png</key>
             <key type="filename">TexturePacker/character_dog_idle_side/character_dog_idle_side_00008.png</key>
+            <key type="filename">TexturePacker/character_dog_idle_side_left/character_dog_idle_side_left_00000.png</key>
+            <key type="filename">TexturePacker/character_dog_idle_side_left/character_dog_idle_side_left_00001.png</key>
+            <key type="filename">TexturePacker/character_dog_idle_side_left/character_dog_idle_side_left_00002.png</key>
+            <key type="filename">TexturePacker/character_dog_idle_side_left/character_dog_idle_side_left_00003.png</key>
+            <key type="filename">TexturePacker/character_dog_idle_side_left/character_dog_idle_side_left_00004.png</key>
+            <key type="filename">TexturePacker/character_dog_idle_side_left/character_dog_idle_side_left_00005.png</key>
+            <key type="filename">TexturePacker/character_dog_idle_side_left/character_dog_idle_side_left_00006.png</key>
+            <key type="filename">TexturePacker/character_dog_idle_side_left/character_dog_idle_side_left_00007.png</key>
+            <key type="filename">TexturePacker/character_dog_idle_side_left/character_dog_idle_side_left_00008.png</key>
             <key type="filename">TexturePacker/character_dog_run_side/character_dog_run_side_00000.png</key>
             <key type="filename">TexturePacker/character_dog_run_side/character_dog_run_side_00001.png</key>
             <key type="filename">TexturePacker/character_dog_run_side/character_dog_run_side_00002.png</key>
@@ -580,6 +607,15 @@
             <key type="filename">TexturePacker/character_dog_run_side/character_dog_run_side_00006.png</key>
             <key type="filename">TexturePacker/character_dog_run_side/character_dog_run_side_00007.png</key>
             <key type="filename">TexturePacker/character_dog_run_side/character_dog_run_side_00008.png</key>
+            <key type="filename">TexturePacker/character_dog_run_side_left/character_dog_run_side_left_00000.png</key>
+            <key type="filename">TexturePacker/character_dog_run_side_left/character_dog_run_side_left_00001.png</key>
+            <key type="filename">TexturePacker/character_dog_run_side_left/character_dog_run_side_left_00002.png</key>
+            <key type="filename">TexturePacker/character_dog_run_side_left/character_dog_run_side_left_00003.png</key>
+            <key type="filename">TexturePacker/character_dog_run_side_left/character_dog_run_side_left_00004.png</key>
+            <key type="filename">TexturePacker/character_dog_run_side_left/character_dog_run_side_left_00005.png</key>
+            <key type="filename">TexturePacker/character_dog_run_side_left/character_dog_run_side_left_00006.png</key>
+            <key type="filename">TexturePacker/character_dog_run_side_left/character_dog_run_side_left_00007.png</key>
+            <key type="filename">TexturePacker/character_dog_run_side_left/character_dog_run_side_left_00008.png</key>
             <key type="filename">TexturePacker/projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00000.png</key>
             <key type="filename">TexturePacker/projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00001.png</key>
             <key type="filename">TexturePacker/projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00002.png</key>

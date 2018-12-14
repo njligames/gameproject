@@ -28,6 +28,7 @@ local Bird = {
       index = index,
       currentFrame = 0,
       animationClock = nil,
+      fps=30,
       params = params,
       STATES={grab="grab",hit="hit",idle="idle"},
       birdName=birdName,
@@ -206,6 +207,7 @@ local Balloon = {
       index = index,
       currentFrame = 0,
       animationClock = nil,
+      fps=30,
       params = params
     }
     
@@ -408,14 +410,23 @@ local Dog = {
       index = index,
       currentFrame = 0,
       animationClock = nil,
+      fps=1.0,
       params = params,
       STATES={fall="fall",grabbed="grabbed",idle="idle",run="run"},
+      left = false
       
     }
     
     function dog:getFrameName()
       local state = self.currentState
-      local name = string.format("character_dog_%s_side/character_dog_%s_side_%05d", state, state, self.currentFrame)
+      
+      local l = ""
+      if(self.left)then
+        l = "_left"
+      end
+      
+      local name = string.format("character_dog_%s_side%s/character_dog_%s_side%s_%05d", state, l, state, l, self.currentFrame)
+      
       return name
     end
     
@@ -541,6 +552,10 @@ local Dog = {
       self.node:setOrigin(origin)
       self.steeringBehaviourFollowPath:setPath(path)
       
+      -- local avg = path:averageDistanceBetweenPoints()
+      
+      self.steeringBehaviourFollowPath:setWaypointSeekDist(1.0)
+      
       print("setup the dog")
       
     end
@@ -557,7 +572,9 @@ local Dog = {
       self.node:setPhysicsBody(self.physicsBody)
       self.steeringBehaviourMachine:enable()
       
-      self.currentState=self.STATES.idle
+      
+      self.currentState=self.STATES.run
+      self.left = false
     end
 
     function dog:kill(...)
@@ -585,7 +602,7 @@ local Dog = {
   
     function dog:incrementAnimationFrame()
       self.currentFrame = self.currentFrame + 1
-      if(self.currentFrame > 2) then self.currentFrame = 0 end
+      if(self.currentFrame > 8) then self.currentFrame = 0 end
       
       local name = self:getFrameName()
       
@@ -597,6 +614,23 @@ local Dog = {
     end
     
     function dog:update(timeStep)
+      self.left = self.steeringBehaviourMachine:getCurrentVelocity():normalized():x() < 0.0
+      
+      local MAXVEL = 62.0
+      local MAXFPS = 30.0
+      local MINFPS = 5.0
+      
+      local vel = math.abs(self.steeringBehaviourMachine:getCurrentVelocity():x())
+      
+      -- x/30 == vel/maxvel
+      -- vel * 30 = x * maxvel
+      -- x = vel * 30 / maxvel
+      local x = (vel * MAXFPS) / MAXVEL
+      if x < MINFPS then x = MINFPS end
+      if x > MAXFPS then x = MAXFPS end
+      
+      if self.currentState==self.STATES.run then self.fps = x end
+      
       
     end
 
@@ -1021,7 +1055,7 @@ local YappyBirds = {
       
       if gameEntity then
         local animationClock = gameEntity.animationClock
-        if (animationClock:getTimeMilliseconds() / 1000) > (1.0/30.0) then
+        if (animationClock:getTimeMilliseconds() / 1000) > (1.0 / gameEntity.fps) then
           animationClock:reset()
           gameEntity:incrementAnimationFrame()
         end

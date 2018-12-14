@@ -2,7 +2,7 @@
 -- created with TexturePacker - https://www.codeandweb.com/texturepacker
 --
 -- TODO: Change this exmaple to make sense for NJLICEngine
--- $TexturePacker:SmartUpdate:48105299e5dbcc5397830e3394d27841:4dda4497c90835484eb2266c543bfd1a:13cd505638bada6163d6cb4f823ee7f2$
+-- $TexturePacker:SmartUpdate:27568c444b393e7b0cd02446d22d3354:18ce36d7773939c20399701874da3ade:13cd505638bada6163d6cb4f823ee7f2$
 --
 -- local sheetInfo = require("mysheet")
 -- local myImageSheet = graphics.newImageSheet( "mysheet.png", sheetInfo:getSheet() )
@@ -1356,11 +1356,200 @@ frames = {
     sourceWidth = 128,
     sourceHeight = 128,
 
-    trimmedName = "character_dog_grabbed_side/character_dog_grabbed_side_00000",
+    trimmedName = "character_dog_fall_side_left/character_dog_fall_side_left_00000",
   },
   
   {
     x=131,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_fall_side_left/character_dog_fall_side_left_00001",
+  },
+  
+  {
+    x=131,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_fall_side_left/character_dog_fall_side_left_00002",
+  },
+  
+  {
+    x=131,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_fall_side_left/character_dog_fall_side_left_00003",
+  },
+  
+  {
+    x=131,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_fall_side_left/character_dog_fall_side_left_00004",
+  },
+  
+  {
+    x=131,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_fall_side_left/character_dog_fall_side_left_00005",
+  },
+  
+  {
+    x=131,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_fall_side_left/character_dog_fall_side_left_00006",
+  },
+  
+  {
+    x=131,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_fall_side_left/character_dog_fall_side_left_00007",
+  },
+  
+  {
+    x=131,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_fall_side_left/character_dog_fall_side_left_00008",
+  },
+  
+  {
+    x=261,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_grabbed_side/character_dog_grabbed_side_00000",
+  },
+  
+  {
+    x=261,
     y=3871,
 
     width=128,
@@ -1381,7 +1570,7 @@ frames = {
   },
   
   {
-    x=131,
+    x=261,
     y=3871,
 
     width=128,
@@ -1402,7 +1591,7 @@ frames = {
   },
   
   {
-    x=131,
+    x=261,
     y=3871,
 
     width=128,
@@ -1423,7 +1612,7 @@ frames = {
   },
   
   {
-    x=131,
+    x=261,
     y=3871,
 
     width=128,
@@ -1444,7 +1633,7 @@ frames = {
   },
   
   {
-    x=131,
+    x=261,
     y=3871,
 
     width=128,
@@ -1465,7 +1654,7 @@ frames = {
   },
   
   {
-    x=131,
+    x=261,
     y=3871,
 
     width=128,
@@ -1486,7 +1675,7 @@ frames = {
   },
   
   {
-    x=131,
+    x=261,
     y=3871,
 
     width=128,
@@ -1507,7 +1696,7 @@ frames = {
   },
   
   {
-    x=131,
+    x=261,
     y=3871,
 
     width=128,
@@ -1528,7 +1717,7 @@ frames = {
   },
   
   {
-    x=261,
+    x=391,
     y=3871,
 
     width=128,
@@ -1545,175 +1734,7 @@ frames = {
     sourceWidth = 128,
     sourceHeight = 128,
 
-    trimmedName = "character_dog_idle_side/character_dog_idle_side_00000",
-  },
-  
-  {
-    x=261,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "character_dog_idle_side/character_dog_idle_side_00001",
-  },
-  
-  {
-    x=261,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "character_dog_idle_side/character_dog_idle_side_00002",
-  },
-  
-  {
-    x=261,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "character_dog_idle_side/character_dog_idle_side_00003",
-  },
-  
-  {
-    x=261,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "character_dog_idle_side/character_dog_idle_side_00004",
-  },
-  
-  {
-    x=261,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "character_dog_idle_side/character_dog_idle_side_00005",
-  },
-  
-  {
-    x=261,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "character_dog_idle_side/character_dog_idle_side_00006",
-  },
-  
-  {
-    x=261,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "character_dog_idle_side/character_dog_idle_side_00007",
-  },
-  
-  {
-    x=261,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "character_dog_idle_side/character_dog_idle_side_00008",
+    trimmedName = "character_dog_grabbed_side_left/character_dog_grabbed_side_left_00000",
   },
   
   {
@@ -1734,7 +1755,154 @@ frames = {
     sourceWidth = 128,
     sourceHeight = 128,
 
-    trimmedName = "character_dog_run_side/character_dog_run_side_00000",
+    trimmedName = "character_dog_grabbed_side_left/character_dog_grabbed_side_left_00001",
+  },
+  
+  {
+    x=391,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_grabbed_side_left/character_dog_grabbed_side_left_00002",
+  },
+  
+  {
+    x=391,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_grabbed_side_left/character_dog_grabbed_side_left_00003",
+  },
+  
+  {
+    x=391,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_grabbed_side_left/character_dog_grabbed_side_left_00004",
+  },
+  
+  {
+    x=391,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_grabbed_side_left/character_dog_grabbed_side_left_00005",
+  },
+  
+  {
+    x=391,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_grabbed_side_left/character_dog_grabbed_side_left_00006",
+  },
+  
+  {
+    x=391,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_grabbed_side_left/character_dog_grabbed_side_left_00007",
+  },
+  
+  {
+    x=391,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_grabbed_side_left/character_dog_grabbed_side_left_00008",
   },
   
   {
@@ -1755,7 +1923,175 @@ frames = {
     sourceWidth = 128,
     sourceHeight = 128,
 
-    trimmedName = "character_dog_run_side/character_dog_run_side_00001",
+    trimmedName = "character_dog_idle_side/character_dog_idle_side_00000",
+  },
+  
+  {
+    x=521,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side/character_dog_idle_side_00001",
+  },
+  
+  {
+    x=521,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side/character_dog_idle_side_00002",
+  },
+  
+  {
+    x=521,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side/character_dog_idle_side_00003",
+  },
+  
+  {
+    x=521,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side/character_dog_idle_side_00004",
+  },
+  
+  {
+    x=521,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side/character_dog_idle_side_00005",
+  },
+  
+  {
+    x=521,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side/character_dog_idle_side_00006",
+  },
+  
+  {
+    x=521,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side/character_dog_idle_side_00007",
+  },
+  
+  {
+    x=521,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side/character_dog_idle_side_00008",
   },
   
   {
@@ -1776,7 +2112,175 @@ frames = {
     sourceWidth = 128,
     sourceHeight = 128,
 
-    trimmedName = "character_dog_run_side/character_dog_run_side_00002",
+    trimmedName = "character_dog_idle_side_left/character_dog_idle_side_left_00000",
+  },
+  
+  {
+    x=651,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side_left/character_dog_idle_side_left_00001",
+  },
+  
+  {
+    x=651,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side_left/character_dog_idle_side_left_00002",
+  },
+  
+  {
+    x=651,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side_left/character_dog_idle_side_left_00003",
+  },
+  
+  {
+    x=651,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side_left/character_dog_idle_side_left_00004",
+  },
+  
+  {
+    x=651,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side_left/character_dog_idle_side_left_00005",
+  },
+  
+  {
+    x=651,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side_left/character_dog_idle_side_left_00006",
+  },
+  
+  {
+    x=651,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side_left/character_dog_idle_side_left_00007",
+  },
+  
+  {
+    x=651,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_idle_side_left/character_dog_idle_side_left_00008",
   },
   
   {
@@ -1797,7 +2301,7 @@ frames = {
     sourceWidth = 128,
     sourceHeight = 128,
 
-    trimmedName = "character_dog_run_side/character_dog_run_side_00003",
+    trimmedName = "character_dog_run_side/character_dog_run_side_00000",
   },
   
   {
@@ -1818,7 +2322,7 @@ frames = {
     sourceWidth = 128,
     sourceHeight = 128,
 
-    trimmedName = "character_dog_run_side/character_dog_run_side_00004",
+    trimmedName = "character_dog_run_side/character_dog_run_side_00001",
   },
   
   {
@@ -1839,7 +2343,7 @@ frames = {
     sourceWidth = 128,
     sourceHeight = 128,
 
-    trimmedName = "character_dog_run_side/character_dog_run_side_00005",
+    trimmedName = "character_dog_run_side/character_dog_run_side_00002",
   },
   
   {
@@ -1860,7 +2364,7 @@ frames = {
     sourceWidth = 128,
     sourceHeight = 128,
 
-    trimmedName = "character_dog_run_side/character_dog_run_side_00006",
+    trimmedName = "character_dog_run_side/character_dog_run_side_00003",
   },
   
   {
@@ -1881,7 +2385,7 @@ frames = {
     sourceWidth = 128,
     sourceHeight = 128,
 
-    trimmedName = "character_dog_run_side/character_dog_run_side_00007",
+    trimmedName = "character_dog_run_side/character_dog_run_side_00004",
   },
   
   {
@@ -1902,7 +2406,259 @@ frames = {
     sourceWidth = 128,
     sourceHeight = 128,
 
+    trimmedName = "character_dog_run_side/character_dog_run_side_00005",
+  },
+  
+  {
+    x=1561,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_run_side/character_dog_run_side_00006",
+  },
+  
+  {
+    x=1691,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_run_side/character_dog_run_side_00007",
+  },
+  
+  {
+    x=1821,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
     trimmedName = "character_dog_run_side/character_dog_run_side_00008",
+  },
+  
+  {
+    x=1951,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_run_side_left/character_dog_run_side_left_00000",
+  },
+  
+  {
+    x=2081,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_run_side_left/character_dog_run_side_left_00001",
+  },
+  
+  {
+    x=2211,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_run_side_left/character_dog_run_side_left_00002",
+  },
+  
+  {
+    x=2341,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_run_side_left/character_dog_run_side_left_00003",
+  },
+  
+  {
+    x=2471,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_run_side_left/character_dog_run_side_left_00004",
+  },
+  
+  {
+    x=2601,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_run_side_left/character_dog_run_side_left_00005",
+  },
+  
+  {
+    x=2731,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_run_side_left/character_dog_run_side_left_00006",
+  },
+  
+  {
+    x=2861,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_run_side_left/character_dog_run_side_left_00007",
+  },
+  
+  {
+    x=2991,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "character_dog_run_side_left/character_dog_run_side_left_00008",
   },
   
   {
@@ -5623,8 +6379,8 @@ frames = {
   },
   
   {
-    x=3511,
-    y=3871,
+    x=3871,
+    y=1171,
 
     width=64,
     height=64,
@@ -5644,8 +6400,8 @@ frames = {
   },
   
   {
-    x=3577,
-    y=3871,
+    x=3871,
+    y=1237,
 
     width=64,
     height=64,
@@ -5665,8 +6421,8 @@ frames = {
   },
   
   {
-    x=3643,
-    y=3871,
+    x=3871,
+    y=1303,
 
     width=64,
     height=64,
@@ -5686,8 +6442,8 @@ frames = {
   },
   
   {
-    x=3709,
-    y=3871,
+    x=3871,
+    y=1369,
 
     width=64,
     height=64,
@@ -5707,8 +6463,8 @@ frames = {
   },
   
   {
-    x=3775,
-    y=3871,
+    x=3871,
+    y=1435,
 
     width=64,
     height=64,
@@ -5725,258 +6481,6 @@ frames = {
     sourceHeight = 64,
 
     trimmedName = "pickup_doubleHit_idle_front/pickup_doubleHit_idle_00004",
-  },
-  
-  {
-    x=1561,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00000",
-  },
-  
-  {
-    x=1691,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00001",
-  },
-  
-  {
-    x=1821,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00002",
-  },
-  
-  {
-    x=1951,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "projectile_waterBalloonGreen_thrown_front/projectile_waterBalloonGreen_thrown_front_00000",
-  },
-  
-  {
-    x=2081,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "projectile_waterBalloonGreen_thrown_front/projectile_waterBalloonGreen_thrown_front_00001",
-  },
-  
-  {
-    x=2211,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "projectile_waterBalloonGreen_thrown_front/projectile_waterBalloonGreen_thrown_front_00002",
-  },
-  
-  {
-    x=2341,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "projectile_waterBalloonPurple_thrown_front/projectile_waterBalloonPurple_thrown_front_00000",
-  },
-  
-  {
-    x=2471,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "projectile_waterBalloonPurple_thrown_front/projectile_waterBalloonPurple_thrown_front_00001",
-  },
-  
-  {
-    x=2601,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "projectile_waterBalloonPurple_thrown_front/projectile_waterBalloonPurple_thrown_front_00002",
-  },
-  
-  {
-    x=2731,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "projectile_waterBalloonRed_thrown_front/projectile_waterBalloonRed_thrown_front_00000",
-  },
-  
-  {
-    x=2861,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "projectile_waterBalloonRed_thrown_front/projectile_waterBalloonRed_thrown_front_00001",
-  },
-  
-  {
-    x=2991,
-    y=3871,
-
-    width=128,
-    height=128,
-
-    widthFile=128,
-    heightFile=128,
-
-    pivotx=64,
-    pivoty=64,
-
-    sourceX = 0,
-    sourceY = 0,
-    sourceWidth = 128,
-    sourceHeight = 128,
-
-    trimmedName = "projectile_waterBalloonRed_thrown_front/projectile_waterBalloonRed_thrown_front_00002",
   },
   
   {
@@ -5997,7 +6501,7 @@ frames = {
     sourceWidth = 128,
     sourceHeight = 128,
 
-    trimmedName = "projectile_waterBalloonYellow_thrown_front/projectile_waterBalloonYellow_thrown_front_00000",
+    trimmedName = "projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00000",
   },
   
   {
@@ -6018,12 +6522,264 @@ frames = {
     sourceWidth = 128,
     sourceHeight = 128,
 
-    trimmedName = "projectile_waterBalloonYellow_thrown_front/projectile_waterBalloonYellow_thrown_front_00001",
+    trimmedName = "projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00001",
   },
   
   {
     x=3381,
     y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00002",
+  },
+  
+  {
+    x=3511,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "projectile_waterBalloonGreen_thrown_front/projectile_waterBalloonGreen_thrown_front_00000",
+  },
+  
+  {
+    x=3641,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "projectile_waterBalloonGreen_thrown_front/projectile_waterBalloonGreen_thrown_front_00001",
+  },
+  
+  {
+    x=3771,
+    y=3871,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "projectile_waterBalloonGreen_thrown_front/projectile_waterBalloonGreen_thrown_front_00002",
+  },
+  
+  {
+    x=3871,
+    y=1,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "projectile_waterBalloonPurple_thrown_front/projectile_waterBalloonPurple_thrown_front_00000",
+  },
+  
+  {
+    x=3871,
+    y=131,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "projectile_waterBalloonPurple_thrown_front/projectile_waterBalloonPurple_thrown_front_00001",
+  },
+  
+  {
+    x=3871,
+    y=261,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "projectile_waterBalloonPurple_thrown_front/projectile_waterBalloonPurple_thrown_front_00002",
+  },
+  
+  {
+    x=3871,
+    y=391,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "projectile_waterBalloonRed_thrown_front/projectile_waterBalloonRed_thrown_front_00000",
+  },
+  
+  {
+    x=3871,
+    y=521,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "projectile_waterBalloonRed_thrown_front/projectile_waterBalloonRed_thrown_front_00001",
+  },
+  
+  {
+    x=3871,
+    y=651,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "projectile_waterBalloonRed_thrown_front/projectile_waterBalloonRed_thrown_front_00002",
+  },
+  
+  {
+    x=3871,
+    y=781,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "projectile_waterBalloonYellow_thrown_front/projectile_waterBalloonYellow_thrown_front_00000",
+  },
+  
+  {
+    x=3871,
+    y=911,
+
+    width=128,
+    height=128,
+
+    widthFile=128,
+    heightFile=128,
+
+    pivotx=64,
+    pivoty=64,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 128,
+    sourceHeight = 128,
+
+    trimmedName = "projectile_waterBalloonYellow_thrown_front/projectile_waterBalloonYellow_thrown_front_00001",
+  },
+  
+  {
+    x=3871,
+    y=1041,
 
     width=128,
     height=128,
@@ -6200,453 +6956,525 @@ SheetInfo.frameIndex =
 
   ["character_dog_fall_side/character_dog_fall_side_00008"] = 63,
 
-  ["character_dog_grabbed_side/character_dog_grabbed_side_00000"] = 64,
+  ["character_dog_fall_side_left/character_dog_fall_side_left_00000"] = 64,
 
-  ["character_dog_grabbed_side/character_dog_grabbed_side_00001"] = 65,
+  ["character_dog_fall_side_left/character_dog_fall_side_left_00001"] = 65,
 
-  ["character_dog_grabbed_side/character_dog_grabbed_side_00002"] = 66,
+  ["character_dog_fall_side_left/character_dog_fall_side_left_00002"] = 66,
 
-  ["character_dog_grabbed_side/character_dog_grabbed_side_00003"] = 67,
+  ["character_dog_fall_side_left/character_dog_fall_side_left_00003"] = 67,
 
-  ["character_dog_grabbed_side/character_dog_grabbed_side_00004"] = 68,
+  ["character_dog_fall_side_left/character_dog_fall_side_left_00004"] = 68,
 
-  ["character_dog_grabbed_side/character_dog_grabbed_side_00005"] = 69,
+  ["character_dog_fall_side_left/character_dog_fall_side_left_00005"] = 69,
 
-  ["character_dog_grabbed_side/character_dog_grabbed_side_00006"] = 70,
+  ["character_dog_fall_side_left/character_dog_fall_side_left_00006"] = 70,
 
-  ["character_dog_grabbed_side/character_dog_grabbed_side_00007"] = 71,
+  ["character_dog_fall_side_left/character_dog_fall_side_left_00007"] = 71,
 
-  ["character_dog_grabbed_side/character_dog_grabbed_side_00008"] = 72,
+  ["character_dog_fall_side_left/character_dog_fall_side_left_00008"] = 72,
 
-  ["character_dog_idle_side/character_dog_idle_side_00000"] = 73,
+  ["character_dog_grabbed_side/character_dog_grabbed_side_00000"] = 73,
 
-  ["character_dog_idle_side/character_dog_idle_side_00001"] = 74,
+  ["character_dog_grabbed_side/character_dog_grabbed_side_00001"] = 74,
 
-  ["character_dog_idle_side/character_dog_idle_side_00002"] = 75,
+  ["character_dog_grabbed_side/character_dog_grabbed_side_00002"] = 75,
 
-  ["character_dog_idle_side/character_dog_idle_side_00003"] = 76,
+  ["character_dog_grabbed_side/character_dog_grabbed_side_00003"] = 76,
 
-  ["character_dog_idle_side/character_dog_idle_side_00004"] = 77,
+  ["character_dog_grabbed_side/character_dog_grabbed_side_00004"] = 77,
 
-  ["character_dog_idle_side/character_dog_idle_side_00005"] = 78,
+  ["character_dog_grabbed_side/character_dog_grabbed_side_00005"] = 78,
 
-  ["character_dog_idle_side/character_dog_idle_side_00006"] = 79,
+  ["character_dog_grabbed_side/character_dog_grabbed_side_00006"] = 79,
 
-  ["character_dog_idle_side/character_dog_idle_side_00007"] = 80,
+  ["character_dog_grabbed_side/character_dog_grabbed_side_00007"] = 80,
 
-  ["character_dog_idle_side/character_dog_idle_side_00008"] = 81,
+  ["character_dog_grabbed_side/character_dog_grabbed_side_00008"] = 81,
 
-  ["character_dog_run_side/character_dog_run_side_00000"] = 82,
+  ["character_dog_grabbed_side_left/character_dog_grabbed_side_left_00000"] = 82,
 
-  ["character_dog_run_side/character_dog_run_side_00001"] = 83,
+  ["character_dog_grabbed_side_left/character_dog_grabbed_side_left_00001"] = 83,
 
-  ["character_dog_run_side/character_dog_run_side_00002"] = 84,
+  ["character_dog_grabbed_side_left/character_dog_grabbed_side_left_00002"] = 84,
 
-  ["character_dog_run_side/character_dog_run_side_00003"] = 85,
+  ["character_dog_grabbed_side_left/character_dog_grabbed_side_left_00003"] = 85,
 
-  ["character_dog_run_side/character_dog_run_side_00004"] = 86,
+  ["character_dog_grabbed_side_left/character_dog_grabbed_side_left_00004"] = 86,
 
-  ["character_dog_run_side/character_dog_run_side_00005"] = 87,
+  ["character_dog_grabbed_side_left/character_dog_grabbed_side_left_00005"] = 87,
 
-  ["character_dog_run_side/character_dog_run_side_00006"] = 88,
+  ["character_dog_grabbed_side_left/character_dog_grabbed_side_left_00006"] = 88,
 
-  ["character_dog_run_side/character_dog_run_side_00007"] = 89,
+  ["character_dog_grabbed_side_left/character_dog_grabbed_side_left_00007"] = 89,
 
-  ["character_dog_run_side/character_dog_run_side_00008"] = 90,
+  ["character_dog_grabbed_side_left/character_dog_grabbed_side_left_00008"] = 90,
 
-  ["character_garuBird_grab_front/character_garuBird_grab_front_00000"] = 91,
+  ["character_dog_idle_side/character_dog_idle_side_00000"] = 91,
 
-  ["character_garuBird_grab_front/character_garuBird_grab_front_00001"] = 92,
+  ["character_dog_idle_side/character_dog_idle_side_00001"] = 92,
 
-  ["character_garuBird_grab_front/character_garuBird_grab_front_00002"] = 93,
+  ["character_dog_idle_side/character_dog_idle_side_00002"] = 93,
 
-  ["character_garuBird_grab_front/character_garuBird_grab_front_00003"] = 94,
+  ["character_dog_idle_side/character_dog_idle_side_00003"] = 94,
 
-  ["character_garuBird_grab_front/character_garuBird_grab_front_00004"] = 95,
+  ["character_dog_idle_side/character_dog_idle_side_00004"] = 95,
 
-  ["character_garuBird_grab_front/character_garuBird_grab_front_00005"] = 96,
+  ["character_dog_idle_side/character_dog_idle_side_00005"] = 96,
 
-  ["character_garuBird_grab_front/character_garuBird_grab_front_00006"] = 97,
+  ["character_dog_idle_side/character_dog_idle_side_00006"] = 97,
 
-  ["character_garuBird_grab_front/character_garuBird_grab_front_00007"] = 98,
+  ["character_dog_idle_side/character_dog_idle_side_00007"] = 98,
 
-  ["character_garuBird_grab_front/character_garuBird_grab_front_00008"] = 99,
+  ["character_dog_idle_side/character_dog_idle_side_00008"] = 99,
 
-  ["character_garuBird_hit_front/character_garuBird_hit_front_00000"] = 100,
+  ["character_dog_idle_side_left/character_dog_idle_side_left_00000"] = 100,
 
-  ["character_garuBird_hit_front/character_garuBird_hit_front_00001"] = 101,
+  ["character_dog_idle_side_left/character_dog_idle_side_left_00001"] = 101,
 
-  ["character_garuBird_hit_front/character_garuBird_hit_front_00002"] = 102,
+  ["character_dog_idle_side_left/character_dog_idle_side_left_00002"] = 102,
 
-  ["character_garuBird_hit_front/character_garuBird_hit_front_00003"] = 103,
+  ["character_dog_idle_side_left/character_dog_idle_side_left_00003"] = 103,
 
-  ["character_garuBird_hit_front/character_garuBird_hit_front_00004"] = 104,
+  ["character_dog_idle_side_left/character_dog_idle_side_left_00004"] = 104,
 
-  ["character_garuBird_hit_front/character_garuBird_hit_front_00005"] = 105,
+  ["character_dog_idle_side_left/character_dog_idle_side_left_00005"] = 105,
 
-  ["character_garuBird_hit_front/character_garuBird_hit_front_00006"] = 106,
+  ["character_dog_idle_side_left/character_dog_idle_side_left_00006"] = 106,
 
-  ["character_garuBird_hit_front/character_garuBird_hit_front_00007"] = 107,
+  ["character_dog_idle_side_left/character_dog_idle_side_left_00007"] = 107,
 
-  ["character_garuBird_hit_front/character_garuBird_hit_front_00008"] = 108,
+  ["character_dog_idle_side_left/character_dog_idle_side_left_00008"] = 108,
 
-  ["character_garuBird_idle_front/character_garuBird_idle_front_00000"] = 109,
+  ["character_dog_run_side/character_dog_run_side_00000"] = 109,
 
-  ["character_garuBird_idle_front/character_garuBird_idle_front_00001"] = 110,
+  ["character_dog_run_side/character_dog_run_side_00001"] = 110,
 
-  ["character_garuBird_idle_front/character_garuBird_idle_front_00002"] = 111,
+  ["character_dog_run_side/character_dog_run_side_00002"] = 111,
 
-  ["character_garuBird_idle_front/character_garuBird_idle_front_00003"] = 112,
+  ["character_dog_run_side/character_dog_run_side_00003"] = 112,
 
-  ["character_garuBird_idle_front/character_garuBird_idle_front_00004"] = 113,
+  ["character_dog_run_side/character_dog_run_side_00004"] = 113,
 
-  ["character_garuBird_idle_front/character_garuBird_idle_front_00005"] = 114,
+  ["character_dog_run_side/character_dog_run_side_00005"] = 114,
 
-  ["character_garuBird_idle_front/character_garuBird_idle_front_00006"] = 115,
+  ["character_dog_run_side/character_dog_run_side_00006"] = 115,
 
-  ["character_garuBird_idle_front/character_garuBird_idle_front_00007"] = 116,
+  ["character_dog_run_side/character_dog_run_side_00007"] = 116,
 
-  ["character_garuBird_idle_front/character_garuBird_idle_front_00008"] = 117,
+  ["character_dog_run_side/character_dog_run_side_00008"] = 117,
 
-  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00000"] = 118,
+  ["character_dog_run_side_left/character_dog_run_side_left_00000"] = 118,
 
-  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00001"] = 119,
+  ["character_dog_run_side_left/character_dog_run_side_left_00001"] = 119,
 
-  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00002"] = 120,
+  ["character_dog_run_side_left/character_dog_run_side_left_00002"] = 120,
 
-  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00003"] = 121,
+  ["character_dog_run_side_left/character_dog_run_side_left_00003"] = 121,
 
-  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00004"] = 122,
+  ["character_dog_run_side_left/character_dog_run_side_left_00004"] = 122,
 
-  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00005"] = 123,
+  ["character_dog_run_side_left/character_dog_run_side_left_00005"] = 123,
 
-  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00006"] = 124,
+  ["character_dog_run_side_left/character_dog_run_side_left_00006"] = 124,
 
-  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00007"] = 125,
+  ["character_dog_run_side_left/character_dog_run_side_left_00007"] = 125,
 
-  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00008"] = 126,
+  ["character_dog_run_side_left/character_dog_run_side_left_00008"] = 126,
 
-  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00000"] = 127,
+  ["character_garuBird_grab_front/character_garuBird_grab_front_00000"] = 127,
 
-  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00001"] = 128,
+  ["character_garuBird_grab_front/character_garuBird_grab_front_00001"] = 128,
 
-  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00002"] = 129,
+  ["character_garuBird_grab_front/character_garuBird_grab_front_00002"] = 129,
 
-  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00003"] = 130,
+  ["character_garuBird_grab_front/character_garuBird_grab_front_00003"] = 130,
 
-  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00004"] = 131,
+  ["character_garuBird_grab_front/character_garuBird_grab_front_00004"] = 131,
 
-  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00005"] = 132,
+  ["character_garuBird_grab_front/character_garuBird_grab_front_00005"] = 132,
 
-  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00006"] = 133,
+  ["character_garuBird_grab_front/character_garuBird_grab_front_00006"] = 133,
 
-  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00007"] = 134,
+  ["character_garuBird_grab_front/character_garuBird_grab_front_00007"] = 134,
 
-  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00008"] = 135,
+  ["character_garuBird_grab_front/character_garuBird_grab_front_00008"] = 135,
 
-  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00000"] = 136,
+  ["character_garuBird_hit_front/character_garuBird_hit_front_00000"] = 136,
 
-  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00001"] = 137,
+  ["character_garuBird_hit_front/character_garuBird_hit_front_00001"] = 137,
 
-  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00002"] = 138,
+  ["character_garuBird_hit_front/character_garuBird_hit_front_00002"] = 138,
 
-  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00003"] = 139,
+  ["character_garuBird_hit_front/character_garuBird_hit_front_00003"] = 139,
 
-  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00004"] = 140,
+  ["character_garuBird_hit_front/character_garuBird_hit_front_00004"] = 140,
 
-  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00005"] = 141,
+  ["character_garuBird_hit_front/character_garuBird_hit_front_00005"] = 141,
 
-  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00006"] = 142,
+  ["character_garuBird_hit_front/character_garuBird_hit_front_00006"] = 142,
 
-  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00007"] = 143,
+  ["character_garuBird_hit_front/character_garuBird_hit_front_00007"] = 143,
 
-  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00008"] = 144,
+  ["character_garuBird_hit_front/character_garuBird_hit_front_00008"] = 144,
 
-  ["character_momiBird_grab_front/character_momiBird_grab_front_00000"] = 145,
+  ["character_garuBird_idle_front/character_garuBird_idle_front_00000"] = 145,
 
-  ["character_momiBird_grab_front/character_momiBird_grab_front_00001"] = 146,
+  ["character_garuBird_idle_front/character_garuBird_idle_front_00001"] = 146,
 
-  ["character_momiBird_grab_front/character_momiBird_grab_front_00002"] = 147,
+  ["character_garuBird_idle_front/character_garuBird_idle_front_00002"] = 147,
 
-  ["character_momiBird_grab_front/character_momiBird_grab_front_00003"] = 148,
+  ["character_garuBird_idle_front/character_garuBird_idle_front_00003"] = 148,
 
-  ["character_momiBird_grab_front/character_momiBird_grab_front_00004"] = 149,
+  ["character_garuBird_idle_front/character_garuBird_idle_front_00004"] = 149,
 
-  ["character_momiBird_grab_front/character_momiBird_grab_front_00005"] = 150,
+  ["character_garuBird_idle_front/character_garuBird_idle_front_00005"] = 150,
 
-  ["character_momiBird_grab_front/character_momiBird_grab_front_00006"] = 151,
+  ["character_garuBird_idle_front/character_garuBird_idle_front_00006"] = 151,
 
-  ["character_momiBird_grab_front/character_momiBird_grab_front_00007"] = 152,
+  ["character_garuBird_idle_front/character_garuBird_idle_front_00007"] = 152,
 
-  ["character_momiBird_grab_front/character_momiBird_grab_front_00008"] = 153,
+  ["character_garuBird_idle_front/character_garuBird_idle_front_00008"] = 153,
 
-  ["character_momiBird_hit_front/character_momiBird_hit_front_00000"] = 154,
+  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00000"] = 154,
 
-  ["character_momiBird_hit_front/character_momiBird_hit_front_00001"] = 155,
+  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00001"] = 155,
 
-  ["character_momiBird_hit_front/character_momiBird_hit_front_00002"] = 156,
+  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00002"] = 156,
 
-  ["character_momiBird_hit_front/character_momiBird_hit_front_00003"] = 157,
+  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00003"] = 157,
 
-  ["character_momiBird_hit_front/character_momiBird_hit_front_00004"] = 158,
+  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00004"] = 158,
 
-  ["character_momiBird_hit_front/character_momiBird_hit_front_00005"] = 159,
+  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00005"] = 159,
 
-  ["character_momiBird_hit_front/character_momiBird_hit_front_00006"] = 160,
+  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00006"] = 160,
 
-  ["character_momiBird_hit_front/character_momiBird_hit_front_00007"] = 161,
+  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00007"] = 161,
 
-  ["character_momiBird_hit_front/character_momiBird_hit_front_00008"] = 162,
+  ["character_garuBird_mouth_grab_front/character_garuBird_mouth_grab_front_00008"] = 162,
 
-  ["character_momiBird_idle_front/character_momiBird_idle_front_00000"] = 163,
+  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00000"] = 163,
 
-  ["character_momiBird_idle_front/character_momiBird_idle_front_00001"] = 164,
+  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00001"] = 164,
 
-  ["character_momiBird_idle_front/character_momiBird_idle_front_00002"] = 165,
+  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00002"] = 165,
 
-  ["character_momiBird_idle_front/character_momiBird_idle_front_00003"] = 166,
+  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00003"] = 166,
 
-  ["character_momiBird_idle_front/character_momiBird_idle_front_00004"] = 167,
+  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00004"] = 167,
 
-  ["character_momiBird_idle_front/character_momiBird_idle_front_00005"] = 168,
+  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00005"] = 168,
 
-  ["character_momiBird_idle_front/character_momiBird_idle_front_00006"] = 169,
+  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00006"] = 169,
 
-  ["character_momiBird_idle_front/character_momiBird_idle_front_00007"] = 170,
+  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00007"] = 170,
 
-  ["character_momiBird_idle_front/character_momiBird_idle_front_00008"] = 171,
+  ["character_garuBird_mouth_hit_front/character_garuBird_mouth_hit_front_00008"] = 171,
 
-  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00000"] = 172,
+  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00000"] = 172,
 
-  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00001"] = 173,
+  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00001"] = 173,
 
-  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00002"] = 174,
+  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00002"] = 174,
 
-  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00003"] = 175,
+  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00003"] = 175,
 
-  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00004"] = 176,
+  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00004"] = 176,
 
-  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00005"] = 177,
+  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00005"] = 177,
 
-  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00006"] = 178,
+  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00006"] = 178,
 
-  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00007"] = 179,
+  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00007"] = 179,
 
-  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00008"] = 180,
+  ["character_garuBird_mouth_idle_front/character_garuBird_mouth_idle_front_00008"] = 180,
 
-  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00000"] = 181,
+  ["character_momiBird_grab_front/character_momiBird_grab_front_00000"] = 181,
 
-  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00001"] = 182,
+  ["character_momiBird_grab_front/character_momiBird_grab_front_00001"] = 182,
 
-  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00002"] = 183,
+  ["character_momiBird_grab_front/character_momiBird_grab_front_00002"] = 183,
 
-  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00003"] = 184,
+  ["character_momiBird_grab_front/character_momiBird_grab_front_00003"] = 184,
 
-  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00004"] = 185,
+  ["character_momiBird_grab_front/character_momiBird_grab_front_00004"] = 185,
 
-  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00005"] = 186,
+  ["character_momiBird_grab_front/character_momiBird_grab_front_00005"] = 186,
 
-  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00006"] = 187,
+  ["character_momiBird_grab_front/character_momiBird_grab_front_00006"] = 187,
 
-  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00007"] = 188,
+  ["character_momiBird_grab_front/character_momiBird_grab_front_00007"] = 188,
 
-  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00008"] = 189,
+  ["character_momiBird_grab_front/character_momiBird_grab_front_00008"] = 189,
 
-  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00000"] = 190,
+  ["character_momiBird_hit_front/character_momiBird_hit_front_00000"] = 190,
 
-  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00001"] = 191,
+  ["character_momiBird_hit_front/character_momiBird_hit_front_00001"] = 191,
 
-  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00002"] = 192,
+  ["character_momiBird_hit_front/character_momiBird_hit_front_00002"] = 192,
 
-  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00003"] = 193,
+  ["character_momiBird_hit_front/character_momiBird_hit_front_00003"] = 193,
 
-  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00004"] = 194,
+  ["character_momiBird_hit_front/character_momiBird_hit_front_00004"] = 194,
 
-  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00005"] = 195,
+  ["character_momiBird_hit_front/character_momiBird_hit_front_00005"] = 195,
 
-  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00006"] = 196,
+  ["character_momiBird_hit_front/character_momiBird_hit_front_00006"] = 196,
 
-  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00007"] = 197,
+  ["character_momiBird_hit_front/character_momiBird_hit_front_00007"] = 197,
 
-  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00008"] = 198,
+  ["character_momiBird_hit_front/character_momiBird_hit_front_00008"] = 198,
 
-  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00000"] = 199,
+  ["character_momiBird_idle_front/character_momiBird_idle_front_00000"] = 199,
 
-  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00001"] = 200,
+  ["character_momiBird_idle_front/character_momiBird_idle_front_00001"] = 200,
 
-  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00002"] = 201,
+  ["character_momiBird_idle_front/character_momiBird_idle_front_00002"] = 201,
 
-  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00003"] = 202,
+  ["character_momiBird_idle_front/character_momiBird_idle_front_00003"] = 202,
 
-  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00004"] = 203,
+  ["character_momiBird_idle_front/character_momiBird_idle_front_00004"] = 203,
 
-  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00005"] = 204,
+  ["character_momiBird_idle_front/character_momiBird_idle_front_00005"] = 204,
 
-  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00006"] = 205,
+  ["character_momiBird_idle_front/character_momiBird_idle_front_00006"] = 205,
 
-  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00007"] = 206,
+  ["character_momiBird_idle_front/character_momiBird_idle_front_00007"] = 206,
 
-  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00008"] = 207,
+  ["character_momiBird_idle_front/character_momiBird_idle_front_00008"] = 207,
 
-  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00000"] = 208,
+  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00000"] = 208,
 
-  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00001"] = 209,
+  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00001"] = 209,
 
-  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00002"] = 210,
+  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00002"] = 210,
 
-  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00003"] = 211,
+  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00003"] = 211,
 
-  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00004"] = 212,
+  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00004"] = 212,
 
-  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00005"] = 213,
+  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00005"] = 213,
 
-  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00006"] = 214,
+  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00006"] = 214,
 
-  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00007"] = 215,
+  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00007"] = 215,
 
-  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00008"] = 216,
+  ["character_momiBird_mouth_grab_front/character_momiBird_mouth_grab_front_00008"] = 216,
 
-  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00000"] = 217,
+  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00000"] = 217,
 
-  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00001"] = 218,
+  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00001"] = 218,
 
-  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00002"] = 219,
+  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00002"] = 219,
 
-  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00003"] = 220,
+  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00003"] = 220,
 
-  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00004"] = 221,
+  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00004"] = 221,
 
-  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00005"] = 222,
+  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00005"] = 222,
 
-  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00006"] = 223,
+  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00006"] = 223,
 
-  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00007"] = 224,
+  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00007"] = 224,
 
-  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00008"] = 225,
+  ["character_momiBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00008"] = 225,
 
-  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00000"] = 226,
+  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00000"] = 226,
 
-  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00001"] = 227,
+  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00001"] = 227,
 
-  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00002"] = 228,
+  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00002"] = 228,
 
-  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00003"] = 229,
+  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00003"] = 229,
 
-  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00004"] = 230,
+  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00004"] = 230,
 
-  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00005"] = 231,
+  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00005"] = 231,
 
-  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00006"] = 232,
+  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00006"] = 232,
 
-  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00007"] = 233,
+  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00007"] = 233,
 
-  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00008"] = 234,
+  ["character_momiBird_mouth_hit_front/character_momiBird_mouth_hit_front_00008"] = 234,
 
-  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00000"] = 235,
+  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00000"] = 235,
 
-  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00001"] = 236,
+  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00001"] = 236,
 
-  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00002"] = 237,
+  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00002"] = 237,
 
-  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00003"] = 238,
+  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00003"] = 238,
 
-  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00004"] = 239,
+  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00004"] = 239,
 
-  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00005"] = 240,
+  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00005"] = 240,
 
-  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00006"] = 241,
+  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00006"] = 241,
 
-  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00007"] = 242,
+  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00007"] = 242,
 
-  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00008"] = 243,
+  ["character_momiBird_mouth_idle_front/character_momiBird_mouth_idle_front_00008"] = 243,
 
-  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00000"] = 244,
+  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00000"] = 244,
 
-  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00001"] = 245,
+  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00001"] = 245,
 
-  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00002"] = 246,
+  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00002"] = 246,
 
-  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00003"] = 247,
+  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00003"] = 247,
 
-  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00004"] = 248,
+  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00004"] = 248,
 
-  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00005"] = 249,
+  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00005"] = 249,
 
-  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00006"] = 250,
+  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00006"] = 250,
 
-  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00007"] = 251,
+  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00007"] = 251,
 
-  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00008"] = 252,
+  ["character_puffyBird_grab_front/character_puffyBird_grab_front_00008"] = 252,
 
-  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00000"] = 253,
+  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00000"] = 253,
 
-  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00001"] = 254,
+  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00001"] = 254,
 
-  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00002"] = 255,
+  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00002"] = 255,
 
-  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00003"] = 256,
+  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00003"] = 256,
 
-  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00004"] = 257,
+  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00004"] = 257,
 
-  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00005"] = 258,
+  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00005"] = 258,
 
-  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00006"] = 259,
+  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00006"] = 259,
 
-  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00007"] = 260,
+  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00007"] = 260,
 
-  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00008"] = 261,
+  ["character_puffyBird_hit_front/character_puffyBird_hit_front_00008"] = 261,
 
-  ["character_weboBird_grab_front/character_weboBird_grab_front_00000"] = 262,
+  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00000"] = 262,
 
-  ["character_weboBird_grab_front/character_weboBird_grab_front_00001"] = 263,
+  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00001"] = 263,
 
-  ["character_weboBird_grab_front/character_weboBird_grab_front_00002"] = 264,
+  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00002"] = 264,
 
-  ["character_weboBird_grab_front/character_weboBird_grab_front_00003"] = 265,
+  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00003"] = 265,
 
-  ["character_weboBird_grab_front/character_weboBird_grab_front_00004"] = 266,
+  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00004"] = 266,
 
-  ["character_weboBird_grab_front/character_weboBird_grab_front_00005"] = 267,
+  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00005"] = 267,
 
-  ["pickup_doubleHit_idle_front/pickup_doubleHit_idle_00000"] = 268,
+  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00006"] = 268,
 
-  ["pickup_doubleHit_idle_front/pickup_doubleHit_idle_00001"] = 269,
+  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00007"] = 269,
 
-  ["pickup_doubleHit_idle_front/pickup_doubleHit_idle_00002"] = 270,
+  ["character_puffyBird_idle_front/character_puffyBird_idle_front_00008"] = 270,
 
-  ["pickup_doubleHit_idle_front/pickup_doubleHit_idle_00003"] = 271,
+  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00000"] = 271,
 
-  ["pickup_doubleHit_idle_front/pickup_doubleHit_idle_00004"] = 272,
+  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00001"] = 272,
 
-  ["projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00000"] = 273,
+  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00002"] = 273,
 
-  ["projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00001"] = 274,
+  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00003"] = 274,
 
-  ["projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00002"] = 275,
+  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00004"] = 275,
 
-  ["projectile_waterBalloonGreen_thrown_front/projectile_waterBalloonGreen_thrown_front_00000"] = 276,
+  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00005"] = 276,
 
-  ["projectile_waterBalloonGreen_thrown_front/projectile_waterBalloonGreen_thrown_front_00001"] = 277,
+  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00006"] = 277,
 
-  ["projectile_waterBalloonGreen_thrown_front/projectile_waterBalloonGreen_thrown_front_00002"] = 278,
+  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00007"] = 278,
 
-  ["projectile_waterBalloonPurple_thrown_front/projectile_waterBalloonPurple_thrown_front_00000"] = 279,
+  ["character_puffyBird_mouth_grab_front/character_puffyBird_mouth_grab_front_00008"] = 279,
 
-  ["projectile_waterBalloonPurple_thrown_front/projectile_waterBalloonPurple_thrown_front_00001"] = 280,
+  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00000"] = 280,
 
-  ["projectile_waterBalloonPurple_thrown_front/projectile_waterBalloonPurple_thrown_front_00002"] = 281,
+  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00001"] = 281,
 
-  ["projectile_waterBalloonRed_thrown_front/projectile_waterBalloonRed_thrown_front_00000"] = 282,
+  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00002"] = 282,
 
-  ["projectile_waterBalloonRed_thrown_front/projectile_waterBalloonRed_thrown_front_00001"] = 283,
+  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00003"] = 283,
 
-  ["projectile_waterBalloonRed_thrown_front/projectile_waterBalloonRed_thrown_front_00002"] = 284,
+  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00004"] = 284,
 
-  ["projectile_waterBalloonYellow_thrown_front/projectile_waterBalloonYellow_thrown_front_00000"] = 285,
+  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00005"] = 285,
 
-  ["projectile_waterBalloonYellow_thrown_front/projectile_waterBalloonYellow_thrown_front_00001"] = 286,
+  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00006"] = 286,
 
-  ["projectile_waterBalloonYellow_thrown_front/projectile_waterBalloonYellow_thrown_front_00002"] = 287,
+  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00007"] = 287,
+
+  ["character_puffyBird_mouth_hit_front/character_puffyBird_mouth_hit_front_00008"] = 288,
+
+  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00000"] = 289,
+
+  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00001"] = 290,
+
+  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00002"] = 291,
+
+  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00003"] = 292,
+
+  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00004"] = 293,
+
+  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00005"] = 294,
+
+  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00006"] = 295,
+
+  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00007"] = 296,
+
+  ["character_puffyBird_mouth_idle_front/character_puffyBird_mouth_idle_front_00008"] = 297,
+
+  ["character_weboBird_grab_front/character_weboBird_grab_front_00000"] = 298,
+
+  ["character_weboBird_grab_front/character_weboBird_grab_front_00001"] = 299,
+
+  ["character_weboBird_grab_front/character_weboBird_grab_front_00002"] = 300,
+
+  ["character_weboBird_grab_front/character_weboBird_grab_front_00003"] = 301,
+
+  ["character_weboBird_grab_front/character_weboBird_grab_front_00004"] = 302,
+
+  ["character_weboBird_grab_front/character_weboBird_grab_front_00005"] = 303,
+
+  ["pickup_doubleHit_idle_front/pickup_doubleHit_idle_00000"] = 304,
+
+  ["pickup_doubleHit_idle_front/pickup_doubleHit_idle_00001"] = 305,
+
+  ["pickup_doubleHit_idle_front/pickup_doubleHit_idle_00002"] = 306,
+
+  ["pickup_doubleHit_idle_front/pickup_doubleHit_idle_00003"] = 307,
+
+  ["pickup_doubleHit_idle_front/pickup_doubleHit_idle_00004"] = 308,
+
+  ["projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00000"] = 309,
+
+  ["projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00001"] = 310,
+
+  ["projectile_waterBalloonBlue_thrown_front/projectile_waterBalloonBlue_thrown_front_00002"] = 311,
+
+  ["projectile_waterBalloonGreen_thrown_front/projectile_waterBalloonGreen_thrown_front_00000"] = 312,
+
+  ["projectile_waterBalloonGreen_thrown_front/projectile_waterBalloonGreen_thrown_front_00001"] = 313,
+
+  ["projectile_waterBalloonGreen_thrown_front/projectile_waterBalloonGreen_thrown_front_00002"] = 314,
+
+  ["projectile_waterBalloonPurple_thrown_front/projectile_waterBalloonPurple_thrown_front_00000"] = 315,
+
+  ["projectile_waterBalloonPurple_thrown_front/projectile_waterBalloonPurple_thrown_front_00001"] = 316,
+
+  ["projectile_waterBalloonPurple_thrown_front/projectile_waterBalloonPurple_thrown_front_00002"] = 317,
+
+  ["projectile_waterBalloonRed_thrown_front/projectile_waterBalloonRed_thrown_front_00000"] = 318,
+
+  ["projectile_waterBalloonRed_thrown_front/projectile_waterBalloonRed_thrown_front_00001"] = 319,
+
+  ["projectile_waterBalloonRed_thrown_front/projectile_waterBalloonRed_thrown_front_00002"] = 320,
+
+  ["projectile_waterBalloonYellow_thrown_front/projectile_waterBalloonYellow_thrown_front_00000"] = 321,
+
+  ["projectile_waterBalloonYellow_thrown_front/projectile_waterBalloonYellow_thrown_front_00001"] = 322,
+
+  ["projectile_waterBalloonYellow_thrown_front/projectile_waterBalloonYellow_thrown_front_00002"] = 323,
 
 }
 
