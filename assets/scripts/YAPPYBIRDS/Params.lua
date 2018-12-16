@@ -90,27 +90,16 @@ ParamInfo =
 	},
 	Bird =
 	{
-		chubiBird =
+		chubi =
 		{
-			MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
-			MaxForce = 1,
-            PursueTime = (6 * 1000),
+			MaxSpeed = 10.0,
+			MaxForce = 2000.0,
+      PursueTime = (6 * 1000),
 			StealSpeed = 1,
 			YapTime = {low=(10 * 1000), high=(30 * 1000)},
 			DieY = -50,
-            --David add your variables after here..
-            ScalarVariableExample=0,
-            ArrayVariableExample={
-                Example1 = true,
-                Example2 = "hello i'm  string",
-                Example3 = 1.0,
-                Example4 = {
-                    AnotherVariable = 0
-                },
-
-            }
 		},
-		garuBird =
+		garu =
 		{
 			MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
 			MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
@@ -119,7 +108,7 @@ ParamInfo =
 			YapTime = {low=(10 * 1000), high=(30 * 1000)},
 			DieY = -50,
 		},
-		momiBird =
+		momi =
 		{
 			MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
 			MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
@@ -128,7 +117,7 @@ ParamInfo =
 			YapTime = {low=(10 * 1000), high=(30 * 1000)},
 			DieY = -50,
 		},
-		puffyBird =
+		puffy =
 		{
 			MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
 			MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
@@ -137,7 +126,7 @@ ParamInfo =
 			YapTime = {low=(10 * 1000), high=(30 * 1000)},
 			DieY = -50,
 		},
-		weboBird =
+		webo =
 		{
 			MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
 			MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
@@ -146,7 +135,7 @@ ParamInfo =
 			YapTime = {low=(10 * 1000), high=(30 * 1000)},
 			DieY = -50,
 		},
-		zuruBird =
+		zuru =
 		{
 			MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
 			MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),

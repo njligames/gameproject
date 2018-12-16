@@ -12,11 +12,13 @@ local Bird = {
     local index = arg.index or 0
     local params = arg.params or nil
     local birdName = arg.birdName or nil
+    local dogs = arg.dogs or nil
     
     assert(texturePacker, "The texturePacker is nil")
     assert(perspectiveCamera, "The perspectiveCamera is nil")
     assert(params, "The params is nil")
     assert(birdName, "The birdName is nil")
+    assert(dogs, "The dogs is nil")
  
     local bird = {
       inplay=false,
@@ -32,6 +34,7 @@ local Bird = {
       params = params,
       STATES={grab="grab",hit="hit",idle="idle"},
       birdName=birdName,
+      dogs=dogs,
     }
     
     function bird:getFrameName()
@@ -90,6 +93,21 @@ local Bird = {
         local soundName = "sounds/projectile_balloon_water-splash.ogg"
         njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
         
+        
+        print("start steering behaviour for bird")
+        self.steeringBehaviourMachine = njlic.SteeringBehaviorMachineWeighted.create()
+        self.steeringBehaviourOffsetPursuit = njlic.SteeringBehaviorOffsetPursuit.create()
+        self.steeringBehaviourOffsetPursuit:setOffsetPosition(bullet.btVector3(0,20,0))
+--        self.steeringBehaviourOffsetPursuit = njlic.SteeringBehaviorArrive.create()
+        self.steeringBehaviourMachine:setMaxSpeed(self.params.Bird[self.birdName].MaxSpeed)
+        self.steeringBehaviourMachine:setMaxForce(self.params.Bird[self.birdName].MaxForce)
+        
+        self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourOffsetPursuit, 1.0)
+        
+        self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
+        
+        print("end steering behaviour for bird")
+        
       else
         print("couldn't load the bird")
       end
@@ -137,6 +155,8 @@ local Bird = {
       self.node:runAction(self.action)
       self.node:setPhysicsBody(self.physicsBody)
       
+      self.steeringBehaviourMachine:enable()
+      
       self.currentState=self.STATES.idle
     end
 
@@ -145,6 +165,8 @@ local Bird = {
       
       self.inplay=false
 
+      self.steeringBehaviourMachine:enable(false)
+      
       self.node:removeAction(self.node:getName())
       
       self.node:removePhysicsBody()
@@ -177,6 +199,17 @@ local Bird = {
     end
     
     function bird:update(timeStep)
+      
+      for i = 1, #self.dogs do
+        local dogEntity = self.dogs[i]
+        
+        if dogEntity.inplay then
+          self.steeringBehaviourOffsetPursuit:addTarget(dogEntity.node)
+        else
+          self.steeringBehaviourOffsetPursuit:removeTarget(dogEntity.node)
+        end
+      end
+      
 --      print("bird")
     end
 
@@ -261,6 +294,8 @@ local Balloon = {
       self.sound:setName("balloonsound_"..self.index)
       local soundName = "sounds/projectile_balloon_water-splash.ogg"
       njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
+      
+      
       
       print("loaded the balloon - end")
     end
@@ -482,6 +517,9 @@ local Dog = {
         self.steeringBehaviourMachine = njlic.SteeringBehaviorMachineWeighted.create()
         self.steeringBehaviourFollowPath = njlic.SteeringBehaviorFollowPath.create()
         
+        self.steeringBehaviourMachine:setMaxSpeed(self.params.Dog.MaxSpeed)
+        self.steeringBehaviourMachine:setMaxForce(self.params.Dog.MaxForce)
+        
         self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourFollowPath, 1.0)
         
         self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
@@ -582,6 +620,7 @@ local Dog = {
       
       self.inplay=false
 
+      self.steeringBehaviourMachine:enable(false)
       self.node:removeAction(self.node:getName())
       
       self.node:removePhysicsBody()
@@ -850,70 +889,6 @@ local YappyBirds = {
       local numberOfBirdsEach = 10
       local numberOfDogs = 1
       local numberOfBalloons = 100
-
-      local bird = nil
-      for i = 1, numberOfBirdsEach do
-
-        bird = Bird.new({
-            texturePacker=self.gameplayTexturePacker,
-            perspectiveCamera=self.perspectiveCamera,
-            birdName=self.CHUBI, 
-            index=i, 
-            params=self.params
-            })
-        bird:load()
-        table.insert(self.chubiBirdPool, bird)
-
-        
-        bird = Bird.new({
-            texturePacker=self.gameplayTexturePacker,
-            perspectiveCamera=self.perspectiveCamera,
-            birdName=self.GARU, 
-            index=i, 
-            params=self.params
-            })
-        bird:load()
-        table.insert(self.garuBirdPool, bird)
-        
-        bird = Bird.new({
-            texturePacker=self.gameplayTexturePacker,
-            perspectiveCamera=self.perspectiveCamera,
-            birdName=self.MOMI, 
-            index=i, 
-            params=self.params})
-        bird:load()
-        table.insert(self.momiBirdPool, bird)
-        
-        bird = Bird.new({
-            texturePacker=self.gameplayTexturePacker,
-            perspectiveCamera=self.perspectiveCamera,
-            birdName=self.PUFFY,
-            index=i, 
-            params=self.params
-            })
-        bird:load()
-        table.insert(self.puffyBirdPool, bird)
-        
-        bird = Bird.new({
-            texturePacker=self.gameplayTexturePacker,
-            perspectiveCamera=self.perspectiveCamera,
-            birdName=self.WEBO, 
-            index=i, 
-            params=self.params
-            })
-        bird:load()
-        table.insert(self.weboBirdPool, bird)
-        
-        bird = Bird.new({
-            texturePacker=self.gameplayTexturePacker,
-            perspectiveCamera=self.perspectiveCamera,
-            birdName=self.ZURU, 
-            index=i, 
-            params=self.params
-            })
-        bird:load()
-        table.insert(self.zuruBirdPool, bird)
-      end
       
       local dog = nil
       for i = 1, numberOfDogs do
@@ -925,6 +900,77 @@ local YappyBirds = {
             })
         dog:load()
         table.insert(self.dogPool, dog)
+      end
+
+      local bird = nil
+      for i = 1, numberOfBirdsEach do
+
+        bird = Bird.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            birdName=self.CHUBI, 
+            index=i, 
+            params=self.params,
+            dogs = self.dogPool,
+            })
+        bird:load()
+        table.insert(self.chubiBirdPool, bird)
+
+        
+        bird = Bird.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            birdName=self.GARU, 
+            index=i, 
+            params=self.params,
+            dogs = self.dogPool,
+            })
+        bird:load()
+        table.insert(self.garuBirdPool, bird)
+        
+        bird = Bird.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            birdName=self.MOMI, 
+            index=i, 
+            params=self.params,
+            dogs = self.dogPool,
+            })
+        bird:load()
+        table.insert(self.momiBirdPool, bird)
+        
+        bird = Bird.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            birdName=self.PUFFY,
+            index=i, 
+            params=self.params,
+            dogs = self.dogPool,
+            })
+        bird:load()
+        table.insert(self.puffyBirdPool, bird)
+        
+        bird = Bird.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            birdName=self.WEBO, 
+            index=i, 
+            params=self.params,
+            dogs = self.dogPool,
+            })
+        bird:load()
+        table.insert(self.weboBirdPool, bird)
+        
+        bird = Bird.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            birdName=self.ZURU, 
+            index=i, 
+            params=self.params,
+            dogs = self.dogPool,
+            })
+        bird:load()
+        table.insert(self.zuruBirdPool, bird)
       end
       
       local balloon = nil
