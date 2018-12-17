@@ -102,7 +102,7 @@ local Bird = {
         self.steeringBehaviourMachine:setMaxSpeed(self.params.Bird[self.birdName].MaxSpeed)
         self.steeringBehaviourMachine:setMaxForce(self.params.Bird[self.birdName].MaxForce)
         
-        self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourOffsetPursuit, 1.0)
+        self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourOffsetPursuit)
         
         self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
         
@@ -520,7 +520,7 @@ local Dog = {
         self.steeringBehaviourMachine:setMaxSpeed(self.params.Dog.MaxSpeed)
         self.steeringBehaviourMachine:setMaxForce(self.params.Dog.MaxForce)
         
-        self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourFollowPath, 1.0)
+        self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourFollowPath)
         
         self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
         
