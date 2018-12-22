@@ -92,7 +92,7 @@ ParamInfo =
 	{
 		chubi =
 		{
-			MaxSpeed = 10.0,
+			MaxSpeed = 50.0,
 			MaxForce = 2000.0,
       PursueTime = (6 * 1000),
 			StealSpeed = 1,
