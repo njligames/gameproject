@@ -49,6 +49,21 @@ function SpawnMachine:gameEntity(name)
   return self.gameEntities[name]
 end
 
+function SpawnMachine:collide(node, otherNode, collisionPoint)
+  assert(node, "colidee node is nil")
+  assert(otherNode, "colider node is nil")
+  
+  local collideeEntity = self.gameEntities[node:getName()]
+  local colliderEntity = self.gameEntities[otherNode:getName()]
+  
+  assert(collideeEntity, "The collidee entity is nil")
+  assert(colliderEntity, "The collider entity is nil")
+  
+  collideeEntity:collide(colliderEntity, collisionPoint)
+  
+  pcall(collideeEntity.collide, collideeEntity, colliderEntity, collisionPoint)
+end
+
 function SpawnMachine:tick(gameplay, timeStep)
   
   local i = 1

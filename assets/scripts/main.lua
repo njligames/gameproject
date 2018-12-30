@@ -34,9 +34,9 @@ local StateMachine = {
       end      
     end
     
-    function sm:collide(node, otherNode, collisionPoint)
+    function sm:collide(colliderEntity, collisionPoint)
       if currentStateName then
-        self.collide[currentStateName].update(node, otherNode, collisionPoint)
+        self.states[currentStateName].collide(colliderEntity, collisionPoint)
       end
     end
     
@@ -258,40 +258,40 @@ local Bird = {
       local stateMachine = StateMachine.new(self)
       
       stateMachine:addState(self.STATEMACHINE_STATES.fly, {
-          enter = function() print("enter") end,
-          exit = function() print("exit") end,
-          update = function(timeStep) print("update") end,
-          nodeCollide = function(node, otherNode, collisionPoint) print("nodeCollide") end,
+          enter = function() print("fly enter") end,
+          exit = function() print("fly exit") end,
+          update = function(timeStep) print("fly update") end,
+          collide = function(colliderEntity, collisionPoint) print("fly nodeCollide") end,
         })
       stateMachine:addState(self.STATEMACHINE_STATES.grabbed, {
-          enter = function() print("enter") end,
-          exit = function() print("exit") end,
-          update = function(timeStep) print("update") end,
-          nodeCollide = function(node, otherNode, collisionPoint) print("nodeCollide") end,
+          enter = function() print("grabbed enter") end,
+          exit = function() print("grabbed exit") end,
+          update = function(timeStep) print("grabbed update") end,
+          collide = function(colliderEntity, collisionPoint) print("grabbed nodeCollide") end,
         })
       stateMachine:addState(self.STATEMACHINE_STATES.grabbing, {
-          enter = function() print("enter") end,
-          exit = function() print("exit") end,
-          update = function(timeStep) print("update") end,
-          nodeCollide = function(node, otherNode, collisionPoint) print("nodeCollide") end,
+          enter = function() print("grabbing enter") end,
+          exit = function() print("grabbing exit") end,
+          update = function(timeStep) print("grabbing update") end,
+          collide = function(colliderEntity, collisionPoint) print("grabbing nodeCollide") end,
         })
       stateMachine:addState(self.STATEMACHINE_STATES.hit, {
-          enter = function() print("enter") end,
-          exit = function() print("exit") end,
-          update = function(timeStep) print("update") end,
-          nodeCollide = function(node, otherNode, collisionPoint) print("nodeCollide") end,
+          enter = function() print("hit enter") end,
+          exit = function() print("hit exit") end,
+          update = function(timeStep) print("hit update") end,
+          collide = function(colliderEntity, collisionPoint) print("hit nodeCollide") end,
         })
       stateMachine:addState(self.STATEMACHINE_STATES.pursue, {
-          enter = function() print("enter") end,
-          exit = function() print("exit") end,
-          update = function(timeStep) print("update") end,
-          nodeCollide = function(node, otherNode, collisionPoint) print("nodeCollide") end,
+          enter = function() print("pursue enter") end,
+          exit = function() print("pursue exit") end,
+          update = function(timeStep) print("pursue update") end,
+          collide = function(colliderEntity, collisionPoint) print("pursue nodeCollide") end,
         })
       stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
-          enter = function() print("enter") end,
-          exit = function() print("exit") end,
-          update = function(timeStep) print("update") end,
-          nodeCollide = function(node, otherNode, collisionPoint) print("nodeCollide") end,
+          enter = function() print("spawn enter") end,
+          exit = function() print("spawn exit") end,
+          update = function(timeStep) print("spawn update") end,
+          collide = function(colliderEntity, collisionPoint) print("spawn nodeCollide") end,
         })
       self.stateMachine = stateMachine
       
@@ -390,6 +390,10 @@ local Bird = {
       elseif self.texturePacker[2]:has({name=name}) then
         self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
       end
+    end
+    
+    function bird:collide(colliderEntity, collisionPoint)
+      self.stateMachine:collide(colliderEntity, collisionPoint)
     end
     
     function bird:update(timeStep)
@@ -1319,6 +1323,12 @@ local YappyBirds = {
     
       print("game:unload() - end")
     end
+    
+    function game:collide(node, otherNode, collisionPoint)
+      if self.run then
+        self.spawnMachine:collide(node, otherNode, collisionPoint)
+      end
+    end
 
     function game:update(timeStep)
       
@@ -1636,7 +1646,7 @@ local KeyUp = function(keycodeName, withCapsLock, withControl, withShift, withAl
 end
 
 local NodeCollide = function(node, otherNode, collisionPoint)
-  print("NodeCollide")
+  yappyBirds:collide(node, otherNode, collisionPoint)
 end
 
 local NodeNear = function(node, otherNode)
