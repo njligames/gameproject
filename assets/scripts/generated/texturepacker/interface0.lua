@@ -2,7 +2,7 @@
 -- created with TexturePacker - https://www.codeandweb.com/texturepacker
 --
 -- TODO: Change this exmaple to make sense for NJLICEngine
--- $TexturePacker:SmartUpdate:7c3cd6f449f426d9766c0345ad3c0281:5353b4cb97d5879e0d8b427285df1d13:7c7b926951ecd55be01c75913320eada$
+-- $TexturePacker:SmartUpdate:eb4c6f44f924feafb150a3b19c76bc0a:5353b4cb97d5879e0d8b427285df1d13:7c7b926951ecd55be01c75913320eada$
 --
 -- local sheetInfo = require("mysheet")
 -- local myImageSheet = graphics.newImageSheet( "mysheet.png", sheetInfo:getSheet() )
@@ -58,10 +58,10 @@ frames = {
   },
   
   {
-    x=1758,
-    y=895,
+    x=1915,
+    y=671,
 
-    width=58,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -70,19 +70,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 28,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 58,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_ABOUT_off",
   },
   
   {
-    x=747,
-    y=869,
+    x=1915,
+    y=721,
 
-    width=58,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -91,19 +91,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 28,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 58,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_ABOUT_on",
   },
   
   {
-    x=1934,
-    y=821,
+    x=1915,
+    y=771,
 
-    width=112,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -114,17 +114,17 @@ frames = {
 
     sourceX = 0,
     sourceY = 0,
-    sourceWidth = 112,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_ACHIEVEMENTS_off",
   },
   
   {
-    x=1934,
-    y=871,
+    x=1915,
+    y=821,
 
-    width=112,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -135,17 +135,17 @@ frames = {
 
     sourceX = 0,
     sourceY = 0,
-    sourceWidth = 112,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_ACHIEVEMENTS_on",
   },
   
   {
-    x=1967,
-    y=421,
+    x=1915,
+    y=871,
 
-    width=74,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -154,19 +154,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 40,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 74,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_ARCADE_off",
   },
   
   {
-    x=1967,
-    y=471,
+    x=1915,
+    y=921,
 
-    width=74,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -175,19 +175,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 40,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 74,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_ARCADE_on",
   },
   
   {
-    x=1967,
-    y=621,
+    x=1915,
+    y=971,
 
-    width=64,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -198,17 +198,17 @@ frames = {
 
     sourceX = 0,
     sourceY = 0,
-    sourceWidth = 64,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_BACK_off",
   },
   
   {
-    x=1760,
-    y=845,
+    x=1399,
+    y=1019,
 
-    width=64,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -219,17 +219,17 @@ frames = {
 
     sourceX = 0,
     sourceY = 0,
-    sourceWidth = 64,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_BACK_on",
   },
   
   {
-    x=1404,
-    y=857,
+    x=1399,
+    y=1069,
 
-    width=98,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -238,19 +238,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 8,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 98,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_CHARACTERS_off",
   },
   
   {
-    x=1504,
-    y=903,
+    x=1613,
+    y=1026,
 
-    width=98,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -259,19 +259,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 8,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 98,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_CHARACTERS_on",
   },
   
   {
-    x=1844,
-    y=687,
+    x=1729,
+    y=1026,
 
-    width=90,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -280,19 +280,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 24,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 90,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_CONTINUE_off",
   },
   
   {
-    x=1844,
-    y=737,
+    x=1613,
+    y=1076,
 
-    width=90,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -301,17 +301,17 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 24,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 90,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_CONTINUE_on",
   },
   
   {
-    x=1528,
-    y=803,
+    x=1399,
+    y=1119,
 
     width=114,
     height=48,
@@ -331,8 +331,8 @@ frames = {
   },
   
   {
-    x=1644,
-    y=845,
+    x=1729,
+    y=1076,
 
     width=114,
     height=48,
@@ -352,8 +352,8 @@ frames = {
   },
   
   {
-    x=1804,
-    y=987,
+    x=1515,
+    y=1019,
 
     width=96,
     height=96,
@@ -373,8 +373,8 @@ frames = {
   },
   
   {
-    x=1902,
-    y=1021,
+    x=1515,
+    y=1117,
 
     width=96,
     height=96,
@@ -394,10 +394,10 @@ frames = {
   },
   
   {
-    x=1936,
-    y=771,
+    x=1845,
+    y=1095,
 
-    width=100,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -406,19 +406,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 14,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 100,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_LEADERBOARDS_off",
   },
   
   {
-    x=1826,
-    y=887,
+    x=1613,
+    y=1126,
 
-    width=100,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -427,19 +427,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 14,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 100,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_LEADERBOARDS_on",
   },
   
   {
-    x=1644,
-    y=895,
+    x=1729,
+    y=1126,
 
-    width=112,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -450,17 +450,17 @@ frames = {
 
     sourceX = 0,
     sourceY = 0,
-    sourceWidth = 112,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_MUSIC_off",
   },
   
   {
-    x=1920,
-    y=971,
+    x=1845,
+    y=1145,
 
-    width=112,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -471,17 +471,17 @@ frames = {
 
     sourceX = 0,
     sourceY = 0,
-    sourceWidth = 112,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_MUSIC_on",
   },
   
   {
-    x=963,
-    y=771,
+    x=1613,
+    y=1176,
 
-    width=92,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -490,19 +490,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 22,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 92,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_NEXT_LEVEL_off",
   },
   
   {
-    x=963,
-    y=821,
+    x=1729,
+    y=1176,
 
-    width=92,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -511,17 +511,17 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 22,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 92,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_NEXT_LEVEL_on",
   },
   
   {
-    x=1281,
-    y=907,
+    x=1969,
+    y=571,
 
     width=48,
     height=48,
@@ -541,8 +541,8 @@ frames = {
   },
   
   {
-    x=1331,
-    y=907,
+    x=1969,
+    y=621,
 
     width=48,
     height=48,
@@ -562,10 +562,10 @@ frames = {
   },
   
   {
-    x=1073,
-    y=904,
+    x=1845,
+    y=1195,
 
-    width=50,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -574,19 +574,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 32,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 50,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_PLAY_2_off",
   },
   
   {
-    x=1125,
-    y=904,
+    x=571,
+    y=967,
 
-    width=50,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -595,17 +595,17 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 32,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 50,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_PLAY_2_on",
   },
   
   {
-    x=571,
-    y=771,
+    x=1035,
+    y=967,
 
     width=96,
     height=96,
@@ -625,8 +625,8 @@ frames = {
   },
   
   {
-    x=669,
-    y=771,
+    x=465,
+    y=993,
 
     width=96,
     height=96,
@@ -646,11 +646,11 @@ frames = {
   },
   
   {
-    x=1528,
-    y=645,
+    x=1711,
+    y=397,
 
-    width=156,
-    height=156,
+    width=256,
+    height=256,
 
     widthFile=256,
     heightFile=256,
@@ -658,20 +658,20 @@ frames = {
     pivotx=128,
     pivoty=128,
 
-    sourceX = 50,
-    sourceY = 50,
-    sourceWidth = 156,
-    sourceHeight = 156,
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 256,
+    sourceHeight = 256,
 
     trimmedName = "butn_portrait_city_off",
   },
   
   {
-    x=1332,
+    x=1141,
     y=645,
 
-    width=194,
-    height=210,
+    width=256,
+    height=256,
 
     widthFile=256,
     heightFile=256,
@@ -679,20 +679,20 @@ frames = {
     pivotx=128,
     pivoty=128,
 
-    sourceX = 31,
-    sourceY = 30,
-    sourceWidth = 194,
-    sourceHeight = 210,
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 256,
+    sourceHeight = 256,
 
     trimmedName = "butn_portrait_city_on",
   },
   
   {
-    x=1686,
-    y=687,
+    x=1399,
+    y=645,
 
-    width=156,
-    height=156,
+    width=256,
+    height=256,
 
     widthFile=256,
     heightFile=256,
@@ -700,20 +700,20 @@ frames = {
     pivotx=128,
     pivoty=128,
 
-    sourceX = 50,
-    sourceY = 50,
-    sourceWidth = 156,
-    sourceHeight = 156,
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 256,
+    sourceHeight = 256,
 
     trimmedName = "butn_portrait_country_off",
   },
   
   {
-    x=1106,
-    y=692,
+    x=1657,
+    y=655,
 
-    width=194,
-    height=210,
+    width=256,
+    height=256,
 
     widthFile=256,
     heightFile=256,
@@ -721,19 +721,19 @@ frames = {
     pivotx=128,
     pivoty=128,
 
-    sourceX = 31,
-    sourceY = 30,
-    sourceWidth = 194,
-    sourceHeight = 210,
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 256,
+    sourceHeight = 256,
 
     trimmedName = "butn_portrait_country_on",
   },
   
   {
-    x=807,
-    y=869,
+    x=687,
+    y=967,
 
-    width=52,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -742,19 +742,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 62,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 52,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_QUIT_off",
   },
   
   {
-    x=861,
-    y=869,
+    x=803,
+    y=967,
 
-    width=52,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -763,19 +763,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 62,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 52,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_QUIT_on",
   },
   
   {
-    x=1967,
-    y=521,
+    x=919,
+    y=967,
 
-    width=68,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -784,19 +784,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 23,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 68,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_RESTART_off",
   },
   
   {
-    x=1967,
-    y=571,
+    x=1,
+    y=993,
 
-    width=68,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -805,19 +805,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 23,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 68,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_RESTART_on",
   },
   
   {
-    x=1997,
-    y=323,
+    x=1571,
+    y=1226,
 
-    width=50,
+    width=96,
     height=96,
 
     widthFile=96,
@@ -828,17 +828,17 @@ frames = {
 
     sourceX = 0,
     sourceY = 0,
-    sourceWidth = 50,
+    sourceWidth = 96,
     sourceHeight = 96,
 
     trimmedName = "butn_scrollbar_off",
   },
   
   {
-    x=1021,
-    y=871,
+    x=1669,
+    y=1226,
 
-    width=50,
+    width=96,
     height=96,
 
     widthFile=96,
@@ -849,17 +849,17 @@ frames = {
 
     sourceX = 0,
     sourceY = 0,
-    sourceWidth = 50,
+    sourceWidth = 96,
     sourceHeight = 96,
 
     trimmedName = "butn_scrollbar_on",
   },
   
   {
-    x=571,
-    y=869,
+    x=117,
+    y=993,
 
-    width=86,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -868,19 +868,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 28,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 86,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_SETTINGS_off",
   },
   
   {
-    x=659,
-    y=869,
+    x=233,
+    y=993,
 
-    width=86,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -889,19 +889,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 28,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 86,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_SETTINGS_on",
   },
   
   {
-    x=1177,
-    y=904,
+    x=349,
+    y=993,
 
-    width=50,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -910,19 +910,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 32,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 50,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_SHOP_off",
   },
   
   {
-    x=1229,
-    y=904,
+    x=1,
+    y=1043,
 
-    width=50,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -931,19 +931,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 32,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 50,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_SHOP_on",
   },
   
   {
-    x=1818,
-    y=937,
+    x=117,
+    y=1043,
 
-    width=100,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -952,19 +952,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 14,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 100,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_SOUND_FX_off",
   },
   
   {
-    x=1302,
-    y=857,
+    x=233,
+    y=1043,
 
-    width=100,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -973,17 +973,17 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 14,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 100,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_SOUND_FX_on",
   },
   
   {
-    x=1528,
-    y=853,
+    x=349,
+    y=1043,
 
     width=114,
     height=48,
@@ -1003,8 +1003,8 @@ frames = {
   },
   
   {
-    x=1928,
-    y=921,
+    x=563,
+    y=1017,
 
     width=114,
     height=48,
@@ -1024,11 +1024,11 @@ frames = {
   },
   
   {
-    x=565,
-    y=645,
+    x=1969,
+    y=397,
 
     width=51,
-    height=50,
+    height=56,
 
     widthFile=51,
     heightFile=56,
@@ -1037,19 +1037,19 @@ frames = {
     pivoty=28,
 
     sourceX = 0,
-    sourceY = 3,
+    sourceY = 0,
     sourceWidth = 51,
-    sourceHeight = 50,
+    sourceHeight = 56,
 
     trimmedName = "butn_stage_dis",
   },
   
   {
-    x=915,
-    y=871,
+    x=1969,
+    y=455,
 
     width=51,
-    height=50,
+    height=56,
 
     widthFile=51,
     heightFile=56,
@@ -1058,19 +1058,19 @@ frames = {
     pivoty=28,
 
     sourceX = 0,
-    sourceY = 3,
+    sourceY = 0,
     sourceWidth = 51,
-    sourceHeight = 50,
+    sourceHeight = 56,
 
     trimmedName = "butn_stage_off",
   },
   
   {
-    x=968,
-    y=871,
+    x=1969,
+    y=513,
 
     width=51,
-    height=50,
+    height=56,
 
     widthFile=51,
     heightFile=56,
@@ -1079,18 +1079,18 @@ frames = {
     pivoty=28,
 
     sourceX = 0,
-    sourceY = 3,
+    sourceY = 0,
     sourceWidth = 51,
-    sourceHeight = 50,
+    sourceHeight = 56,
 
     trimmedName = "butn_stage_on",
   },
   
   {
-    x=1604,
-    y=945,
+    x=679,
+    y=1017,
 
-    width=98,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -1099,19 +1099,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 8,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 98,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_STAGE_SELECT_off",
   },
   
   {
-    x=1704,
-    y=945,
+    x=795,
+    y=1017,
 
-    width=98,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -1120,17 +1120,17 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 8,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 98,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_STAGE_SELECT_on",
   },
   
   {
-    x=767,
-    y=771,
+    x=1027,
+    y=1065,
 
     width=96,
     height=96,
@@ -1150,8 +1150,8 @@ frames = {
   },
   
   {
-    x=865,
-    y=771,
+    x=1473,
+    y=1215,
 
     width=96,
     height=96,
@@ -1171,10 +1171,10 @@ frames = {
   },
   
   {
-    x=1844,
-    y=787,
+    x=911,
+    y=1017,
 
-    width=88,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -1183,19 +1183,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 26,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 88,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_SURVIVAL_off",
   },
   
   {
-    x=1844,
-    y=837,
+    x=1125,
+    y=1161,
 
-    width=88,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -1204,19 +1204,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 26,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 88,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_SURVIVAL_on",
   },
   
   {
-    x=1937,
-    y=671,
+    x=1241,
+    y=1161,
 
-    width=104,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -1225,19 +1225,19 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 10,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 104,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_TIME_ATTACK_off",
   },
   
   {
-    x=1936,
-    y=721,
+    x=1357,
+    y=1169,
 
-    width=104,
+    width=114,
     height=48,
 
     widthFile=114,
@@ -1246,17 +1246,17 @@ frames = {
     pivotx=57,
     pivoty=24,
 
-    sourceX = 10,
+    sourceX = 0,
     sourceY = 0,
-    sourceWidth = 104,
+    sourceWidth = 114,
     sourceHeight = 48,
 
     trimmedName = "butn_TIME_ATTACK_on",
   },
   
   {
-    x=1106,
-    y=645,
+    x=1625,
+    y=979,
 
     width=224,
     height=45,
@@ -1276,11 +1276,11 @@ frames = {
   },
   
   {
-    x=1711,
-    y=639,
+    x=1399,
+    y=969,
 
     width=224,
-    height=46,
+    height=48,
 
     widthFile=224,
     heightFile=48,
@@ -1289,19 +1289,19 @@ frames = {
     pivoty=24,
 
     sourceX = 0,
-    sourceY = 2,
+    sourceY = 0,
     sourceWidth = 224,
-    sourceHeight = 46,
+    sourceHeight = 48,
 
     trimmedName = "header_STAGE_SELECT",
   },
   
   {
-    x=618,
-    y=645,
+    x=1141,
+    y=1,
 
-    width=486,
-    height=124,
+    width=568,
+    height=320,
 
     widthFile=568,
     heightFile=320,
@@ -1309,20 +1309,20 @@ frames = {
     pivotx=284,
     pivoty=160,
 
-    sourceX = 41,
-    sourceY = 41,
-    sourceWidth = 486,
-    sourceHeight = 124,
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 568,
+    sourceHeight = 320,
 
     trimmedName = "logo_yb",
   },
   
   {
-    x=1711,
-    y=393,
+    x=1141,
+    y=903,
 
-    width=254,
-    height=244,
+    width=256,
+    height=256,
 
     widthFile=256,
     heightFile=256,
@@ -1330,20 +1330,20 @@ frames = {
     pivotx=128,
     pivoty=128,
 
-    sourceX = 1,
-    sourceY = 6,
-    sourceWidth = 254,
-    sourceHeight = 244,
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 256,
+    sourceHeight = 256,
 
     trimmedName = "logo_yb_square",
   },
   
   {
-    x=149,
-    y=645,
+    x=1399,
+    y=903,
 
-    width=208,
-    height=56,
+    width=256,
+    height=64,
 
     widthFile=256,
     heightFile=64,
@@ -1351,20 +1351,20 @@ frames = {
     pivotx=128,
     pivoty=32,
 
-    sourceX = 24,
-    sourceY = 4,
-    sourceWidth = 208,
-    sourceHeight = 56,
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 256,
+    sourceHeight = 64,
 
     trimmedName = "text_YOU_LOSE",
   },
   
   {
-    x=359,
-    y=645,
+    x=1657,
+    y=913,
 
-    width=204,
-    height=56,
+    width=256,
+    height=64,
 
     widthFile=256,
     heightFile=64,
@@ -1372,20 +1372,20 @@ frames = {
     pivotx=128,
     pivoty=32,
 
-    sourceX = 26,
-    sourceY = 4,
-    sourceWidth = 204,
-    sourceHeight = 56,
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 256,
+    sourceHeight = 64,
 
     trimmedName = "text_YOU_WIN",
   },
   
   {
-    x=1,
-    y=645,
+    x=1851,
+    y=1021,
 
-    width=146,
-    height=68,
+    width=152,
+    height=72,
 
     widthFile=152,
     heightFile=72,
@@ -1393,10 +1393,10 @@ frames = {
     pivotx=76,
     pivoty=36,
 
-    sourceX = 1,
-    sourceY = 1,
-    sourceWidth = 146,
-    sourceHeight = 68,
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 152,
+    sourceHeight = 72,
 
     trimmedName = "title_CITY",
   },
@@ -1405,8 +1405,8 @@ frames = {
     x=1711,
     y=323,
 
-    width=284,
-    height=68,
+    width=288,
+    height=72,
 
     widthFile=288,
     heightFile=72,
@@ -1414,17 +1414,17 @@ frames = {
     pivotx=144,
     pivoty=36,
 
-    sourceX = 1,
-    sourceY = 1,
-    sourceWidth = 284,
-    sourceHeight = 68,
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 288,
+    sourceHeight = 72,
 
     trimmedName = "title_COUNTRY",
   },
   
   {
-    x=1141,
-    y=1,
+    x=1,
+    y=323,
 
     width=568,
     height=320,
@@ -1465,7 +1465,7 @@ frames = {
   },
   
   {
-    x=1,
+    x=571,
     y=323,
 
     width=568,
@@ -1486,7 +1486,7 @@ frames = {
   },
   
   {
-    x=571,
+    x=1141,
     y=323,
 
     width=568,
@@ -1507,8 +1507,8 @@ frames = {
   },
   
   {
-    x=1141,
-    y=323,
+    x=1,
+    y=671,
 
     width=568,
     height=320,
@@ -1528,8 +1528,8 @@ frames = {
   },
   
   {
-    x=1,
-    y=721,
+    x=571,
+    y=645,
 
     width=568,
     height=320,
@@ -1561,8 +1561,8 @@ frames = {
   baseFactor = 1,
   maxTextureSizeWidth = 4096,
   maxTextureSizeHeight = 4096,
-  fixedTextureSizeWidth = -1,
-  fixedTextureSizeHeight = -1
+  fixedTextureSizeWidth = 2048,
+  fixedTextureSizeHeight = 2048
 
   -- _variantParams.scale = 1,
   -- _variantParams.shapePadding = 0,
@@ -1573,8 +1573,8 @@ frames = {
   -- _variantParams.baseFactor = 1,
   -- _variantParams_maxTextureSize_width = 4096,
   -- _variantParams_maxTextureSize_height = 4096,
-  -- _variantParams_fixedTextureSize_width = -1,
-  -- _variantParams_fixedTextureSize_height = -1
+  -- _variantParams_fixedTextureSize_width = 2048,
+  -- _variantParams_fixedTextureSize_height = 2048
 }
 
 SheetInfo.frameIndex =

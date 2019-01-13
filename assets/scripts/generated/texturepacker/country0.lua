@@ -2,7 +2,7 @@
 -- created with TexturePacker - https://www.codeandweb.com/texturepacker
 --
 -- TODO: Change this exmaple to make sense for NJLICEngine
--- $TexturePacker:SmartUpdate:f635ed7e34c58eff4b79efb28178f121:c819214bca96bf3c5c0c951ce8397410:18cc0faedb801f0310f07fa32ca9fcf5$
+-- $TexturePacker:SmartUpdate:7e65332ae319c77fd88d79603300cae5:c819214bca96bf3c5c0c951ce8397410:18cc0faedb801f0310f07fa32ca9fcf5$
 --
 -- local sheetInfo = require("mysheet")
 -- local myImageSheet = graphics.newImageSheet( "mysheet.png", sheetInfo:getSheet() )
@@ -16,8 +16,8 @@ SheetInfo.sheet =
 frames = {
   
   {
-    x=3004,
-    y=1,
+    x=104,
+    y=1874,
 
     width=128,
     height=105,
@@ -25,8 +25,8 @@ frames = {
     widthFile=128,
     heightFile=105,
 
-    pivotx=64,
-    pivoty=52.5,
+    pivotx=0,
+    pivoty=105,
 
     sourceX = 0,
     sourceY = 0,
@@ -37,8 +37,8 @@ frames = {
   },
   
   {
-    x=3134,
-    y=1,
+    x=1,
+    y=1874,
 
     width=101,
     height=128,
@@ -46,8 +46,8 @@ frames = {
     widthFile=101,
     heightFile=128,
 
-    pivotx=50.5,
-    pivoty=64,
+    pivotx=0,
+    pivoty=128,
 
     sourceX = 0,
     sourceY = 0,
@@ -58,8 +58,8 @@ frames = {
   },
   
   {
-    x=2507,
-    y=1,
+    x=236,
+    y=1616,
 
     width=256,
     height=209,
@@ -67,8 +67,8 @@ frames = {
     widthFile=256,
     heightFile=209,
 
-    pivotx=128,
-    pivoty=104.5,
+    pivotx=0,
+    pivoty=209,
 
     sourceX = 0,
     sourceY = 0,
@@ -79,8 +79,8 @@ frames = {
   },
   
   {
-    x=2507,
-    y=212,
+    x=1,
+    y=1616,
 
     width=233,
     height=256,
@@ -88,8 +88,8 @@ frames = {
     widthFile=233,
     heightFile=256,
 
-    pivotx=116.5,
-    pivoty=128,
+    pivotx=0,
+    pivoty=256,
 
     sourceX = 0,
     sourceY = 0,
@@ -100,8 +100,8 @@ frames = {
   },
   
   {
-    x=2765,
-    y=1,
+    x=1,
+    y=1358,
 
     width=237,
     height=256,
@@ -109,8 +109,8 @@ frames = {
     widthFile=237,
     heightFile=256,
 
-    pivotx=118.5,
-    pivoty=128,
+    pivotx=0,
+    pivoty=256,
 
     sourceX = 0,
     sourceY = 0,
@@ -121,7 +121,7 @@ frames = {
   },
   
   {
-    x=2051,
+    x=1,
     y=1,
 
     width=454,
@@ -130,8 +130,8 @@ frames = {
     widthFile=454,
     heightFile=512,
 
-    pivotx=227,
-    pivoty=256,
+    pivotx=0,
+    pivoty=512,
 
     sourceX = 0,
     sourceY = 0,
@@ -143,7 +143,7 @@ frames = {
   
   {
     x=1,
-    y=891,
+    y=980,
 
     width=2048,
     height=376,
@@ -151,8 +151,8 @@ frames = {
     widthFile=2048,
     heightFile=376,
 
-    pivotx=1024,
-    pivoty=188,
+    pivotx=0,
+    pivoty=376,
 
     sourceX = 0,
     sourceY = 0,
@@ -164,7 +164,7 @@ frames = {
   
   {
     x=1,
-    y=1,
+    y=515,
 
     width=2048,
     height=463,
@@ -172,8 +172,8 @@ frames = {
     widthFile=2048,
     heightFile=463,
 
-    pivotx=1024,
-    pivoty=231.5,
+    pivotx=0,
+    pivoty=463,
 
     sourceX = 0,
     sourceY = 0,
@@ -184,8 +184,8 @@ frames = {
   },
   
   {
-    x=1,
-    y=466,
+    x=457,
+    y=1,
 
     width=2048,
     height=423,
@@ -193,8 +193,8 @@ frames = {
     widthFile=2048,
     heightFile=423,
 
-    pivotx=1024,
-    pivoty=211.5,
+    pivotx=0,
+    pivoty=423,
 
     sourceX = 0,
     sourceY = 0,
@@ -207,7 +207,7 @@ frames = {
   },
   fileName = "images/country0.png",
   sheetContentWidth = 4096,
-  sheetContentHeight = 4096,
+  sheetContentHeight = 2048,
   scale = 1,
   shapePadding = 0,
   borderPadding = 0,
