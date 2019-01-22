@@ -10,10 +10,11 @@ ELIAFont = nil
 OrthographicCameraNode = nil
 PerspectiveCameraNode = nil
 
-SCROLL_SPEED=6.0
-EXTRA_SCROLL_SPEED=SCROLL_SPEED * 2
+SCROLL_SPEED = 12.0
+EXTRA_SCROLL_SPEED=SCROLL_SPEED * 2.0
+SCROLL_SPEED_INCREMENTS = 0.01
 
-WAIT_TIME=1.5
+WAIT_TIME=0.25
 
 POINTS_PER_CORRECT_LETTER = 1.0
 
@@ -23,6 +24,7 @@ previousGameplayStateName = "Endless Letter"
 finalPointsAccumulated = 0
 finalAccuracy = 100.0
 backgroundSound = nil
+backgroundSounds = {}
 learn_more_url="http://www.theeliaidea.com"
 
 WORD_ARRAY = 
@@ -224,7 +226,8 @@ ELIA.states =
       ELIA.states[1].vars.accuracyNode = DrawAccuracy(finalAccuracy, ELIA.states[1].vars.accuracyNode)
       table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.accuracyNode)
 
-      ELIA.states[1].vars.doneNode = DrawDoneButton(njlic.SCREEN():x() * 0.5, (njlic.SCREEN():y() * 0.5) - (njlic.SCREEN():y() / 4), ELIA.states[1].vars.doneNode)
+--      ELIA.states[1].vars.doneNode = DrawDoneButton(njlic.SCREEN():x() * 0.5, (njlic.SCREEN():y() * 0.5) - (njlic.SCREEN():y() / 4), ELIA.states[1].vars.doneNode)
+      ELIA.states[1].vars.doneNode = DrawDoneButton(njlic.SCREEN():x() * 0.5, vert_margin, ELIA.states[1].vars.doneNode)
       table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.doneNode)
 
       for i=1, string.len(ELIA.states[1].vars.currentText) do
@@ -266,7 +269,7 @@ ELIA.states =
         maxwidth=(njlic.SCREEN():x()),
       })
       table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.displayNode)
-      ELIA.states[1].vars.displayNode:setOrigin(bullet.btVector3(0, njlic.SCREEN():y() - (vert_margin * 9), -1))
+      ELIA.states[1].vars.displayNode:setOrigin(bullet.btVector3(0, njlic.SCREEN():y() - (vert_margin * 10), -1))
       ELIA.states[1].vars.displayNode:show(OrthographicCameraNode:getCamera())
       
       -- local dn = ELIA.states[1].vars.displayNode
@@ -280,6 +283,9 @@ ELIA.states =
       
     end,
     update = function(timeStep)
+      
+      
+    
 
       for i=1, string.len(ELIA.states[1].vars.currentText) do
         ELIA.states[1].vars.displayFontIndexTable[i] = 6
@@ -329,8 +335,10 @@ ELIA.states =
         
 
         if ELIA.states[1].vars.currentNode then
+          
+          local scrollSpeed = SCROLL_SPEED + ELIA.states[1].vars.speedup + (SCROLL_SPEED_INCREMENTS * ELIA.states[1].vars.currentNumberOfLetters)
 
-          local origin = ELIA.states[1].vars.currentNode:getOrigin() - bullet.btVector3(SCROLL_SPEED + ELIA.states[1].vars.speedup, 0.0, 0.0)
+          local origin = ELIA.states[1].vars.currentNode:getOrigin() - bullet.btVector3(scrollSpeed, 0.0, 0.0)
           ELIA.states[1].vars.currentNode:setOrigin(origin)
 
           if ELIA.states[1].vars.justFinishedShowingWord then
@@ -385,7 +393,19 @@ ELIA.states =
 
       end
       
-
+      local currentNodeToType = ELIAFont:getLetterNode({
+          mainNode=ELIA.states[1].vars.currentNode,
+          letterIndex=ELIA.states[1].vars.currentTypeIndex,
+        })
+      if currentNodeToType then
+        print(currentNodeToType:getOrigin() )
+        if currentNodeToType:getOrigin():x() < 0 then
+          SwitchStates(STATE_RESULT)
+        end
+        
+      end
+      
+      
     end,
     destroy = function()
       print('destroy')
@@ -461,7 +481,7 @@ ELIA.states =
 
       local currentChar = string.upper(keycodeName)
 
-      print(currentChar)
+--      print(currentChar)
       if not envIsAlphaNum(currentChar) or currentChar == "SPACE" or withShift then
         ELIA.states[1].vars.speedup = EXTRA_SCROLL_SPEED
         return
@@ -492,6 +512,13 @@ ELIA.states =
         ELIA.states[1].vars.fontIndexTable[ELIA.states[1].vars.currentTypeIndex] = 4
         ELIA.states[1].vars.currentNumberOfPoints=0
       end
+      
+      
+      
+    
+      
+      
+      ELIA.states[1].vars.currentNumberOfLetters = ELIA.states[1].vars.currentNumberOfLetters + 1.0
 
       -- local function envIsAlphaNum(sIn)
       --   return (string.match(sIn,"[^%w]") == nil) 
@@ -507,6 +534,17 @@ ELIA.states =
       if ELIA.states[1].vars.currentTypeIndex <= string.len(ELIA.states[1].vars.currentText) then
         ELIA.states[1].vars.fontIndexTable[ELIA.states[1].vars.currentTypeIndex] = 2
       end
+
+--      finalAccuracy = AccuracyPercentage(string.len(ELIA.states[1].vars.currentText), ELIA.states[1].vars.currentNumberOfLetters, ELIA.states[1].vars.totalAccurateTyped)
+
+        local totalNumberOfLetters, currentNumberOfLetters, totalAccurateTyped = string.len(ELIA.states[1].vars.currentText), ELIA.states[1].vars.currentNumberOfLetters, ELIA.states[1].vars.totalAccurateTyped
+        
+        finalAccuracy = AccuracyPercentage(totalNumberOfLetters, currentNumberOfLetters, totalAccurateTyped)
+        ELIA.states[1].vars.accuracyNode = DrawAccuracy(finalAccuracy, ELIA.states[1].vars.accuracyNode)
+        
+--      print(ELIA.states[1].vars.currentText, totalNumberOfLetters, currentNumberOfLetters, totalAccurateTyped, fa)
+      
+      
 
       ELIA.states[1].vars.pointsNode = DrawPoints(ELIA.states[1].vars.currentNumberOfPoints, ELIA.states[1].vars.pointsNode)
 
@@ -1000,10 +1038,16 @@ It is interesting to note that all errors, whether corrected or not, should be c
 ]]--
 
 
-local AccuracyPercentage = function(totalLetters, numberOfLetters, accurateTyped)
-  local total = (totalLetters - numberOfLetters)
-  if total > 0 then
-    local percentage = ((accurateTyped / total)  * 100.0)
+function AccuracyPercentage(totalNumberOfLetters, currentNumberOfLetters, totalAccurateTyped)
+  assert(totalNumberOfLetters)
+  assert(currentNumberOfLetters)
+  assert(totalAccurateTyped)
+  
+--  local total = (totalNumberOfLetters - currentNumberOfLetters)
+  if currentNumberOfLetters >= 0 then
+    local percentage = ((totalAccurateTyped / currentNumberOfLetters)  * 100.0)
+--    print(percentage)
+--    return percentage
     return math.min(100.0, percentage)
   end
   return 100.0
@@ -1087,7 +1131,8 @@ function DrawPoints(points, node)
   local half_horizontal = njlic.SCREEN():x() * 0.5
   
   local node_ret, rect = DrawLabel(arg)
-  node_ret:setOrigin(bullet.btVector3(bullet.btVector3(half_horizontal - (rect.width * 0.5), vert_margin, -1)))
+--  node_ret:setOrigin(bullet.btVector3(bullet.btVector3(half_horizontal - (rect.width * 0.5), vert_margin, -1)))
+  node_ret:setOrigin(bullet.btVector3(bullet.btVector3(njlic.SCREEN():x() - rect.width - horiz_margin, vert_margin, -1)))
   node_ret:show(OrthographicCameraNode:getCamera())
 
   return node_ret, rect
@@ -1116,7 +1161,8 @@ function DrawAccuracy(accuracy, node)
   local half_horizontal = njlic.SCREEN():x() * 0.5
   
   local node_ret, rect = DrawLabel(arg)
-  node_ret:setOrigin(bullet.btVector3(bullet.btVector3(half_horizontal - (rect.width * 0.5), vert_margin * 4, -1)))
+  --node_ret:setOrigin(bullet.btVector3(bullet.btVector3(half_horizontal - (rect.width * 0.5), vert_margin * 4, -1)))
+  node_ret:setOrigin(bullet.btVector3(bullet.btVector3(0 + horiz_margin, vert_margin, -1)))
   node_ret:show(OrthographicCameraNode:getCamera())
 
   return node_ret
@@ -1545,31 +1591,78 @@ local Create = function()
     },
     maxadvance=160
   })
-
-  backgroundSound = njlic.Sound.create()
-  backgroundSound:setName("background sound")
-
-  math.randomseed(os.time())
-  math.random()
-  math.random()
-  math.random()
-
-  local idx_backround_sound_names = math.random (5)
-
+  
   local backround_sound_names =
   {
-  "sounds/Daniel_Veesey_-_01_-_Sonata_No_1_in_F_Minor_Op_2_No_1_-_I_Allegro.ogg",
-  "sounds/Daniel_Veesey_-_02_-_Sonata_No_1_in_F_Minor_Op_2_No_1_-_II_Adagio.ogg",
-  "sounds/Daniel_Veesey_-_03_-_Sonata_No_1_in_F_Minor_Op_2_No_1_-_III_Menuetto_Allegretto.ogg",
-  "sounds/Daniel_Veesey_-_04_-_Sonata_No_1_in_F_Minor_Op_2_No_1_-_IV_Prestissimo.ogg",
-  "sounds/elia.ogg"
+    "sounds/Daniel_Veesey_-_01_-_Sonata_No_1_in_F_Minor_Op_2_No_1_-_I_Allegro.ogg",
+    "sounds/Daniel_Veesey_-_02_-_Sonata_No_1_in_F_Minor_Op_2_No_1_-_II_Adagio.ogg",
+    "sounds/Daniel_Veesey_-_03_-_Sonata_No_1_in_F_Minor_Op_2_No_1_-_III_Menuetto_Allegretto.ogg",
+    "sounds/Daniel_Veesey_-_04_-_Sonata_No_1_in_F_Minor_Op_2_No_1_-_IV_Prestissimo.ogg",
+    "sounds/elia.ogg"
   }
+  
+  for index,value in ipairs(backround_sound_names) do 
+    local filename = value
+    
+    local sound = njlic.Sound.create()
+    sound:setName(filename)
+    
+    njlic.World.getInstance():getWorldResourceLoader():load(filename, sound)
+    
+    table.insert(backgroundSounds, sound)
+  end
+  
+  
+  
+  
+  
+  
+--  for k, v in pairs(background_sound_names) do
+----    print(k, v[1], v[2], v[3])
+--    print(v)
+--  end
+
+--  for i=1,#background_sound_names do 
+----    print(background_sound_names[i]) 
+--    print(i)
+--  end
+--  for k, v in pairs(background_sound_names) do
+--    local filename = v
+    
+--    local sound = njlic.Sound.create()
+--    sound:setName(filename)
+    
+--    njlic.World.getInstance():getWorldResourceLoader():load(filename, sound)
+    
+--    table.insert(backgroundSounds, sound)
+--  end
+  
+--  backgroundSounds[0]:play()
+
+--  backgroundSound = njlic.Sound.create()
+--  backgroundSound:setName("background sound")
+
+--  math.randomseed(os.time())
+--  math.random()
+--  math.random()
+--  math.random()
+
+--  local idx_backround_sound_names = math.random (5)
+
+--  local backround_sound_names =
+--  {
+--  "sounds/Daniel_Veesey_-_01_-_Sonata_No_1_in_F_Minor_Op_2_No_1_-_I_Allegro.ogg",
+--  "sounds/Daniel_Veesey_-_02_-_Sonata_No_1_in_F_Minor_Op_2_No_1_-_II_Adagio.ogg",
+--  "sounds/Daniel_Veesey_-_03_-_Sonata_No_1_in_F_Minor_Op_2_No_1_-_III_Menuetto_Allegretto.ogg",
+--  "sounds/Daniel_Veesey_-_04_-_Sonata_No_1_in_F_Minor_Op_2_No_1_-_IV_Prestissimo.ogg",
+--  "sounds/elia.ogg"
+--  }
 
 
-  njlic.World.getInstance():getWorldResourceLoader():load(backround_sound_names[idx_backround_sound_names], backgroundSound)
+--  njlic.World.getInstance():getWorldResourceLoader():load(backround_sound_names[idx_backround_sound_names], backgroundSound)
 
-  backgroundSound:enableLooping(true)
-  backgroundSound:play()
+--  backgroundSound:enableLooping(true)
+--  backgroundSound:play()
 
 
   ELIATexturePacker = TexturePacker({file="elia_gameplay0"})
@@ -1580,8 +1673,18 @@ end
   
 local Destroy = function()
   
-  njlic.Sound.destroy(backgroundSound)
-  backgroundSound = nil
+  
+  
+--  for index,value in ipairs(backgroundSounds) do 
+--    njlic.Sound.destroy(value)
+--  end
+  
+  
+  
+  
+  
+--  njlic.Sound.destroy(backgroundSound)
+--  backgroundSound = nil
 
   if PerspectiveCameraNode then
     local camera = PerspectiveCameraNode:getCamera()
@@ -1604,6 +1707,17 @@ local Destroy = function()
 end
 
 local Update = function(timeStep)
+  
+  if not backgroundSound or not backgroundSound:isPlaying() then
+    math.randomseed(os.time())
+    
+    local idx_backround_sound_names = math.random (5)
+    backgroundSound = backgroundSounds[idx_backround_sound_names]
+    backgroundSound:play()
+    print("YES")
+  else
+    print("no")
+  end
 
   if debugging == nil then
     debugging = false
