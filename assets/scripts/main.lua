@@ -141,6 +141,7 @@ ELIA.states =
       startOrigin = bullet.btVector3(0.0, 0.0, 0.0),
       currentNumberOfPoints = 0.0,
       pointsNode = nil,
+       quoterNode = nil,
       accuracyNode = nil,
       doneNode = nil,
       doneButtonDown = false,
@@ -171,8 +172,12 @@ ELIA.states =
 
       ELIA.states[1].vars.pointsNode = DrawPoints(ELIA.states[1].vars.currentNumberOfPoints, ELIA.states[1].vars.pointsNode)
       table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.pointsNode)
+      
+       
 
       GrabNewWordArray()
+      ELIA.states[1].vars.quoterNode = DrawQuoter(CURRENT_QUOTER, ELIA.states[1].vars.quoterNode)
+      
       ELIA.states[1].vars.currentText = string.upper(WORD_ARRAY[ELIA.states[1].vars.currentWordArrayIndex])
       ELIA.states[1].vars.currentResetTimer = 0.0
       ELIA.states[1].vars.finishedWord = false
@@ -221,6 +226,9 @@ ELIA.states =
 
       ELIA.states[1].vars.pointsNode = DrawPoints(ELIA.states[1].vars.currentNumberOfPoints, ELIA.states[1].vars.pointsNode)
       table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.pointsNode)
+      
+      ELIA.states[1].vars.quoterNode = DrawQuoter(CURRENT_QUOTER, ELIA.states[1].vars.quoterNode)
+       table.insert(ELIA.states[1].vars.nodes, ELIA.states[1].vars.quoterNode)
 
       finalAccuracy = 100.0
       ELIA.states[1].vars.accuracyNode = DrawAccuracy(finalAccuracy, ELIA.states[1].vars.accuracyNode)
@@ -373,6 +381,9 @@ ELIA.states =
           ELIA.states[1].vars.currentWordArrayIndex=ELIA.states[1].vars.currentWordArrayIndex+1
           if ELIA.states[1].vars.currentWordArrayIndex > #WORD_ARRAY then
             GrabNewWordArray()
+            ELIA.states[1].vars.quoterNode = DrawQuoter(CURRENT_QUOTER, ELIA.states[1].vars.quoterNode)
+      
+      
             ELIA.states[1].vars.currentWordArrayIndex = 1
             ELIA.states[1].vars.currentTypeIndex = 1
           end
@@ -411,6 +422,9 @@ ELIA.states =
       print('destroy')
       ELIA.states[1].vars.created = false
 
+       njlic.Node.destroy(ELIA.states[1].vars.quoterNode)
+       ELIA.states[1].vars.quoterNode = nil
+      
       njlic.Node.destroy(ELIA.states[1].vars.pointsNode)
       ELIA.states[1].vars.pointsNode = nil
 
@@ -1122,6 +1136,22 @@ function DrawResultWordHelper(...)
 
 end
 
+function DrawQuoter(quoterString, node)
+--  local _quote = string.format("~ %s", quoterString)
+  
+  local arg = {mainNode=node,text=quoterString}
+
+  local vert_margin = njlic.SCREEN():y() / 30.0
+  local horiz_margin = njlic.SCREEN():x() / 40.0
+  local half_horizontal = njlic.SCREEN():x() * 0.5
+  
+  local node_ret, rect = DrawLabel(arg)
+  node_ret:setOrigin(bullet.btVector3(bullet.btVector3((njlic.SCREEN():x() * 0.5) - (rect.width * 0.5), vert_margin * 3, -1)))
+  node_ret:show(OrthographicCameraNode:getCamera())
+
+  return node_ret, rect
+end
+
 function DrawPoints(points, node)
   local pointsString = string.format("%.4d", tostring(points)) .. " Points"
   local arg = {mainNode=node,text=pointsString}
@@ -1714,9 +1744,9 @@ local Update = function(timeStep)
     local idx_backround_sound_names = math.random (5)
     backgroundSound = backgroundSounds[idx_backround_sound_names]
     backgroundSound:play()
-    print("YES")
+--    print("YES")
   else
-    print("no")
+--    print("no")
   end
 
   if debugging == nil then
