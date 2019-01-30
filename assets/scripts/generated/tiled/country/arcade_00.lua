@@ -127,7 +127,7 @@ return {
             ["initialVelocity"] = 1.2,
             ["spawnAmount"] = 4,
             ["timeFrequency"] = 5,
-            ["timeStart"] = 1
+            ["timeStart"] = 0
           }
         },
         {
@@ -146,7 +146,7 @@ return {
             ["initialVelocity"] = 1.2,
             ["spawnAmount"] = 4,
             ["timeFrequency"] = 5,
-            ["timeStart"] = 1
+            ["timeStart"] = 0
           }
         }
       }

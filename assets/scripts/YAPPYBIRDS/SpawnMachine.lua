@@ -147,7 +147,7 @@ function SpawnMachine:addArcadeSpawnPoint(spawnPoint)
 
   local point = {}
   point.spawnPoint = spawnPoint
-  point.currentTick = spawnPoint.timeFrequency
+  point.currentTick = 0 --spawnPoint.timeFrequency
 
   table.insert(self.arcadeSpawnPoints, point)
 

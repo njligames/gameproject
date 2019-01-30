@@ -21,7 +21,7 @@
     <property name="initialVelocity" type="float" value="1.2"/>
     <property name="spawnAmount" type="int" value="4"/>
     <property name="timeFrequency" type="int" value="5"/>
-    <property name="timeStart" type="int" value="1"/>
+    <property name="timeStart" type="int" value="0"/>
    </properties>
    <ellipse/>
   </object>
