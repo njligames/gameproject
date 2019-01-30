@@ -119,153 +119,153 @@ local Beak = {
       self.currentAnimationState=self.ANIMATION_STATES.idle
       
       local name = self:getFrameName()
---      self.node = njlic.Node.create()
---      if self.texturePacker[1]:has({name=name}) then
---        self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
---      elseif self.texturePacker[2]:has({name=name}) then
---        self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
---      end
+      self.node = njlic.Node.create()
+      if self.texturePacker[1]:has({name=name}) then
+        self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
+      elseif self.texturePacker[2]:has({name=name}) then
+        self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
+      end
       
---      if self.node ~= nil and bird ~= nil and bird.node ~= nil then
---        self.node:setName(string.format("%sbird_beak_node_%05d", self.birdName, self.index))
+      if self.node then
+        self.node:setName(string.format("%sbird_beak_node_%05d", self.birdName, self.index))
       
---        self.node:setOrigin(origin)
---        self.node:enableTagged(false)
---        self:hide()
+        self.node:setOrigin(origin)
+        self.node:enableTagged(false)
+        self:hide()
         
---        self.action = njlic.Action.create()
---        self.action:setRepeatForever()
---        self.action:setName(string.format("%sbird_beak_action_%05d", self.birdName, self.index))
+        self.action = njlic.Action.create()
+        self.action:setRepeatForever()
+        self.action:setName(string.format("%sbird_beak_action_%05d", self.birdName, self.index))
         
---        self.animationClock = njlic.Clock.create()
+        self.animationClock = njlic.Clock.create()
         
---        bird.node:addChildNode(self.node)
+        bird.node:addChildNode(self.node)
 ----        njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
         
---        self.sound = njlic.Sound.create()
---        self.sound:setName(string.format("%sbird_beak_sound_%05d", self.birdName, self.index))
---        local soundName = "sounds/projectile_balloon_water-splash.ogg"
---        njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
+        self.sound = njlic.Sound.create()
+        self.sound:setName(string.format("%sbird_beak_sound_%05d", self.birdName, self.index))
+        local soundName = "sounds/projectile_balloon_water-splash.ogg"
+        njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
         
---      else
---        print("couldn't load the bird beak")
---      end
+      else
+        print("couldn't load the bird beak")
+      end
       
       print("loaded the beak - end")
     end
   
---    function beak:unload()
-----      self.stateMachine = nil
+    function beak:unload()
+--      self.stateMachine = nil
       
-----      njlic.SteeringBehaviorSeparation.destroy(self.steeringBehaviorSeparation)
-----      njlic.SteeringBehaviorOffsetPursuit.destroy(self.steeringBehaviourOffsetPursuit)
-----      njlic.SteeringBehaviorMachineDithered.destroy(self.steeringBehaviourMachine)
+--      njlic.SteeringBehaviorSeparation.destroy(self.steeringBehaviorSeparation)
+--      njlic.SteeringBehaviorOffsetPursuit.destroy(self.steeringBehaviourOffsetPursuit)
+--      njlic.SteeringBehaviorMachineDithered.destroy(self.steeringBehaviourMachine)
       
---      njlic.Sound.destroy(self.sound)
+      njlic.Sound.destroy(self.sound)
       
-----      njlic.PhysicsBodyRigid.destroy(self.physicsBody)
-----      njlic.PhysicsShapeCylinder.destroy(self.physicsShape) 
+--      njlic.PhysicsBodyRigid.destroy(self.physicsBody)
+--      njlic.PhysicsShapeCylinder.destroy(self.physicsShape) 
       
---      njlic.Clock.destroy(self.animationClock)
---      njlic.Action.destroy(self.action)
---      njlic.Node.destroy(self.node)
+      njlic.Clock.destroy(self.animationClock)
+      njlic.Action.destroy(self.action)
+      njlic.Node.destroy(self.node)
       
---      print("unloaded the beak")
---    end
+      print("unloaded the beak")
+    end
   
---    function beak:setup(...)
---      local arg=... or {}
+    function beak:setup(...)
+      local arg=... or {}
       
---      local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
---      local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
---      local debug = arg.debug or false
+      local origin = bullet.btVector3(0.0, 0.0, -0.01)
+      local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
+      local debug = arg.debug or false
       
---      self.inplay=true
+      self.inplay=true
 
---      self.node:setOrigin(origin)
---      self.node:getGeometry():setDimensions(self.node, dimensions)
+      self.node:setOrigin(origin)
+      self.node:getGeometry():setDimensions(self.node, dimensions)
       
---      print("setup the beak")
+      print("setup the beak")
       
---    end
+    end
     
---    function beak:spawn(...)
---      local arg=... or {}
+    function beak:spawn(...)
+      local arg=... or {}
       
---      print("spawn beak")
+      print("spawn beak")
       
---      self.inplay=true
+      self.inplay=true
       
---      self:show()
---      self.node:runAction(self.action)
-----      self.node:setPhysicsBody(self.physicsBody)
-----      self.node:enableTagged()
+      self:show()
+      self.node:runAction(self.action)
+--      self.node:setPhysicsBody(self.physicsBody)
+--      self.node:enableTagged()
       
-----      self.steeringBehaviourMachine:enable()
+--      self.steeringBehaviourMachine:enable()
       
---      self.currentAnimationState=self.ANIMATION_STATES.idle
-----      self.stateMachine:switchStates(self.STATEMACHINE_STATES.spawn)
---    end
+      self.currentAnimationState=self.ANIMATION_STATES.idle
+--      self.stateMachine:switchStates(self.STATEMACHINE_STATES.spawn)
+    end
 
---    function beak:kill(...)
---      local arg=... or {}
+    function beak:kill(...)
+      local arg=... or {}
       
---      self.inplay=false
+      self.inplay=false
 
-----      self.steeringBehaviourMachine:enable(false)
+--      self.steeringBehaviourMachine:enable(false)
       
---      self.node:removeAction(self.node:getName())
+      self.node:removeAction(self.node:getName())
       
-----      self.node:removePhysicsBody()
-----      self.node:enableTagged(false)
---      self:hide()
+--      self.node:removePhysicsBody()
+--      self.node:enableTagged(false)
+      self:hide()
       
---      print("killed beak")
+      print("killed beak")
 
---      -- put back to hiding values
---    end
+      -- put back to hiding values
+    end
     
---    function beak:hide()
---      self.node:hide(self.perspectiveCamera)
---    end
+    function beak:hide()
+      self.node:hide(self.perspectiveCamera)
+    end
     
---    function beak:show()
---      self.node:show(self.perspectiveCamera)
---    end
+    function beak:show()
+      self.node:show(self.perspectiveCamera)
+    end
   
---    function beak:incrementAnimationFrame()
---      self.currentFrame = self.currentFrame + 1
---      if(self.currentFrame > 8) then self.currentFrame = 0 end
+    function beak:incrementAnimationFrame()
+      self.currentFrame = self.currentFrame + 1
+      if(self.currentFrame > 8) then self.currentFrame = 0 end
       
---      local name = self:getFrameName()
-      
---      if self.texturePacker[1]:has({name=name}) then
---        self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
---      elseif self.texturePacker[2]:has({name=name}) then
---        self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
---      end
---    end
+      local name = self:getFrameName()
+      print("beak", name)
+      if self.texturePacker[1]:has({name=name}) then
+        self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
+      elseif self.texturePacker[2]:has({name=name}) then
+        self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
+      end
+    end
     
 --    function beak:collide(colliderEntity, collisionPoint)
 ----      self.stateMachine:collide(colliderEntity, collisionPoint)
 --    end
     
---    function beak:update(timeStep)
+    function beak:update(timeStep)
       
-----      for i = 1, #self.dogs do
-----        local dogEntity = self.dogs[i]
+--      for i = 1, #self.dogs do
+--        local dogEntity = self.dogs[i]
         
-----        if dogEntity.inplay then
-----          self.steeringBehaviourOffsetPursuit:addTarget(dogEntity.node)
-----        else
-----          self.steeringBehaviourOffsetPursuit:removeTarget(dogEntity.node)
-----        end
-----      end
+--        if dogEntity.inplay then
+--          self.steeringBehaviourOffsetPursuit:addTarget(dogEntity.node)
+--        else
+--          self.steeringBehaviourOffsetPursuit:removeTarget(dogEntity.node)
+--        end
+--      end
       
-----      self.stateMachine:update(timeStep)
+--      self.stateMachine:update(timeStep)
       
-----      print("bird")
---    end
+--      print("bird")
+    end
   
 --    function beak:addNeighbors(birds)
 --      for i = 1, #birds do
@@ -490,6 +490,9 @@ local Bird = {
     end
   
     function bird:unload()
+      
+      self.beak:unload()
+      
       self.stateMachine = nil
       
       njlic.SteeringBehaviorSeparation.destroy(self.steeringBehaviorSeparation)
@@ -520,6 +523,8 @@ local Bird = {
       self.node:setOrigin(origin)
       self.node:getGeometry():setDimensions(self.node, dimensions)
       
+      self.beak:setup(arg)
+      
       print("setup the balloon")
       
     end
@@ -540,10 +545,14 @@ local Bird = {
       
       self.currentAnimationState=self.ANIMATION_STATES.idle
       self.stateMachine:switchStates(self.STATEMACHINE_STATES.spawn)
+      
+      self.beak:spawn(arg)
     end
 
     function bird:kill(...)
       local arg=... or {}
+      
+      self.beak:kill(arg)
       
       self.inplay=false
 
@@ -562,10 +571,14 @@ local Bird = {
     
     function bird:hide()
       self.node:hide(self.perspectiveCamera)
+      
+      self.beak:hide()
     end
     
     function bird:show()
       self.node:show(self.perspectiveCamera)
+      
+      self.beak:show()
     end
   
     function bird:incrementAnimationFrame()
@@ -579,6 +592,8 @@ local Bird = {
       elseif self.texturePacker[2]:has({name=name}) then
         self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
       end
+      
+      self.beak:incrementAnimationFrame()
     end
     
     function bird:collide(colliderEntity, collisionPoint)
