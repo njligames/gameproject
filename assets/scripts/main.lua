@@ -1782,7 +1782,7 @@ local Test = {
     local test = {
     }
     
-    function test:create()
+    function test:load()
       print("create test")
       
 --      self.shader = njlic.ShaderProgram.create()
@@ -1793,9 +1793,6 @@ local Test = {
       rootNode:setOrigin(bullet3.btVector3(0,0,0))
       scene:setRootNode(rootNode)
       njlic.World.getInstance():setScene(scene)
-      
-      
-      
       
       self.perspectiveCameraNode = njlic.Node.create()
       self.perspectiveCameraNode:setName("perspectiveCamera")
@@ -1808,15 +1805,12 @@ local Test = {
       self.perspectiveCameraNode:setCamera(self.perspectiveCamera)
       
       rootNode:addChildNode(self.perspectiveCameraNode)
+
       njlic.World.getInstance():enableDebugDraw(self.perspectiveCamera)
-      
-      
-      
-      
       
     end
   
-    function test:destroy()
+    function test:unload()
       print("destroy test")
       
       njlic.Camera.destroy(self.perspectiveCamera)
@@ -1829,7 +1823,7 @@ local Test = {
       njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 1.000)
       
       local debugDrawer = njlic.World.getInstance():getDebugDrawer()
-      debugDrawer:line( bullet3.btVector3(0,0,0), bullet3.btVector3(0,0,-1000))
+      debugDrawer:line( bullet3.btVector3(0,0,0), bullet3.btVector3(0,1,1000))
       
       local scene = njlic.World.getInstance():getScene()
       local rootNode = scene:getRootNode()
@@ -1842,10 +1836,16 @@ local Test = {
 --      print(self.perspecitiveCameraNode)
 --       print("update test")
     end
-  
+
+      function test:collide(node, otherNode, collisionPoint)
+      end
+      
     function test:click(x, y)
       print("click test")
     end
+
+      function test:updateAction(action, timeStep)
+      end
     
     return test
     
@@ -1854,23 +1854,18 @@ local Test = {
 }
 
 local Create = function()
-  debugdraw_basic_test = Test.new()
-  debugdraw_basic_test:create()
-  
---  yappyBirds = YappyBirds.new()
---  yappyBirds:load()
+    -- yappyBirds = YappyBirds.new()
+    yappyBirds = Test.new()
+    yappyBirds:load()
 end
 
 local Destroy = function()
-  debugdraw_basic_test:destroy()
-  debugdraw_basic_test = nil
---  yappyBirds:unload()
---  yappyBirds = nil
+  yappyBirds:unload()
+  yappyBirds = nil
 end
 
 local Update = function(timeStep)
-  debugdraw_basic_test:update(timeStep)
---  yappyBirds:update(timeStep)
+  yappyBirds:update(timeStep)
 end
 
 local Render = function()
@@ -1914,10 +1909,9 @@ local TouchCancelled = function(touches)
 end
 
 local MouseDown = function(mouse)
-  debugdraw_basic_test:click(mouse:getPosition():x(), mouse:getPosition():y())
   
 --  print("MouseDown")
---  yappyBirds:click(mouse:getPosition():x(), mouse:getPosition():y())
+  yappyBirds:click(mouse:getPosition():x(), mouse:getPosition():y())
 end
 
 local MouseUp = function(mouse)
@@ -1937,7 +1931,7 @@ local KeyUp = function(keycodeName, withCapsLock, withControl, withShift, withAl
 end
 
 local NodeCollide = function(node, otherNode, collisionPoint)
---  yappyBirds:collide(node, otherNode, collisionPoint)
+  yappyBirds:collide(node, otherNode, collisionPoint)
 end
 
 local NodeNear = function(node, otherNode)
@@ -1946,7 +1940,7 @@ end
 
 local NodeActionUpdate = function(action, timeStep)
   
---  yappyBirds:updateAction(action, timeStep)
+  yappyBirds:updateAction(action, timeStep)
   
   
 end
