@@ -398,6 +398,7 @@ local Bird = {
         njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
         
         self.physicsBody = njlic.PhysicsBodyRigid.create()
+        self.physicsBody:setName(string.format("%sbird_physicsbody_%05d", self.birdName, self.index))
         assert(self.physicsBody, "physicsBody is null")
         
         self.physicsShape = njlic.PhysicsShapeCylinder.create()
@@ -432,9 +433,9 @@ local Bird = {
         self.steeringBehaviorEvade:setWeight(600.0)
         self.steeringBehaviorEvade:setProbability(1.0)
         
-        self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourOffsetPursuit)
-        self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorSeparation)
-        self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorEvade)
+        -- self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourOffsetPursuit)
+        -- self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorSeparation)
+        -- self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorEvade)
         
         
         self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
@@ -481,7 +482,9 @@ local Bird = {
       stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
           enter = function() print("spawn enter") end,
           exit = function() print("spawn exit") end,
-          update = function(timeStep) print("spawn update") end,
+          update = function(timeStep) 
+            print("spawn update") 
+            end,
           collide = function(colliderEntity, collisionPoint) print("spawn nodeCollide") end,
         })
       self.stateMachine = stateMachine
@@ -705,6 +708,7 @@ local Balloon = {
       njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
       
       self.physicsBody = njlic.PhysicsBodyRigid.create()
+      self.physicsBody:setName("balloon_physicsbody_"..self.index)
       assert(self.physicsBody, "physicsBody is null")
       
       self.physicsShape = njlic.PhysicsShapeCylinder.create()
@@ -923,6 +927,7 @@ local Dog = {
         njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
         
         self.physicsBody = njlic.PhysicsBodyRigid.create()
+        self.physicsBody:setName("dog_physicsbody_"..self.index)
         assert(self.physicsBody, "physicsBody is null")
         
         self.physicsShape = njlic.PhysicsShapeCylinder.create()
@@ -1772,18 +1777,100 @@ local YappyBirds = {
 
 njlic.World.getInstance():setBackgroundColor(1.000, 0.000, 1.000)
 
+local Test = {
+  new = function()
+    local test = {
+    }
+    
+    function test:create()
+      print("create test")
+      
+--      self.shader = njlic.ShaderProgram.create()
+--      assert(njlic.World.getInstance():getWorldResourceLoader():load("shaders/PassThrough.vert", "shaders/PassThrough.frag", self.shader))
+      
+      local scene = njlic.Scene.create()
+      local rootNode = njlic.Node.create()
+      rootNode:setOrigin(bullet3.btVector3(0,0,0))
+      scene:setRootNode(rootNode)
+      njlic.World.getInstance():setScene(scene)
+      
+      
+      
+      
+      self.perspectiveCameraNode = njlic.Node.create()
+      self.perspectiveCameraNode:setName("perspectiveCamera")
+
+      self.perspectiveCamera = njlic.Camera.create()
+      self.perspectiveCamera:enableOrthographic(false)
+--      self.perspectiveCamera:setRenderCategory(RenderCategories.perspective)
+      self.perspectiveCamera:setName("perspectiveCamera")
+
+      self.perspectiveCameraNode:setCamera(self.perspectiveCamera)
+      
+      rootNode:addChildNode(self.perspectiveCameraNode)
+      njlic.World.getInstance():enableDebugDraw(self.perspectiveCamera)
+      
+      
+      
+      
+      
+    end
+  
+    function test:destroy()
+      print("destroy test")
+      
+      njlic.Camera.destroy(self.perspectiveCamera)
+      njlic.Node.destroy(self.perspectiveCameraNode)
+      
+--      njlic.ShaderProgram.destroy(self.shader)
+    end
+  
+    function test:update(timestep)
+      njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 1.000)
+      
+      local debugDrawer = njlic.World.getInstance():getDebugDrawer()
+      debugDrawer:line( bullet3.btVector3(0,0,0), bullet3.btVector3(0,0,-1000))
+      
+      local scene = njlic.World.getInstance():getScene()
+      local rootNode = scene:getRootNode()
+      print(scene)
+      print(rootNode)
+      print(debugDrawer)
+      
+      
+--      print(self.shader)
+--      print(self.perspecitiveCameraNode)
+--       print("update test")
+    end
+  
+    function test:click(x, y)
+      print("click test")
+    end
+    
+    return test
+    
+  end
+  
+}
+
 local Create = function()
-  yappyBirds = YappyBirds.new()
-  yappyBirds:load()
+  debugdraw_basic_test = Test.new()
+  debugdraw_basic_test:create()
+  
+--  yappyBirds = YappyBirds.new()
+--  yappyBirds:load()
 end
 
 local Destroy = function()
-  yappyBirds:unload()
-  yappyBirds = nil
+  debugdraw_basic_test:destroy()
+  debugdraw_basic_test = nil
+--  yappyBirds:unload()
+--  yappyBirds = nil
 end
 
 local Update = function(timeStep)
-  yappyBirds:update(timeStep)
+  debugdraw_basic_test:update(timeStep)
+--  yappyBirds:update(timeStep)
 end
 
 local Render = function()
@@ -1827,8 +1914,10 @@ local TouchCancelled = function(touches)
 end
 
 local MouseDown = function(mouse)
+  debugdraw_basic_test:click(mouse:getPosition():x(), mouse:getPosition():y())
+  
 --  print("MouseDown")
-  yappyBirds:click(mouse:getPosition():x(), mouse:getPosition():y())
+--  yappyBirds:click(mouse:getPosition():x(), mouse:getPosition():y())
 end
 
 local MouseUp = function(mouse)
@@ -1848,7 +1937,7 @@ local KeyUp = function(keycodeName, withCapsLock, withControl, withShift, withAl
 end
 
 local NodeCollide = function(node, otherNode, collisionPoint)
-  yappyBirds:collide(node, otherNode, collisionPoint)
+--  yappyBirds:collide(node, otherNode, collisionPoint)
 end
 
 local NodeNear = function(node, otherNode)
@@ -1857,7 +1946,7 @@ end
 
 local NodeActionUpdate = function(action, timeStep)
   
-  yappyBirds:updateAction(action, timeStep)
+--  yappyBirds:updateAction(action, timeStep)
   
   
 end
