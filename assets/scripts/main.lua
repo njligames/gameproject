@@ -1539,6 +1539,12 @@ local YappyBirds = {
 
     function game:update(timeStep)
       
+      local from = self.perspectiveCameraNode:getOrigin()
+      local dir = self.perspectiveCamera:getForwardVector()
+
+      local debugDrawer = njlic.World.getInstance():getDebugDrawer()
+      debugDrawer:line( bullet.btVector3(-100.0, 0.0, 10.0), bullet.btVector3(100.0, 0.0, 10.0))
+
       if self.run then
         
         self.spawnMachine:tick(self, timeStep)
@@ -1790,7 +1796,7 @@ local Test = {
       
       local scene = njlic.Scene.create()
       local rootNode = njlic.Node.create()
-      rootNode:setOrigin(bullet3.btVector3(0,0,0))
+      rootNode:setOrigin(bullet3.btVector3(0,-0.5,-1))
       scene:setRootNode(rootNode)
       njlic.World.getInstance():setScene(scene)
       
@@ -1803,6 +1809,7 @@ local Test = {
       self.perspectiveCamera:setName("perspectiveCamera")
 
       self.perspectiveCameraNode:setCamera(self.perspectiveCamera)
+      -- self.perspectiveCamera:lookAt(btVector3(0,0,0))
       
       rootNode:addChildNode(self.perspectiveCameraNode)
 
@@ -1822,14 +1829,38 @@ local Test = {
     function test:update(timestep)
       njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 1.000)
       
+      local from = self.perspectiveCameraNode:getOrigin()
+      local dir = self.perspectiveCamera:getForwardVector()
+
       local debugDrawer = njlic.World.getInstance():getDebugDrawer()
-      debugDrawer:line( bullet3.btVector3(0,0,0), bullet3.btVector3(0,1,1000))
+      -- debugDrawer:line( from, dir * 1000)
+
+      -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 0.0), bullet.btVector3(100.0, 0.0, 0.0))
+      -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 1.0), bullet.btVector3(100.0, 0.0, 1.0))
+      -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 2.0), bullet.btVector3(100.0, 0.0, 2.0))
+      -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 3.0), bullet.btVector3(100.0, 0.0, 3.0), bullet.btVector3(0.0, 1.0, 0.0))
+      -- debugDrawer:line( bullet.btVector3(0.0, -100.0, 3.0), bullet.btVector3(0.0, 100.0, 3.0), bullet.btVector3(0.0, 0.0, 1.0))
+      -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 4.0), bullet.btVector3(100.0, 0.0, 4.0))
+      -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 5.0), bullet.btVector3(100.0, 0.0, 5.0))
+      -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 6.0), bullet.btVector3(100.0, 0.0, 6.0))
+      -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 7.0), bullet.btVector3(100.0, 0.0, 7.0))
+      -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 8.0), bullet.btVector3(100.0, 0.0, 8.0))
+      -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 9.0), bullet.btVector3(100.0, 0.0, 9.0))
+      -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 10.0), bullet.btVector3(100.0, 0.0, 10.0))
+      --
+      for i=0,100 do
+          debugDrawer:line( bullet.btVector3(i * 0.1, -100.0, 3.0), bullet.btVector3(i * 0.1, 100.0, 3.0), bullet.btVector3(0.0, 0.0, 1.0))
+      end
+      debugDrawer:point(bullet.btVector3(0.0, 0.0, 3.0), bullet.btVector3(1.0, 0.0, 0.0), 200)
+      debugDrawer:projectedText("THIS", bullet.btVector3(0, 0, 3), bullet.btVector3(0,1,0), 10)
+      debugDrawer:screenText("THAT", bullet.btVector3(0, 0, 3), bullet.btVector3(0,1,0), 10)
+
       
       local scene = njlic.World.getInstance():getScene()
       local rootNode = scene:getRootNode()
-      print(scene)
-      print(rootNode)
-      print(debugDrawer)
+      -- print(scene)
+      -- print(rootNode)
+      -- print(debugDrawer)
       
       
 --      print(self.shader)
