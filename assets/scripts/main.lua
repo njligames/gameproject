@@ -1885,8 +1885,8 @@ local Test = {
 }
 
 local Create = function()
-    -- yappyBirds = YappyBirds.new()
-    yappyBirds = Test.new()
+    yappyBirds = YappyBirds.new()
+    -- yappyBirds = Test.new()
     yappyBirds:load()
 end
 
