@@ -238,7 +238,7 @@ local Beak = {
       if(self.currentFrame > 8) then self.currentFrame = 0 end
       
       local name = self:getFrameName()
-      print("beak", name)
+      -- print("beak", name)
       if self.texturePacker[1]:has({name=name}) then
         self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
       elseif self.texturePacker[2]:has({name=name}) then
@@ -483,7 +483,7 @@ local Bird = {
           enter = function() print("spawn enter") end,
           exit = function() print("spawn exit") end,
           update = function(timeStep) 
-            print("spawn update") 
+            -- print("spawn update") 
             end,
           collide = function(colliderEntity, collisionPoint) print("spawn nodeCollide") end,
         })
@@ -1580,8 +1580,8 @@ local YappyBirds = {
       if self.run then
         
         local origin = self.params:originForLayer({x=x, y=y}, 10)
---        print("originForLayer")
---        print(origin)
+        print("originForLayer")
+        print(x, y, origin)
 --        origin = self.levelLoader:getDogWayPointParams(1).origin
 --        print("origin for index 1 ")
 --        print(origin)
@@ -1925,6 +1925,7 @@ end
 
 local TouchDown = function(touch)
   print("TouchDown")
+  yappyBirds:click(touch:getPosition():x(), touch:getPosition():y())
 end
 
 local TouchUp = function(touch)
