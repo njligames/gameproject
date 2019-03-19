@@ -164,7 +164,7 @@ local Beak = {
       njlic.Sound.destroy(self.sound)
       
 --      njlic.PhysicsBodyRigid.destroy(self.physicsBody)
---      njlic.PhysicsShapeCylinder.destroy(self.physicsShape) 
+--      njlic.PhysicsShapeSphere.destroy(self.physicsShape) 
       
       njlic.Clock.destroy(self.animationClock)
       njlic.Action.destroy(self.action)
@@ -185,14 +185,14 @@ local Beak = {
       self.node:setOrigin(origin)
       self.node:getGeometry():setDimensions(self.node, dimensions)
       
-      print("setup the beak")
+      -- print("setup the beak")
       
     end
     
     function beak:spawn(...)
       local arg=... or {}
       
-      print("spawn beak")
+      -- print("spawn beak")
       
       self.inplay=true
       
@@ -220,7 +220,7 @@ local Beak = {
 --      self.node:enableTagged(false)
       self:hide()
       
-      print("killed beak")
+      -- print("killed beak")
 
       -- put back to hiding values
     end
@@ -363,7 +363,7 @@ local Bird = {
     function bird:load(...)
       local arg=... or {}
       
-      print("loaded the bird - start")
+      -- print("loaded the bird - start")
       
       local origin = bullet.btVector3(0.0, 0.0, 0.0)
       
@@ -399,9 +399,12 @@ local Bird = {
         
         self.physicsBody = njlic.PhysicsBodyRigid.create()
         self.physicsBody:setName(string.format("%sbird_physicsbody_%05d", self.birdName, self.index))
+        self.physicsBody:enableHandleCollideCallback()
         assert(self.physicsBody, "physicsBody is null")
         
-        self.physicsShape = njlic.PhysicsShapeCylinder.create()
+        self.physicsShape = njlic.PhysicsShapeSphere.create()
+        self.physicsShape:setRadius(5)
+
         assert(self.physicsShape, "physicsShape is null")
         
         self.physicsShape:setMargin(1)
@@ -414,7 +417,7 @@ local Bird = {
         njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
         
         
-        print("start steering behaviour for bird")
+        -- print("start steering behaviour for bird")
         self.steeringBehaviourMachine = njlic.SteeringBehaviorMachineDithered.create()
         self.steeringBehaviourMachine:setMaxSpeed(self.params.Bird[self.birdName].MaxSpeed)
         self.steeringBehaviourMachine:setMaxForce(self.params.Bird[self.birdName].MaxForce)
@@ -440,7 +443,7 @@ local Bird = {
         
         self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
         
-        print("end steering behaviour for bird")
+        -- print("end steering behaviour for bird")
         
       else
         print("couldn't load the bird")
@@ -480,8 +483,12 @@ local Bird = {
           collide = function(colliderEntity, collisionPoint) print("pursue nodeCollide") end,
         })
       stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
-          enter = function() print("spawn enter") end,
-          exit = function() print("spawn exit") end,
+          enter = function() 
+              -- print("spawn enter") 
+          end,
+          exit = function() 
+              -- print("spawn exit") 
+        end,
           update = function(timeStep) 
             -- print("spawn update") 
             end,
@@ -489,7 +496,7 @@ local Bird = {
         })
       self.stateMachine = stateMachine
       
-      print("loaded the bird - end")
+      -- print("loaded the bird - end")
     end
   
     function bird:unload()
@@ -505,13 +512,13 @@ local Bird = {
       njlic.Sound.destroy(self.sound)
       
       njlic.PhysicsBodyRigid.destroy(self.physicsBody)
-      njlic.PhysicsShapeCylinder.destroy(self.physicsShape) 
+      njlic.PhysicsShapeSphere.destroy(self.physicsShape) 
       
       njlic.Clock.destroy(self.animationClock)
       njlic.Action.destroy(self.action)
       njlic.Node.destroy(self.node)
       
-      print("unloaded the bird")
+      -- print("unloaded the bird")
     end
   
     function bird:setup(...)
@@ -528,14 +535,14 @@ local Bird = {
       
       self.beak:setup(arg)
       
-      print("setup the balloon")
+      -- print("setup the balloon")
       
     end
     
     function bird:spawn(...)
       local arg=... or {}
       
-      print("spawn bird")
+      -- print("spawn bird")
       
       self.inplay=true
       
@@ -567,7 +574,7 @@ local Bird = {
       self.node:enableTagged(false)
       self:hide()
       
-      print("killed bird")
+      -- print("killed bird")
 
       -- put back to hiding values
     end
@@ -678,7 +685,7 @@ local Balloon = {
     function balloon:load(...)
       local arg=... or {}
       
-      print("loaded the balloon - start")
+      -- print("loaded the balloon - start")
       
       self.color = arg.color or "?"
       
@@ -709,9 +716,11 @@ local Balloon = {
       
       self.physicsBody = njlic.PhysicsBodyRigid.create()
       self.physicsBody:setName("balloon_physicsbody_"..self.index)
+        self.physicsBody:enableHandleCollideCallback()
       assert(self.physicsBody, "physicsBody is null")
       
-      self.physicsShape = njlic.PhysicsShapeCylinder.create()
+      self.physicsShape = njlic.PhysicsShapeSphere.create()
+      self.physicsShape:setRadius(5)
       assert(self.physicsShape, "physicsShape is null")
       
       self.physicsShape:setMargin(1)
@@ -725,20 +734,20 @@ local Balloon = {
       
       
       
-      print("loaded the balloon - end")
+      -- print("loaded the balloon - end")
     end
   
     function balloon:unload()
       njlic.Sound.destroy(self.sound)
       
       njlic.PhysicsBodyRigid.destroy(self.physicsBody)
-      njlic.PhysicsShapeCylinder.destroy(self.physicsShape) 
+      njlic.PhysicsShapeSphere.destroy(self.physicsShape) 
       
       njlic.Clock.destroy(self.animationClock)
       njlic.Action.destroy(self.action)
       njlic.Node.destroy(self.node)
       
-      print("unloaded the balloon")
+      -- print("unloaded the balloon")
     end
     
     function balloon:setup(...)
@@ -755,14 +764,14 @@ local Balloon = {
       self.node:getGeometry():setDimensions(self.node, dimensions)
       self.direction = direction
       
-      print("setup the balloon")
+      -- print("setup the balloon")
       
     end
 
     function balloon:spawn(...)
       local arg=... or {}
       
-      print("spawn balloon")
+      -- print("spawn balloon")
       
       self.inplay=true
       
@@ -806,7 +815,7 @@ local Balloon = {
       self.node:enableTagged(false)
       self:hide()
       
-      print("killed balloon")
+      -- print("killed balloon")
       -- put back to hiding values
     end
     
@@ -897,7 +906,7 @@ local Dog = {
     function dog:load(...)
       local arg=... or {}
       
-      print("loaded the dog - start")
+      -- print("loaded the dog - start")
       
       local origin = bullet.btVector3(0.0, 0.0, 0.0)
       
@@ -928,9 +937,12 @@ local Dog = {
         
         self.physicsBody = njlic.PhysicsBodyRigid.create()
         self.physicsBody:setName("dog_physicsbody_"..self.index)
+        self.physicsBody:enableHandleCollideCallback()
+
         assert(self.physicsBody, "physicsBody is null")
         
-        self.physicsShape = njlic.PhysicsShapeCylinder.create()
+        self.physicsShape = njlic.PhysicsShapeSphere.create()
+        self.physicsShape:setRadius(5)
         assert(self.physicsShape, "physicsShape is null")
         
         self.physicsShape:setMargin(1)
@@ -942,7 +954,7 @@ local Dog = {
         local soundName = "sounds/projectile_balloon_water-splash.ogg"
         njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
         
-        print("start steering behaviour for dog")
+        -- print("start steering behaviour for dog")
         self.steeringBehaviourMachine = njlic.SteeringBehaviorMachineWeighted.create()
         self.steeringBehaviourFollowPath = njlic.SteeringBehaviorFollowPath.create()
         
@@ -953,12 +965,12 @@ local Dog = {
         
         self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
         
-        print("end steering behaviour for dog")
+        -- print("end steering behaviour for dog")
       else
         print("couldn't load the dog")
       end
       
-      print("loaded the dog - end")
+      -- print("loaded the dog - end")
       
     end
     
@@ -991,13 +1003,13 @@ local Dog = {
       njlic.Sound.destroy(self.sound)
       
       njlic.PhysicsBodyRigid.destroy(self.physicsBody)
-      njlic.PhysicsShapeCylinder.destroy(self.physicsShape) 
+      njlic.PhysicsShapeSphere.destroy(self.physicsShape) 
       
       njlic.Clock.destroy(self.animationClock)
       njlic.Action.destroy(self.action)
       njlic.Node.destroy(self.node)
       
-      print("unloaded the dog")
+      -- print("unloaded the dog")
     end
     
     function dog:setup(...)
@@ -1023,14 +1035,14 @@ local Dog = {
       
       self.steeringBehaviourFollowPath:setWaypointSeekDist(1.0)
       
-      print("setup the dog")
+      -- print("setup the dog")
       
     end
 
     function dog:spawn(...)
       local arg=... or {}
       
-      print("spawn dog")
+      -- print("spawn dog")
       
       self.inplay=true
       
@@ -1056,7 +1068,7 @@ local Dog = {
       self:hide()
       self.steeringBehaviourMachine:enable(false)
       
-      print("killed balloon")
+      -- print("killed balloon")
       -- put back to hiding values
     end
     
@@ -1158,7 +1170,7 @@ local Billboard = {
       self.node:enableTagged()
       
       self.inplay=true
-      print("spawned billboard")
+      -- print("spawned billboard")
     end
 
     function billboard:kill(...)
@@ -1184,7 +1196,7 @@ local Billboard = {
 
 local YappyBirds = {
   new = function()
-    print("YappyBirds.new() - start")
+    -- print("YappyBirds.new() - start")
   
     local Params = require "YAPPYBIRDS.Params"
     local SpawnMachine = require "YAPPYBIRDS.SpawnMachine"
@@ -1227,7 +1239,7 @@ local YappyBirds = {
     }
 
     function game:load()
-      print("game:load() - start")
+      -- print("game:load() - start")
       
       local debug = false
 
@@ -1440,11 +1452,11 @@ local YappyBirds = {
       
       
     
-      print("game:load() - end")
+      -- print("game:load() - end")
     end
 
     function game:unload()
-      print("game:unload() - start")
+      -- print("game:unload() - start")
       
       self.run = false
       
@@ -1528,7 +1540,7 @@ local YappyBirds = {
       end
       self.balloonPool = {}
     
-      print("game:unload() - end")
+      -- print("game:unload() - end")
     end
     
     function game:collide(node, otherNode, collisionPoint)
@@ -1580,8 +1592,8 @@ local YappyBirds = {
       if self.run then
         
         local origin = self.params:originForLayer({x=x, y=y}, 10)
-        print("originForLayer")
-        print(x, y, origin)
+        -- print("originForLayer")
+        -- print(x, y, origin)
 --        origin = self.levelLoader:getDogWayPointParams(1).origin
 --        print("origin for index 1 ")
 --        print(origin)
@@ -1789,7 +1801,7 @@ local Test = {
     }
     
     function test:load()
-      print("create test")
+      -- print("create test")
       
 --      self.shader = njlic.ShaderProgram.create()
 --      assert(njlic.World.getInstance():getWorldResourceLoader():load("shaders/PassThrough.vert", "shaders/PassThrough.frag", self.shader))
@@ -1818,7 +1830,7 @@ local Test = {
     end
   
     function test:unload()
-      print("destroy test")
+      -- print("destroy test")
       
       njlic.Camera.destroy(self.perspectiveCamera)
       njlic.Node.destroy(self.perspectiveCameraNode)
@@ -1924,16 +1936,16 @@ local TouchesCancelled = function(touches)
 end
 
 local TouchDown = function(touch)
-  print("TouchDown")
+  -- print("TouchDown")
   yappyBirds:click(touch:getPosition():x(), touch:getPosition():y())
 end
 
 local TouchUp = function(touch)
-  print("TouchUp")
+  -- print("TouchUp")
 end
 
 local TouchMove = function(touch)
-  print("TouchMove")
+  -- print("TouchMove")
 end
 
 local TouchCancelled = function(touches)
