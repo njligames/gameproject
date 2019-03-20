@@ -398,6 +398,9 @@ local Bird = {
         njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
         
         self.physicsBody = njlic.PhysicsBodyRigid.create()
+        self.physicsBody:setCollisionGroup(CollisionGroups.bird)
+        self.physicsBody:setCollisionMask(CollisionMasks.bird)
+
         self.physicsBody:setName(string.format("%sbird_physicsbody_%05d", self.birdName, self.index))
         self.physicsBody:enableHandleCollideCallback()
         assert(self.physicsBody, "physicsBody is null")
@@ -453,34 +456,84 @@ local Bird = {
       local stateMachine = StateMachine.new(self)
       
       stateMachine:addState(self.STATEMACHINE_STATES.fly, {
-          enter = function() print("fly enter") end,
-          exit = function() print("fly exit") end,
-          update = function(timeStep) print("fly update") end,
-          collide = function(colliderEntity, collisionPoint) print("fly nodeCollide") end,
+          enter = function() 
+              print("fly enter") 
+          end,
+          exit = function() 
+              print("fly exit") 
+          end,
+          update = function(timeStep) 
+              print("fly update") 
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+              end
+          end,
         })
       stateMachine:addState(self.STATEMACHINE_STATES.grabbed, {
-          enter = function() print("grabbed enter") end,
-          exit = function() print("grabbed exit") end,
-          update = function(timeStep) print("grabbed update") end,
-          collide = function(colliderEntity, collisionPoint) print("grabbed nodeCollide") end,
+          enter = function() 
+              print("grabbed enter") 
+          end,
+          exit = function() 
+              print("grabbed exit") 
+          end,
+          update = function(timeStep) 
+              print("grabbed update") 
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+              end
+          end,
         })
       stateMachine:addState(self.STATEMACHINE_STATES.grabbing, {
-          enter = function() print("grabbing enter") end,
-          exit = function() print("grabbing exit") end,
-          update = function(timeStep) print("grabbing update") end,
-          collide = function(colliderEntity, collisionPoint) print("grabbing nodeCollide") end,
+          enter = function() 
+              print("grabbing enter") 
+          end,
+          exit = function() 
+              print("grabbing exit") 
+          end,
+          update = function(timeStep) 
+              print("grabbing update") 
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+              end
+          end,
         })
       stateMachine:addState(self.STATEMACHINE_STATES.hit, {
-          enter = function() print("hit enter") end,
-          exit = function() print("hit exit") end,
-          update = function(timeStep) print("hit update") end,
-          collide = function(colliderEntity, collisionPoint) print("hit nodeCollide") end,
+          enter = function() 
+              print("hit enter") 
+          end,
+          exit = function() 
+              print("hit exit") 
+          end,
+          update = function(timeStep) 
+              print("hit update") 
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+              end
+          end,
         })
       stateMachine:addState(self.STATEMACHINE_STATES.pursue, {
-          enter = function() print("pursue enter") end,
-          exit = function() print("pursue exit") end,
-          update = function(timeStep) print("pursue update") end,
-          collide = function(colliderEntity, collisionPoint) print("pursue nodeCollide") end,
+          enter = function() 
+              print("pursue enter") 
+          end,
+          exit = function() 
+              print("pursue exit") 
+          end,
+          update = function(timeStep) 
+              print("pursue update") 
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+              end
+          end,
         })
       stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
           enter = function() 
@@ -492,7 +545,11 @@ local Bird = {
           update = function(timeStep) 
             -- print("spawn update") 
             end,
-          collide = function(colliderEntity, collisionPoint) print("spawn nodeCollide") end,
+          collide = function(colliderEntity, collisionPoint) 
+              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+              end
+          end,
         })
       self.stateMachine = stateMachine
       
@@ -715,6 +772,8 @@ local Balloon = {
       njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
       
       self.physicsBody = njlic.PhysicsBodyRigid.create()
+        self.physicsBody:setCollisionGroup(CollisionGroups.projectile)
+        self.physicsBody:setCollisionMask(CollisionMasks.projectile)
       self.physicsBody:setName("balloon_physicsbody_"..self.index)
         self.physicsBody:enableHandleCollideCallback()
       assert(self.physicsBody, "physicsBody is null")
@@ -841,6 +900,12 @@ local Balloon = {
       
     end
     
+    function balloon:collide(colliderEntity, collisionPoint)
+      -- self.stateMachine:collide(colliderEntity, collisionPoint)
+      -- print('balloon collide')
+      self:kill()
+    end
+
     function balloon:update(timeStep)
       local origin = self.node:getOrigin()
 
@@ -936,6 +1001,8 @@ local Dog = {
         njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
         
         self.physicsBody = njlic.PhysicsBodyRigid.create()
+        self.physicsBody:setCollisionGroup(CollisionGroups.dog)
+        self.physicsBody:setCollisionMask(CollisionMasks.dog)
         self.physicsBody:setName("dog_physicsbody_"..self.index)
         self.physicsBody:enableHandleCollideCallback()
 
@@ -1979,7 +2046,7 @@ local NodeCollide = function(node, otherNode, collisionPoint)
 end
 
 local NodeNear = function(node, otherNode)
-  print("NodeNear")
+  -- print("NodeNear")
 end
 
 local NodeActionUpdate = function(action, timeStep)
