@@ -59,8 +59,6 @@ function SpawnMachine:collide(node, otherNode, collisionPoint)
   assert(collideeEntity, "The collidee entity is nil")
   assert(colliderEntity, "The collider entity is nil")
   
-  collideeEntity:collide(colliderEntity, collisionPoint)
-  
   pcall(collideeEntity.collide, collideeEntity, colliderEntity, collisionPoint)
 end
 

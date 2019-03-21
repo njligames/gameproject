@@ -398,8 +398,6 @@ local Bird = {
         njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
         
         self.physicsBody = njlic.PhysicsBodyRigid.create()
-        self.physicsBody:setCollisionGroup(CollisionGroups.bird)
-        self.physicsBody:setCollisionMask(CollisionMasks.bird)
         self.physicsBody:setAngularFactor(bullet.btVector3(0,0,0))
 
         self.physicsBody:setName(string.format("%sbird_physicsbody_%05d", self.birdName, self.index))
@@ -507,12 +505,13 @@ local Bird = {
       stateMachine:addState(self.STATEMACHINE_STATES.hit, {
           enter = function() 
               print("hit enter") 
+                self.steeringBehaviourMachine:clearSteering()
           end,
           exit = function() 
               print("hit exit") 
           end,
           update = function(timeStep) 
-              print("hit update") 
+              -- print("hit update") 
           end,
           collide = function(colliderEntity, collisionPoint) 
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
@@ -538,17 +537,29 @@ local Bird = {
         })
       stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
           enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.idle
               -- print("spawn enter") 
+                self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourOffsetPursuit)
+                self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorSeparation)
+                -- self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorEvade)
           end,
           exit = function() 
               -- print("spawn exit") 
+                self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviourOffsetPursuit)
+                self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorSeparation)
+                -- self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorEvade)
         end,
           update = function(timeStep) 
-            -- print("spawn update") 
+             -- print("spawn update") 
             end,
           collide = function(colliderEntity, collisionPoint) 
-              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+              if(colliderEntity ~= nil and colliderEntity.node ~= nil and colliderEntity.node:getPhysicsBody() ~= nil) then
+                  if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                      print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+                      colliderEntity:kill()
+                      -- self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
+                      self:kill()
+                  end
               end
           end,
         })
@@ -611,8 +622,11 @@ local Bird = {
       
       self.steeringBehaviourMachine:enable()
       
-      self.currentAnimationState=self.ANIMATION_STATES.idle
+      -- self.currentAnimationState=self.ANIMATION_STATES.idle
       self.stateMachine:switchStates(self.STATEMACHINE_STATES.spawn)
+
+    self.physicsBody:setCollisionGroup(CollisionGroups.bird)
+    self.physicsBody:setCollisionMask(CollisionMasks.bird)
       
       self.beak:spawn(arg)
     end
@@ -628,9 +642,12 @@ local Bird = {
       
       self.node:removeAction(self.node:getName())
       
+    self.physicsBody:setCollisionGroup(CollisionGroups.none)
+    self.physicsBody:setCollisionMask(CollisionMasks.none)
       self.node:removePhysicsBody()
       self.node:enableTagged(false)
       self:hide()
+
       
       -- print("killed bird")
 
@@ -906,7 +923,7 @@ local Balloon = {
     function balloon:collide(colliderEntity, collisionPoint)
       -- self.stateMachine:collide(colliderEntity, collisionPoint)
       -- print('balloon collide')
-      self:kill()
+      -- self:kill()
     end
 
     function balloon:update(timeStep)
