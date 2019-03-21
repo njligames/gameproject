@@ -774,6 +774,7 @@ local Balloon = {
       self.physicsBody = njlic.PhysicsBodyRigid.create()
         self.physicsBody:setCollisionGroup(CollisionGroups.projectile)
         self.physicsBody:setCollisionMask(CollisionMasks.projectile)
+        self.physicsBody:setAngularFactor(bullet.btVector3(0,0,0))
       self.physicsBody:setName("balloon_physicsbody_"..self.index)
         self.physicsBody:enableHandleCollideCallback()
       assert(self.physicsBody, "physicsBody is null")
