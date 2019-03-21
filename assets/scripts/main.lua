@@ -400,6 +400,7 @@ local Bird = {
         self.physicsBody = njlic.PhysicsBodyRigid.create()
         self.physicsBody:setCollisionGroup(CollisionGroups.bird)
         self.physicsBody:setCollisionMask(CollisionMasks.bird)
+        self.physicsBody:setAngularFactor(bullet.btVector3(0,0,0))
 
         self.physicsBody:setName(string.format("%sbird_physicsbody_%05d", self.birdName, self.index))
         self.physicsBody:enableHandleCollideCallback()
@@ -775,6 +776,7 @@ local Balloon = {
         self.physicsBody:setCollisionGroup(CollisionGroups.projectile)
         self.physicsBody:setCollisionMask(CollisionMasks.projectile)
         self.physicsBody:setAngularFactor(bullet.btVector3(0,0,0))
+
       self.physicsBody:setName("balloon_physicsbody_"..self.index)
         self.physicsBody:enableHandleCollideCallback()
       assert(self.physicsBody, "physicsBody is null")
@@ -1004,6 +1006,8 @@ local Dog = {
         self.physicsBody = njlic.PhysicsBodyRigid.create()
         self.physicsBody:setCollisionGroup(CollisionGroups.dog)
         self.physicsBody:setCollisionMask(CollisionMasks.dog)
+        self.physicsBody:setAngularFactor(bullet.btVector3(0,0,0))
+
         self.physicsBody:setName("dog_physicsbody_"..self.index)
         self.physicsBody:enableHandleCollideCallback()
 
