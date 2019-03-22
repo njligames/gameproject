@@ -87,9 +87,9 @@ function SpawnMachine:tick(gameplay, timeStep)
     if entity and entity.node then
       assert(entity.node, "entity node is nil")
       self.gameEntities[entity.node:getName()] = entity
-      -- entity:kill()
       local status, err = pcall(entity.kill, entity)
       if not status then print(err) end
+      entity = nil
     end
   end
 
@@ -98,7 +98,6 @@ function SpawnMachine:tick(gameplay, timeStep)
     if entity and entity.node then
       assert(entity.node, "entity node is nil")
       self.gameEntities[entity.node:getName()] = entity
-      -- entity:spawn()
       local status, err = pcall(entity.spawn, entity)
       if not status then print(err) end
     end
@@ -109,7 +108,6 @@ function SpawnMachine:tick(gameplay, timeStep)
     if entity and entity.node then
       assert(entity.node, "entity node is nil")
       self.gameEntities[entity.node:getName()] = entity
-      -- entity:spawn()
       local status, err = pcall(entity.spawn, entity)
       if not status then print(err) end
     end
@@ -120,7 +118,6 @@ function SpawnMachine:tick(gameplay, timeStep)
     if entity and entity.node then
       assert(entity.node, "entity node is nil")
       self.gameEntities[entity.node:getName()] = entity
-      -- entity:spawn()
       local status, err = pcall(entity.spawn, entity)
       if not status then print(err) end
     end

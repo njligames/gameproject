@@ -81,32 +81,15 @@ local Beak = {
       animationClock = nil,
       fps=30,
       params = params,
-      
       ANIMATION_STATES={grab="grab",hit="hit",idle="idle"},
       birdName=birdName,
       STATEMACHINE_STATES={grab="grab",hit="hit",idle="idle",yap="yap"},
       currentAnimationState=nil
-
-
---      ANIMATION_STATES={grab="grab",hit="hit",idle="idle"},
---      birdName=birdName,
---      dogs=dogs,
---      STATEMACHINE_STATES={fly="fly",grabbed="grabbed",grabbing="grabbing",hit="hit",pursue="pursue",spawn="spawn"},
---      stateMachine = nil,
---      beak = beak,
     }
     
     function beak:getFrameName()
       local state = self.currentAnimationState
       local birdName = self.birdName
-      
---      if state == "fly" then
---      elseif state == "grabbed" then
---      elseif state == "grabbing" then
---      elseif state == "hit" then
---      elseif state == "pursue" then
---      elseif state == "spawn" then
---      end
       
       local name = string.format("character_%sBird_mouth_%s_front/character_%sBird_mouth_%s_front_%05d", birdName, state, birdName, state, self.currentFrame)
       return name
@@ -162,16 +145,8 @@ local Beak = {
     end
   
     function beak:unload()
---      self.stateMachine = nil
-      
---      njlic.SteeringBehaviorSeparation.destroy(self.steeringBehaviorSeparation)
---      njlic.SteeringBehaviorOffsetPursuit.destroy(self.steeringBehaviourOffsetPursuit)
---      njlic.SteeringBehaviorMachineDithered.destroy(self.steeringBehaviourMachine)
       
       njlic.Sound.destroy(self.sound)
-      
---      njlic.PhysicsBodyRigid.destroy(self.physicsBody)
---      njlic.PhysicsShapeSphere.destroy(self.physicsShape) 
       
       njlic.Clock.destroy(self.animationClock)
       njlic.Action.destroy(self.action)
@@ -208,13 +183,7 @@ local Beak = {
       
       self:show()
       self.node:runAction(self.action)
---      self.node:setPhysicsBody(self.physicsBody)
---      self.node:enableTagged()
-      
---      self.steeringBehaviourMachine:enable()
-      
       self.currentAnimationState=self.ANIMATION_STATES.idle
---      self.stateMachine:switchStates(self.STATEMACHINE_STATES.spawn)
     end
 
     function beak:kill(...)
@@ -222,17 +191,12 @@ local Beak = {
       
       self.inplay=false
 
---      self.steeringBehaviourMachine:enable(false)
-      
       self.node:removeAction(self.node:getName())
       
---      self.node:removePhysicsBody()
---      self.node:enableTagged(false)
       self:hide()
       
       -- print("killed beak")
 
-      -- put back to hiding values
     end
     
     function beak:hide()
@@ -248,7 +212,6 @@ local Beak = {
       if(self.currentFrame > 8) then self.currentFrame = 0 end
       
       local name = self:getFrameName()
-      -- print("beak", name)
       if self.texturePacker[1]:has({name=name}) then
         self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
       elseif self.texturePacker[2]:has({name=name}) then
@@ -256,59 +219,13 @@ local Beak = {
       end
     end
     
---    function beak:collide(colliderEntity, collisionPoint)
-----      self.stateMachine:collide(colliderEntity, collisionPoint)
---    end
-    
     function beak:update(timeStep)
       
---      for i = 1, #self.dogs do
---        local dogEntity = self.dogs[i]
-        
---        if dogEntity.inplay then
---          self.steeringBehaviourOffsetPursuit:addTarget(dogEntity.node)
---        else
---          self.steeringBehaviourOffsetPursuit:removeTarget(dogEntity.node)
---        end
---      end
-      
---      self.stateMachine:update(timeStep)
-      
---      print("bird")
     end
   
---    function beak:addNeighbors(birds)
---      for i = 1, #birds do
---        local node = birds[i].node
---        if node ~= nil then
---          self.steeringBehaviorSeparation:addTarget(node)
---        end
---      end
---    end
-    
---    function beak:addBalloonsToEvade(balloons)
---      for i = 1, #balloons do
---        local node = balloons[i].node
---        if node ~= nil then
---          self.steeringBehaviorEvade:addTarget(node)
---        end
---      end
---    end
-    
-
     return beak
   end
 }
-
-
-
-
-
-
-
-
-
-
 
 local Bird = {
   new = function(...)
@@ -434,11 +351,10 @@ local Bird = {
         self.steeringBehaviourMachine:setMaxSpeed(self.params.Bird[self.birdName].MaxSpeed)
         self.steeringBehaviourMachine:setMaxForce(self.params.Bird[self.birdName].MaxForce)
         
-        self.steeringBehaviourOffsetPursuit = njlic.SteeringBehaviorOffsetPursuit.create()
-        self.steeringBehaviourOffsetPursuit:setOffsetPosition(bullet.btVector3(0,20,0))
-        self.steeringBehaviourOffsetPursuit:setWeight(1.0)
-        self.steeringBehaviourOffsetPursuit:setProbability(0.5)
---        self.steeringBehaviourOffsetPursuit = njlic.SteeringBehaviorArrive.create()
+        self.steeringBehaviorOffsetPursuit = njlic.SteeringBehaviorOffsetPursuit.create()
+        self.steeringBehaviorOffsetPursuit:setOffsetPosition(bullet.btVector3(0,20,0))
+        self.steeringBehaviorOffsetPursuit:setWeight(1.0)
+        self.steeringBehaviorOffsetPursuit:setProbability(0.5)
 
         self.steeringBehaviorSeparation = njlic.SteeringBehaviorSeparation.create()
         self.steeringBehaviorSeparation:setWeight(60.0)
@@ -447,10 +363,10 @@ local Bird = {
         self.steeringBehaviorEvade = njlic.SteeringBehaviorEvade.create()
         self.steeringBehaviorEvade:setWeight(600.0)
         self.steeringBehaviorEvade:setProbability(1.0)
-        
-        -- self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourOffsetPursuit)
-        -- self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorSeparation)
-        -- self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorEvade)
+
+        self.steeringBehaviorPursuit = njlic.SteeringBehaviorPursuit.create()
+        self.steeringBehaviorPursuit:setWeight(1.0)
+        self.steeringBehaviorPursuit:setProbability(1.0)
         
         
         self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
@@ -466,17 +382,27 @@ local Bird = {
       
       stateMachine:addState(self.STATEMACHINE_STATES.fly, {
           enter = function() 
-              print("fly enter") 
+              self.currentAnimationState=self.ANIMATION_STATES.idle
+              -- print("spawn enter") 
+                self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorOffsetPursuit)
+                self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorSeparation)
           end,
           exit = function() 
-              print("fly exit") 
-          end,
+              -- print("spawn exit") 
+                self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorOffsetPursuit)
+                self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorSeparation)
+            end,
           update = function(timeStep) 
-              print("fly update") 
+              -- print("fly update") 
           end,
           collide = function(colliderEntity, collisionPoint) 
-              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+              if(colliderEntity ~= nil and colliderEntity.node ~= nil and colliderEntity.node:getPhysicsBody() ~= nil) then
+                  if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                      print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+                      -- colliderEntity:kill()
+                      self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
+                      self.spawnMachine:dispose(colliderEntity)
+                  end
               end
           end,
         })
@@ -514,6 +440,7 @@ local Bird = {
         })
       stateMachine:addState(self.STATEMACHINE_STATES.hit, {
           enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.hit
               print("hit enter") 
                 self.steeringBehaviourMachine:clearSteering()
                 self.steeringBehaviourMachine:enable(false)
@@ -544,14 +471,20 @@ local Bird = {
       stateMachine:addState(self.STATEMACHINE_STATES.pursue, {
           enter = function() 
               print("pursue enter") 
+              self.currentAnimationState=self.ANIMATION_STATES.idle
+            self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorPursuit)
           end,
           exit = function() 
               print("pursue exit") 
+            self.steeringBehaviourMachine:remoteSteeringBehavior(self.steeringBehaviorPursuit)
           end,
           update = function(timeStep) 
-              print("pursue update") 
+              -- print("pursue update") 
           end,
           collide = function(colliderEntity, collisionPoint) 
+              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.dog) then
+                  print("The dog (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+              end
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
                   print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
               end
@@ -561,27 +494,18 @@ local Bird = {
           enter = function() 
               self.currentAnimationState=self.ANIMATION_STATES.idle
               -- print("spawn enter") 
-                self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourOffsetPursuit)
-                self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorSeparation)
-                -- self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorEvade)
           end,
           exit = function() 
               -- print("spawn exit") 
-                self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviourOffsetPursuit)
-                self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorSeparation)
-                -- self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorEvade)
         end,
           update = function(timeStep) 
              -- print("spawn update") 
+              self.stateMachine:switchStates(self.STATEMACHINE_STATES.fly)
             end,
           collide = function(colliderEntity, collisionPoint) 
               if(colliderEntity ~= nil and colliderEntity.node ~= nil and colliderEntity.node:getPhysicsBody() ~= nil) then
                   if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
                       print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
-                      colliderEntity:kill()
-                      self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
-                        -- self.spawnMachine:dispose(self)
-                      -- self:kill()
                   end
               end
           end,
@@ -597,8 +521,9 @@ local Bird = {
       
       self.stateMachine = nil
       
-      njlic.SteeringBehaviorSeparation.destroy(self.steeringBehaviorSeparation)
-      njlic.SteeringBehaviorOffsetPursuit.destroy(self.steeringBehaviourOffsetPursuit)
+      njlic.SteeringBehaviorPursuit.destroy(self.steeringBehaviorPursuit)
+      njlic.steeringBehaviorEvade.destroy(self.steeringBehaviorEvade)
+      njlic.SteeringBehaviorOffsetPursuit.destroy(self.steeringBehaviorOffsetPursuit)
       njlic.SteeringBehaviorMachineDithered.destroy(self.steeringBehaviourMachine)
       
       njlic.Sound.destroy(self.sound)
@@ -648,7 +573,6 @@ local Bird = {
       
       self.steeringBehaviourMachine:enable()
       
-      -- self.currentAnimationState=self.ANIMATION_STATES.idle
       self.stateMachine:switchStates(self.STATEMACHINE_STATES.spawn)
 
     self.physicsBody:setCollisionGroup(CollisionGroups.bird)
@@ -719,9 +643,11 @@ local Bird = {
         local dogEntity = self.dogs[i]
         
         if dogEntity.inplay then
-          self.steeringBehaviourOffsetPursuit:addTarget(dogEntity.node)
+          self.steeringBehaviorPursuit:addTarget(dogEntity.node)
+          self.steeringBehaviorOffsetPursuit:addTarget(dogEntity.node)
         else
-          self.steeringBehaviourOffsetPursuit:removeTarget(dogEntity.node)
+          self.steeringBehaviorOffsetPursuit:removeTarget(dogEntity.node)
+          self.steeringBehaviorPursuit:removeTarget(dogEntity.node)
         end
       end
       
@@ -964,20 +890,14 @@ local Balloon = {
       if self.node:getOrigin():y() < die then
         -- self:kill()
         self.spawnMachine:dispose(self)
+        print("dispose")
       end
     end
 
     return balloon
   end
 }
---smb = njlic.SteeringBehaviorMachineWeighted.create()
---followPathSB = njlic.SteeringBehaviorFollowPath.create()
---offsetPursuitSB = njlic.SteeringBehaviorOffsetPursuit.create()
---pursuitSB = njlic.SteeringBehaviorPursuit.create()
---evadeSB = njlic.SteeringBehaviorEvade.create()
 
---node = njlic.Node.create()
---path = njlic.Path()
 local Dog = {
   new = function(...)
     local arg=... or {}
@@ -1095,31 +1015,6 @@ local Dog = {
       
     end
     
---    function dog:setWaypointPath(...)
---      local arg=... or {}
-      
---      assert(self.steeringBehaviourFollowPath, "The follow path steering behaviour can't be  nil")
-      
---      local numWaypoints = 0
-      
---      if numWaypoints > 0 then
---        local path = njlic.Path()
-        
---        for i = 1, numWaypoints do
---          local point = nil
---          if point then
---            self.path:addWayPoint(point)
---          end
---        end
-        
---        self.steeringBehaviourFollowPath:setPath(path)
-        
---        return path
---      end
---      return nil
---    end
-    
-  
     function dog:unload()
       njlic.Sound.destroy(self.sound)
       
@@ -1136,7 +1031,6 @@ local Dog = {
     function dog:setup(...)
       local arg=... or {}
       
---      local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
       local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
       local path = arg.path or nil
       local debug = arg.debug or false
@@ -1154,11 +1048,7 @@ local Dog = {
       self.node:setOrigin(origin)
       self.steeringBehaviourFollowPath:setPath(path)
       
-      -- local avg = path:averageDistanceBetweenPoints()
-      
       self.steeringBehaviourFollowPath:setWaypointSeekDist(1.0)
-      
-      -- print("setup the dog")
       
     end
 
@@ -1233,8 +1123,6 @@ local Dog = {
       if x > MAXFPS then x = MAXFPS end
       
       if self.currentAnimationState==self.ANIMATION_STATES.run then self.fps = x end
-      
-      
     end
 
     return dog
