@@ -23,6 +23,8 @@ local __ctor = function(self, init)
   self.birdQueue = {}
   self.balloonQueue = {}
   self.dogQueue = {}
+
+  self.garbageQueue = {}
   
   self.gameEntities = {}
   
@@ -59,14 +61,17 @@ function SpawnMachine:collide(node, otherNode, collisionPoint)
   assert(collideeEntity, "The collidee entity is nil")
   assert(colliderEntity, "The collider entity is nil")
   
-  pcall(collideeEntity.collide, collideeEntity, colliderEntity, collisionPoint)
+  -- collideeEntity:collide(colliderEntity, collisionPoint)
+  local status, err = pcall(collideeEntity.collide, collideeEntity, colliderEntity, collisionPoint)
+  if not status then print(err) end
 end
 
 function SpawnMachine:tick(gameplay, timeStep)
   
   local i = 1
   for k,v in pairs(self.gameEntities) do
-    pcall(v.update, v, timeStep)
+    local status, err = pcall(v.update, v, timeStep)
+      if not status then print(err) end
     
     if not v.inplay then
       self.gameEntities[k]=nil
@@ -77,30 +82,47 @@ function SpawnMachine:tick(gameplay, timeStep)
   self.totalTicks = self.totalTicks + timeStep
   self.gameplay = gameplay
 
+  if #self.garbageQueue > 0 then
+    local entity = table.remove(self.garbageQueue, 1)
+    if entity and entity.node then
+      assert(entity.node, "entity node is nil")
+      self.gameEntities[entity.node:getName()] = entity
+      -- entity:kill()
+      local status, err = pcall(entity.kill, entity)
+      if not status then print(err) end
+    end
+  end
+
   if #self.birdQueue > 0 then
-    local bird = table.remove(self.birdQueue, 1)
-    if bird and bird.node then
-      assert(bird.node, "bird node is nil")
-      self.gameEntities[bird.node:getName()] = bird
-      bird:spawn()
+    local entity = table.remove(self.birdQueue, 1)
+    if entity and entity.node then
+      assert(entity.node, "entity node is nil")
+      self.gameEntities[entity.node:getName()] = entity
+      -- entity:spawn()
+      local status, err = pcall(entity.spawn, entity)
+      if not status then print(err) end
     end
   end
   
   if #self.balloonQueue > 0 then
-    local balloon = table.remove(self.balloonQueue, 1)
-    if balloon and balloon.node then
-      assert(balloon.node, "balloon node is nil")
-      self.gameEntities[balloon.node:getName()] = balloon
-      balloon:spawn()
+    local entity = table.remove(self.balloonQueue, 1)
+    if entity and entity.node then
+      assert(entity.node, "entity node is nil")
+      self.gameEntities[entity.node:getName()] = entity
+      -- entity:spawn()
+      local status, err = pcall(entity.spawn, entity)
+      if not status then print(err) end
     end
   end
   
   if #self.dogQueue > 0 then
-    local dog = table.remove(self.dogQueue, 1)
-    if dog and dog.node then
-      assert(dog.node, "dog node is nil")
-      self.gameEntities[dog.node:getName()] = dog
-      dog:spawn()
+    local entity = table.remove(self.dogQueue, 1)
+    if entity and entity.node then
+      assert(entity.node, "entity node is nil")
+      self.gameEntities[entity.node:getName()] = entity
+      -- entity:spawn()
+      local status, err = pcall(entity.spawn, entity)
+      if not status then print(err) end
     end
   end
   
@@ -118,7 +140,6 @@ function SpawnMachine:tick(gameplay, timeStep)
         
         if spawnPointTable.currentTick <= 0 then
           
-          
           if self:queueBird(spawnPointTable) then
             
             spawnPointTable.spawnPoint.spawnAmount = spawnPointTable.spawnPoint.spawnAmount - 1
@@ -130,15 +151,9 @@ function SpawnMachine:tick(gameplay, timeStep)
         if spawnPointTable.spawnPoint.spawnAmount > 0 then
           spawnPointTable.currentTick = spawnPointTable.currentTick - timeStep
         end
-
-        
       end
-      
-      
     end
-    
   end
-  
 end
 
 function SpawnMachine:addArcadeSpawnPoint(spawnPoint)
@@ -164,7 +179,8 @@ function SpawnMachine:queueBird(spawnPointTable)
     origin=origin,
     dimensions=dimensions,
     visible=false,
-    debug=false
+    debug=false,
+    spawnMachine=self,
   })
 
   if nil ~= bird then
@@ -189,7 +205,8 @@ function SpawnMachine:queueBalloon(...)
     origin=origin,
     dimensions=dimensions,
     direction=direction,
-    debug=false
+    debug=false,
+    spawnMachine=self,
   })
 
   if nil ~= balloon then
@@ -199,6 +216,7 @@ function SpawnMachine:queueBalloon(...)
   return (balloon ~= nil)
   
 end
+
 
 function SpawnMachine:queueDog(...)
   local arg=... or {}
@@ -214,7 +232,8 @@ function SpawnMachine:queueDog(...)
       path=path,
 --    origin=origin,
     dimensions=dimensions,
-    debug=false
+    debug=false,
+    spawnMachine=self,
   })
 
   if nil ~= dog then
@@ -223,6 +242,14 @@ function SpawnMachine:queueDog(...)
   
   return (dog ~= nil)
   
+end
+
+function SpawnMachine:dispose(entity)
+    if nil ~= entity then
+        table.insert(self.garbageQueue, entity)
+    end
+
+    return (entity ~= nil)
 end
 
 --############################################################################# 

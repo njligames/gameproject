@@ -20,23 +20,30 @@ local StateMachine = {
       assert(name, "state name is nil")
       assert(self.states[name] ~= nil, "State is nil")
       
-      if currentStateName then
-        self.states[currentStateName].exit()
+      if self.currentStateName then
+          local status, err = pcall(self.states[self.currentStateName].exit)
+          if not status then error(err) end
       end
       
-      currentStateName = name
-      self.states[currentStateName].enter()
+      self.currentStateName = name
+
+      local status, err = pcall(self.states[self.currentStateName].enter)
+      if not status then error(err) end
     end
     
     function sm:update(timeStep)
-      if currentStateName then
-        self.states[currentStateName].update(timeStep)
+
+      if self.currentStateName then
+          local status, err = pcall(self.states[self.currentStateName].update, timeStep)
+          if not status then error(err) end
       end      
+
     end
     
     function sm:collide(colliderEntity, collisionPoint)
-      if currentStateName then
-        self.states[currentStateName].collide(colliderEntity, collisionPoint)
+      if self.currentStateName then
+          local status, err = pcall(self.states[self.currentStateName].collide, colliderEntity, collisionPoint)
+          if not status then error(err) end
       end
     end
     
@@ -179,6 +186,9 @@ local Beak = {
       local origin = bullet.btVector3(0.0, 0.0, -0.01)
       local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
       local debug = arg.debug or false
+      local spawnMachine = arg.spawnMachine or nil
+
+      self.spawnMachine = spawnMachine
       
       self.inplay=true
 
@@ -506,11 +516,23 @@ local Bird = {
           enter = function() 
               print("hit enter") 
                 self.steeringBehaviourMachine:clearSteering()
+                self.steeringBehaviourMachine:enable(false)
+                self.physicsBody:setDynamicPhysics()
+                self.physicsBody:setMass(1000)
+                -- self.physicsBody:applyForce(bullet.btVector3(0,1000,0), false)
           end,
           exit = function() 
               print("hit exit") 
           end,
           update = function(timeStep) 
+              local origin = self.node:getOrigin()
+
+              local die = self.params.Projectile.WaterBalloon.DieY
+              if self.node:getOrigin():y() < die then
+                -- self:kill()
+                self.spawnMachine:dispose(self)
+                print("dispose")
+              end
               -- print("hit update") 
           end,
           collide = function(colliderEntity, collisionPoint) 
@@ -557,8 +579,9 @@ local Bird = {
                   if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
                       print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
                       colliderEntity:kill()
-                      -- self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
-                      self:kill()
+                      self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
+                        -- self.spawnMachine:dispose(self)
+                      -- self:kill()
                   end
               end
           end,
@@ -596,7 +619,10 @@ local Bird = {
       local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
       local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
       local debug = arg.debug or false
+      local spawnMachine = arg.spawnMachine or nil
       
+      self.spawnMachine = spawnMachine
+
       self.inplay=true
 
       self.node:setOrigin(origin)
@@ -627,6 +653,8 @@ local Bird = {
 
     self.physicsBody:setCollisionGroup(CollisionGroups.bird)
     self.physicsBody:setCollisionMask(CollisionMasks.bird)
+    self.physicsBody:setKinematicPhysics()
+    self.physicsBody:setMass(1)
       
       self.beak:spawn(arg)
     end
@@ -836,7 +864,10 @@ local Balloon = {
       local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
       local direction = arg.direction or bullet.btVector3(0.0, 1.0, 0.0)
       local debug = arg.debug or false
+      local spawnMachine = arg.spawnMachine or nil
       
+      self.spawnMachine = spawnMachine
+
       self.inplay=true
 
       self.node:setOrigin(origin)
@@ -931,7 +962,8 @@ local Balloon = {
 
       local die = self.params.Projectile.WaterBalloon.DieY
       if self.node:getOrigin():y() < die then
-        self:kill()
+        -- self:kill()
+        self.spawnMachine:dispose(self)
       end
     end
 
@@ -1108,9 +1140,11 @@ local Dog = {
       local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
       local path = arg.path or nil
       local debug = arg.debug or false
+      local spawnMachine = arg.spawnMachine or nil
+
+      self.spawnMachine = spawnMachine
       
       self.inplay=true
-
       
       self.node:getGeometry():setDimensions(self.node, dimensions)
       
@@ -1757,6 +1791,7 @@ local YappyBirds = {
       local origin = arg.origin or nil
       local dimensions = arg.dimensions or nil
       local debug = arg.debug or true
+      local spawnMachine = arg.spawnMachine or nil
       
       assert(origin, "origin is nil")
       assert(dimensions, "dimensions is nil")
@@ -1767,7 +1802,8 @@ local YappyBirds = {
             v:setup({
               origin=origin,
               dimensions=dimensions,
-              debug=debug
+              debug=debug,
+              spawnMachine=spawnMachine
               })
             return v 
           end
@@ -1778,7 +1814,8 @@ local YappyBirds = {
             v:setup({
               origin=origin,
               dimensions=dimensions,
-              debug=debug
+              debug=debug,
+              spawnMachine=spawnMachine
               })
             return v 
           end
@@ -1789,7 +1826,8 @@ local YappyBirds = {
             v:setup({
               origin=origin,
               dimensions=dimensions,
-              debug=debug
+              debug=debug,
+              spawnMachine=spawnMachine
               })
             return v 
           end
@@ -1800,7 +1838,8 @@ local YappyBirds = {
             v:setup({
               origin=origin,
               dimensions=dimensions,
-              debug=debug
+              debug=debug,
+              spawnMachine=spawnMachine
               })
             return v 
           end
@@ -1811,7 +1850,8 @@ local YappyBirds = {
             v:setup({
               origin=origin,
               dimensions=dimensions,
-              debug=debug
+              debug=debug,
+              spawnMachine=spawnMachine
               })
             return v 
           end
@@ -1822,7 +1862,8 @@ local YappyBirds = {
             v:setup({
               origin=origin,
               dimensions=dimensions,
-              debug=debug
+              debug=debug,
+              spawnMachine=spawnMachine
               })
             return v 
           end
@@ -1839,6 +1880,7 @@ local YappyBirds = {
       local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0) 
       local direction = arg.direction or bullet.btVector3(0.0, 1.0, 0.0)
       local debug = arg.debug or true
+      local spawnMachine = arg.spawnMachine or nil
       
       for i, v in ipairs(self.balloonPool) do
         if not v.inplay then
@@ -1846,7 +1888,8 @@ local YappyBirds = {
               origin=origin,
               dimensions=dimensions,
               direction=direction,
-              debug=false
+              debug=debug,
+              spawnMachine=spawnMachine
               })
           return v 
         end
@@ -1862,6 +1905,7 @@ local YappyBirds = {
       local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
       local path = arg.path or nil
       local debug = arg.debug or false
+      local spawnMachine = arg.spawnMachine or nil
       
       for i, v in ipairs(self.dogPool) do
         if not v.inplay then
@@ -1869,7 +1913,8 @@ local YappyBirds = {
               path=path,
 --              origin=origin,
               dimensions=dimensions,
-              debug=debug
+              debug=debug,
+              spawnMachine=spawnMachine
               })
           return v 
         end
