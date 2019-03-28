@@ -399,7 +399,6 @@ local Bird = {
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
                   print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
                   self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
-                  self.spawnMachine:dispose(colliderEntity)
               end
           end,
         })
@@ -698,11 +697,15 @@ local Balloon = {
       currentFrame = 0,
       animationClock = nil,
       fps=30,
-      params = params
+      params = params,
+      ANIMATION_STATES={spawn="thrown"},
+      STATEMACHINE_STATES={hit="hit",lob="lob",spawn="spawn"},
+      stateMachine=nil,
+      currentAnimationState=nil,
     }
     
     function balloon:getFrameName()
-      local name = string.format("projectile_waterBalloon%s_thrown_front/projectile_waterBalloon%s_thrown_front_%05d", self.color, self.color, self.currentFrame)
+      local name = string.format("projectile_waterBalloon%s_%s_front/projectile_waterBalloon%s_%s_front_%05d", self.color, self.currentAnimationState, self.color, self.currentAnimationState, self.currentFrame)
       return name
     end
     
@@ -714,6 +717,8 @@ local Balloon = {
       self.color = arg.color or "?"
       
       local origin = bullet.btVector3(0.0, 0.0, 0.0)
+
+      self.currentAnimationState=self.ANIMATION_STATES.spawn
 
       local name = self:getFrameName()
       
@@ -760,7 +765,69 @@ local Balloon = {
       local soundName = "sounds/projectile_balloon_water-splash.ogg"
       njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
       
+      local stateMachine = StateMachine.new(self)
       
+      -- STATEMACHINE_STATES={hit="hit",lob="lob",spawn="spawn"},
+      stateMachine:addState(self.STATEMACHINE_STATES.hit, {
+          enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.spawn
+          end,
+          exit = function() 
+          end,
+          update = function(timeStep) 
+              self.spawnMachine:dispose(self)
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+          end,
+        })
+      stateMachine:addState(self.STATEMACHINE_STATES.lob, {
+          enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.spawn
+
+              self:show()
+              self.node:enableTagged()
+              self.node:runAction(self.action)
+              self.node:setPhysicsBody(self.physicsBody)
+              
+              local azimuth = self.params.Projectile.WaterBalloon.Azimuth
+              local magnitude = self.params.Projectile.WaterBalloon.Magnitude
+              local mass = self.params.Projectile.WaterBalloon.Mass
+              local direction = self.direction
+              
+              local x = self.node:getWorldTransform():getOrigin():x()
+              local y = self.node:getWorldTransform():getOrigin():y()
+              local z = self.node:getWorldTransform():getOrigin():z()
+              direction = direction:rotate(bullet.btVector3(-1,0,0), math.atan(azimuth, z))
+              direction = direction:rotate(bullet.btVector3(0,1,0), math.atan(x, z))
+              direction = direction:rotate(bullet.btVector3(-1,0,0), math.atan(y, z))
+              
+              self.node:getPhysicsBody():setMass(mass)
+              self.node:getPhysicsBody():applyForce(direction * magnitude, true)
+          end,
+          exit = function() 
+          end,
+          update = function(timeStep) 
+              -- print("lobbing")
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.bird) then
+                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
+              end
+          end,
+        })
+      stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
+          enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.spawn
+          end,
+          exit = function() 
+          end,
+          update = function(timeStep) 
+              self.stateMachine:switchStates(self.STATEMACHINE_STATES.lob)
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+          end,
+        })
+      self.stateMachine = stateMachine
       
       -- print("loaded the balloon - end")
     end
@@ -806,26 +873,8 @@ local Balloon = {
       
       self.inplay=true
       
-      self:show()
-      self.node:enableTagged()
-      self.node:runAction(self.action)
-      self.node:setPhysicsBody(self.physicsBody)
       
-      local azimuth = self.params.Projectile.WaterBalloon.Azimuth
-      local magnitude = self.params.Projectile.WaterBalloon.Magnitude
-      local mass = self.params.Projectile.WaterBalloon.Mass
-      local direction = self.direction
-      
-      local x = self.node:getWorldTransform():getOrigin():x()
-      local y = self.node:getWorldTransform():getOrigin():y()
-      local z = self.node:getWorldTransform():getOrigin():z()
-      direction = direction:rotate(bullet.btVector3(-1,0,0), math.atan(azimuth, z))
-      direction = direction:rotate(bullet.btVector3(0,1,0), math.atan(x, z))
-      direction = direction:rotate(bullet.btVector3(-1,0,0), math.atan(y, z))
-      
-      self.node:getPhysicsBody():setMass(mass)
-      self.node:getPhysicsBody():applyForce(direction * magnitude, true)
-      
+      self.stateMachine:switchStates(self.STATEMACHINE_STATES.spawn)
     end
 
     function balloon:kill(...)
@@ -873,9 +922,7 @@ local Balloon = {
     end
     
     function balloon:collide(colliderEntity, collisionPoint)
-      -- self.stateMachine:collide(colliderEntity, collisionPoint)
-      -- print('balloon collide')
-      -- self:kill()
+      self.stateMachine:collide(colliderEntity, collisionPoint)
     end
 
     function balloon:update(timeStep)
@@ -887,6 +934,8 @@ local Balloon = {
         self.spawnMachine:dispose(self)
         print("dispose")
       end
+
+      self.stateMachine:update(timeStep)
     end
 
     return balloon
