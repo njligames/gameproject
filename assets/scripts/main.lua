@@ -783,10 +783,6 @@ local Balloon = {
           enter = function() 
               self.currentAnimationState=self.ANIMATION_STATES.spawn
 
-              self:show()
-              self.node:enableTagged()
-              self.node:runAction(self.action)
-              self.node:setPhysicsBody(self.physicsBody)
               
               local azimuth = self.params.Projectile.WaterBalloon.Azimuth
               local magnitude = self.params.Projectile.WaterBalloon.Magnitude
@@ -817,6 +813,20 @@ local Balloon = {
       stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
           enter = function() 
               self.currentAnimationState=self.ANIMATION_STATES.spawn
+
+              local min = self.params.Projectile.WaterBalloon.ScaleMin
+              local max = self.params.Projectile.WaterBalloon.ScaleMax
+              local function randomFloat(lower, greater)
+                  return lower + math.random()  * (greater - lower);
+              end
+              local scale = randomFloat(min, max)
+              print(scale)
+              self.node:setScale(scale)
+
+
+
+
+
           end,
           exit = function() 
           end,
@@ -872,7 +882,11 @@ local Balloon = {
       
       self.inplay=true
       
-      
+      self:show()
+      self.node:enableTagged()
+      self.node:runAction(self.action)
+      self.node:setPhysicsBody(self.physicsBody)
+
       self.stateMachine:switchStates(self.STATEMACHINE_STATES.spawn)
     end
 
@@ -1086,7 +1100,8 @@ local Dog = {
                 self.steeringBehaviourMachine:enable(true)
           end,
           update = function(timeStep) 
-              if (self.runClock:getTimeMilliseconds() > 3000) then
+              local dazedTime = self.params.Dog.DazedTime
+              if (self.runClock:getTimeMilliseconds() > dazedTime) then
                   self.runClock:reset()
                   self.stateMachine:switchStates(self.STATEMACHINE_STATES.run)
               end
