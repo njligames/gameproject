@@ -377,7 +377,6 @@ local Bird = {
         print("couldn't load the bird")
       end
       
---      {fly="fly",grabbed="grabbed",grabbing="grabbing",hit="hit",pursue="pursue",spawn="spawn"}
       local stateMachine = StateMachine.new(self)
       
       stateMachine:addState(self.STATEMACHINE_STATES.fly, {
@@ -397,7 +396,7 @@ local Bird = {
           end,
           collide = function(colliderEntity, collisionPoint) 
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+                  -- print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
                   self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
               end
           end,
@@ -1076,10 +1075,21 @@ local Dog = {
       stateMachine:addState(self.STATEMACHINE_STATES.dazed, {
           enter = function() 
               self.currentAnimationState=self.ANIMATION_STATES.idle 
+              self.runClock = njlic.Clock.create()
+
+                self.steeringBehaviourMachine:clearSteering()
+                self.steeringBehaviourMachine:enable(false)
+              
           end,
           exit = function() 
+              njlic.Clock.destroy(self.runClock)
+                self.steeringBehaviourMachine:enable(true)
           end,
           update = function(timeStep) 
+              if (self.runClock:getTimeMilliseconds() > 3000) then
+                  self.runClock:reset()
+                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.run)
+              end
           end,
           collide = function(colliderEntity, collisionPoint) 
           end,
@@ -1117,6 +1127,11 @@ local Dog = {
           update = function(timeStep) 
           end,
           collide = function(colliderEntity, collisionPoint) 
+              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.dazed)
+              elseif(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.bird) then
+                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.dazed)
+              end
           end,
         })
       stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
@@ -1132,7 +1147,6 @@ local Dog = {
               if (self.runClock:getTimeMilliseconds() > 3000) then
                   self.runClock:reset()
                   self.stateMachine:switchStates(self.STATEMACHINE_STATES.run)
-                  print("dogspawn")
               end
           end,
           collide = function(colliderEntity, collisionPoint) 
