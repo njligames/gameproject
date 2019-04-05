@@ -72,8 +72,8 @@ ParamInfo =
                 -170,
                 -180,
             },
-            ScaleMin = 0.9,
-            ScaleMax = 2.0,
+            ScaleMin = 0.01,
+            ScaleMax = 1.0,
             --Still have to make these variables live...
             DeathVariables = {
                 FramesPerSecond = 30.0, -- must be: 1 <= fps <= 60
@@ -94,7 +94,7 @@ ParamInfo =
 		{
 			MaxSpeed = 50.0,
 			MaxForce = 2000.0,
-      PursueTime = (6 * 1000),
+            PursueTime = (6 * 1000),
 			StealSpeed = 1,
 			YapTime = {low=(10 * 1000), high=(30 * 1000)},
 			DieY = -50,

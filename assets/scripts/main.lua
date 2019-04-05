@@ -377,7 +377,6 @@ local Bird = {
         print("couldn't load the bird")
       end
       
---      {fly="fly",grabbed="grabbed",grabbing="grabbing",hit="hit",pursue="pursue",spawn="spawn"}
       local stateMachine = StateMachine.new(self)
       
       stateMachine:addState(self.STATEMACHINE_STATES.fly, {
@@ -396,13 +395,9 @@ local Bird = {
               -- print("fly update") 
           end,
           collide = function(colliderEntity, collisionPoint) 
-              if(colliderEntity ~= nil and colliderEntity.node ~= nil and colliderEntity.node:getPhysicsBody() ~= nil) then
-                  if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-                      print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
-                      -- colliderEntity:kill()
-                      self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
-                      self.spawnMachine:dispose(colliderEntity)
-                  end
+              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                  -- print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
               end
           end,
         })
@@ -503,10 +498,8 @@ local Bird = {
               self.stateMachine:switchStates(self.STATEMACHINE_STATES.fly)
             end,
           collide = function(colliderEntity, collisionPoint) 
-              if(colliderEntity ~= nil and colliderEntity.node ~= nil and colliderEntity.node:getPhysicsBody() ~= nil) then
-                  if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-                      print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
-                  end
+              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
               end
           end,
         })
@@ -703,11 +696,15 @@ local Balloon = {
       currentFrame = 0,
       animationClock = nil,
       fps=30,
-      params = params
+      params = params,
+      ANIMATION_STATES={spawn="thrown"},
+      STATEMACHINE_STATES={hit="hit",lob="lob",spawn="spawn"},
+      stateMachine=nil,
+      currentAnimationState=nil,
     }
     
     function balloon:getFrameName()
-      local name = string.format("projectile_waterBalloon%s_thrown_front/projectile_waterBalloon%s_thrown_front_%05d", self.color, self.color, self.currentFrame)
+      local name = string.format("projectile_waterBalloon%s_%s_front/projectile_waterBalloon%s_%s_front_%05d", self.color, self.currentAnimationState, self.color, self.currentAnimationState, self.currentFrame)
       return name
     end
     
@@ -719,6 +716,8 @@ local Balloon = {
       self.color = arg.color or "?"
       
       local origin = bullet.btVector3(0.0, 0.0, 0.0)
+
+      self.currentAnimationState=self.ANIMATION_STATES.spawn
 
       local name = self:getFrameName()
       
@@ -765,7 +764,79 @@ local Balloon = {
       local soundName = "sounds/projectile_balloon_water-splash.ogg"
       njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
       
+      local stateMachine = StateMachine.new(self)
       
+      -- STATEMACHINE_STATES={hit="hit",lob="lob",spawn="spawn"},
+      stateMachine:addState(self.STATEMACHINE_STATES.hit, {
+          enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.spawn
+          end,
+          exit = function() 
+          end,
+          update = function(timeStep) 
+              self.spawnMachine:dispose(self)
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+          end,
+        })
+      stateMachine:addState(self.STATEMACHINE_STATES.lob, {
+          enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.spawn
+
+              
+              local azimuth = self.params.Projectile.WaterBalloon.Azimuth
+              local magnitude = self.params.Projectile.WaterBalloon.Magnitude
+              local mass = self.params.Projectile.WaterBalloon.Mass
+              local direction = self.direction
+              
+              local x = self.node:getWorldTransform():getOrigin():x()
+              local y = self.node:getWorldTransform():getOrigin():y()
+              local z = self.node:getWorldTransform():getOrigin():z()
+              direction = direction:rotate(bullet.btVector3(-1,0,0), math.atan(azimuth, z))
+              direction = direction:rotate(bullet.btVector3(0,1,0), math.atan(x, z))
+              direction = direction:rotate(bullet.btVector3(-1,0,0), math.atan(y, z))
+              
+              self.node:getPhysicsBody():setMass(mass)
+              self.node:getPhysicsBody():applyForce(direction * magnitude, true)
+          end,
+          exit = function() 
+          end,
+          update = function(timeStep) 
+              -- print("lobbing")
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.bird) then
+                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
+              end
+          end,
+        })
+      stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
+          enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.spawn
+
+              local min = self.params.Projectile.WaterBalloon.ScaleMin
+              local max = self.params.Projectile.WaterBalloon.ScaleMax
+              local function randomFloat(lower, greater)
+                  return lower + math.random()  * (greater - lower);
+              end
+              local scale = randomFloat(min, max)
+              print(scale)
+              self.node:setScale(scale)
+
+
+
+
+
+          end,
+          exit = function() 
+          end,
+          update = function(timeStep) 
+              self.stateMachine:switchStates(self.STATEMACHINE_STATES.lob)
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+          end,
+        })
+      self.stateMachine = stateMachine
       
       -- print("loaded the balloon - end")
     end
@@ -815,22 +886,8 @@ local Balloon = {
       self.node:enableTagged()
       self.node:runAction(self.action)
       self.node:setPhysicsBody(self.physicsBody)
-      
-      local azimuth = self.params.Projectile.WaterBalloon.Azimuth
-      local magnitude = self.params.Projectile.WaterBalloon.Magnitude
-      local mass = self.params.Projectile.WaterBalloon.Mass
-      local direction = self.direction
-      
-      local x = self.node:getWorldTransform():getOrigin():x()
-      local y = self.node:getWorldTransform():getOrigin():y()
-      local z = self.node:getWorldTransform():getOrigin():z()
-      direction = direction:rotate(bullet.btVector3(-1,0,0), math.atan(azimuth, z))
-      direction = direction:rotate(bullet.btVector3(0,1,0), math.atan(x, z))
-      direction = direction:rotate(bullet.btVector3(-1,0,0), math.atan(y, z))
-      
-      self.node:getPhysicsBody():setMass(mass)
-      self.node:getPhysicsBody():applyForce(direction * magnitude, true)
-      
+
+      self.stateMachine:switchStates(self.STATEMACHINE_STATES.spawn)
     end
 
     function balloon:kill(...)
@@ -878,9 +935,7 @@ local Balloon = {
     end
     
     function balloon:collide(colliderEntity, collisionPoint)
-      -- self.stateMachine:collide(colliderEntity, collisionPoint)
-      -- print('balloon collide')
-      -- self:kill()
+      self.stateMachine:collide(colliderEntity, collisionPoint)
     end
 
     function balloon:update(timeStep)
@@ -892,6 +947,8 @@ local Balloon = {
         self.spawnMachine:dispose(self)
         print("dispose")
       end
+
+      self.stateMachine:update(timeStep)
     end
 
     return balloon
@@ -923,8 +980,11 @@ local Dog = {
       fps=1.0,
       params = params,
       ANIMATION_STATES={fall="fall",grabbed="grabbed",idle="idle",run="run"},
-      left = false
+      left = false,
       
+      STATEMACHINE_STATES={caught="caught",dazed="dazed",land="land",released="released",run="run",spawn="spawn"},
+      stateMachine=nil,
+      currentAnimationState=nil
     }
     
     function dog:getFrameName()
@@ -1002,7 +1062,9 @@ local Dog = {
         self.steeringBehaviourMachine:setMaxSpeed(self.params.Dog.MaxSpeed)
         self.steeringBehaviourMachine:setMaxForce(self.params.Dog.MaxForce)
         
-        self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourFollowPath)
+        self.steeringBehaviorEvade = njlic.SteeringBehaviorEvade.create()
+        self.steeringBehaviorEvade:setWeight(600.0)
+        self.steeringBehaviorEvade:setProbability(1.0)
         
         self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
         
@@ -1011,13 +1073,115 @@ local Dog = {
         print("couldn't load the dog")
       end
       
+      local stateMachine = StateMachine.new(self)
+      
+      stateMachine:addState(self.STATEMACHINE_STATES.caught, {
+          enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.grabbed
+          end,
+          exit = function() 
+          end,
+          update = function(timeStep) 
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+          end,
+        })
+      stateMachine:addState(self.STATEMACHINE_STATES.dazed, {
+          enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.idle 
+              self.runClock = njlic.Clock.create()
+
+                self.steeringBehaviourMachine:clearSteering()
+                self.steeringBehaviourMachine:enable(false)
+              
+          end,
+          exit = function() 
+              njlic.Clock.destroy(self.runClock)
+                self.steeringBehaviourMachine:enable(true)
+          end,
+          update = function(timeStep) 
+              local dazedTime = self.params.Dog.DazedTime
+              if (self.runClock:getTimeMilliseconds() > dazedTime) then
+                  self.runClock:reset()
+                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.run)
+              end
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+          end,
+        })
+      stateMachine:addState(self.STATEMACHINE_STATES.land, {
+          enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.idle 
+          end,
+          exit = function() 
+          end,
+          update = function(timeStep) 
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+          end,
+        })
+      stateMachine:addState(self.STATEMACHINE_STATES.released, {
+          enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.fall 
+          end,
+          exit = function() 
+          end,
+          update = function(timeStep) 
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+          end,
+        })
+      stateMachine:addState(self.STATEMACHINE_STATES.run, {
+          enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.run
+              self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourFollowPath)
+          end,
+          exit = function() 
+              self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviourFollowPath)
+          end,
+          update = function(timeStep) 
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.dazed)
+              elseif(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.bird) then
+                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.dazed)
+              end
+          end,
+        })
+      stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
+          enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.idle 
+              self.runClock = njlic.Clock.create()
+              
+          end,
+          exit = function() 
+              njlic.Clock.destroy(self.runClock)
+          end,
+          update = function(timeStep) 
+              if (self.runClock:getTimeMilliseconds() > 3000) then
+                  self.runClock:reset()
+                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.run)
+              end
+          end,
+          collide = function(colliderEntity, collisionPoint) 
+          end,
+        })
+      self.stateMachine = stateMachine
+
       -- print("loaded the dog - end")
       
     end
     
     function dog:unload()
       njlic.Sound.destroy(self.sound)
+
       
+      njlic.Sound.destroy(self.sound)
+      njlic.SteeringBehaviorMachineWeighted.destroy(self.steeringBehaviourMachine)
+      njlic.SteeringBehaviorFollowPath.destroy(self.steeringBehaviourFollowPath)
+      njlic.SteeringBehaviorEvade.destroy(self.steeringBehaviorEvade)
+
       njlic.PhysicsBodyRigid.destroy(self.physicsBody)
       njlic.PhysicsShapeSphere.destroy(self.physicsShape) 
       
@@ -1055,9 +1219,11 @@ local Dog = {
     function dog:spawn(...)
       local arg=... or {}
       
-      -- print("spawn dog")
+      print("spawn dog")
       
       self.inplay=true
+
+      self.stateMachine:switchStates(self.STATEMACHINE_STATES.spawn)
       
       self:show()
       self.node:runAction(self.action)
@@ -1065,7 +1231,6 @@ local Dog = {
       self.steeringBehaviourMachine:enable()
       
       
-      self.currentAnimationState=self.ANIMATION_STATES.run
       self.left = false
     end
 
@@ -1106,6 +1271,10 @@ local Dog = {
       end
     end
     
+    function dog:collide(colliderEntity, collisionPoint)
+      self.stateMachine:collide(colliderEntity, collisionPoint)
+    end
+
     function dog:update(timeStep)
       self.left = self.steeringBehaviourMachine:getCurrentVelocity():normalized():x() < 0.0
       
@@ -1123,6 +1292,17 @@ local Dog = {
       if x > MAXFPS then x = MAXFPS end
       
       if self.currentAnimationState==self.ANIMATION_STATES.run then self.fps = x end
+
+      self.stateMachine:update(timeStep)
+    end
+
+    function dog:addBirdsToEvade(birds)
+      for i = 1, #birds do
+        local node = birds[i].node
+        if node ~= nil then
+          self.steeringBehaviorEvade:addTarget(node)
+        end
+      end
     end
 
     return dog
@@ -1459,6 +1639,10 @@ local YappyBirds = {
       
       for i = 1, #self.allBirdPool do
         self.allBirdPool[i]:addBalloonsToEvade(self.balloonPool)
+      end
+
+      for i = 1, #self.dogPool do
+          self.dogPool[i]:addBirdsToEvade(self.allBirdPool)
       end
       
       
