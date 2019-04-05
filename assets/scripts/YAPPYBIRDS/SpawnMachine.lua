@@ -15,7 +15,8 @@ SpawnMachine.__index = SpawnMachine
 --  __unLoad()
 --#############################################################################
 
-local __ctor = function(self, init)
+local __ctor = function(self)
+  
   --TODO: construct this Entity
 
   self.totalTicks = 0

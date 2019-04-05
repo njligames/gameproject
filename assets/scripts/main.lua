@@ -522,7 +522,7 @@ local Bird = {
       self.stateMachine = nil
       
       njlic.SteeringBehaviorPursuit.destroy(self.steeringBehaviorPursuit)
-      njlic.steeringBehaviorEvade.destroy(self.steeringBehaviorEvade)
+      njlic.SteeringBehaviorEvade.destroy(self.steeringBehaviorEvade)
       njlic.SteeringBehaviorOffsetPursuit.destroy(self.steeringBehaviorOffsetPursuit)
       njlic.SteeringBehaviorMachineDithered.destroy(self.steeringBehaviourMachine)
       
@@ -1471,7 +1471,7 @@ local YappyBirds = {
       
       self.run = false
       
-      njlic.PHysicsWorld.destroy(self.physicsWorld)
+      njlic.PhysicsWorld.destroy(self.physicsWorld)
       
       njlic.Camera.destroy(self.orthographicCamera)
       njlic.Node.destroy(self.orthographicCameraNode)
@@ -1917,6 +1917,7 @@ local Test = {
   end
   
 }
+
 
 local Create = function()
     yappyBirds = YappyBirds.new()
