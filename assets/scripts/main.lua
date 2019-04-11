@@ -235,12 +235,14 @@ local Bird = {
     local perspectiveCamera=arg.perspectiveCamera or nil
     local index = arg.index or 0
     local params = arg.params or nil
+    local game = arg.game or nil
     local birdName = arg.birdName or nil
     local dogs = arg.dogs or nil
     
     assert(texturePacker, "The texturePacker is nil")
     assert(perspectiveCamera, "The perspectiveCamera is nil")
     assert(params, "The params is nil")
+    assert(game, "The game is nil")
     assert(birdName, "The birdName is nil")
     assert(dogs, "The dogs is nil")
     
@@ -250,6 +252,7 @@ local Bird = {
           birdName=birdName, 
           index=index, 
           params=params,
+          game=game,
           })
  
     local bird = {
@@ -263,6 +266,7 @@ local Bird = {
       animationClock = nil,
       fps=30,
       params = params,
+      game = game,
       ANIMATION_STATES={grab="grab",hit="hit",idle="idle"},
       birdName=birdName,
       dogs=dogs,
@@ -371,6 +375,9 @@ local Bird = {
         
         self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
         
+        self.yapTimer = njlic.Timer.create()
+        self.pursueTimer = njlic.Timer.create()
+
         -- print("end steering behaviour for bird")
         
       else
@@ -385,6 +392,7 @@ local Bird = {
               -- print("spawn enter") 
                 self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorOffsetPursuit)
                 self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorSeparation)
+                self.pursueTimer:start(self.params.Bird[self.birdName].PursueTime)
           end,
           exit = function() 
               -- print("spawn exit") 
@@ -392,6 +400,15 @@ local Bird = {
                 self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorSeparation)
             end,
           update = function(timeStep) 
+              self.pursueTimer:tick()
+
+              if self.pursueTimer:isFinished() then
+                  if self.game.canPursue then
+                      self.stateMachine:switchStates(self.STATEMACHINE_STATES.pursue)
+                  else
+                      self.pursueTimer:start(self.params.Bird[self.birdName].PursueTime)
+                  end
+              end
               -- print("fly update") 
           end,
           collide = function(colliderEntity, collisionPoint) 
@@ -465,13 +482,15 @@ local Bird = {
         })
       stateMachine:addState(self.STATEMACHINE_STATES.pursue, {
           enter = function() 
+              self.game.canPursue = false
               print("pursue enter") 
               self.currentAnimationState=self.ANIMATION_STATES.idle
-            self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorPursuit)
+              self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorPursuit)
           end,
           exit = function() 
               print("pursue exit") 
             self.steeringBehaviourMachine:remoteSteeringBehavior(self.steeringBehaviorPursuit)
+              self.game.canPursue = true
           end,
           update = function(timeStep) 
               -- print("pursue update") 
@@ -528,6 +547,8 @@ local Bird = {
       njlic.Action.destroy(self.action)
       njlic.Node.destroy(self.node)
       
+        njlic.Timer.destroy(self.yapTimer)
+        njlic.Timer.destroy(self.pursueTimer)
       -- print("unloaded the bird")
     end
   
@@ -680,10 +701,12 @@ local Balloon = {
     local perspectiveCamera=arg.perspectiveCamera or nil
     local index = arg.index or 0
     local params = arg.params or nil
+    local game = arg.game or nil
     
     assert(texturePacker, "The texturePacker is nil")
     assert(perspectiveCamera, "The perspectiveCamera is nil")
     assert(params, "The params is nil")
+    assert(game, "The game is nil")
     
     local balloon = {
       inplay=false,
@@ -697,6 +720,7 @@ local Balloon = {
       animationClock = nil,
       fps=30,
       params = params,
+      game = game,
       ANIMATION_STATES={spawn="thrown"},
       STATEMACHINE_STATES={hit="hit",lob="lob",spawn="spawn"},
       stateMachine=nil,
@@ -963,10 +987,12 @@ local Dog = {
     local perspectiveCamera=arg.perspectiveCamera or nil
     local index = arg.index or 0
     local params = arg.params or nil
+    local game = arg.game or nil
 
     assert(texturePacker, "The texturePacker is nil")
     assert(perspectiveCamera, "The perspectiveCamera is nil")
     assert(params, "The params is nil")
+    assert(game, "The game is nil")
     
     local dog = {
       inplay=false,
@@ -979,12 +1005,13 @@ local Dog = {
       animationClock = nil,
       fps=1.0,
       params = params,
+      game=game,
       ANIMATION_STATES={fall="fall",grabbed="grabbed",idle="idle",run="run"},
       left = false,
       
       STATEMACHINE_STATES={caught="caught",dazed="dazed",land="land",released="released",run="run",spawn="spawn"},
       stateMachine=nil,
-      currentAnimationState=nil
+      currentAnimationState=nil,
     }
     
     function dog:getFrameName()
@@ -1426,6 +1453,7 @@ local YappyBirds = {
       orthographicCamera = nil,
       
       run = false,
+        canPursue = true,
       
     }
 
@@ -1533,7 +1561,8 @@ local YappyBirds = {
             texturePacker=self.gameplayTexturePacker,
             perspectiveCamera=self.perspectiveCamera,
             index=i,
-            params=self.params
+            params=self.params,
+            game = self,
             })
         dog:load()
         table.insert(self.dogPool, dog)
@@ -1549,6 +1578,7 @@ local YappyBirds = {
             index=i, 
             params=self.params,
             dogs = self.dogPool,
+            game = self,
             })
         bird:load()
         table.insert(self.chubiBirdPool, bird)
@@ -1562,6 +1592,7 @@ local YappyBirds = {
             index=i, 
             params=self.params,
             dogs = self.dogPool,
+            game = self,
             })
         bird:load()
         table.insert(self.garuBirdPool, bird)
@@ -1574,6 +1605,7 @@ local YappyBirds = {
             index=i, 
             params=self.params,
             dogs = self.dogPool,
+            game = self,
             })
         bird:load()
         table.insert(self.momiBirdPool, bird)
@@ -1586,6 +1618,7 @@ local YappyBirds = {
             index=i, 
             params=self.params,
             dogs = self.dogPool,
+            game = self,
             })
         bird:load()
         table.insert(self.puffyBirdPool, bird)
@@ -1598,6 +1631,7 @@ local YappyBirds = {
             index=i, 
             params=self.params,
             dogs = self.dogPool,
+            game = self,
             })
         bird:load()
         table.insert(self.weboBirdPool, bird)
@@ -1610,6 +1644,7 @@ local YappyBirds = {
             index=i, 
             params=self.params,
             dogs = self.dogPool,
+            game = self,
             })
         bird:load()
         table.insert(self.zuruBirdPool, bird)
@@ -1631,7 +1666,8 @@ local YappyBirds = {
             texturePacker=self.gameplayTexturePacker,
             perspectiveCamera=self.perspectiveCamera,
             index=i,
-            params=self.params
+            params=self.params,
+            game = self,
             })
         balloon:load({color=color})
         table.insert(self.balloonPool, balloon)
@@ -1818,6 +1854,8 @@ local YappyBirds = {
   
     function game:start()
       if not self.run then
+
+          self.canPursue = true
         
         self.spawnMachine.gameplay = self
         
