@@ -72,7 +72,7 @@ ParamInfo =
                 -170,
                 -180,
             },
-            ScaleMin = 0.01,
+            ScaleMin = 0.1,
             ScaleMax = 1.0,
             --Still have to make these variables live...
             DeathVariables = {

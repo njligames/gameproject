@@ -376,7 +376,6 @@ local Bird = {
         self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
         
         self.yapTimer = njlic.Timer.create()
-        self.pursueTimer = njlic.Timer.create()
 
         -- print("end steering behaviour for bird")
         
@@ -388,13 +387,16 @@ local Bird = {
       
       stateMachine:addState(self.STATEMACHINE_STATES.fly, {
           enter = function() 
+                self.pursueTimer = njlic.Timer.create()
               self.currentAnimationState=self.ANIMATION_STATES.idle
               -- print("spawn enter") 
                 self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorOffsetPursuit)
                 self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorSeparation)
+
                 self.pursueTimer:start(self.params.Bird[self.birdName].PursueTime)
           end,
           exit = function() 
+                njlic.Timer.destroy(self.pursueTimer)
               -- print("spawn exit") 
                 self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorOffsetPursuit)
                 self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorSeparation)
@@ -436,13 +438,22 @@ local Bird = {
         })
       stateMachine:addState(self.STATEMACHINE_STATES.grabbing, {
           enter = function() 
+              self.currentAnimationState=self.ANIMATION_STATES.grab
+              self.beak:hide()
+            assert(self.dogAttacked ~= nil, "dog is nil")
               print("grabbing enter") 
+                self.steeringBehaviourMachine:clearSteering()
+                self.steeringBehaviourMachine:enable(false)
+                self.physicsBody:setKinematicPhysics()
+
+                self.dogAttacked.stateMachine:switchStates(self.dogAttacked.STATEMACHINE_STATES.caught)
           end,
           exit = function() 
               print("grabbing exit") 
+              self.beak:show()
           end,
           update = function(timeStep) 
-              print("grabbing update") 
+              -- print("grabbing update") 
           end,
           collide = function(colliderEntity, collisionPoint) 
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
@@ -480,24 +491,54 @@ local Bird = {
               end
           end,
         })
-      stateMachine:addState(self.STATEMACHINE_STATES.pursue, {
-          enter = function() 
-              self.game.canPursue = false
-              print("pursue enter") 
-              self.currentAnimationState=self.ANIMATION_STATES.idle
-              self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorPursuit)
+        stateMachine:addState(self.STATEMACHINE_STATES.pursue, {
+            enter = function() 
+                self.pursueTimer = njlic.Timer.create()
+
+                self.game.canPursue = false
+                print("pursue enter") 
+                self.currentAnimationState=self.ANIMATION_STATES.idle
+                self.offsetPosition = self.steeringBehaviorOffsetPursuit:getOffsetPosition()
+                self.steeringBehaviorOffsetPursuit:setOffsetPosition(bullet.btVector3(0,6,-2))
+                self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorOffsetPursuit)
+
+                self.collided = false
+                self.dogAttacked = nil
           end,
           exit = function() 
-              print("pursue exit") 
-            self.steeringBehaviourMachine:remoteSteeringBehavior(self.steeringBehaviorPursuit)
-              self.game.canPursue = true
+              njlic.Timer.destroy(self.pursueTimer)
+
+                print("pursue exit") 
+                self.steeringBehaviorOffsetPursuit:setOffsetPosition(self.offsetPosition)
+                self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorOffsetPursuit)
+                self.game.canPursue = false
+                -- self.dogAttacked = nil
           end,
           update = function(timeStep) 
+
+              if self.dogAttacked then
+                  if not self.collided then
+                      print('start timer')
+                      self.collided = true
+                      self.pursueTimer:start(self.params.Bird[self.birdName].PursueTime)
+                  else
+                      print('continue timer')
+                      if self.pursueTimer:isFinished() then
+                          self.stateMachine:switchStates(self.STATEMACHINE_STATES.grabbing)
+                      end
+                  end
+              else
+                  print('stop timer')
+              end
+
+            self.dogAttacked = nil
+              self.pursueTimer:tick()
               -- print("pursue update") 
           end,
           collide = function(colliderEntity, collisionPoint) 
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.dog) then
                   print("The dog (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
+                  self.dogAttacked = colliderEntity
               end
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
                   print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
@@ -548,7 +589,6 @@ local Bird = {
       njlic.Node.destroy(self.node)
       
         njlic.Timer.destroy(self.yapTimer)
-        njlic.Timer.destroy(self.pursueTimer)
       -- print("unloaded the bird")
     end
   
@@ -1109,6 +1149,7 @@ local Dog = {
           exit = function() 
           end,
           update = function(timeStep) 
+              print("dog is caught")
           end,
           collide = function(colliderEntity, collisionPoint) 
           end,
