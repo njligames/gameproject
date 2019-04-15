@@ -423,12 +423,31 @@ local Bird = {
       stateMachine:addState(self.STATEMACHINE_STATES.grabbed, {
           enter = function() 
               print("grabbed enter") 
-          end,
+              self.currentAnimationState=self.ANIMATION_STATES.grab
+              self.beak:hide()
+              self.physicsBody:setDynamicPhysics()
+              self.steeringBehaviourMachine:enable(false)
+                        end,
           exit = function() 
               print("grabbed exit") 
+              self.beak:show()
+              
           end,
           update = function(timeStep) 
-              print("grabbed update") 
+              -- print("grabbed update") 
+              local y_force = 0
+
+              if self.currentFrame == 1 then
+              elseif self.currentFrame == 2 then
+              elseif self.currentFrame == 3 then
+              elseif self.currentFrame == 4 then
+              elseif self.currentFrame == 5 then
+              elseif self.currentFrame == 6 then
+              elseif self.currentFrame == 7 then
+                  y_force = self.params.Bird[self.birdName].StealSpeed
+              elseif self.currentFrame == 8 then
+              end
+            self.physicsBody:applyForce(bullet3.btVector3(0,y_force,0), true)
           end,
           collide = function(colliderEntity, collisionPoint) 
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
@@ -456,6 +475,7 @@ local Bird = {
               self.beak:show()
           end,
           update = function(timeStep) 
+              self.stateMachine:switchStates(self.STATEMACHINE_STATES.grabbed)
               -- print("grabbing update") 
           end,
           collide = function(colliderEntity, collisionPoint) 
@@ -1161,14 +1181,14 @@ local Dog = {
 
               print(birdNode_min)
               
+                self.steeringBehaviourMachine:enable(false)
                 self.physicsBody:setDynamicPhysics()
-                self.birdAttacking.physicsBody:setKinematicPhysics()
 
-              -- self.constraint:setNodes(self.birdAttacking.node, self.node, bullet3.btVector3(0,-5,0), bullet3.btVector3(0,5,1))
-              self.constraint:setNodes(self.birdAttacking.node, self.node, bullet3.btVector3(0,birdNode_min:y(),0), bullet3.btVector3(0,dogNode_max:y() - 3,1))
+              self.constraint:setNodes(self.birdAttacking.node, self.node, bullet3.btVector3(0,birdNode_min:y() + 3,0), bullet3.btVector3(0,dogNode_max:y() - 3,-1))
 
           end,
           exit = function() 
+                self.steeringBehaviourMachine:enable(true)
               njlic.PhysicsConstraintPointToPoint.destroy(self.constraint)
           end,
           update = function(timeStep) 
@@ -1518,7 +1538,6 @@ local YappyBirds = {
       
       run = false,
         canPursue = true,
-      
     }
 
     function game:load()
@@ -1556,7 +1575,7 @@ local YappyBirds = {
 
       local rootNode = njlic.Node.create()
       rootNode:setOrigin(bullet3.btVector3(0,0,0))
-      
+
       scene:setRootNode(rootNode)
       
       njlic.World.getInstance():setScene(scene)
