@@ -440,13 +440,16 @@ local Bird = {
           enter = function() 
               self.currentAnimationState=self.ANIMATION_STATES.grab
               self.beak:hide()
-            assert(self.dogAttacked ~= nil, "dog is nil")
-              print("grabbing enter") 
-                self.steeringBehaviourMachine:clearSteering()
-                self.steeringBehaviourMachine:enable(false)
-                self.physicsBody:setKinematicPhysics()
 
-                self.dogAttacked.stateMachine:switchStates(self.dogAttacked.STATEMACHINE_STATES.caught)
+              assert(self.dogAttacked ~= nil, "dog is nil")
+              print("grabbing enter") 
+
+              self.steeringBehaviourMachine:clearSteering()
+              self.steeringBehaviourMachine:enable(false)
+              self.physicsBody:setKinematicPhysics()
+
+              self.dogAttacked.birdAttacking = self
+              self.dogAttacked.stateMachine:switchStates(self.dogAttacked.STATEMACHINE_STATES.caught)
           end,
           exit = function() 
               print("grabbing exit") 
@@ -518,17 +521,17 @@ local Bird = {
 
               if self.dogAttacked then
                   if not self.collided then
-                      print('start timer')
+                      -- print('start timer')
                       self.collided = true
                       self.pursueTimer:start(self.params.Bird[self.birdName].PursueTime)
                   else
-                      print('continue timer')
+                      -- print('continue timer')
                       if self.pursueTimer:isFinished() then
                           self.stateMachine:switchStates(self.STATEMACHINE_STATES.grabbing)
                       end
                   end
               else
-                  print('stop timer')
+                  -- print('stop timer')
               end
 
             self.dogAttacked = nil
@@ -1134,6 +1137,7 @@ local Dog = {
         self.steeringBehaviorEvade:setProbability(1.0)
         
         self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
+
         
         -- print("end steering behaviour for dog")
       else
@@ -1144,12 +1148,31 @@ local Dog = {
       
       stateMachine:addState(self.STATEMACHINE_STATES.caught, {
           enter = function() 
+            self.constraint = njlic.PhysicsConstraintPointToPoint.create()
               self.currentAnimationState=self.ANIMATION_STATES.grabbed
+              assert(self.birdAttacking ~= nil, "bird attacking is nil")
+              print("Bird Attacking")
+
+              print(self.node)
+              print(self.birdAttacking.node)
+
+              local birdNode_min, birdNode_max = self.birdAttacking.node:getAabb()
+              local dogNode_min, dogNode_max = self.node:getAabb()
+
+              print(birdNode_min)
+              
+                self.physicsBody:setDynamicPhysics()
+                self.birdAttacking.physicsBody:setKinematicPhysics()
+
+              -- self.constraint:setNodes(self.birdAttacking.node, self.node, bullet3.btVector3(0,-5,0), bullet3.btVector3(0,5,1))
+              self.constraint:setNodes(self.birdAttacking.node, self.node, bullet3.btVector3(0,birdNode_min:y(),0), bullet3.btVector3(0,dogNode_max:y() - 3,1))
+
           end,
           exit = function() 
+              njlic.PhysicsConstraintPointToPoint.destroy(self.constraint)
           end,
           update = function(timeStep) 
-              print("dog is caught")
+              -- print("dog is caught")
           end,
           collide = function(colliderEntity, collisionPoint) 
           end,
