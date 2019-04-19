@@ -343,6 +343,43 @@ function LevelLoader:numDogWayPoints()
   return #self.wayPointTable
 end
 
+function LevelLoader:getDogWayPointsAabb(...)
+    local arg=... or {}
+
+    local min_x, min_y, min_z = 0, 0, 0
+    local max_x, max_y, max_z = 0, 0, 0
+
+    local numWaypoints = #self.wayPointTable
+
+    if numWaypoints > 0 then
+        local point = self:getDogWayPointParams(1).origin
+        if point then
+            max_x = point:x()
+            max_y = point:y()
+            max_z = point:z()
+
+            min_x = point:x()
+            min_y = point:y()
+            min_z = point:z()
+        end
+
+        for i = 2, numWaypoints do
+            local point = self:getDogWayPointParams(i).origin
+            if point then
+                max_x = math.max(point:x(), max_x)
+                max_y = math.max(point:y(), max_y)
+                max_z = math.max(point:z(), max_z)
+
+                min_x = math.min(point:x(), min_x)
+                min_y = math.min(point:y(), min_y)
+                min_z = math.min(point:z(), min_z)
+            end
+        end
+    end
+
+    return bullet3.btVector3(min_x, min_y, min_z), bullet3.btVector3(max_x, max_y, max_z)
+end
+
 function LevelLoader:getSpawnPointOrigin(index)
   assert(index >= 1 and index <= #self.spawnPointTable, "spawn point index is out of range")
 
