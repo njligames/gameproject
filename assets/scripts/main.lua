@@ -98,7 +98,6 @@ local Beak = {
     function beak:load(...)
       local arg=... or {}
 
-      print("loaded the beak - start")
 
       local bird = arg.bird or nil
 
@@ -138,10 +137,8 @@ local Beak = {
         njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
 
       else
-        print("couldn't load the bird beak")
       end
 
-      print("loaded the beak - end")
     end
 
     function beak:unload()
@@ -152,7 +149,6 @@ local Beak = {
       njlic.Action.destroy(self.action)
       njlic.Node.destroy(self.node)
 
-      print("unloaded the beak")
     end
 
     function beak:setup(...)
@@ -170,14 +166,12 @@ local Beak = {
       self.node:setOrigin(origin)
       self.node:getGeometry():setDimensions(self.node, dimensions)
 
-      -- print("setup the beak")
 
     end
 
     function beak:spawn(...)
       local arg=... or {}
 
-      -- print("spawn beak")
 
       self.inplay=true
 
@@ -189,13 +183,13 @@ local Beak = {
     function beak:kill(...)
       local arg=... or {}
 
+
       self.inplay=false
 
       self.node:removeAction(self.node:getName())
 
       self:hide()
 
-      -- print("killed beak")
 
     end
 
@@ -294,7 +288,6 @@ local Bird = {
     function bird:load(...)
       local arg=... or {}
 
-      -- print("loaded the bird - start")
 
       local origin = bullet.btVector3(0.0, 0.0, 0.0)
 
@@ -350,7 +343,6 @@ local Bird = {
         njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
 
 
-        -- print("start steering behaviour for bird")
         self.steeringBehaviourMachine = njlic.SteeringBehaviorMachineDithered.create()
         self.steeringBehaviourMachine:setMaxSpeed(self.params.Bird[self.birdName].MaxSpeed)
         self.steeringBehaviourMachine:setMaxForce(self.params.Bird[self.birdName].MaxForce)
@@ -377,10 +369,8 @@ local Bird = {
 
         self.yapTimer = njlic.Timer.create()
 
-        -- print("end steering behaviour for bird")
 
       else
-        print("couldn't load the bird")
       end
 
       local stateMachine = StateMachine.new(self)
@@ -392,7 +382,6 @@ local Bird = {
                 self.pursueTimer = njlic.Timer.create()
                 self.steeringBehaviourMachine:enable()
               self.currentAnimationState=self.ANIMATION_STATES.idle
-              print("bird fly enter")
                 self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorOffsetPursuit)
                 self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorSeparation)
 
@@ -400,29 +389,23 @@ local Bird = {
           end,
           exit = function()
                 njlic.Timer.destroy(self.pursueTimer)
-               print("bird fly exit")
                 self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorOffsetPursuit)
                 self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorSeparation)
             end,
           update = function(timeStep)
 
               if self.pursueTimer:isFinished() then
-                  print("finished pursue timer")
                   if self.game.canPursue then
-                      print("can pursue")
                       self.stateMachine:switchStates(self.STATEMACHINE_STATES.pursue)
                   else
-                      print("cannot pursue")
                       self.pursueTimer:start(self.params.Bird[self.birdName].PursueTime)
                   end
               end
 
               self.pursueTimer:tick()
-              -- print("fly update")
           end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-                  -- print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
                   self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
               end
           end,
@@ -432,21 +415,18 @@ local Bird = {
       
       stateMachine:addState(self.STATEMACHINE_STATES.grabbed, {
           enter = function()
-              print("bird grabbed enter")
               self.currentAnimationState=self.ANIMATION_STATES.grab
               self.beak:hide()
               self.physicsBody:setDynamicPhysics()
               self.steeringBehaviourMachine:enable(false)
                         end,
           exit = function()
-              print("bird grabbed exit")
               self.beak:show()
               self.steeringBehaviourMachine:enable(true)
 
           end,
           update = function(timeStep)
               if self.node:getOrigin():y() > 6 then
-                  print("$$$$$ pre switch state")
 
                   assert(self.dogAttacked ~= nil, "the dog being attacked is nil")
 
@@ -454,10 +434,8 @@ local Bird = {
                   self.dogAttacked.stateMachine:switchStates(self.dogAttacked.STATEMACHINE_STATES.released)
                   return
 
-                  print("$$$$$ post switch state")
               end
 
-              -- print("grabbed update")
               local y_force = 0
 
               if self.currentFrame == 1 then
@@ -471,12 +449,10 @@ local Bird = {
               elseif self.currentFrame == 8 then
               end
 
-              -- print(self.node:getOrigin())
             self.physicsBody:applyForce(bullet3.btVector3(0,y_force,0), true)
           end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
                   self.stateMachine:switchStates(self.STATEMACHINE_STATES.release)
                   self.dogAttacked.stateMachine:switchStates(self.dogAttacked.STATEMACHINE_STATES.released)
                   -- self.stateMachine:switchStates(self.STATEMACHINE_STATES.release)
@@ -492,7 +468,6 @@ local Bird = {
               self.beak:hide()
 
               assert(self.dogAttacked ~= nil, "the dog being attacked is nil")
-              print("bird grabbing enter")
 
               self.steeringBehaviourMachine:clearSteering()
               self.steeringBehaviourMachine:enable(false)
@@ -502,12 +477,10 @@ local Bird = {
               self.dogAttacked.stateMachine:switchStates(self.dogAttacked.STATEMACHINE_STATES.caught)
           end,
           exit = function()
-              print("bird grabbing exit")
               self.beak:show()
           end,
           update = function(timeStep)
               self.stateMachine:switchStates(self.STATEMACHINE_STATES.grabbed)
-              -- print("grabbing update")
           end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
@@ -522,7 +495,6 @@ local Bird = {
           enter = function()
             self.game.canPursue = true
               self.currentAnimationState=self.ANIMATION_STATES.hit
-              print("bird hit enter")
                 self.steeringBehaviourMachine:clearSteering()
                 self.steeringBehaviourMachine:enable(false)
                 self.physicsBody:setDynamicPhysics()
@@ -530,7 +502,6 @@ local Bird = {
                 -- self.physicsBody:applyForce(bullet.btVector3(0,1000,0), false)
           end,
           exit = function()
-              print("bird hit exit")
           end,
           update = function(timeStep)
               local origin = self.node:getOrigin()
@@ -539,13 +510,10 @@ local Bird = {
               if self.node:getOrigin():y() < die then
                 -- self:kill()
                 self.spawnMachine:dispose(self)
-                print("dispose")
               end
-              -- print("hit update")
           end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
               end
           end,
         })
@@ -557,7 +525,6 @@ local Bird = {
                 self.pursueTimer = njlic.Timer.create()
 
                 self.game.canPursue = false
-                print("bird pursue enter")
                 self.currentAnimationState=self.ANIMATION_STATES.idle
                 self.offsetPosition = self.steeringBehaviorOffsetPursuit:getOffsetPosition()
                 self.steeringBehaviorOffsetPursuit:setOffsetPosition(bullet.btVector3(0,6,-2))
@@ -569,7 +536,6 @@ local Bird = {
           exit = function()
               njlic.Timer.destroy(self.pursueTimer)
 
-                print("bird pursue exit")
                 self.steeringBehaviorOffsetPursuit:setOffsetPosition(self.offsetPosition)
                 -- self.steeringBehaviorOffsetPursuit:setOffsetPosition(bullet.btVector3(0,20,0))
                 self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorOffsetPursuit)
@@ -586,11 +552,9 @@ local Bird = {
                   end
 
                   -- if not self.collided then
-                  --     -- print('start timer')
                   --     self.collided = true
                   --     self.pursueTimer:start(self.params.Bird[self.birdName].PursueTime)
                   -- else
-                  --     -- print('continue timer')
                   --     if self.pursueTimer:isFinished() then
                   --         self.stateMachine:switchStates(self.STATEMACHINE_STATES.grabbing)
                   --         return
@@ -599,16 +563,13 @@ local Bird = {
               else
                   self.pursueTimer:start(self.params.Bird[self.birdName].PursueTime)
                   self.pursueTimer:enablePause()
-                  -- print('stop timer')
               end
 
               self.dogAttacked = nil
 
-              -- print("pursue update")
           end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.dog) then
-                  -- print("The dog (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
                   self.dogAttacked = colliderEntity
                   self.pursueTimer:enablePause(false)
               end
@@ -623,18 +584,14 @@ local Bird = {
       stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
           enter = function()
               self.currentAnimationState=self.ANIMATION_STATES.idle
-              print("bird spawn enter")
           end,
           exit = function()
-              -- print("spawn exit")
         end,
           update = function(timeStep)
-             print("bird spawn update")
               self.stateMachine:switchStates(self.STATEMACHINE_STATES.fly)
             end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
               end
           end,
         })
@@ -648,12 +605,10 @@ local Bird = {
                 self.stunTimer = njlic.Timer.create()
 
                 self.stunTimer:start(self.params.Bird[self.birdName].StunTime)
-              print("bird release enter")
             self.game.canPursue = true
           end,
           exit = function()
             njlic.Timer.destroy(self.stunTimer)
-              print("bird release exit")
         end,
           update = function(timeStep)
               if self.stunTimer:isFinished() then
@@ -661,18 +616,15 @@ local Bird = {
               end
 
               self.stunTimer:tick()
-             -- print("bird release update")
             end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-                  print("The balloon (" .. colliderEntity.node:getName() .. ") collided with the bird (" .. self.node:getName() .. ")")
               end
           end,
         })
 
       self.stateMachine = stateMachine
 
-      -- print("loaded the bird - end")
     end
 
     function bird:unload()
@@ -696,7 +648,6 @@ local Bird = {
       njlic.Node.destroy(self.node)
 
         njlic.Timer.destroy(self.yapTimer)
-      -- print("unloaded the bird")
     end
 
     function bird:setup(...)
@@ -716,14 +667,12 @@ local Bird = {
 
       self.beak:setup(arg)
 
-      -- print("setup the balloon")
 
     end
 
     function bird:spawn(...)
       local arg=... or {}
 
-      -- print("spawn bird")
 
       self.inplay=true
 
@@ -749,6 +698,9 @@ local Bird = {
 
       self.beak:kill(arg)
 
+      if self.inplay then
+            self.spawnMachine:decreaseSpawnLeft()
+        end
       self.inplay=false
 
       self.steeringBehaviourMachine:enable(false)
@@ -762,7 +714,6 @@ local Bird = {
       self:hide()
 
 
-      -- print("killed bird")
 
       -- put back to hiding values
     end
@@ -814,7 +765,6 @@ local Bird = {
 
       self.stateMachine:update(timeStep)
 
---      print("bird")
     end
 
     function bird:addNeighbors(birds)
@@ -882,7 +832,6 @@ local Balloon = {
     function balloon:load(...)
       local arg=... or {}
 
-      -- print("loaded the balloon - start")
 
       self.color = arg.color or "?"
 
@@ -973,7 +922,6 @@ local Balloon = {
           exit = function()
           end,
           update = function(timeStep)
-              -- print("lobbing")
           end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.bird) then
@@ -991,7 +939,6 @@ local Balloon = {
                   return lower + math.random()  * (greater - lower);
               end
               local scale = randomFloat(min, max)
-              print(scale)
               self.node:setScale(scale)
 
 
@@ -1009,7 +956,6 @@ local Balloon = {
         })
       self.stateMachine = stateMachine
 
-      -- print("loaded the balloon - end")
     end
 
     function balloon:unload()
@@ -1022,7 +968,6 @@ local Balloon = {
       njlic.Action.destroy(self.action)
       njlic.Node.destroy(self.node)
 
-      -- print("unloaded the balloon")
     end
 
     function balloon:setup(...)
@@ -1042,14 +987,12 @@ local Balloon = {
       self.node:getGeometry():setDimensions(self.node, dimensions)
       self.direction = direction
 
-      -- print("setup the balloon")
 
     end
 
     function balloon:spawn(...)
       local arg=... or {}
 
-      -- print("spawn balloon")
 
       self.inplay=true
 
@@ -1079,7 +1022,6 @@ local Balloon = {
       self.node:enableTagged(false)
       self:hide()
 
-      -- print("killed balloon")
       -- put back to hiding values
     end
 
@@ -1116,7 +1058,6 @@ local Balloon = {
       if self.node:getOrigin():y() < die then
         -- self:kill()
         self.spawnMachine:dispose(self)
-        print("dispose")
       end
 
       self.stateMachine:update(timeStep)
@@ -1177,7 +1118,6 @@ local Dog = {
     function dog:load(...)
       local arg=... or {}
 
-      -- print("loaded the dog - start")
 
       local origin = bullet.btVector3(0.0, 0.0, 0.0)
 
@@ -1234,7 +1174,6 @@ local Dog = {
         local soundName = "sounds/projectile_balloon_water-splash.ogg"
         njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
 
-        -- print("start steering behaviour for dog")
         self.steeringBehaviourMachine = njlic.SteeringBehaviorMachineWeighted.create()
         self.steeringBehaviourFollowPath = njlic.SteeringBehaviorFollowPath.create()
 
@@ -1250,9 +1189,7 @@ local Dog = {
         self.constraint = njlic.PhysicsConstraintPointToPoint.create()
 
 
-        -- print("end steering behaviour for dog")
       else
-        print("couldn't load the dog")
       end
 
       local stateMachine = StateMachine.new(self)
@@ -1261,15 +1198,11 @@ local Dog = {
           enter = function()
               self.currentAnimationState=self.ANIMATION_STATES.grabbed
               assert(self.birdAttacking ~= nil, "bird attacking is nil")
-              print("Bird Attacking")
 
-              print(self.node)
-              print(self.birdAttacking.node)
 
               local birdNode_min, birdNode_max = self.birdAttacking.node:getAabb()
               local dogNode_min, dogNode_max = self.node:getAabb()
 
-              print(birdNode_min)
 
                 self.steeringBehaviourMachine:enable(false)
                 self.physicsBody:setDynamicPhysics()
@@ -1283,8 +1216,6 @@ local Dog = {
                 self.steeringBehaviourMachine:enable(true)
           end,
           update = function(timeStep)
-              -- print("dog is caught")
-              -- print(self.node:getOrigin())
           end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
@@ -1335,18 +1266,13 @@ local Dog = {
               self.constraint:removeConstraint()
               self.steeringBehaviourMachine:enable(false)
 
-              print("dog released enter")
           end,
           exit = function()
-              print("dog released exit")
           end,
           update = function(timeStep)
-            print(self.wayPointAabbMin)
-            print(self.wayPointAabbMax)
             if self.node:getOrigin():y() < self.wayPointAabbMin:y() then
                 self.stateMachine:switchStates(self.STATEMACHINE_STATES.land)
             end
-              -- print("dog released update")
           end,
           collide = function(colliderEntity, collisionPoint)
           end,
@@ -1390,7 +1316,6 @@ local Dog = {
         })
       self.stateMachine = stateMachine
 
-      -- print("loaded the dog - end")
 
     end
 
@@ -1411,7 +1336,6 @@ local Dog = {
       njlic.Action.destroy(self.action)
       njlic.Node.destroy(self.node)
 
-      -- print("unloaded the dog")
     end
 
     function dog:setup(...)
@@ -1441,7 +1365,6 @@ local Dog = {
     function dog:spawn(...)
       local arg=... or {}
 
-      print("spawn dog")
 
       self.inplay=true
 
@@ -1468,7 +1391,6 @@ local Dog = {
       self:hide()
       self.steeringBehaviourMachine:enable(false)
 
-      -- print("killed balloon")
       -- put back to hiding values
     end
 
@@ -1583,7 +1505,6 @@ local Billboard = {
       self.node:enableTagged()
 
       self.inplay=true
-      -- print("spawned billboard")
     end
 
     function billboard:kill(...)
@@ -1609,7 +1530,6 @@ local Billboard = {
 
 local YappyBirds = {
   new = function()
-    -- print("YappyBirds.new() - start")
 
     local Params = require "YAPPYBIRDS.Params"
     local SpawnMachine = require "YAPPYBIRDS.SpawnMachine"
@@ -1652,9 +1572,10 @@ local YappyBirds = {
     }
 
     function game:load()
-      -- print("game:load() - start")
 
       local debug = false
+
+
 
       self.levelLoader:loadLevel({debug=debug, loc="country", levelNum=0, mode="arcade"})
 
@@ -1708,17 +1629,17 @@ local YappyBirds = {
 
       -- ###################################################################################################
 
-      local orthographicCameraNode = njlic.Node.create()
-      orthographicCameraNode:setName("perspectiveCamera")
+      self.orthographicCameraNode = njlic.Node.create()
+      self.orthographicCameraNode:setName("perspectiveCamera")
 
       self.orthographicCamera = njlic.Camera.create()
       self.orthographicCamera:enableOrthographic(true)
       self.orthographicCamera:setRenderCategory(RenderCategories.orthographic)
       self.orthographicCamera:setName("perspectiveCamera")
 
-      orthographicCameraNode:setCamera(self.orthographicCamera)
+      self.orthographicCameraNode:setCamera(self.orthographicCamera)
 
-      rootNode:addChildNode(orthographicCameraNode)
+      rootNode:addChildNode(self.orthographicCameraNode)
 
       -- ###################################################################################################
 
@@ -1728,6 +1649,34 @@ local YappyBirds = {
       njlic.World.getInstance():getScene():setPhysicsWorld(self.physicsWorld)
 
       -- ###################################################################################################
+
+
+
+
+
+      self.YappyBirdFont = BitmapFont(
+      {
+        names=
+        {
+        "Ranchers", 
+        },
+        maxadvance=160
+      })
+
+      -- print_r(self.YappyBirdFont)
+
+
+
+      self.displayNode, self.displayNodeRect = self.YappyBirdFont:printf({
+        mainNode=self.displayNode,
+        text="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+        align="Left",
+        maxwidth=(njlic.SCREEN():x()),
+      })
+      local vert_margin = njlic.SCREEN():y() / 30.0
+      local horiz_margin = njlic.SCREEN():x() / 60.0
+      self.displayNode:setOrigin(bullet.btVector3(horiz_margin * 1, vert_margin * 1, -1))
+      self.displayNode:show(self.orthographicCamera)
 
       for i = 1, self.levelLoader:numTiles() do
         local billboardParams = self.levelLoader:getBillboardParams(i)
@@ -1877,11 +1826,9 @@ local YappyBirds = {
 
 
 
-      -- print("game:load() - end")
     end
 
     function game:unload()
-      -- print("game:unload() - start")
 
       self.run = false
 
@@ -1965,7 +1912,6 @@ local YappyBirds = {
       end
       self.balloonPool = {}
 
-      -- print("game:unload() - end")
     end
 
     function game:collide(node, otherNode, collisionPoint)
@@ -1986,8 +1932,13 @@ local YappyBirds = {
 
         self.spawnMachine:tick(self, timeStep)
 
+        local number_words = njlic.convertToWords(self.spawnMachine:birdsLeftToSpawn())
+      local birdsLeft = string.format("There are %s birds left.", number_words)
+
+      self.displayNode, self.displayNodeRect = self.YappyBirdFont:printf(birdsLeft)
+      self.displayNode:show(self.orthographicCamera)
+
         if self.spawnMachine.done then
-  --        print("spawn machine is finished")
         end
       end
 
@@ -2012,20 +1963,13 @@ local YappyBirds = {
     end
 
     function game:click(x, y)
---      print("game:click("..x..","..y..")")
 
       if self.run then
 
         local origin = self.params:originForLayer({x=x, y=y}, 10)
-        -- print("originForLayer")
-        -- print(x, y, origin)
 --        origin = self.levelLoader:getDogWayPointParams(1).origin
---        print("origin for index 1 ")
---        print(origin)
 
         local dimensions = self.params:dimensionForLayer()
---        print("dimensions)
---        print(dimensions)
 
         local queued = self.spawnMachine:queueBalloon({
             origin = origin,
@@ -2033,7 +1977,6 @@ local YappyBirds = {
             direction = self.perspectiveCamera:getForwardVector(),
           })
         if not queued then
-          print("couldn't queue the balloon")
         end
 
       end
@@ -2058,7 +2001,6 @@ local YappyBirds = {
           billboard:spawn()
         end
 
-        print(self.levelLoader:getDogWayPointsAabb())
 
         njlic.World.getInstance():setBackgroundColor(self.levelLoader.backgroundColor)
 
@@ -2081,9 +2023,7 @@ local YappyBirds = {
               dimensions = wayPoint.dimensions,
             })
           if not queued then
-            print("couldn't queue the dog")
           else
-            print("queued the dog")
           end
         end
 
@@ -2235,13 +2175,12 @@ local YappyBirds = {
 
 njlic.World.getInstance():setBackgroundColor(1.000, 0.000, 1.000)
 
-local Test = {
+local TestDebugDraw = {
   new = function()
     local test = {
     }
 
     function test:load()
-      -- print("create test")
 
 --      self.shader = njlic.ShaderProgram.create()
 --      assert(njlic.World.getInstance():getWorldResourceLoader():load("shaders/PassThrough.vert", "shaders/PassThrough.frag", self.shader))
@@ -2270,7 +2209,6 @@ local Test = {
     end
 
     function test:unload()
-      -- print("destroy test")
 
       njlic.Camera.destroy(self.perspectiveCamera)
       njlic.Node.destroy(self.perspectiveCameraNode)
@@ -2310,21 +2248,14 @@ local Test = {
 
       local scene = njlic.World.getInstance():getScene()
       local rootNode = scene:getRootNode()
-      -- print(scene)
-      -- print(rootNode)
-      -- print(debugDrawer)
 
 
---      print(self.shader)
---      print(self.perspecitiveCameraNode)
---       print("update test")
     end
 
       function test:collide(node, otherNode, collisionPoint)
       end
 
     function test:click(x, y)
-      print("click test")
     end
 
       function test:updateAction(action, timeStep)
@@ -2337,9 +2268,102 @@ local Test = {
 }
 
 
+
+
+
+
+
+
+
+local TestFont = {
+  new = function()
+    local test = {
+      YappyBirdFont = BitmapFont(
+      {
+        names=
+        {
+        "Ranchers", 
+        },
+        maxadvance=160
+      })
+    }
+
+    function test:load()
+
+      local scene = njlic.Scene.create()
+      local rootNode = njlic.Node.create()
+      rootNode:setOrigin(bullet3.btVector3(0,-0.5,-1))
+      scene:setRootNode(rootNode)
+      njlic.World.getInstance():setScene(scene)
+
+      self.orthographicCameraNode = njlic.Node.create()
+      self.orthographicCameraNode:setName("orthographicCameraNode")
+
+      self.orthographicCamera = njlic.Camera.create()
+      self.orthographicCamera:enableOrthographic(true)
+      self.orthographicCamera:setRenderCategory(RenderCategories.orthographic)
+      self.orthographicCamera:setName("orthographicCamera")
+
+      self.orthographicCameraNode:setCamera(self.orthographicCamera)
+
+      rootNode:addChildNode(self.orthographicCameraNode)
+
+      self.displayNode, self.displayNodeRect = self.YappyBirdFont:printf({
+        mainNode=self.displayNode,
+        text="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+        align="Left",
+        maxwidth=(njlic.SCREEN():x()),
+      })
+      local vert_margin = njlic.SCREEN():y() / 30.0
+      self.displayNode:setOrigin(bullet.btVector3(100, njlic.SCREEN():y() - (vert_margin * 10), -1))
+      self.displayNode:show(self.orthographicCameraNode:getCamera())
+
+      
+
+      -- print_r(self.YappyBirdFont)
+
+    end
+
+    function test:unload()
+      njlic.Camera.destroy(self.orthographicCamera)
+      njlic.Node.destroy(self.orthographicCameraNode)
+    end
+
+    function test:update(timestep)
+      njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 1.000)
+    end
+
+  function test:collide(node, otherNode, collisionPoint)
+  end
+
+    function test:click(x, y)
+    end
+
+      function test:updateAction(action, timeStep)
+      end
+
+    return test
+
+  end
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 local Create = function()
     yappyBirds = YappyBirds.new()
-    -- yappyBirds = Test.new()
+    -- yappyBirds = TestDebugDraw.new()
+    -- yappyBirds = TestFont.new()
     yappyBirds:load()
 end
 
@@ -2353,66 +2377,51 @@ local Update = function(timeStep)
 end
 
 local Render = function()
-  -- print("Render")
 end
 
 local Resize = function(width, height, orientation)
-  print("Resize", width, height, orientation)
 end
 
 local TouchesDown = function(touches)
-  print("TouchesDown")
 end
 
 local TouchesUp = function(touches)
-  print("TouchesUp")
 end
 
 local TouchesMove = function(touches)
-  print("TouchesMove")
 end
 
 local TouchesCancelled = function(touches)
-  print("TouchesCancelled")
 end
 
 local TouchDown = function(touch)
-  -- print("TouchDown")
   yappyBirds:click(touch:getPosition():x(), touch:getPosition():y())
 end
 
 local TouchUp = function(touch)
-  -- print("TouchUp")
 end
 
 local TouchMove = function(touch)
-  -- print("TouchMove")
 end
 
 local TouchCancelled = function(touches)
-  print("TouchCancelled")
 end
 
 local MouseDown = function(mouse)
 
---  print("MouseDown")
   yappyBirds:click(mouse:getPosition():x(), mouse:getPosition():y())
 end
 
 local MouseUp = function(mouse)
---  print("MouseUp")
 end
 
 local MouseMove = function(mouse)
---  print("MouseMove")
 end
 
 local KeyDown = function(keycodeName, withCapsLock, withControl, withShift, withAlt, withGui)
-  print("KeyDown", keycodeName, withCapsLock, withControl, withShift, withAlt, withGui)
 end
 
 local KeyUp = function(keycodeName, withCapsLock, withControl, withShift, withAlt, withGui)
-  print("KeyUp", keycodeName, withCapsLock, withControl, withShift, withAlt, withGui)
 end
 
 local NodeCollide = function(node, otherNode, collisionPoint)
@@ -2420,7 +2429,6 @@ local NodeCollide = function(node, otherNode, collisionPoint)
 end
 
 local NodeNear = function(node, otherNode)
-  -- print("NodeNear")
 end
 
 local NodeActionUpdate = function(action, timeStep)
@@ -2431,63 +2439,48 @@ local NodeActionUpdate = function(action, timeStep)
 end
 
 local NodeActionComplete = function(action)
-  print("NodeActionComplete")
 end
 
 local NodeRayTouchesDown = function(rayContact)
-  print("NodeRayTouchesDown")
 end
 
 local NodeRayTouchesUp = function(rayContact)
-  print("NodeRayTouchesUp")
 end
 
 local NodeRayTouchesMove = function(rayContact)
-  print("NodeRayTouchesMove")
 end
 
 local NodeRayTouchesCancelled = function(rayContact)
-  print("NodeRayTouchesCancelled")
 end
 
 local NodeRayTouchesMissed = function(node)
-  print("NodeRayTouchesMissed")
 end
 
 local NodeRayTouchDown = function(rayContact)
-  print("NodeRayTouchDown")
 end
 
 local NodeRayTouchUp = function(rayContact)
-  print("NodeRayTouchUp")
 end
 
 local NodeRayTouchMove = function(rayContact)
-  print("NodeRayTouchMove")
 end
 
 local NodeRayTouchCancelled = function(rayContact)
-  print("NodeRayTouchCancelled")
 end
 
 local NodeRayMouseDown = function(rayContact)
-  print("NodeRayMouseDown")
 end
 
 local NodeRayMouseUp = function(rayContact)
-  print("NodeRayMouseUp")
 end
 
 local NodeRayMouseMove = function(rayContact)
-  print("NodeRayMouseMove")
 end
 
 local NodeRayTouchMissed = function(node)
-  print("NodeRayTouchMissed")
 end
 
 local NodeRayMouseMissed = function(node)
-  print("NodeRayMouseMissed")
 end
 
 RegisterCreate("Create",                                         function() pcall(Create) end)

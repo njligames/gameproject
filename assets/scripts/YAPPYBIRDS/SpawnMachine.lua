@@ -30,6 +30,7 @@ local __ctor = function(self)
   self.gameEntities = {}
   
   self.done = false
+    self.spawnLeft = 0
 end
 
 local __dtor = function(self)
@@ -86,6 +87,7 @@ function SpawnMachine:tick(gameplay, timeStep)
   if #self.garbageQueue > 0 then
     local entity = table.remove(self.garbageQueue, 1)
     if entity and entity.node then
+
       assert(entity.node, "entity node is nil")
       self.gameEntities[entity.node:getName()] = entity
       local status, err = pcall(entity.kill, entity)
@@ -128,7 +130,6 @@ function SpawnMachine:tick(gameplay, timeStep)
   for i = 1, #self.arcadeSpawnPoints do
     local spawnPointTable = self.arcadeSpawnPoints[i]
     
---    print(i, spawnPointTable.currentTick, spawnPointTable.spawnPoint.spawnAmount)
     
     if spawnPointTable.spawnPoint.enabled then
       
@@ -154,6 +155,14 @@ function SpawnMachine:tick(gameplay, timeStep)
   end
 end
 
+function SpawnMachine:birdsLeftToSpawn()
+    return self.spawnLeft
+end
+
+function SpawnMachine:decreaseSpawnLeft()
+    self.spawnLeft = self.spawnLeft - 1
+end
+
 function SpawnMachine:addArcadeSpawnPoint(spawnPoint)
 
   local point = {}
@@ -161,6 +170,7 @@ function SpawnMachine:addArcadeSpawnPoint(spawnPoint)
   point.currentTick = 0 --spawnPoint.timeFrequency
 
   table.insert(self.arcadeSpawnPoints, point)
+  self.spawnLeft = self.spawnLeft + point.spawnPoint.spawnAmount
 
 end
 
@@ -178,10 +188,11 @@ function SpawnMachine:queueBird(spawnPointTable)
     dimensions=dimensions,
     visible=false,
     debug=false,
-    spawnMachine=self,
+    spawnMachine=self
   })
 
   if nil ~= bird then
+    bird.isbird = true
     table.insert(self.birdQueue, bird)
   end
   
@@ -192,7 +203,6 @@ end
 function SpawnMachine:queueBalloon(...)
   local arg=... or {}
   
---  print("SpawnMachine:queueBalloon")
   local origin = arg.origin or bullet.btVector3(0.0, 0.0, 0.0)
   local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
   local direction = arg.direction or bullet.btVector3(0.0, 1.0, 0.0)
