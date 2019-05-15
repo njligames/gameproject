@@ -1571,6 +1571,48 @@ local YappyBirds = {
         canPursue = true,
     }
 
+    function game:drawButton(...)
+        local arg = ... or {}
+
+        local name = arg.name or "butn_pause_off"
+        local x = arg.x or 0
+        local y = arg.y or 0
+        local node = arg.node or nil
+        local tag = arg.tag or "pause button"
+        local tp = arg.tp or nil
+        local camera = arg.camera or nil
+        local scale = arg.scale or 10.0
+
+        assert(tp ~= nil, "The texture packer is nil")
+        assert(camera ~= nil, "The camera is nil")
+
+        local node, dimension = tp:draw({name=name, node=node})
+
+        local origin = bullet.btVector3(x, y, -1)
+        node:setOrigin(origin)
+        node:show(camera)
+
+        if not njlic.World.getInstance():getScene():getRootNode():hasChildNode(node) then
+            njlic.World.getInstance():getScene():getRootNode():addChildNode(node)
+        end
+
+        local physicsShape = njlic.PhysicsShapeBox.create()
+
+        local physicsBody = njlic.PhysicsBodyRigid.create()
+        physicsBody:setStaticPhysics()
+        physicsBody:setPhysicsShape(physicsShape)
+
+        node:setPhysicsBody(physicsBody)
+
+        physicsShape:setHalfExtends(bullet.btVector3( dimension:x(), dimension:y(), 1.0 ))
+
+        node:setTag(tag)
+
+        node:setScale(scale)
+
+        return node
+    end
+
     function game:load()
 
       local debug = false
@@ -1640,6 +1682,7 @@ local YappyBirds = {
       self.orthographicCameraNode:setCamera(self.orthographicCamera)
 
       rootNode:addChildNode(self.orthographicCameraNode)
+      njlic.World.getInstance():getScene():setTouchCamera(self.orthographicCamera)
 
       -- ###################################################################################################
 
@@ -1677,6 +1720,20 @@ local YappyBirds = {
       local horiz_margin = njlic.SCREEN():x() / 60.0
       self.displayNode:setOrigin(bullet.btVector3(horiz_margin * 1, vert_margin * 1, -1))
       self.displayNode:show(self.orthographicCamera)
+
+
+      self.interfaceTexturePacker = TexturePacker({file="interface0"})
+
+      local pauseNode = self:drawButton({
+          name = "butn_pause_off", 
+          x = 200, 
+          y = 200, 
+          node = nil, 
+          tag = "pause button", 
+          tp = self.interfaceTexturePacker, 
+          camera = self.orthographicCamera
+      })
+
 
       for i = 1, self.levelLoader:numTiles() do
         local billboardParams = self.levelLoader:getBillboardParams(i)
@@ -2442,12 +2499,15 @@ local NodeActionComplete = function(action)
 end
 
 local NodeRayTouchesDown = function(rayContact)
+    print("NodeRayTouchesDown")
 end
 
 local NodeRayTouchesUp = function(rayContact)
+    print("NodeRayTouchesUp")
 end
 
 local NodeRayTouchesMove = function(rayContact)
+    print("NodeRayTouchesMove")
 end
 
 local NodeRayTouchesCancelled = function(rayContact)
@@ -2457,12 +2517,17 @@ local NodeRayTouchesMissed = function(node)
 end
 
 local NodeRayTouchDown = function(rayContact)
+    print("NodeRayTouchDown")
 end
 
 local NodeRayTouchUp = function(rayContact)
+    print("NodeRayTouchUp")
+    -- local nodeTag = rayContact:getHitNode():getTag()
+    -- print(nodeTag)
 end
 
 local NodeRayTouchMove = function(rayContact)
+    print("NodeRayTouchMove")
 end
 
 local NodeRayTouchCancelled = function(rayContact)
@@ -2472,6 +2537,8 @@ local NodeRayMouseDown = function(rayContact)
 end
 
 local NodeRayMouseUp = function(rayContact)
+    local nodeTag = rayContact:getHitNode():getTag()
+    print(nodeTag)
 end
 
 local NodeRayMouseMove = function(rayContact)
