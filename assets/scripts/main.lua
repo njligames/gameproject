@@ -2,6 +2,49 @@ require "NJLIC.util"
 
 local BitmapFont = require 'NJLIC.BitmapFont'
 local TexturePacker = require "NJLIC.TexturePacker"
+local UserInterface = require "NJLIC.UserInterface"
+
+-- local function DrawButton(...)
+--     local arg = ... or {}
+-- 
+--     local name = arg.name or "butn_pause_off"
+--     local x = arg.x or 0
+--     local y = arg.y or 0
+--     local node = arg.node or nil
+--     local tag = arg.tag or "pause button"
+--     local tp = arg.tp or nil
+--     local camera = arg.camera or nil
+--     local scale = arg.scale or 10.0
+-- 
+--     assert(tp ~= nil, "The texture packer is nil")
+--     assert(camera ~= nil, "The camera is nil")
+-- 
+--     local node, dimension = tp:draw({name=name, node=node})
+-- 
+--     if not njlic.World.getInstance():getScene():getRootNode():hasChildNode(node) then
+--         njlic.World.getInstance():getScene():getRootNode():addChildNode(node)
+--     end
+-- 
+--     local origin = bullet.btVector3(x, y, -1)
+--     node:setOrigin(origin)
+--     node:show(camera)
+-- 
+--     local physicsShape = njlic.PhysicsShapeBox.create()
+-- 
+--     local physicsBody = njlic.PhysicsBodyRigid.create()
+--     physicsBody:setStaticPhysics()
+--     physicsBody:setPhysicsShape(physicsShape)
+-- 
+--     node:setPhysicsBody(physicsBody)
+-- 
+--     physicsShape:setHalfExtends(bullet.btVector3( dimension:x(), dimension:y(), 1.0 ))
+-- 
+--     node:setTag(tag)
+-- 
+--     node:setScale(scale)
+-- 
+--     return node
+-- end
 
 local StateMachine = {
   new = function(...)
@@ -1571,48 +1614,6 @@ local YappyBirds = {
         canPursue = true,
     }
 
-    function game:drawButton(...)
-        local arg = ... or {}
-
-        local name = arg.name or "butn_pause_off"
-        local x = arg.x or 0
-        local y = arg.y or 0
-        local node = arg.node or nil
-        local tag = arg.tag or "pause button"
-        local tp = arg.tp or nil
-        local camera = arg.camera or nil
-        local scale = arg.scale or 10.0
-
-        assert(tp ~= nil, "The texture packer is nil")
-        assert(camera ~= nil, "The camera is nil")
-
-        local node, dimension = tp:draw({name=name, node=node})
-
-        local origin = bullet.btVector3(x, y, -1)
-        node:setOrigin(origin)
-        node:show(camera)
-
-        if not njlic.World.getInstance():getScene():getRootNode():hasChildNode(node) then
-            njlic.World.getInstance():getScene():getRootNode():addChildNode(node)
-        end
-
-        local physicsShape = njlic.PhysicsShapeBox.create()
-
-        local physicsBody = njlic.PhysicsBodyRigid.create()
-        physicsBody:setStaticPhysics()
-        physicsBody:setPhysicsShape(physicsShape)
-
-        node:setPhysicsBody(physicsBody)
-
-        physicsShape:setHalfExtends(bullet.btVector3( dimension:x(), dimension:y(), 1.0 ))
-
-        node:setTag(tag)
-
-        node:setScale(scale)
-
-        return node
-    end
-
     function game:load()
 
       local debug = false
@@ -1672,12 +1673,12 @@ local YappyBirds = {
       -- ###################################################################################################
 
       self.orthographicCameraNode = njlic.Node.create()
-      self.orthographicCameraNode:setName("perspectiveCamera")
+      self.orthographicCameraNode:setName("orthographicCameraNode")
 
       self.orthographicCamera = njlic.Camera.create()
       self.orthographicCamera:enableOrthographic(true)
       self.orthographicCamera:setRenderCategory(RenderCategories.orthographic)
-      self.orthographicCamera:setName("perspectiveCamera")
+      self.orthographicCamera:setName("orthographicCamera")
 
       self.orthographicCameraNode:setCamera(self.orthographicCamera)
 
@@ -1724,14 +1725,23 @@ local YappyBirds = {
 
       self.interfaceTexturePacker = TexturePacker({file="interface0"})
 
-      local pauseNode = self:drawButton({
-          name = "butn_pause_off", 
+      self.ui = UserInterface()
+
+      local pauseButton, pauseButtonId = self.ui:createButton({
+          off = "butn_pause_off", 
+          on = "butn_pause_on", 
           x = 200, 
           y = 200, 
           node = nil, 
           tag = "pause button", 
           tp = self.interfaceTexturePacker, 
-          camera = self.orthographicCamera
+          camera = self.orthographicCamera,
+          down = function() 
+              print("pausedown")
+          end,
+          up = function()
+              print("pauseup")
+          end,
       })
 
 
@@ -1978,6 +1988,8 @@ local YappyBirds = {
     end
 
     function game:update(timeStep)
+        local status, err = pcall(self.ui.update, self.ui, timeStep)
+        if not status then error(err) end
 
       local from = self.perspectiveCameraNode:getOrigin()
       local dir = self.perspectiveCamera:getForwardVector()
@@ -2021,13 +2033,10 @@ local YappyBirds = {
 
     function game:click(x, y)
 
-      if self.run then
+      if self.run and not self.ui:anyTouched() then
 
         local origin = self.params:originForLayer({x=x, y=y}, 10)
---        origin = self.levelLoader:getDogWayPointParams(1).origin
-
         local dimensions = self.params:dimensionForLayer()
-
         local queued = self.spawnMachine:queueBalloon({
             origin = origin,
             dimensions = dimensions,
@@ -2038,6 +2047,31 @@ local YappyBirds = {
 
       end
 
+    end
+
+    function game:down(rayContact)
+        local status, err = pcall(self.ui.down, self.ui, rayContact)
+        if not status then error(err) end
+    end
+    
+    function game:up(rayContact)
+        local status, err = pcall(self.ui.up, self.ui, rayContact)
+        if not status then error(err) end
+    end
+    
+    function game:move(rayContact)
+        local status, err = pcall(self.ui.move, self.ui, rayContact)
+        if not status then error(err) end
+    end
+
+    function game:cancelled(rayContact)
+        local status, err = pcall(self.ui.cancelled, self.ui, rayContact)
+        if not status then error(err) end
+    end
+
+    function game:missed(node)
+        local status, err = pcall(self.ui.missed, self.ui, node)
+        if not status then error(err) end
     end
 
     function game:pause()
@@ -2335,21 +2369,13 @@ local TestDebugDraw = {
 local TestFont = {
   new = function()
     local test = {
-      YappyBirdFont = BitmapFont(
-      {
-        names=
-        {
-        "Ranchers", 
-        },
-        maxadvance=160
-      })
     }
 
     function test:load()
 
       local scene = njlic.Scene.create()
       local rootNode = njlic.Node.create()
-      rootNode:setOrigin(bullet3.btVector3(0,-0.5,-1))
+      rootNode:setOrigin(bullet3.btVector3(0,0,0))
       scene:setRootNode(rootNode)
       njlic.World.getInstance():setScene(scene)
 
@@ -2365,6 +2391,15 @@ local TestFont = {
 
       rootNode:addChildNode(self.orthographicCameraNode)
 
+      self.YappyBirdFont = BitmapFont(
+      {
+        names=
+        {
+        "Ranchers", 
+        },
+        maxadvance=160
+      })
+
       self.displayNode, self.displayNodeRect = self.YappyBirdFont:printf({
         mainNode=self.displayNode,
         text="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
@@ -2372,12 +2407,102 @@ local TestFont = {
         maxwidth=(njlic.SCREEN():x()),
       })
       local vert_margin = njlic.SCREEN():y() / 30.0
-      self.displayNode:setOrigin(bullet.btVector3(100, njlic.SCREEN():y() - (vert_margin * 10), -1))
-      self.displayNode:show(self.orthographicCameraNode:getCamera())
+      local horiz_margin = njlic.SCREEN():x() / 60.0
+      self.displayNode:setOrigin(bullet.btVector3(horiz_margin * 1, vert_margin * 1, -1))
+      self.displayNode:show(self.orthographicCamera)
+self.totalTimeStep = 0
+    end
 
-      
+    function test:unload()
+      njlic.Camera.destroy(self.orthographicCamera)
+      njlic.Node.destroy(self.orthographicCameraNode)
+    end
 
-      -- print_r(self.YappyBirdFont)
+    function test:update(timestep)
+      njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 1.000)
+      local message = string.format("The timestep is %f. The total amount accumulated is %f.", timestep, self.totalTimeStep)
+      self.displayNode, self.displayNodeRect = self.YappyBirdFont:printf(message)
+
+        self.totalTimeStep = self.totalTimeStep + timestep
+    end
+
+  function test:collide(node, otherNode, collisionPoint)
+  end
+
+    function test:click(x, y)
+    end
+
+      function test:updateAction(action, timeStep)
+      end
+
+    return test
+
+  end
+
+}
+
+
+
+local TestTexturePacker = {
+  new = function()
+    local test = {
+    }
+
+    function test:load()
+
+      local scene = njlic.Scene.create()
+      local rootNode = njlic.Node.create()
+      rootNode:setOrigin(bullet3.btVector3(0,0,0))
+      scene:setRootNode(rootNode)
+      njlic.World.getInstance():setScene(scene)
+
+      self.orthographicCameraNode = njlic.Node.create()
+      self.orthographicCameraNode:setName("orthographicCameraNode")
+
+      self.orthographicCamera = njlic.Camera.create()
+      self.orthographicCamera:enableOrthographic(true)
+      self.orthographicCamera:setRenderCategory(RenderCategories.orthographic)
+      self.orthographicCamera:setName("orthographicCamera")
+
+      self.orthographicCameraNode:setCamera(self.orthographicCamera)
+
+      rootNode:addChildNode(self.orthographicCameraNode)
+      njlic.World.getInstance():getScene():setTouchCamera(self.orthographicCamera)
+
+      self.physicsWorld = njlic.PhysicsWorld.create()
+      njlic.World.getInstance():getScene():setPhysicsWorld(self.physicsWorld)
+
+      self.interfaceTexturePacker = TexturePacker({file="interface0"})
+
+      -- self.pauseNode = DrawButton({
+      --     name = "butn_pause_off", 
+      --     x = 200, 
+      --     y = 200, 
+      --     node = nil, 
+      --     tag = "pause button", 
+      --     tp = self.interfaceTexturePacker, 
+      --     camera = self.orthographicCamera
+      -- })
+
+      self.ui = UserInterface()
+
+      local pauseButton, pauseButtonId = self.ui:createButton({
+          off = "butn_pause_off", 
+          on = "butn_pause_on", 
+          x = 200, 
+          y = 200, 
+          node = nil, 
+          tag = "pause button", 
+          tp = self.interfaceTexturePacker, 
+          camera = self.orthographicCamera,
+          down = function() 
+              print("pausedown")
+          end,
+          up = function()
+              print("pauseup")
+          end,
+      })
+
 
     end
 
@@ -2388,12 +2513,41 @@ local TestFont = {
 
     function test:update(timestep)
       njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 1.000)
+
+        local status, err = pcall(self.ui.update, self.ui, timeStep)
+        if not status then error(err) end
+
     end
 
   function test:collide(node, otherNode, collisionPoint)
   end
 
     function test:click(x, y)
+    end
+
+    function test:down(rayContact)
+        local status, err = pcall(self.ui.down, self.ui, rayContact)
+        if not status then error(err) end
+    end
+    
+    function test:up(rayContact)
+        local status, err = pcall(self.ui.up, self.ui, rayContact)
+        if not status then error(err) end
+    end
+    
+    function test:move(rayContact)
+        local status, err = pcall(self.ui.move, self.ui, rayContact)
+        if not status then error(err) end
+    end
+
+    function test:cancelled(rayContact)
+        local status, err = pcall(self.ui.cancelled, self.ui, rayContact)
+        if not status then error(err) end
+    end
+
+    function test:missed(node)
+        local status, err = pcall(self.ui.missed, self.ui, node)
+        if not status then error(err) end
     end
 
       function test:updateAction(action, timeStep)
@@ -2415,12 +2569,11 @@ local TestFont = {
 
 
 
-
-
 local Create = function()
     yappyBirds = YappyBirds.new()
     -- yappyBirds = TestDebugDraw.new()
     -- yappyBirds = TestFont.new()
+    -- yappyBirds = TestTexturePacker.new()
     yappyBirds:load()
 end
 
@@ -2499,55 +2652,73 @@ local NodeActionComplete = function(action)
 end
 
 local NodeRayTouchesDown = function(rayContact)
-    print("NodeRayTouchesDown")
+    yappyBirds:down(rayContact)
+    -- print("* NodeRayTouchesDown")
 end
 
 local NodeRayTouchesUp = function(rayContact)
-    print("NodeRayTouchesUp")
+    yappyBirds:up(rayContact)
+    -- print("* NodeRayTouchesUp")
 end
 
 local NodeRayTouchesMove = function(rayContact)
-    print("NodeRayTouchesMove")
+    yappyBirds:move(rayContact)
+    -- print("* NodeRayTouchesMove")
 end
 
 local NodeRayTouchesCancelled = function(rayContact)
+    yappyBirds:cancelled(rayContact)
+    -- print("* NodeRayTouchesCancelled")
 end
 
 local NodeRayTouchesMissed = function(node)
+    yappyBirds:missed(node)
+    -- print("* NodeRayTouchesMissed")
 end
 
 local NodeRayTouchDown = function(rayContact)
-    print("NodeRayTouchDown")
+    yappyBirds:down(rayContact)
+    -- print("# NodeRayTouchDown")
 end
 
 local NodeRayTouchUp = function(rayContact)
-    print("NodeRayTouchUp")
-    -- local nodeTag = rayContact:getHitNode():getTag()
-    -- print(nodeTag)
+    yappyBirds:up(rayContact)
+    -- print("# NodeRayTouchUp")
 end
 
 local NodeRayTouchMove = function(rayContact)
-    print("NodeRayTouchMove")
+    yappyBirds:move(rayContact)
+    -- print("# NodeRayTouchMove")
 end
 
 local NodeRayTouchCancelled = function(rayContact)
+    yappyBirds:cancelled(rayContact)
+    -- print("# NodeRayTouchCancelled")
 end
 
 local NodeRayMouseDown = function(rayContact)
+    yappyBirds:down(rayContact)
+    -- print("# NodeRayMouseDown")
 end
 
 local NodeRayMouseUp = function(rayContact)
-    local nodeTag = rayContact:getHitNode():getTag()
-    print(nodeTag)
+    yappyBirds:up(rayContact)
+    -- print("# NodeRayMouseUp")
 end
 
 local NodeRayMouseMove = function(rayContact)
+    yappyBirds:move(rayContact)
+    -- print("# NodeRayMouseMove")
 end
 
 local NodeRayTouchMissed = function(node)
+    yappyBirds:missed(node)
+    -- print("# NodeRayTouchMissed")
 end
 
 local NodeRayMouseMissed = function(node)
+    yappyBirds:missed(node)
+    -- print("# NodeRayMouseMissed")
 end
 
 RegisterCreate("Create",                                         function() pcall(Create) end)
