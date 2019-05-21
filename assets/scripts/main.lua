@@ -1727,7 +1727,7 @@ local YappyBirds = {
 
       self.ui = UserInterface()
 
-      local pauseButton, pauseButtonId = self.ui:createButton({
+      local pauseButton, pauseButtonRect, pauseButtonId = self.ui:createButton({
           off = "butn_pause_off", 
           on = "butn_pause_on", 
           x = 200, 
@@ -1742,7 +1742,16 @@ local YappyBirds = {
           up = function()
               print("pauseup")
           end,
+          scale = 10,
       })
+      local vert_margin = njlic.SCREEN():y() / 30.0
+      local horiz_margin = njlic.SCREEN():x() / 60.0
+      local width = (pauseButtonRect:x() / 3.0) 
+      local height = (pauseButtonRect:y() / 3.0) 
+
+      pauseButton:setOrigin(
+      bullet.btVector3((njlic.SCREEN():x() - (width)) , (height / 2.0) + (vert_margin * 2), -1)
+      )
 
 
       for i = 1, self.levelLoader:numTiles() do
@@ -2486,7 +2495,7 @@ local TestTexturePacker = {
 
       self.ui = UserInterface()
 
-      local pauseButton, pauseButtonId = self.ui:createButton({
+      local pauseButton, pauseButtonRect, pauseButtonId = self.ui:createButton({
           off = "butn_pause_off", 
           on = "butn_pause_on", 
           x = 200, 
@@ -2501,7 +2510,16 @@ local TestTexturePacker = {
           up = function()
               print("pauseup")
           end,
+          scale = 10,
       })
+      local vert_margin = njlic.SCREEN():y() / 30.0
+      local horiz_margin = njlic.SCREEN():x() / 60.0
+      local width = (pauseButtonRect:x() / 3.0) 
+      local height = (pauseButtonRect:y() / 3.0) 
+
+      pauseButton:setOrigin(
+      bullet.btVector3((njlic.SCREEN():x() - (width)) , (height / 2.0) + (vert_margin * 2), -1)
+      )
 
 
     end
