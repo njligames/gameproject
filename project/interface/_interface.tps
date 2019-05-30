@@ -184,7 +184,6 @@
             <key type="filename">TexturePacker/bg_legals.png</key>
             <key type="filename">TexturePacker/bg_navitude.png</key>
             <key type="filename">TexturePacker/logo_yb.png</key>
-            <key type="filename">TexturePacker/ui_background.png</key>
             <key type="filename">TexturePacker/ui_coin_shop.png</key>
             <key type="filename">TexturePacker/ui_loading.png</key>
             <key type="filename">TexturePacker/ui_paused.png</key>
@@ -382,6 +381,19 @@
                 <rect>72,18,144,36</rect>
                 <key>scale9Paddings</key>
                 <rect>72,18,144,36</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">TexturePacker/ui_background_tile.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>141,141,281,281</rect>
+                <key>scale9Paddings</key>
+                <rect>141,141,281,281</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

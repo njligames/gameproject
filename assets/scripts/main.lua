@@ -1733,7 +1733,6 @@ local YappyBirds = {
           x = 200, 
           y = 200, 
           node = nil, 
-          tag = "pause button", 
           tp = self.interfaceTexturePacker, 
           camera = self.orthographicCamera,
           down = function() 
@@ -2483,43 +2482,231 @@ local TestTexturePacker = {
 
       self.interfaceTexturePacker = TexturePacker({file="interface0"})
 
-      -- self.pauseNode = DrawButton({
-      --     name = "butn_pause_off", 
-      --     x = 200, 
-      --     y = 200, 
-      --     node = nil, 
-      --     tag = "pause button", 
-      --     tp = self.interfaceTexturePacker, 
-      --     camera = self.orthographicCamera
-      -- })
-
       self.ui = UserInterface()
 
-      local pauseButton, pauseButtonRect, pauseButtonId = self.ui:createButton({
-          off = "butn_pause_off", 
-          on = "butn_pause_on", 
-          x = 200, 
-          y = 200, 
-          node = nil, 
-          tag = "pause button", 
-          tp = self.interfaceTexturePacker, 
-          camera = self.orthographicCamera,
-          down = function() 
-              print("pausedown")
-          end,
-          up = function()
-              print("pauseup")
-          end,
-          scale = 10,
-      })
-      local vert_margin = njlic.SCREEN():y() / 30.0
-      local horiz_margin = njlic.SCREEN():x() / 60.0
-      local width = (pauseButtonRect:x() / 3.0) 
-      local height = (pauseButtonRect:y() / 3.0) 
+      local createPauseButton = function(UI, texturePacker, camera)
+          local pauseButton, pauseButtonRect, pauseButtonId = UI:createButton({
+              off = "butn_pause_off", 
+              on = "butn_pause_on", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("pausedown")
+              end,
+              up = function()
+                  print("pauseup")
+              end,
+              scale = 7,
+          })
+          local vert_margin = njlic.SCREEN():y() / 30.0
+          local horiz_margin = njlic.SCREEN():x() / 60.0
+          local width = (pauseButtonRect:x() / 3.0) 
+          local height = (pauseButtonRect:y() / 3.0) 
 
-      pauseButton:setOrigin(
-      bullet.btVector3((njlic.SCREEN():x() - (width)) , (height / 2.0) + (vert_margin * 2), -1)
-      )
+          pauseButton:setOrigin(
+          bullet.btVector3((njlic.SCREEN():x() - (width)) , (height / 2.0) + (vert_margin * 2), -1)
+          )
+      end
+
+      local createLevelSelect = function(UI, texturePacker, camera)
+          local vert_margin = njlic.SCREEN():y() / 30.0
+          local horiz_margin = njlic.SCREEN():x() / 60.0
+
+          local backButton, backButtonRect, backButtonId = UI:createButton({
+              off = "butn_BACK_off", 
+              on = "butn_BACK_on", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("backdown")
+              end,
+              up = function()
+                  print("backup")
+              end,
+              scale = 7,
+          })
+          local width = (backButtonRect:x() / 3.0) 
+          local height = (backButtonRect:y() / 3.0) 
+          backButton:setOrigin(
+          bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
+          )
+
+          local num_rows = 3
+          local num_columns = 5
+          local width_div = (njlic.SCREEN():x() - (horiz_margin * 2.0)) / num_columns
+          local height_div = ((njlic.SCREEN():y() * 0.66) - (vert_margin * 2.0)) / num_rows
+          local row = 0
+          local column = 0
+          local total_margin_width = (width_div * num_columns)
+          local centered_x = (njlic.SCREEN():x() - total_margin_width) * 2.0
+
+          for i=1,(num_rows * num_columns) do 
+              local button, buttonRect, buttonId = UI:createButton({
+                  off = "butn_stage_off", 
+                  on = "butn_stage_on", 
+                  x = 200, 
+                  y = 200, 
+                  node = nil, 
+                  tp = texturePacker, 
+                  camera = camera,
+                  down = function() 
+                      print(string.format("stage button %d - down", i))
+                  end,
+                  up = function()
+                      print(string.format("stage button %d - up", i))
+                  end,
+                  scale = 7,
+              })
+              local width = (buttonRect:x() / 3.5) 
+              local height = (buttonRect:y() / 3.5) 
+
+              button:setOrigin(
+              bullet.btVector3(centered_x + width + (width_div * column), njlic.SCREEN():y() - height - (height_div * row) - vert_margin, -1)
+              )
+              
+              if (column + 1) >= num_columns then
+                  column = 0
+                  row = row + 1
+              else
+                  column = column + 1
+              end
+          end
+
+          local uiImage, uiImageRect, uiImageId = UI:createImage({
+              name = "ui_background_tile",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          local width = (uiImageRect:x() / 3.0) 
+          local height = (uiImageRect:y() / 3.0) 
+          uiImage:setOrigin(
+          bullet.btVector3(0.0 , njlic.SCREEN():y() * 0.5, -1)
+          )
+
+          local uiImage2, uiImageRect2, uiImageId2 = UI:createImage({
+              name = "ui_background_tile",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          uiImage2:setOrigin(
+          bullet.btVector3(width , njlic.SCREEN():y() * 0.5, -1)
+          )
+
+          local uiImage3, uiImageRect3, uiImageId3 = UI:createImage({
+              name = "ui_background_tile",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          uiImage3:setOrigin(
+          bullet.btVector3(width * 2, njlic.SCREEN():y() * 0.5, -1)
+          )
+      end
+
+
+      local createSplashScreen = function(UI, texturePacker, camera)
+
+          local playButton, playButtonRect, playButtonId = UI:createButton({
+              off = "butn_PLAY_off", 
+              on = "butn_PLAY_on", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("playdown")
+              end,
+              up = function()
+                  print("playup")
+              end,
+              scale = 7,
+          })
+          local width = (playButtonRect:x() / 3.0) 
+          local height = (playButtonRect:y() / 3.0) 
+          playButton:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.25, -1)
+          )
+
+
+          local uiLogo, uiLogoRect, uiLogoId = UI:createImage({
+              name = "logo_yb",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          local width = (uiLogoRect:x() / 3.0) 
+          local height = (uiLogoRect:y() / 3.0) 
+          uiLogo:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.5, -1)
+          )
+
+          local uiImage, uiImageRect, uiImageId = UI:createImage({
+              name = "ui_background_tile",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          local width = (uiImageRect:x() / 3.0) 
+          local height = (uiImageRect:y() / 3.0) 
+          uiImage:setOrigin(
+          bullet.btVector3(0.0 , njlic.SCREEN():y() * 0.5, -1)
+          )
+
+          local uiImage2, uiImageRect2, uiImageId2 = UI:createImage({
+              name = "ui_background_tile",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          uiImage2:setOrigin(
+          bullet.btVector3(width , njlic.SCREEN():y() * 0.5, -1)
+          )
+
+          local uiImage3, uiImageRect3, uiImageId3 = UI:createImage({
+              name = "ui_background_tile",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          uiImage3:setOrigin(
+          bullet.btVector3(width * 2, njlic.SCREEN():y() * 0.5, -1)
+          )
+      end
+
+      -- createPauseButton(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
+      -- createLevelSelect(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
+      createSplashScreen(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
+
 
 
     end
@@ -2588,10 +2775,10 @@ local TestTexturePacker = {
 
 
 local Create = function()
-    yappyBirds = YappyBirds.new()
+    -- yappyBirds = YappyBirds.new()
     -- yappyBirds = TestDebugDraw.new()
     -- yappyBirds = TestFont.new()
-    -- yappyBirds = TestTexturePacker.new()
+    yappyBirds = TestTexturePacker.new()
     yappyBirds:load()
 end
 
