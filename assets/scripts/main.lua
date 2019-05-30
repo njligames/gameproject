@@ -2703,9 +2703,167 @@ local TestTexturePacker = {
           )
       end
 
+      local createStageSelect = function(UI, texturePacker, camera)
+
+          local vert_margin = njlic.SCREEN():y() / 30.0
+          local horiz_margin = njlic.SCREEN():x() / 60.0
+
+          local backButton, backButtonRect, backButtonId = UI:createButton({
+              off = "butn_BACK_off", 
+              on = "butn_BACK_on", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("backdown")
+              end,
+              up = function()
+                  print("backup")
+              end,
+              scale = 7,
+          })
+          local width = (backButtonRect:x() / 3.0) 
+          local height = (backButtonRect:y() / 3.0) 
+          backButton:setOrigin(
+          bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
+          )
+
+          local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
+              name = "header_STAGE_SELECT",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          local width = (uiCaptionRect:x() / 3.0) 
+          local height = (uiCaptionRect:y() / 3.0) 
+          uiCaption:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.75, -1)
+          )
+
+          local timeAttackButton, timeAttackButtonRect, timeAttackButtonId = UI:createButton({
+              off = "butn_TIME_ATTACK_off", 
+              on = "butn_TIME_ATTACK_on", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("playdown")
+              end,
+              up = function()
+                  print("playup")
+              end,
+              scale = 7,
+          })
+          local width = (timeAttackButtonRect:x() / 3.0) 
+          local height = (timeAttackButtonRect:y() / 3.0) 
+          timeAttackButton:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.25 , njlic.SCREEN():y() * 0.4, -1)
+          )
+
+          local arcadeButton, arcadeButtonRect, arcadeButtonId = UI:createButton({
+              off = "butn_ARCADE_off", 
+              on = "butn_ARCADE_on", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("playdown")
+              end,
+              up = function()
+                  print("playup")
+              end,
+              scale = 7,
+          })
+          local width = (arcadeButtonRect:x() / 3.0) 
+          local height = (arcadeButtonRect:y() / 3.0) 
+          arcadeButton:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.4, -1)
+          )
+
+          local survivalButton, survivalButtonRect, survivalButtonId = UI:createButton({
+              off = "butn_SURVIVAL_off", 
+              on = "butn_SURVIVAL_on", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("playdown")
+              end,
+              up = function()
+                  print("playup")
+              end,
+              scale = 7,
+          })
+          local width = (survivalButtonRect:x() / 3.0) 
+          local height = (survivalButtonRect:y() / 3.0) 
+          survivalButton:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.75 , njlic.SCREEN():y() * 0.4, -1)
+          )
+
+
+
+
+
+
+
+
+
+          local uiImage, uiImageRect, uiImageId = UI:createImage({
+              name = "ui_background_tile",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          local width = (uiImageRect:x() / 3.0) 
+          local height = (uiImageRect:y() / 3.0) 
+          uiImage:setOrigin(
+          bullet.btVector3(0.0 , njlic.SCREEN():y() * 0.5, -1)
+          )
+
+          local uiImage2, uiImageRect2, uiImageId2 = UI:createImage({
+              name = "ui_background_tile",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          uiImage2:setOrigin(
+          bullet.btVector3(width , njlic.SCREEN():y() * 0.5, -1)
+          )
+
+          local uiImage3, uiImageRect3, uiImageId3 = UI:createImage({
+              name = "ui_background_tile",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          uiImage3:setOrigin(
+          bullet.btVector3(width * 2, njlic.SCREEN():y() * 0.5, -1)
+          )
+      end
       -- createPauseButton(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
       -- createLevelSelect(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
-      createSplashScreen(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
+      -- createSplashScreen(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
+      -- createStageSelect(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
 
 
 
