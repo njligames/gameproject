@@ -181,35 +181,11 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">TexturePacker/bg_legals.png</key>
-            <key type="filename">TexturePacker/bg_navitude.png</key>
-            <key type="filename">TexturePacker/logo_yb.png</key>
-            <key type="filename">TexturePacker/ui_coin_shop.png</key>
-            <key type="filename">TexturePacker/ui_loading.png</key>
-            <key type="filename">TexturePacker/ui_paused.png</key>
-            <key type="filename">TexturePacker/ui_thanks.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>142,80,284,160</rect>
-                <key>scale9Paddings</key>
-                <rect>142,80,284,160</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">TexturePacker/butn_ABOUT_off.png</key>
-            <key type="filename">TexturePacker/butn_ABOUT_on.png</key>
-            <key type="filename">TexturePacker/butn_ACHIEVEMENTS_off.png</key>
-            <key type="filename">TexturePacker/butn_ACHIEVEMENTS_on.png</key>
+            <key type="filename">TexturePacker/butn_ARCADE_dis.png</key>
             <key type="filename">TexturePacker/butn_ARCADE_off.png</key>
             <key type="filename">TexturePacker/butn_ARCADE_on.png</key>
             <key type="filename">TexturePacker/butn_BACK_off.png</key>
             <key type="filename">TexturePacker/butn_BACK_on.png</key>
-            <key type="filename">TexturePacker/butn_CHARACTERS_off.png</key>
-            <key type="filename">TexturePacker/butn_CHARACTERS_on.png</key>
             <key type="filename">TexturePacker/butn_CONTINUE_off.png</key>
             <key type="filename">TexturePacker/butn_CONTINUE_on.png</key>
             <key type="filename">TexturePacker/butn_HIGHSCORES_off.png</key>
@@ -234,10 +210,10 @@
             <key type="filename">TexturePacker/butn_SOUND_FX_on.png</key>
             <key type="filename">TexturePacker/butn_SOUND_off.png</key>
             <key type="filename">TexturePacker/butn_SOUND_on.png</key>
-            <key type="filename">TexturePacker/butn_STAGE_SELECT_off.png</key>
-            <key type="filename">TexturePacker/butn_STAGE_SELECT_on.png</key>
+            <key type="filename">TexturePacker/butn_SURVIVAL_dis.png</key>
             <key type="filename">TexturePacker/butn_SURVIVAL_off.png</key>
             <key type="filename">TexturePacker/butn_SURVIVAL_on.png</key>
+            <key type="filename">TexturePacker/butn_TIME_ATTACK_dis.png</key>
             <key type="filename">TexturePacker/butn_TIME_ATTACK_off.png</key>
             <key type="filename">TexturePacker/butn_TIME_ATTACK_on.png</key>
             <struct type="IndividualSpriteSettings">
@@ -252,14 +228,8 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">TexturePacker/butn_ITEM1_off.png</key>
-            <key type="filename">TexturePacker/butn_ITEM1_on.png</key>
             <key type="filename">TexturePacker/butn_PLAY_off.png</key>
             <key type="filename">TexturePacker/butn_PLAY_on.png</key>
-            <key type="filename">TexturePacker/butn_STORE_off.png</key>
-            <key type="filename">TexturePacker/butn_STORE_on.png</key>
-            <key type="filename">TexturePacker/butn_scrollbar_off.png</key>
-            <key type="filename">TexturePacker/butn_scrollbar_on.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -286,11 +256,12 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">TexturePacker/butn_portrait_city_dis.png</key>
             <key type="filename">TexturePacker/butn_portrait_city_off.png</key>
             <key type="filename">TexturePacker/butn_portrait_city_on.png</key>
+            <key type="filename">TexturePacker/butn_portrait_country_dis.png</key>
             <key type="filename">TexturePacker/butn_portrait_country_off.png</key>
             <key type="filename">TexturePacker/butn_portrait_country_on.png</key>
-            <key type="filename">TexturePacker/logo_yb_square.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -344,6 +315,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">TexturePacker/logo_yb.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>142,80,284,160</rect>
+                <key>scale9Paddings</key>
+                <rect>142,80,284,160</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">TexturePacker/text_YOU_LOSE.png</key>
             <key type="filename">TexturePacker/text_YOU_WIN.png</key>
             <struct type="IndividualSpriteSettings">
@@ -394,19 +378,6 @@
                 <rect>141,141,281,281</rect>
                 <key>scale9Paddings</key>
                 <rect>141,141,281,281</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">TexturePacker/ui_bg_scrollbar.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>74,80,148,160</rect>
-                <key>scale9Paddings</key>
-                <rect>74,80,148,160</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
