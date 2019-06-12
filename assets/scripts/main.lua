@@ -2527,7 +2527,7 @@ local TestTexturePacker = {
           local width = (uiImageRect:x() / 3.0) 
           local height = (uiImageRect:y() / 3.0) 
           uiImage:setOrigin(
-          bullet.btVector3(0.0 , njlic.SCREEN():y() * 0.5, -1)
+          bullet.btVector3(0.0 , njlic.SCREEN():y() * 0.5, 10)
           )
 
           local uiImage2, uiImageRect2, uiImageId2 = UI:createImage({
@@ -2540,7 +2540,7 @@ local TestTexturePacker = {
               scale = 7,
           })
           uiImage2:setOrigin(
-          bullet.btVector3(width , njlic.SCREEN():y() * 0.5, -1)
+          bullet.btVector3(width , njlic.SCREEN():y() * 0.5, 10)
           )
 
           local uiImage3, uiImageRect3, uiImageId3 = UI:createImage({
@@ -2553,7 +2553,7 @@ local TestTexturePacker = {
               scale = 7,
           })
           uiImage3:setOrigin(
-          bullet.btVector3(width * 2, njlic.SCREEN():y() * 0.5, -1)
+          bullet.btVector3(width * 2, njlic.SCREEN():y() * 0.5, 10)
           )
 
           return {uiImage, uiImage2, uiImage3}
@@ -2585,9 +2585,11 @@ local TestTexturePacker = {
           backButton:setOrigin(
           bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
           )
+          return backButton
       end
 
       local createWin = function(UI, texturePacker, camera, result)
+          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
 
           local vert_margin = njlic.SCREEN():y() / 30.0
           local horiz_margin = njlic.SCREEN():x() / 60.0
@@ -2615,6 +2617,7 @@ local TestTexturePacker = {
           restartButton:setOrigin(
           bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
           )
+          table.insert(uiNodes, restartButton)
 
           local quitButton, quitButtonRect, quitButtonId = UI:createButton({
               off = "butn_QUIT_off", 
@@ -2638,6 +2641,7 @@ local TestTexturePacker = {
           quitButton:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() * 0.5 , (vert_margin * 1) + height, -1)
           )
+          table.insert(uiNodes, quitButton)
 
           local nextLevelButton, nextLevelButtonRect, nextLevelButtonId = UI:createButton({
               off = "butn_NEXT_LEVEL_off", 
@@ -2661,6 +2665,7 @@ local TestTexturePacker = {
           nextLevelButton:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() - ((vert_margin * 1) + width) , (vert_margin * 1) + height, -1)
           )
+          table.insert(uiNodes, nextLevelButton)
 
           local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
               name = "text_YOU_WIN",
@@ -2676,11 +2681,13 @@ local TestTexturePacker = {
           uiCaption:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.85, -1)
           )
+          table.insert(uiNodes, uiCaption)
 
-          createUiBackdrop(UI, texturePacker, camera)
+          return uiNodes
       end
 
       local createLose = function(UI, texturePacker, camera, result)
+          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
 
           local vert_margin = njlic.SCREEN():y() / 30.0
           local horiz_margin = njlic.SCREEN():x() / 60.0
@@ -2708,6 +2715,7 @@ local TestTexturePacker = {
           restartButton:setOrigin(
           bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
           )
+          table.insert(uiNodes, restartButton)
 
           local quitButton, quitButtonRect, quitButtonId = UI:createButton({
               off = "butn_QUIT_off", 
@@ -2731,7 +2739,7 @@ local TestTexturePacker = {
           quitButton:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() * 0.5 , (vert_margin * 1) + height, -1)
           )
-
+          table.insert(uiNodes, quitButton)
 
           local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
               name = "text_YOU_LOSE",
@@ -2747,15 +2755,20 @@ local TestTexturePacker = {
           uiCaption:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.85, -1)
           )
+          table.insert(uiNodes, uiCaption)
 
-          createUiBackdrop(UI, texturePacker, camera)
+          return uiNodes
+
       end
 
       local createBoardSelect = function(UI, texturePacker, camera)
+          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
+
           local vert_margin = njlic.SCREEN():y() / 30.0
           local horiz_margin = njlic.SCREEN():x() / 60.0
 
-          createBackButton(UI, texturePacker, camera)
+          local backbutton = createBackButton(UI, texturePacker, camera)
+          table.insert(uiNodes, backbutton)
 
           local num_rows = 3
           local num_columns = 5
@@ -2791,6 +2804,7 @@ local TestTexturePacker = {
               button:setOrigin(
               bullet.btVector3(centered_x + width + (width_div * column), njlic.SCREEN():y() - height - (height_div * row) - vert_margin, -1)
               )
+              table.insert(uiNodes, button)
               
               if (column + 1) >= num_columns then
                   column = 0
@@ -2800,11 +2814,12 @@ local TestTexturePacker = {
               end
           end
 
-          createUiBackdrop(UI, texturePacker, camera)
+          return uiNodes
       end
 
 
       local createSplashScreen = function(UI, texturePacker, camera)
+          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
 
           local playButton, playButtonRect, playButtonId = UI:createButton({
               off = "butn_PLAY_off", 
@@ -2829,6 +2844,7 @@ local TestTexturePacker = {
           playButton:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.25, -1)
           )
+          table.insert(uiNodes, playButton)
 
 
           local uiLogo, uiLogoRect, uiLogoId = UI:createImage({
@@ -2845,16 +2861,19 @@ local TestTexturePacker = {
           uiLogo:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.5, -1)
           )
+          table.insert(uiNodes, uiLogo)
 
-          createUiBackdrop(UI, texturePacker, camera)
+          return uiNodes
       end
 
       local createLevelSelect = function(UI, texturePacker, camera)
+          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
 
           local vert_margin = njlic.SCREEN():y() / 30.0
           local horiz_margin = njlic.SCREEN():x() / 60.0
 
-          createBackButton(UI, texturePacker, camera)
+          local backbutton = createBackButton(UI, texturePacker, camera)
+          table.insert(uiNodes, backbutton)
 
           local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
               name = "header_LEVEL_SELECT",
@@ -2870,6 +2889,7 @@ local TestTexturePacker = {
           uiCaption:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.85, -1)
           )
+          table.insert(uiNodes, uiCaption)
 
           local timeAttackButton, timeAttackButtonRect, timeAttackButtonId = UI:createButton({
               off = "butn_TIME_ATTACK_off", 
@@ -2894,6 +2914,7 @@ local TestTexturePacker = {
           timeAttackButton:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() * 0.25 , njlic.SCREEN():y() * 0.4, -1)
           )
+          table.insert(uiNodes, timeAttackButton)
 
           local arcadeButton, arcadeButtonRect, arcadeButtonId = UI:createButton({
               off = "butn_ARCADE_off", 
@@ -2918,6 +2939,7 @@ local TestTexturePacker = {
           arcadeButton:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.4, -1)
           )
+          table.insert(uiNodes, arcadeButton)
 
           local survivalButton, survivalButtonRect, survivalButtonId = UI:createButton({
               off = "butn_SURVIVAL_off", 
@@ -2942,17 +2964,20 @@ local TestTexturePacker = {
           survivalButton:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() * 0.75 , njlic.SCREEN():y() * 0.4, -1)
           )
+          table.insert(uiNodes, survivalButton)
 
-          createUiBackdrop(UI, texturePacker, camera)
+          return uiNodes
       end
 
 
       local createStageSelect = function(UI, texturePacker, camera)
+          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
 
           local vert_margin = njlic.SCREEN():y() / 30.0
           local horiz_margin = njlic.SCREEN():x() / 60.0
 
-          createBackButton(UI, texturePacker, camera)
+          local backbutton = createBackButton(UI, texturePacker, camera)
+          table.insert(uiNodes, backbutton)
 
           local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
               name = "header_STAGE_SELECT",
@@ -2968,6 +2993,7 @@ local TestTexturePacker = {
           uiCaption:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.85, -1)
           )
+          table.insert(uiNodes, uiCaption)
 
           local portraitButton, portraitButtonRect, portraitButtonId = UI:createButton({
               off = "butn_portrait_country_off", 
@@ -2992,6 +3018,7 @@ local TestTexturePacker = {
           portraitButton:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() * 0.3 , njlic.SCREEN():y() * 0.4, -1)
           )
+          table.insert(uiNodes, portraitButton)
 
           local cityButton, cityButtonRect, cityButtonId = UI:createButton({
               off = "butn_portrait_city_off", 
@@ -3016,51 +3043,80 @@ local TestTexturePacker = {
           cityButton:setOrigin(
           bullet.btVector3(njlic.SCREEN():x() * 0.7 , njlic.SCREEN():y() * 0.4, -1)
           )
+          table.insert(uiNodes, cityButton)
 
-          createUiBackdrop(UI, texturePacker, camera)
+          return uiNodes
       end
 
       local createWinTimeAttack = function(UI, texturePacker, camera, result)
-          createWin(UI, texturePacker, camera, result)
+          return createWin(UI, texturePacker, camera, result)
       end
 
       local createWinArcade = function(UI, texturePacker, camera, result)
-          createWin(UI, texturePacker, camera, result)
+          return createWin(UI, texturePacker, camera, result)
       end
 
       local createWinSurvival = function(UI, texturePacker, camera, result)
-          createWin(UI, texturePacker, camera, result)
+          return createWin(UI, texturePacker, camera, result)
       end
 
 
       local createLoseTimeAttack = function(UI, texturePacker, camera, result)
-          createLose(UI, texturePacker, camera, result)
+          return createLose(UI, texturePacker, camera, result)
       end
 
       local createLoseArcade = function(UI, texturePacker, camera, result)
-          createLose(UI, texturePacker, camera, result)
+          return createLose(UI, texturePacker, camera, result)
       end
 
       local createLoseSurvival = function(UI, texturePacker, camera, result)
-          createLose(UI, texturePacker, camera, result)
+          return createLose(UI, texturePacker, camera, result)
       end
 
 
+      local allNodes = {}
 
       -- createPauseButton(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
-      createBoardSelect(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
-      -- createSplashScreen(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
-      -- createLevelSelect(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
-      -- createStageSelect(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
+      allNodes = createBoardSelect(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
+      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
+      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
 
+      allNodes = createSplashScreen(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
+      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
+      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
 
-      -- createWinTimeAttack(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
-      -- createWinArcade(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
-      -- createWinSurvival(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
+      allNodes = createLevelSelect(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
+      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
+      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
 
-      -- createLoseTimeAttack(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
-      -- createLoseArcade(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
-      -- createLoseSurvival(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
+      allNodes = createStageSelect(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
+      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
+      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
+
+      allNodes = createWinTimeAttack(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
+      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
+      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
+
+      allNodes = createWinArcade(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
+      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
+      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
+
+      allNodes = createWinSurvival(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
+      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
+      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
+
+      allNodes = createLoseTimeAttack(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
+      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
+      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
+
+      allNodes = createLoseArcade(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
+      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
+      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
+
+      allNodes = createLoseSurvival(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
+      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
+      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
+
 
     end
 

@@ -2,7 +2,7 @@
 -- created with TexturePacker - https://www.codeandweb.com/texturepacker
 --
 -- TODO: Change this exmaple to make sense for NJLICEngine
--- $TexturePacker:SmartUpdate:fe4e840f1b8951059bb9bf8efd2c6e87:1db7daf8b503d0b5b3f5e6fe936ad0e3:7c7b926951ecd55be01c75913320eada$
+-- $TexturePacker:SmartUpdate:fd8aa3f4d245fd64679184a2502a1a35:48f9d7e0131ff50937186072e6b09b11:7c7b926951ecd55be01c75913320eada$
 --
 -- local sheetInfo = require("mysheet")
 -- local myImageSheet = graphics.newImageSheet( "mysheet.png", sheetInfo:getSheet() )
