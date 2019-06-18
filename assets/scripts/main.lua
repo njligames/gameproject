@@ -45,6 +45,818 @@ local UserInterface = require "NJLIC.UserInterface"
 -- 
 --     return node
 -- end
+--
+
+local YappyBirdUi = {
+    new = function(...)
+        local arg=... or {}
+
+        local camera = arg.camera or nil
+
+        assert(camera ~= nil, "camera is nil")
+
+        local object = {
+            orthographicCamera = camera,
+            interfaceTexturePacker = TexturePacker({file="interface0"}),
+            ui = UserInterface()
+        }
+
+        local createUiBackdrop = function(UI, texturePacker, camera)
+          local uiImage, uiImageRect, uiImageId = UI:createImage({
+              name = "ui_background_tile",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          local width = (uiImageRect:x() / 3.0) 
+          local height = (uiImageRect:y() / 3.0) 
+          uiImage:setOrigin(
+          bullet.btVector3(0.0 , njlic.SCREEN():y() * 0.5, 10)
+          )
+
+          local uiImage2, uiImageRect2, uiImageId2 = UI:createImage({
+              name = "ui_background_tile",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          uiImage2:setOrigin(
+          bullet.btVector3(width , njlic.SCREEN():y() * 0.5, 10)
+          )
+
+          local uiImage3, uiImageRect3, uiImageId3 = UI:createImage({
+              name = "ui_background_tile",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          uiImage3:setOrigin(
+          bullet.btVector3(width * 2, njlic.SCREEN():y() * 0.5, 10)
+          )
+
+          return {uiImage, uiImage2, uiImage3}
+      end
+
+      -- local createBackButton = function(UI, texturePacker, camera)
+      --     local vert_margin = njlic.SCREEN():y() / 30.0
+      --     local horiz_margin = njlic.SCREEN():x() / 60.0
+
+      --     local backButton, backButtonRect, backButtonId = UI:createButton({
+      --         off = "butn_BACK_off", 
+      --         on = "butn_BACK_on", 
+      --         x = 200, 
+      --         y = 200, 
+      --         node = nil, 
+      --         tp = texturePacker, 
+      --         camera = camera,
+      --         down = function() 
+      --             -- print("backdown")
+      --         end,
+      --         up = function()
+      --             -- print("backup")
+      --         end,
+      --         scale = 7,
+      --         enabled = true,
+      --     })
+      --     local width = (backButtonRect:x() / 3.0) 
+      --     local height = (backButtonRect:y() / 3.0) 
+      --     backButton:setOrigin(
+      --     bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
+      --     )
+      --     return backButton
+      -- end
+
+      local createWin = function(UI, texturePacker, camera, result)
+          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
+
+          local vert_margin = njlic.SCREEN():y() / 30.0
+          local horiz_margin = njlic.SCREEN():x() / 60.0
+
+          local restartButton, restartButtonRect, restartButtonId = UI:createButton({
+              off = "butn_RESTART_off", 
+              on = "butn_RESTART_on", 
+              dis = "butn_RESTART_dis", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("backdown")
+              end,
+              up = function()
+                  print("backup")
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (restartButtonRect:x() / 3.0) 
+          local height = (restartButtonRect:y() / 3.0) 
+          restartButton:setOrigin(
+          bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
+          )
+          table.insert(uiNodes, restartButton)
+
+          local quitButton, quitButtonRect, quitButtonId = UI:createButton({
+              off = "butn_QUIT_off", 
+              on = "butn_QUIT_on", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("backdown")
+              end,
+              up = function()
+                  print("backup")
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (quitButtonRect:x() / 3.0) 
+          local height = (quitButtonRect:y() / 3.0) 
+          quitButton:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.5 , (vert_margin * 1) + height, -1)
+          )
+          table.insert(uiNodes, quitButton)
+
+          local nextLevelButton, nextLevelButtonRect, nextLevelButtonId = UI:createButton({
+              off = "butn_NEXT_LEVEL_off", 
+              on = "butn_NEXT_LEVEL_on", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("backdown")
+              end,
+              up = function()
+                  print("backup")
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (nextLevelButtonRect:x() / 3.0) 
+          local height = (nextLevelButtonRect:y() / 3.0) 
+          nextLevelButton:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() - ((vert_margin * 1) + width) , (vert_margin * 1) + height, -1)
+          )
+          table.insert(uiNodes, nextLevelButton)
+
+          local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
+              name = "text_YOU_WIN",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          local width = (uiCaptionRect:x() / 3.0) 
+          local height = (uiCaptionRect:y() / 3.0) 
+          uiCaption:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.85, -1)
+          )
+          table.insert(uiNodes, uiCaption)
+
+          return uiNodes
+      end
+
+      local createLose = function(UI, texturePacker, camera, result)
+          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
+
+          local vert_margin = njlic.SCREEN():y() / 30.0
+          local horiz_margin = njlic.SCREEN():x() / 60.0
+
+          local restartButton, restartButtonRect, restartButtonId = UI:createButton({
+              off = "butn_RESTART_off", 
+              on = "butn_RESTART_on", 
+              dis = "butn_RESTART_dis", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("backdown")
+              end,
+              up = function()
+                  print("backup")
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (restartButtonRect:x() / 3.0) 
+          local height = (restartButtonRect:y() / 3.0) 
+          restartButton:setOrigin(
+          bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
+          )
+          table.insert(uiNodes, restartButton)
+
+          local quitButton, quitButtonRect, quitButtonId = UI:createButton({
+              off = "butn_QUIT_off", 
+              on = "butn_QUIT_on", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("backdown")
+              end,
+              up = function()
+                  print("backup")
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (quitButtonRect:x() / 3.0) 
+          local height = (quitButtonRect:y() / 3.0) 
+          quitButton:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.5 , (vert_margin * 1) + height, -1)
+          )
+          table.insert(uiNodes, quitButton)
+
+          local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
+              name = "text_YOU_LOSE",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          local width = (uiCaptionRect:x() / 3.0) 
+          local height = (uiCaptionRect:y() / 3.0) 
+          uiCaption:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.85, -1)
+          )
+          table.insert(uiNodes, uiCaption)
+
+          return uiNodes
+
+      end
+
+      local createBoardSelect = function(UI, texturePacker, camera, object)
+          local object = object
+
+          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
+
+          local vert_margin = njlic.SCREEN():y() / 30.0
+          local horiz_margin = njlic.SCREEN():x() / 60.0
+
+          -- local backbutton = createBackButton(UI, texturePacker, camera)
+          -- table.insert(uiNodes, backbutton)
+          local vert_margin = njlic.SCREEN():y() / 30.0
+          local horiz_margin = njlic.SCREEN():x() / 60.0
+
+          local backButton, backButtonRect, backButtonId = UI:createButton({
+              off = "butn_BACK_off", 
+              on = "butn_BACK_on", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+              end,
+              up = function()
+                  object:showStageSelect()
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (backButtonRect:x() / 3.0) 
+          local height = (backButtonRect:y() / 3.0) 
+          backButton:setOrigin(
+          bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
+          )
+          table.insert(uiNodes, backButton)
+
+          local num_rows = 3
+          local num_columns = 5
+          local width_div = (njlic.SCREEN():x() - (horiz_margin * 2.0)) / num_columns
+          local height_div = ((njlic.SCREEN():y() * 0.66) - (vert_margin * 2.0)) / num_rows
+          local row = 0
+          local column = 0
+          local total_margin_width = (width_div * num_columns)
+          local centered_x = (njlic.SCREEN():x() - total_margin_width) * 2.0
+
+          for i=1,(num_rows * num_columns) do 
+              local button, buttonRect, buttonId = UI:createButton({
+                  off = "butn_stage_off", 
+                  on = "butn_stage_on", 
+                  dis = "butn_stage_dis", 
+                  x = 200, 
+                  y = 200, 
+                  node = nil, 
+                  tp = texturePacker, 
+                  camera = camera,
+                  down = function() 
+                      -- print(string.format("stage button %d - down", i))
+                  end,
+                  up = function()
+                      -- print(string.format("stage button %s, %d - up", object.stage, i))
+                      object:playGame(i)
+                  end,
+                  scale = 7,
+                  enabled = true,
+              })
+              local width = (buttonRect:x() / 3.5) 
+              local height = (buttonRect:y() / 3.5) 
+
+              button:setOrigin(
+              bullet.btVector3(centered_x + width + (width_div * column), njlic.SCREEN():y() - height - (height_div * row) - vert_margin, -1)
+              )
+              table.insert(uiNodes, button)
+              
+              if (column + 1) >= num_columns then
+                  column = 0
+                  row = row + 1
+              else
+                  column = column + 1
+              end
+          end
+
+          return uiNodes
+      end
+
+
+      local createSplashScreen = function(UI, texturePacker, camera, object)
+          local object = object
+
+          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
+
+          local playButton, playButtonRect, playButtonId = UI:createButton({
+              off = "butn_PLAY_off", 
+              on = "butn_PLAY_on", 
+              dis = "butn_PLAY_dis", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  -- print("playdown")
+              end,
+              up = function()
+                  object:showStageSelect()
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (playButtonRect:x() / 3.0) 
+          local height = (playButtonRect:y() / 3.0) 
+          playButton:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.25, -1)
+          )
+          table.insert(uiNodes, playButton)
+
+
+          local uiLogo, uiLogoRect, uiLogoId = UI:createImage({
+              name = "logo_yb",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          local width = (uiLogoRect:x() / 3.0) 
+          local height = (uiLogoRect:y() / 3.0) 
+          uiLogo:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.5, -1)
+          )
+          table.insert(uiNodes, uiLogo)
+
+          return uiNodes
+      end
+
+      local createLevelSelect = function(UI, texturePacker, camera, object)
+          local object = object
+
+          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
+
+          local vert_margin = njlic.SCREEN():y() / 30.0
+          local horiz_margin = njlic.SCREEN():x() / 60.0
+
+          -- local backbutton = createBackButton(UI, texturePacker, camera)
+          -- table.insert(uiNodes, backbutton)
+          local vert_margin = njlic.SCREEN():y() / 30.0
+          local horiz_margin = njlic.SCREEN():x() / 60.0
+
+          local backButton, backButtonRect, backButtonId = UI:createButton({
+              off = "butn_BACK_off", 
+              on = "butn_BACK_on", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+              end,
+              up = function()
+                  object:showStageSelect()
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (backButtonRect:x() / 3.0) 
+          local height = (backButtonRect:y() / 3.0) 
+          backButton:setOrigin(
+          bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
+          )
+          table.insert(uiNodes, backButton)
+
+          local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
+              name = "header_LEVEL_SELECT",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          local width = (uiCaptionRect:x() / 3.0) 
+          local height = (uiCaptionRect:y() / 3.0) 
+          uiCaption:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.85, -1)
+          )
+          table.insert(uiNodes, uiCaption)
+
+          local timeAttackButton, timeAttackButtonRect, timeAttackButtonId = UI:createButton({
+              off = "butn_TIME_ATTACK_off", 
+              on = "butn_TIME_ATTACK_on", 
+              dis = "butn_TIME_ATTACK_dis", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("level select")
+              end,
+              up = function()
+                  print("level select")
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (timeAttackButtonRect:x() / 3.0) 
+          local height = (timeAttackButtonRect:y() / 3.0) 
+          timeAttackButton:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.25 , njlic.SCREEN():y() * 0.4, -1)
+          )
+          table.insert(uiNodes, timeAttackButton)
+
+          local arcadeButton, arcadeButtonRect, arcadeButtonId = UI:createButton({
+              off = "butn_ARCADE_off", 
+              on = "butn_ARCADE_on", 
+              dis = "butn_ARCADE_dis", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("playdown")
+              end,
+              up = function()
+                  print("playup")
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (arcadeButtonRect:x() / 3.0) 
+          local height = (arcadeButtonRect:y() / 3.0) 
+          arcadeButton:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.4, -1)
+          )
+          table.insert(uiNodes, arcadeButton)
+
+          local survivalButton, survivalButtonRect, survivalButtonId = UI:createButton({
+              off = "butn_SURVIVAL_off", 
+              on = "butn_SURVIVAL_on", 
+              dis = "butn_SURVIVAL_dis", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("playdown")
+              end,
+              up = function()
+                  print("playup")
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (survivalButtonRect:x() / 3.0) 
+          local height = (survivalButtonRect:y() / 3.0) 
+          survivalButton:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.75 , njlic.SCREEN():y() * 0.4, -1)
+          )
+          table.insert(uiNodes, survivalButton)
+
+          return uiNodes
+      end
+
+
+      local createStageSelect = function(UI, texturePacker, camera, object)
+          local object = object
+
+          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
+
+          local vert_margin = njlic.SCREEN():y() / 30.0
+          local horiz_margin = njlic.SCREEN():x() / 60.0
+
+          -- local backbutton = createBackButton(UI, texturePacker, camera)
+          -- table.insert(uiNodes, backbutton)
+          local vert_margin = njlic.SCREEN():y() / 30.0
+          local horiz_margin = njlic.SCREEN():x() / 60.0
+
+          local backButton, backButtonRect, backButtonId = UI:createButton({
+              off = "butn_BACK_off", 
+              on = "butn_BACK_on", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+              end,
+              up = function()
+                  object:showSplash()
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (backButtonRect:x() / 3.0) 
+          local height = (backButtonRect:y() / 3.0) 
+          backButton:setOrigin(
+          bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
+          )
+          table.insert(uiNodes, backButton)
+
+          local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
+              name = "header_STAGE_SELECT",
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              scale = 7,
+          })
+          local width = (uiCaptionRect:x() / 3.0) 
+          local height = (uiCaptionRect:y() / 3.0) 
+          uiCaption:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.85, -1)
+          )
+          table.insert(uiNodes, uiCaption)
+
+          local portraitButton, portraitButtonRect, portraitButtonId = UI:createButton({
+              off = "butn_portrait_country_off", 
+              on = "butn_portrait_country_on", 
+              dis = "butn_portrait_country_dis", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+              end,
+              up = function()
+                  object.stage = "country"
+                  object:showBoardSelect()
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (portraitButtonRect:x() / 3.0) 
+          local height = (portraitButtonRect:y() / 3.0) 
+          portraitButton:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.3 , njlic.SCREEN():y() * 0.4, -1)
+          )
+          table.insert(uiNodes, portraitButton)
+
+          local cityButton, cityButtonRect, cityButtonId = UI:createButton({
+              off = "butn_portrait_city_off", 
+              on = "butn_portrait_city_on", 
+              dis = "butn_portrait_city_dis", 
+              x = 200, 
+              y = 200, 
+              node = nil, 
+              tp = texturePacker, 
+              camera = camera,
+              down = function() 
+                  print("playdown")
+              end,
+              up = function()
+                  object.stage = "city"
+                  object:showBoardSelect()
+              end,
+              scale = 7,
+              enabled = true,
+          })
+          local width = (cityButtonRect:x() / 3.0) 
+          local height = (cityButtonRect:y() / 3.0) 
+          cityButton:setOrigin(
+          bullet.btVector3(njlic.SCREEN():x() * 0.7 , njlic.SCREEN():y() * 0.4, -1)
+          )
+          table.insert(uiNodes, cityButton)
+
+          return uiNodes
+      end
+
+      local createWinTimeAttack = function(UI, texturePacker, camera, result)
+          return createWin(UI, texturePacker, camera, result)
+      end
+
+      local createWinArcade = function(UI, texturePacker, camera, result)
+          return createWin(UI, texturePacker, camera, result)
+      end
+
+      local createWinSurvival = function(UI, texturePacker, camera, result)
+          return createWin(UI, texturePacker, camera, result)
+      end
+
+
+      local createLoseTimeAttack = function(UI, texturePacker, camera, result)
+          return createLose(UI, texturePacker, camera, result)
+      end
+
+      local createLoseArcade = function(UI, texturePacker, camera, result)
+          return createLose(UI, texturePacker, camera, result)
+      end
+
+      local createLoseSurvival = function(UI, texturePacker, camera, result)
+          return createLose(UI, texturePacker, camera, result)
+      end
+
+      -- #3
+      object.boardSelectNodes = createBoardSelect(object.ui, object.interfaceTexturePacker, object.orthographicCamera, object)
+      HideNodes({nodes=object.boardSelectNodes, camera=object.orthographicCamera})
+
+      -- #1
+      object.splashScreenNodes = createSplashScreen(object.ui, object.interfaceTexturePacker, object.orthographicCamera, object)
+      HideNodes({nodes=object.splashScreenNodes, camera=object.orthographicCamera})
+
+      -- #4
+      object.levelSelectNodes = createLevelSelect(object.ui, object.interfaceTexturePacker, object.orthographicCamera, object)
+      HideNodes({nodes=object.levelSelectNodes, camera=object.orthographicCamera})
+
+      -- #2
+      object.stageSelectNodes = createStageSelect(object.ui, object.interfaceTexturePacker, object.orthographicCamera, object)
+      HideNodes({nodes=object.stageSelectNodes, camera=object.orthographicCamera})
+
+      object.winTimeAttackNodes = createWinTimeAttack(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result)
+      HideNodes({nodes=object.winTimeAttackNodes, camera=object.orthographicCamera})
+
+      object.winArcadeNodes = createWinArcade(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result)
+      HideNodes({nodes=object.winArcadeNodes, camera=object.orthographicCamera})
+
+      object.winSurvivalNodes = createWinSurvival(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result)
+      HideNodes({nodes=object.winSurvivalNodes, camera=object.orthographicCamera})
+
+      object.loseTimeAttackNodes = createLoseTimeAttack(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result)
+      HideNodes({nodes=object.loseTimeAttackNodes, camera=object.orthographicCamera})
+
+      object.loseArcadeNodes = createLoseArcade(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result)
+      HideNodes({nodes=object.loseArcadeNodes, camera=object.orthographicCamera})
+
+      object.loseSurvivalNodes = createLoseSurvival(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result)
+      HideNodes({nodes=object.loseSurvivalNodes, camera=object.orthographicCamera})
+
+      function object:hideAll()
+          HideNodes({nodes=self.boardSelectNodes, camera=self.orthographicCamera})
+          HideNodes({nodes=self.splashScreenNodes, camera=self.orthographicCamera})
+          HideNodes({nodes=self.levelSelectNodes, camera=self.orthographicCamera})
+          HideNodes({nodes=self.stageSelectNodes, camera=self.orthographicCamera})
+          HideNodes({nodes=self.winTimeAttackNodes, camera=self.orthographicCamera})
+          HideNodes({nodes=self.winArcadeNodes, camera=self.orthographicCamera})
+          HideNodes({nodes=self.winSurvivalNodes, camera=self.orthographicCamera})
+          HideNodes({nodes=self.loseTimeAttackNodes, camera=self.orthographicCamera})
+          HideNodes({nodes=self.loseArcadeNodes, camera=self.orthographicCamera})
+          HideNodes({nodes=self.loseSurvivalNodes, camera=self.orthographicCamera})
+      end
+
+      function object:showBoardSelect()
+          self:hideAll()
+          ShowNodes({nodes=self.boardSelectNodes, camera=self.orthographicCamera})
+      end
+
+      function object:showSplash()
+          self:hideAll()
+          ShowNodes({nodes=self.splashScreenNodes, camera=self.orthographicCamera})
+      end
+
+      function object:showLevelSelect()
+          self:hideAll()
+          ShowNodes({nodes=self.levelSelectNodes, camera=self.orthographicCamera})
+      end
+
+      function object:showStageSelect()
+          self:hideAll()
+          ShowNodes({nodes=self.stageSelectNodes, camera=self.orthographicCamera})
+      end
+
+      function object:showWinTimeAttack()
+          self:hideAll()
+          ShowNodes({nodes=self.winTimeAttackNodes, camera=self.orthographicCamera})
+      end
+
+      function object:showWinArcade()
+          self:hideAll()
+          ShowNodes({nodes=self.winArcadeNodes, camera=self.orthographicCamera})
+      end
+
+      function object:showWinSurvival()
+          self:hideAll()
+          ShowNodes({nodes=self.winSurvivalNodes, camera=self.orthographicCamera})
+      end
+
+      function object:showLoseTimeAttack()
+          self:hideAll()
+          ShowNodes({nodes=self.loseTimeAttackNodes, camera=self.orthographicCamera})
+      end
+
+      function object:showLoseArcade()
+          self:hideAll()
+          ShowNodes({nodes=self.loseArcadeNodes, camera=self.orthographicCamera})
+      end
+
+      function object:showLoseSurvival()
+          self:hideAll()
+          ShowNodes({nodes=self.loseSurvivalNodes, camera=self.orthographicCamera})
+      end
+
+      function object:playGame(level)
+          self:hideAll()
+          print(self.stage, level)
+      end
+
+        function object:update(timestep)
+            local status, err = pcall(self.ui.update, self.ui, timeStep)
+            if not status then error(err) end
+        end
+
+        function object:collide(node, otherNode, collisionPoint)
+        end
+
+        function object:click(x, y)
+        end
+
+        function object:down(rayContact)
+            local status, err = pcall(self.ui.down, self.ui, rayContact)
+            if not status then error(err) end
+        end
+
+        function object:up(rayContact)
+            local status, err = pcall(self.ui.up, self.ui, rayContact)
+            if not status then error(err) end
+        end
+
+        function object:move(rayContact)
+            local status, err = pcall(self.ui.move, self.ui, rayContact)
+            if not status then error(err) end
+        end
+
+        function object:cancelled(rayContact)
+            local status, err = pcall(self.ui.cancelled, self.ui, rayContact)
+            if not status then error(err) end
+        end
+
+        function object:missed(node)
+            local status, err = pcall(self.ui.missed, self.ui, node)
+            if not status then error(err) end
+        end
+
+
+
+
+
+
+
+
+
+
+
+
+        return object
+    end
+}
 
 local StateMachine = {
   new = function(...)
@@ -2481,642 +3293,9 @@ local TestTexturePacker = {
       self.physicsWorld = njlic.PhysicsWorld.create()
       njlic.World.getInstance():getScene():setPhysicsWorld(self.physicsWorld)
 
-      self.interfaceTexturePacker = TexturePacker({file="interface0"})
+      self.ui = YappyBirdUi.new({camera=self.orthographicCamera})
 
-      self.ui = UserInterface()
-
-      local createPauseButton = function(UI, texturePacker, camera)
-          local pauseButton, pauseButtonRect, pauseButtonId = UI:createButton({
-              off = "butn_pause_off", 
-              on = "butn_pause_on", 
-              dis = "butn_pause_dis", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("pausedown")
-              end,
-              up = function()
-                  print("pauseup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local vert_margin = njlic.SCREEN():y() / 30.0
-          local horiz_margin = njlic.SCREEN():x() / 60.0
-          local width = (pauseButtonRect:x() / 3.0) 
-          local height = (pauseButtonRect:y() / 3.0) 
-
-          pauseButton:setOrigin(
-          bullet.btVector3((njlic.SCREEN():x() - (width)) , (height / 2.0) + (vert_margin * 2), -1)
-          )
-      end
-
-      local createUiBackdrop = function(UI, texturePacker, camera)
-          local uiImage, uiImageRect, uiImageId = UI:createImage({
-              name = "ui_background_tile",
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              scale = 7,
-          })
-          local width = (uiImageRect:x() / 3.0) 
-          local height = (uiImageRect:y() / 3.0) 
-          uiImage:setOrigin(
-          bullet.btVector3(0.0 , njlic.SCREEN():y() * 0.5, 10)
-          )
-
-          local uiImage2, uiImageRect2, uiImageId2 = UI:createImage({
-              name = "ui_background_tile",
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              scale = 7,
-          })
-          uiImage2:setOrigin(
-          bullet.btVector3(width , njlic.SCREEN():y() * 0.5, 10)
-          )
-
-          local uiImage3, uiImageRect3, uiImageId3 = UI:createImage({
-              name = "ui_background_tile",
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              scale = 7,
-          })
-          uiImage3:setOrigin(
-          bullet.btVector3(width * 2, njlic.SCREEN():y() * 0.5, 10)
-          )
-
-          return {uiImage, uiImage2, uiImage3}
-      end
-
-      local createBackButton = function(UI, texturePacker, camera)
-          local vert_margin = njlic.SCREEN():y() / 30.0
-          local horiz_margin = njlic.SCREEN():x() / 60.0
-
-          local backButton, backButtonRect, backButtonId = UI:createButton({
-              off = "butn_BACK_off", 
-              on = "butn_BACK_on", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("backdown")
-              end,
-              up = function()
-                  print("backup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local width = (backButtonRect:x() / 3.0) 
-          local height = (backButtonRect:y() / 3.0) 
-          backButton:setOrigin(
-          bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
-          )
-          return backButton
-      end
-
-      local createWin = function(UI, texturePacker, camera, result)
-          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
-
-          local vert_margin = njlic.SCREEN():y() / 30.0
-          local horiz_margin = njlic.SCREEN():x() / 60.0
-
-          local restartButton, restartButtonRect, restartButtonId = UI:createButton({
-              off = "butn_RESTART_off", 
-              on = "butn_RESTART_on", 
-              dis = "butn_RESTART_dis", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("backdown")
-              end,
-              up = function()
-                  print("backup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local width = (restartButtonRect:x() / 3.0) 
-          local height = (restartButtonRect:y() / 3.0) 
-          restartButton:setOrigin(
-          bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
-          )
-          table.insert(uiNodes, restartButton)
-
-          local quitButton, quitButtonRect, quitButtonId = UI:createButton({
-              off = "butn_QUIT_off", 
-              on = "butn_QUIT_on", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("backdown")
-              end,
-              up = function()
-                  print("backup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local width = (quitButtonRect:x() / 3.0) 
-          local height = (quitButtonRect:y() / 3.0) 
-          quitButton:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() * 0.5 , (vert_margin * 1) + height, -1)
-          )
-          table.insert(uiNodes, quitButton)
-
-          local nextLevelButton, nextLevelButtonRect, nextLevelButtonId = UI:createButton({
-              off = "butn_NEXT_LEVEL_off", 
-              on = "butn_NEXT_LEVEL_on", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("backdown")
-              end,
-              up = function()
-                  print("backup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local width = (nextLevelButtonRect:x() / 3.0) 
-          local height = (nextLevelButtonRect:y() / 3.0) 
-          nextLevelButton:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() - ((vert_margin * 1) + width) , (vert_margin * 1) + height, -1)
-          )
-          table.insert(uiNodes, nextLevelButton)
-
-          local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
-              name = "text_YOU_WIN",
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              scale = 7,
-          })
-          local width = (uiCaptionRect:x() / 3.0) 
-          local height = (uiCaptionRect:y() / 3.0) 
-          uiCaption:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.85, -1)
-          )
-          table.insert(uiNodes, uiCaption)
-
-          return uiNodes
-      end
-
-      local createLose = function(UI, texturePacker, camera, result)
-          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
-
-          local vert_margin = njlic.SCREEN():y() / 30.0
-          local horiz_margin = njlic.SCREEN():x() / 60.0
-
-          local restartButton, restartButtonRect, restartButtonId = UI:createButton({
-              off = "butn_RESTART_off", 
-              on = "butn_RESTART_on", 
-              dis = "butn_RESTART_dis", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("backdown")
-              end,
-              up = function()
-                  print("backup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local width = (restartButtonRect:x() / 3.0) 
-          local height = (restartButtonRect:y() / 3.0) 
-          restartButton:setOrigin(
-          bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
-          )
-          table.insert(uiNodes, restartButton)
-
-          local quitButton, quitButtonRect, quitButtonId = UI:createButton({
-              off = "butn_QUIT_off", 
-              on = "butn_QUIT_on", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("backdown")
-              end,
-              up = function()
-                  print("backup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local width = (quitButtonRect:x() / 3.0) 
-          local height = (quitButtonRect:y() / 3.0) 
-          quitButton:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() * 0.5 , (vert_margin * 1) + height, -1)
-          )
-          table.insert(uiNodes, quitButton)
-
-          local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
-              name = "text_YOU_LOSE",
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              scale = 7,
-          })
-          local width = (uiCaptionRect:x() / 3.0) 
-          local height = (uiCaptionRect:y() / 3.0) 
-          uiCaption:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.85, -1)
-          )
-          table.insert(uiNodes, uiCaption)
-
-          return uiNodes
-
-      end
-
-      local createBoardSelect = function(UI, texturePacker, camera)
-          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
-
-          local vert_margin = njlic.SCREEN():y() / 30.0
-          local horiz_margin = njlic.SCREEN():x() / 60.0
-
-          local backbutton = createBackButton(UI, texturePacker, camera)
-          table.insert(uiNodes, backbutton)
-
-          local num_rows = 3
-          local num_columns = 5
-          local width_div = (njlic.SCREEN():x() - (horiz_margin * 2.0)) / num_columns
-          local height_div = ((njlic.SCREEN():y() * 0.66) - (vert_margin * 2.0)) / num_rows
-          local row = 0
-          local column = 0
-          local total_margin_width = (width_div * num_columns)
-          local centered_x = (njlic.SCREEN():x() - total_margin_width) * 2.0
-
-          for i=1,(num_rows * num_columns) do 
-              local button, buttonRect, buttonId = UI:createButton({
-                  off = "butn_stage_off", 
-                  on = "butn_stage_on", 
-                  dis = "butn_stage_dis", 
-                  x = 200, 
-                  y = 200, 
-                  node = nil, 
-                  tp = texturePacker, 
-                  camera = camera,
-                  down = function() 
-                      print(string.format("stage button %d - down", i))
-                  end,
-                  up = function()
-                      print(string.format("stage button %d - up", i))
-                  end,
-                  scale = 7,
-                  enabled = true,
-              })
-              local width = (buttonRect:x() / 3.5) 
-              local height = (buttonRect:y() / 3.5) 
-
-              button:setOrigin(
-              bullet.btVector3(centered_x + width + (width_div * column), njlic.SCREEN():y() - height - (height_div * row) - vert_margin, -1)
-              )
-              table.insert(uiNodes, button)
-              
-              if (column + 1) >= num_columns then
-                  column = 0
-                  row = row + 1
-              else
-                  column = column + 1
-              end
-          end
-
-          return uiNodes
-      end
-
-
-      local createSplashScreen = function(UI, texturePacker, camera)
-          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
-
-          local playButton, playButtonRect, playButtonId = UI:createButton({
-              off = "butn_PLAY_off", 
-              on = "butn_PLAY_on", 
-              dis = "butn_PLAY_dis", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("playdown")
-              end,
-              up = function()
-                  print("playup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local width = (playButtonRect:x() / 3.0) 
-          local height = (playButtonRect:y() / 3.0) 
-          playButton:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.25, -1)
-          )
-          table.insert(uiNodes, playButton)
-
-
-          local uiLogo, uiLogoRect, uiLogoId = UI:createImage({
-              name = "logo_yb",
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              scale = 7,
-          })
-          local width = (uiLogoRect:x() / 3.0) 
-          local height = (uiLogoRect:y() / 3.0) 
-          uiLogo:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.5, -1)
-          )
-          table.insert(uiNodes, uiLogo)
-
-          return uiNodes
-      end
-
-      local createLevelSelect = function(UI, texturePacker, camera)
-          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
-
-          local vert_margin = njlic.SCREEN():y() / 30.0
-          local horiz_margin = njlic.SCREEN():x() / 60.0
-
-          local backbutton = createBackButton(UI, texturePacker, camera)
-          table.insert(uiNodes, backbutton)
-
-          local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
-              name = "header_LEVEL_SELECT",
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              scale = 7,
-          })
-          local width = (uiCaptionRect:x() / 3.0) 
-          local height = (uiCaptionRect:y() / 3.0) 
-          uiCaption:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.85, -1)
-          )
-          table.insert(uiNodes, uiCaption)
-
-          local timeAttackButton, timeAttackButtonRect, timeAttackButtonId = UI:createButton({
-              off = "butn_TIME_ATTACK_off", 
-              on = "butn_TIME_ATTACK_on", 
-              dis = "butn_TIME_ATTACK_dis", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("playdown")
-              end,
-              up = function()
-                  print("playup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local width = (timeAttackButtonRect:x() / 3.0) 
-          local height = (timeAttackButtonRect:y() / 3.0) 
-          timeAttackButton:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() * 0.25 , njlic.SCREEN():y() * 0.4, -1)
-          )
-          table.insert(uiNodes, timeAttackButton)
-
-          local arcadeButton, arcadeButtonRect, arcadeButtonId = UI:createButton({
-              off = "butn_ARCADE_off", 
-              on = "butn_ARCADE_on", 
-              dis = "butn_ARCADE_dis", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("playdown")
-              end,
-              up = function()
-                  print("playup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local width = (arcadeButtonRect:x() / 3.0) 
-          local height = (arcadeButtonRect:y() / 3.0) 
-          arcadeButton:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.4, -1)
-          )
-          table.insert(uiNodes, arcadeButton)
-
-          local survivalButton, survivalButtonRect, survivalButtonId = UI:createButton({
-              off = "butn_SURVIVAL_off", 
-              on = "butn_SURVIVAL_on", 
-              dis = "butn_SURVIVAL_dis", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("playdown")
-              end,
-              up = function()
-                  print("playup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local width = (survivalButtonRect:x() / 3.0) 
-          local height = (survivalButtonRect:y() / 3.0) 
-          survivalButton:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() * 0.75 , njlic.SCREEN():y() * 0.4, -1)
-          )
-          table.insert(uiNodes, survivalButton)
-
-          return uiNodes
-      end
-
-
-      local createStageSelect = function(UI, texturePacker, camera)
-          local uiNodes = createUiBackdrop(UI, texturePacker, camera)
-
-          local vert_margin = njlic.SCREEN():y() / 30.0
-          local horiz_margin = njlic.SCREEN():x() / 60.0
-
-          local backbutton = createBackButton(UI, texturePacker, camera)
-          table.insert(uiNodes, backbutton)
-
-          local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
-              name = "header_STAGE_SELECT",
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              scale = 7,
-          })
-          local width = (uiCaptionRect:x() / 3.0) 
-          local height = (uiCaptionRect:y() / 3.0) 
-          uiCaption:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.85, -1)
-          )
-          table.insert(uiNodes, uiCaption)
-
-          local portraitButton, portraitButtonRect, portraitButtonId = UI:createButton({
-              off = "butn_portrait_country_off", 
-              on = "butn_portrait_country_on", 
-              dis = "butn_portrait_country_dis", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("playdown")
-              end,
-              up = function()
-                  print("playup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local width = (portraitButtonRect:x() / 3.0) 
-          local height = (portraitButtonRect:y() / 3.0) 
-          portraitButton:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() * 0.3 , njlic.SCREEN():y() * 0.4, -1)
-          )
-          table.insert(uiNodes, portraitButton)
-
-          local cityButton, cityButtonRect, cityButtonId = UI:createButton({
-              off = "butn_portrait_city_off", 
-              on = "butn_portrait_city_on", 
-              dis = "butn_portrait_city_dis", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("playdown")
-              end,
-              up = function()
-                  print("playup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local width = (cityButtonRect:x() / 3.0) 
-          local height = (cityButtonRect:y() / 3.0) 
-          cityButton:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() * 0.7 , njlic.SCREEN():y() * 0.4, -1)
-          )
-          table.insert(uiNodes, cityButton)
-
-          return uiNodes
-      end
-
-      local createWinTimeAttack = function(UI, texturePacker, camera, result)
-          return createWin(UI, texturePacker, camera, result)
-      end
-
-      local createWinArcade = function(UI, texturePacker, camera, result)
-          return createWin(UI, texturePacker, camera, result)
-      end
-
-      local createWinSurvival = function(UI, texturePacker, camera, result)
-          return createWin(UI, texturePacker, camera, result)
-      end
-
-
-      local createLoseTimeAttack = function(UI, texturePacker, camera, result)
-          return createLose(UI, texturePacker, camera, result)
-      end
-
-      local createLoseArcade = function(UI, texturePacker, camera, result)
-          return createLose(UI, texturePacker, camera, result)
-      end
-
-      local createLoseSurvival = function(UI, texturePacker, camera, result)
-          return createLose(UI, texturePacker, camera, result)
-      end
-
-
-      local allNodes = {}
-
-      -- createPauseButton(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
-      allNodes = createBoardSelect(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
-      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
-      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
-
-      allNodes = createSplashScreen(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
-      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
-      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
-
-      allNodes = createLevelSelect(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
-      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
-      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
-
-      allNodes = createStageSelect(self.ui, self.interfaceTexturePacker, self.orthographicCamera)
-      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
-      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
-
-      allNodes = createWinTimeAttack(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
-      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
-      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
-
-      allNodes = createWinArcade(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
-      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
-      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
-
-      allNodes = createWinSurvival(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
-      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
-      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
-
-      allNodes = createLoseTimeAttack(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
-      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
-      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
-
-      allNodes = createLoseArcade(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
-      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
-      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
-
-      allNodes = createLoseSurvival(self.ui, self.interfaceTexturePacker, self.orthographicCamera, result)
-      HideNodes({nodes=allNodes, camera=self.orthographicCamera})
-      -- ShowNodes({nodes=allNodes, camera=self.orthographicCamera})
-
+      self.ui:showSplash()
 
     end
 
