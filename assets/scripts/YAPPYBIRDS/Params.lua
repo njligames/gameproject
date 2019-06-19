@@ -22,6 +22,7 @@ ParamInfo =
         -- WorldOffset = bullet.btVector2(0.10, 19.45),
         WorldScale = 89.0430,
         MinBrightnessForDistance = 0.8, --value from 0.0 (black) to 1.0 (the image's brightness)
+        LoseBirdHeight = 36.0,
     },
 	Projectile = 
 	{

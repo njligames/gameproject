@@ -68,6 +68,72 @@ function SpawnMachine:collide(node, otherNode, collisionPoint)
   if not status then print(err) end
 end
 
+function SpawnMachine:reset(camera)
+
+
+    print("kill all")
+
+  for k,v in pairs(self.garbageQueue) do
+      print(k)
+      local entity = v
+
+      entity.node:hide(camera)
+
+      local status, err = pcall(entity.kill, entity)
+      if not status then print(err) end
+  end
+  self.garbageQueue = {}
+
+  for k,v in pairs(self.birdQueue) do
+      print(k)
+      local entity = v
+
+      entity.node:hide(camera)
+
+      local status, err = pcall(entity.kill, entity)
+      if not status then print(err) end
+  end
+  self.birdQueue = {}
+
+  for k,v in pairs(self.balloonQueue) do
+      print(k)
+      local entity = v
+
+      entity.node:hide(camera)
+
+      local status, err = pcall(entity.kill, entity)
+      if not status then print(err) end
+  end
+  self.balloonQueue = {}
+
+  for k,v in pairs(self.dogQueue) do
+      print(k)
+      local entity = v
+
+      entity.node:hide(camera)
+
+      local status, err = pcall(entity.kill, entity)
+      if not status then print(err) end
+  end
+  self.dogQueue = {}
+
+  for k,v in pairs(self.gameEntities) do
+      print(k)
+      local entity = v
+
+      entity.node:hide(camera)
+
+      local status, err = pcall(entity.kill, entity)
+      if not status then print(err) end
+  end
+  
+  self.gameEntities = {}
+  self.totalTicks = 0
+  self.arcadeSpawnPoints = {}
+  self.done = false
+    self.spawnLeft = 0
+end
+
 function SpawnMachine:tick(gameplay, timeStep)
   
   local i = 1

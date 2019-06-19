@@ -138,7 +138,9 @@ local YappyBirdUi = {
       --     return backButton
       -- end
 
-      local createWin = function(UI, texturePacker, camera, result)
+      local createWin = function(UI, texturePacker, camera, result, object)
+          local object = object
+
           local uiNodes = createUiBackdrop(UI, texturePacker, camera)
 
           local vert_margin = njlic.SCREEN():y() / 30.0
@@ -154,10 +156,9 @@ local YappyBirdUi = {
               tp = texturePacker, 
               camera = camera,
               down = function() 
-                  print("backdown")
               end,
               up = function()
-                  print("backup")
+                  object:playGame()
               end,
               scale = 7,
               enabled = true,
@@ -178,10 +179,9 @@ local YappyBirdUi = {
               tp = texturePacker, 
               camera = camera,
               down = function() 
-                  print("backdown")
               end,
               up = function()
-                  print("backup")
+                  object:showSplash()
               end,
               scale = 7,
               enabled = true,
@@ -193,29 +193,33 @@ local YappyBirdUi = {
           )
           table.insert(uiNodes, quitButton)
 
-          local nextLevelButton, nextLevelButtonRect, nextLevelButtonId = UI:createButton({
-              off = "butn_NEXT_LEVEL_off", 
-              on = "butn_NEXT_LEVEL_on", 
-              x = 200, 
-              y = 200, 
-              node = nil, 
-              tp = texturePacker, 
-              camera = camera,
-              down = function() 
-                  print("backdown")
-              end,
-              up = function()
-                  print("backup")
-              end,
-              scale = 7,
-              enabled = true,
-          })
-          local width = (nextLevelButtonRect:x() / 3.0) 
-          local height = (nextLevelButtonRect:y() / 3.0) 
-          nextLevelButton:setOrigin(
-          bullet.btVector3(njlic.SCREEN():x() - ((vert_margin * 1) + width) , (vert_margin * 1) + height, -1)
-          )
-          table.insert(uiNodes, nextLevelButton)
+          -- if object.level < 19 then
+              local nextLevelButton, nextLevelButtonRect, nextLevelButtonId = UI:createButton({
+                  off = "butn_NEXT_LEVEL_off", 
+                  on = "butn_NEXT_LEVEL_on", 
+                  x = 200, 
+                  y = 200, 
+                  node = nil, 
+                  tp = texturePacker, 
+                  camera = camera,
+                  down = function() 
+                  end,
+                  up = function()
+                      object.level = object.level + 1
+                      if object.level < 20 then
+                          object:playGame()
+                      end
+                  end,
+                  scale = 7,
+                  enabled = true,
+              })
+              local width = (nextLevelButtonRect:x() / 3.0) 
+              local height = (nextLevelButtonRect:y() / 3.0) 
+              nextLevelButton:setOrigin(
+              bullet.btVector3(njlic.SCREEN():x() - ((vert_margin * 1) + width) , (vert_margin * 1) + height, -1)
+              )
+              table.insert(uiNodes, nextLevelButton)
+          -- end
 
           local uiCaption, uiCaptionRect, uiCaptionId = UI:createImage({
               name = "text_YOU_WIN",
@@ -236,7 +240,9 @@ local YappyBirdUi = {
           return uiNodes
       end
 
-      local createLose = function(UI, texturePacker, camera, result)
+      local createLose = function(UI, texturePacker, camera, result, object)
+          local object = object
+
           local uiNodes = createUiBackdrop(UI, texturePacker, camera)
 
           local vert_margin = njlic.SCREEN():y() / 30.0
@@ -252,10 +258,9 @@ local YappyBirdUi = {
               tp = texturePacker, 
               camera = camera,
               down = function() 
-                  print("backdown")
               end,
               up = function()
-                  print("backup")
+                  object:playGame()
               end,
               scale = 7,
               enabled = true,
@@ -276,10 +281,9 @@ local YappyBirdUi = {
               tp = texturePacker, 
               camera = camera,
               down = function() 
-                  print("backdown")
               end,
               up = function()
-                  print("backup")
+                  object:showSplash()
               end,
               scale = 7,
               enabled = true,
@@ -357,6 +361,10 @@ local YappyBirdUi = {
           local centered_x = (njlic.SCREEN():x() - total_margin_width) * 2.0
 
           for i=1,(num_rows * num_columns) do 
+              local enabled = true
+              -- TEMP
+              if i > 1 then enabled = false end
+
               local button, buttonRect, buttonId = UI:createButton({
                   off = "butn_stage_off", 
                   on = "butn_stage_on", 
@@ -371,10 +379,11 @@ local YappyBirdUi = {
                   end,
                   up = function()
                       -- print(string.format("stage button %s, %d - up", object.stage, i))
-                      object:playGame(i)
+                      object.level = i - 1
+                      object:playGame()
                   end,
                   scale = 7,
-                  enabled = true,
+                  enabled = enabled,
               })
               local width = (buttonRect:x() / 3.5) 
               local height = (buttonRect:y() / 3.5) 
@@ -514,7 +523,7 @@ local YappyBirdUi = {
                   object:showBoardSelect()
               end,
               scale = 7,
-              enabled = true,
+              enabled = false,
           })
           local width = (timeAttackButtonRect:x() / 3.0) 
           local height = (timeAttackButtonRect:y() / 3.0) 
@@ -564,7 +573,7 @@ local YappyBirdUi = {
                   object:showBoardSelect()
               end,
               scale = 7,
-              enabled = true,
+              enabled = false,
           })
           local width = (survivalButtonRect:x() / 3.0) 
           local height = (survivalButtonRect:y() / 3.0) 
@@ -671,7 +680,7 @@ local YappyBirdUi = {
                   object:showLevelSelect()
               end,
               scale = 7,
-              enabled = true,
+              enabled = false,
           })
           local width = (cityButtonRect:x() / 3.0) 
           local height = (cityButtonRect:y() / 3.0) 
@@ -683,29 +692,28 @@ local YappyBirdUi = {
           return uiNodes
       end
 
-      local createWinTimeAttack = function(UI, texturePacker, camera, result)
-          return createWin(UI, texturePacker, camera, result)
+      local createWinTimeAttack = function(UI, texturePacker, camera, result, object)
+          return createWin(UI, texturePacker, camera, result, object)
       end
 
-      local createWinArcade = function(UI, texturePacker, camera, result)
-          return createWin(UI, texturePacker, camera, result)
+      local createWinArcade = function(UI, texturePacker, camera, result, object)
+          return createWin(UI, texturePacker, camera, result, object)
       end
 
-      local createWinSurvival = function(UI, texturePacker, camera, result)
-          return createWin(UI, texturePacker, camera, result)
+      local createWinSurvival = function(UI, texturePacker, camera, result, object)
+          return createWin(UI, texturePacker, camera, result, object)
       end
 
-
-      local createLoseTimeAttack = function(UI, texturePacker, camera, result)
-          return createLose(UI, texturePacker, camera, result)
+      local createLoseTimeAttack = function(UI, texturePacker, camera, result, object)
+          return createLose(UI, texturePacker, camera, result, object)
       end
 
-      local createLoseArcade = function(UI, texturePacker, camera, result)
-          return createLose(UI, texturePacker, camera, result)
+      local createLoseArcade = function(UI, texturePacker, camera, result, object)
+          return createLose(UI, texturePacker, camera, result, object)
       end
 
-      local createLoseSurvival = function(UI, texturePacker, camera, result)
-          return createLose(UI, texturePacker, camera, result)
+      local createLoseSurvival = function(UI, texturePacker, camera, result, object)
+          return createLose(UI, texturePacker, camera, result, object)
       end
 
       -- #4
@@ -724,22 +732,22 @@ local YappyBirdUi = {
       object.stageSelectNodes = createStageSelect(object.ui, object.interfaceTexturePacker, object.orthographicCamera, object)
       HideNodes({nodes=object.stageSelectNodes, camera=object.orthographicCamera})
 
-      object.winTimeAttackNodes = createWinTimeAttack(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result)
+      object.winTimeAttackNodes = createWinTimeAttack(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result, object)
       HideNodes({nodes=object.winTimeAttackNodes, camera=object.orthographicCamera})
 
-      object.winArcadeNodes = createWinArcade(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result)
+      object.winArcadeNodes = createWinArcade(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result, object)
       HideNodes({nodes=object.winArcadeNodes, camera=object.orthographicCamera})
 
-      object.winSurvivalNodes = createWinSurvival(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result)
+      object.winSurvivalNodes = createWinSurvival(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result, object)
       HideNodes({nodes=object.winSurvivalNodes, camera=object.orthographicCamera})
 
-      object.loseTimeAttackNodes = createLoseTimeAttack(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result)
+      object.loseTimeAttackNodes = createLoseTimeAttack(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result, object)
       HideNodes({nodes=object.loseTimeAttackNodes, camera=object.orthographicCamera})
 
-      object.loseArcadeNodes = createLoseArcade(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result)
+      object.loseArcadeNodes = createLoseArcade(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result, object)
       HideNodes({nodes=object.loseArcadeNodes, camera=object.orthographicCamera})
 
-      object.loseSurvivalNodes = createLoseSurvival(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result)
+      object.loseSurvivalNodes = createLoseSurvival(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result, object)
       HideNodes({nodes=object.loseSurvivalNodes, camera=object.orthographicCamera})
 
       function object:hideAll()
@@ -809,10 +817,10 @@ local YappyBirdUi = {
           ShowNodes({nodes=self.loseSurvivalNodes, camera=self.orthographicCamera})
       end
 
-      function object:playGame(level)
+      function object:playGame()
           self:hideAll()
 
-          self.game:start(self.stage, level, self.mode)
+          self.game:start(self) --self.stage, level, self.mode)
       end
 
         function object:update(timestep)
@@ -1289,7 +1297,10 @@ local Bird = {
 
           end,
           update = function(timeStep)
-              if self.node:getOrigin():y() > 6 then
+
+              if self.node:getOrigin():y() >= self.params.World.LoseBirdHeight then
+
+                  self.game.lose = true
 
                   assert(self.dogAttacked ~= nil, "the dog being attacked is nil")
 
@@ -2145,6 +2156,7 @@ local Dog = {
               self.currentAnimationState=self.ANIMATION_STATES.run
               self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourFollowPath)
                 self.steeringBehaviourMachine:enable(true)
+              self.physicsBody:setKinematicPhysics()
           end,
           exit = function()
               self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviourFollowPath)
@@ -2164,6 +2176,7 @@ local Dog = {
               self.currentAnimationState=self.ANIMATION_STATES.idle
               self.runClock = njlic.Clock.create()
 
+              self.physicsBody:setKinematicPhysics()
           end,
           exit = function()
               njlic.Clock.destroy(self.runClock)
@@ -2432,6 +2445,8 @@ local YappyBirds = {
 
       run = false,
         canPursue = true,
+        lose = false,
+        win = false,
     }
 
     function game:loadLevel(stage, levelNum, mode)
@@ -2895,13 +2910,37 @@ local YappyBirds = {
 
       if self.run then
 
+          if self.win then
+              self:stop()
+
+              if self.yappyBirdsUi.mode == "timeattack" then
+                  self.yappyBirdsUi:showWinTimeAttack()
+              elseif self.yappyBirdsUi.mode == "arcade" then
+                  self.yappyBirdsUi:showWinArcade()
+              elseif self.yappyBirdsUi.mode == "survival" then
+                  self.yappyBirdsUi:showWinSurvival()
+              end
+          end
+
+          if self.lose then
+              self:stop()
+
+              if self.yappyBirdsUi.mode == "timeattack" then
+                  self.yappyBirdsUi:showLoseTimeAttack()
+              elseif self.yappyBirdsUi.mode == "arcade" then
+                  self.yappyBirdsUi:showLoseArcade()
+              elseif self.yappyBirdsUi.mode == "survival" then
+                  self.yappyBirdsUi:showLoseSurvival()
+              end
+          end
+
         self.spawnMachine:tick(self, timeStep)
 
         local number_words = njlic.convertToWords(self.spawnMachine:birdsLeftToSpawn())
       local birdsLeft = string.format("There are %s birds left.", number_words)
 
       self.displayNode, self.displayNodeRect = self.YappyBirdFont:printf(birdsLeft)
-      self.displayNode:show(self.orthographicCamera)
+      -- self.displayNode:show(self.orthographicCamera)
 
         if self.spawnMachine.done then
         end
@@ -2976,10 +3015,26 @@ local YappyBirds = {
     function game:unpause()
     end
 
-    function game:start(stage, level, mode)
-        print("*******************")
-        print(stage, level, mode)
-        print("*******************")
+    function game:stop()
+        if self.run then
+            self.run = false
+
+            self.pauseButton:hide(self.orthographicCamera)
+            self.displayNode:hide(self.orthographicCamera)
+
+
+            for i = 1, #self.billboardPool do
+              local billboard = self.billboardPool[i]
+              billboard:kill()
+            end
+
+            self.spawnMachine:reset(self.orthographicCamera)
+        end
+    end
+
+    function game:start(yappyBirdsUi)
+
+        self.yappyBirdsUi = yappyBirdsUi
 
       if not self.run then
 
@@ -2987,9 +3042,7 @@ local YappyBirds = {
 
         self.spawnMachine.gameplay = self
 
-
-
-        self:loadLevel("country", 0, "arcade")
+        self:loadLevel(yappyBirdsUi.stage, yappyBirdsUi.level, yappyBirdsUi.mode)
 
         for i = 1, #self.billboardPool do
           local billboard = self.billboardPool[i]
@@ -3025,6 +3078,8 @@ local YappyBirds = {
           self.displayNode:show(self.orthographicCamera)
 
         self.run = true
+        self.lose = false
+        self.win = false
       end
     end
 
