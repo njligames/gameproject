@@ -52,13 +52,16 @@ local YappyBirdUi = {
         local arg=... or {}
 
         local camera = arg.camera or nil
+        local game = arg.game or nil
 
         assert(camera ~= nil, "camera is nil")
+        assert(game ~= nil, "camera is nil")
 
         local object = {
             orthographicCamera = camera,
             interfaceTexturePacker = TexturePacker({file="interface0"}),
-            ui = UserInterface()
+            ui = UserInterface(),
+            game = game
         }
 
         local createUiBackdrop = function(UI, texturePacker, camera)
@@ -332,7 +335,7 @@ local YappyBirdUi = {
               down = function() 
               end,
               up = function()
-                  object:showStageSelect()
+                  object:showLevelSelect()
               end,
               scale = 7,
               enabled = true,
@@ -505,10 +508,10 @@ local YappyBirdUi = {
               tp = texturePacker, 
               camera = camera,
               down = function() 
-                  print("level select")
               end,
               up = function()
-                  print("level select")
+                  object.mode = "timeAttack"
+                  object:showBoardSelect()
               end,
               scale = 7,
               enabled = true,
@@ -530,10 +533,10 @@ local YappyBirdUi = {
               tp = texturePacker, 
               camera = camera,
               down = function() 
-                  print("playdown")
               end,
               up = function()
-                  print("playup")
+                  object.mode = "arcade"
+                  object:showBoardSelect()
               end,
               scale = 7,
               enabled = true,
@@ -555,10 +558,10 @@ local YappyBirdUi = {
               tp = texturePacker, 
               camera = camera,
               down = function() 
-                  print("playdown")
               end,
               up = function()
-                  print("playup")
+                  object.mode = "survival"
+                  object:showBoardSelect()
               end,
               scale = 7,
               enabled = true,
@@ -639,7 +642,7 @@ local YappyBirdUi = {
               end,
               up = function()
                   object.stage = "country"
-                  object:showBoardSelect()
+                  object:showLevelSelect()
               end,
               scale = 7,
               enabled = true,
@@ -665,7 +668,7 @@ local YappyBirdUi = {
               end,
               up = function()
                   object.stage = "city"
-                  object:showBoardSelect()
+                  object:showLevelSelect()
               end,
               scale = 7,
               enabled = true,
@@ -705,7 +708,7 @@ local YappyBirdUi = {
           return createLose(UI, texturePacker, camera, result)
       end
 
-      -- #3
+      -- #4
       object.boardSelectNodes = createBoardSelect(object.ui, object.interfaceTexturePacker, object.orthographicCamera, object)
       HideNodes({nodes=object.boardSelectNodes, camera=object.orthographicCamera})
 
@@ -713,7 +716,7 @@ local YappyBirdUi = {
       object.splashScreenNodes = createSplashScreen(object.ui, object.interfaceTexturePacker, object.orthographicCamera, object)
       HideNodes({nodes=object.splashScreenNodes, camera=object.orthographicCamera})
 
-      -- #4
+      -- #3
       object.levelSelectNodes = createLevelSelect(object.ui, object.interfaceTexturePacker, object.orthographicCamera, object)
       HideNodes({nodes=object.levelSelectNodes, camera=object.orthographicCamera})
 
@@ -755,6 +758,10 @@ local YappyBirdUi = {
       function object:showBoardSelect()
           self:hideAll()
           ShowNodes({nodes=self.boardSelectNodes, camera=self.orthographicCamera})
+      end
+
+      function object:getUi()
+          return self.ui
       end
 
       function object:showSplash()
@@ -804,7 +811,8 @@ local YappyBirdUi = {
 
       function object:playGame(level)
           self:hideAll()
-          print(self.stage, level)
+
+          self.game:start(self.stage, level, self.mode)
       end
 
         function object:update(timestep)
@@ -2426,13 +2434,54 @@ local YappyBirds = {
         canPursue = true,
     }
 
+    function game:loadLevel(stage, levelNum, mode)
+        local debug = false
+
+      -- self.levelLoader:loadLevel({debug=debug, loc="country", levelNum=0, mode="arcade"})
+      self.levelLoader:loadLevel({debug=debug, loc=stage, levelNum=levelNum, mode=mode})
+      table.insert(self.levelTexturePacker, TexturePacker({file=string.format("%s0", self.levelLoader.location)}))
+      for i = 1, self.levelLoader:numSpawnPoints() do
+        local point = self.levelLoader:getSpawnPoint(i)
+        self.spawnMachine:addArcadeSpawnPoint(point)
+      end
+      for i = 1, self.levelLoader:numTiles() do
+        local billboardParams = self.levelLoader:getBillboardParams(i)
+
+        local billboard = Billboard.new({
+            levelTexturePacker=self.levelTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            index=i,
+            params=self.params,
+          })
+
+        if billboard:load(billboardParams) then
+          table.insert(self.billboardPool, billboard)
+        end
+
+      end
+
+      local numberOfDogs = 1
+
+      local dog = nil
+      for i = 1, numberOfDogs do
+        dog = Dog.new({
+            texturePacker=self.gameplayTexturePacker,
+            perspectiveCamera=self.perspectiveCamera,
+            index=i,
+            params=self.params,
+            game = self,
+            })
+        dog:load()
+        table.insert(self.dogPool, dog)
+      end
+    end
+
     function game:load()
 
       local debug = false
 
 
 
-      self.levelLoader:loadLevel({debug=debug, loc="country", levelNum=0, mode="arcade"})
 
       local shader = njlic.ShaderProgram.create()
       assert(njlic.World.getInstance():getWorldResourceLoader():load("shaders/StandardShader.vert", "shaders/StandardShader.frag", shader))
@@ -2440,7 +2489,6 @@ local YappyBirds = {
 
       -- ###################################################################################################
 
-      table.insert(self.levelTexturePacker, TexturePacker({file=string.format("%s0", self.levelLoader.location)}))
       table.insert(self.gameplayTexturePacker, TexturePacker({file="gameplay0"}))
       table.insert(self.gameplayTexturePacker, TexturePacker({file="gameplay1"}))
       if debug then
@@ -2451,10 +2499,6 @@ local YappyBirds = {
 
 
 
-      for i = 1, self.levelLoader:numSpawnPoints() do
-        local point = self.levelLoader:getSpawnPoint(i)
-        self.spawnMachine:addArcadeSpawnPoint(point)
-      end
 
       -- ###################################################################################################
 
@@ -2533,13 +2577,19 @@ local YappyBirds = {
       local horiz_margin = njlic.SCREEN():x() / 60.0
       self.displayNode:setOrigin(bullet.btVector3(horiz_margin * 1, vert_margin * 1, -1))
       self.displayNode:show(self.orthographicCamera)
+      self.displayNode:hide(self.orthographicCamera)
 
 
       self.interfaceTexturePacker = TexturePacker({file="interface0"})
 
-      self.ui = UserInterface()
+      -- self.ui = UserInterface()
+      self.ybUi = YappyBirdUi.new({camera=self.orthographicCamera, game=self})
 
-      local pauseButton, pauseButtonRect, pauseButtonId = self.ui:createButton({
+      -- print_r(self.ybUi.ui)
+
+      self.ybUi:showSplash()
+
+      local pauseButton, pauseButtonRect, pauseButtonId = self.ybUi:getUi():createButton({
           off = "butn_pause_off", 
           on = "butn_pause_on", 
           x = 200, 
@@ -2564,40 +2614,67 @@ local YappyBirds = {
       pauseButton:setOrigin(
       bullet.btVector3((njlic.SCREEN():x() - (width)) , (height / 2.0) + (vert_margin * 2), -1)
       )
+      self.pauseButton = pauseButton
+      self.pauseButton:hide(self.orthographicCamera)
 
 
-      for i = 1, self.levelLoader:numTiles() do
-        local billboardParams = self.levelLoader:getBillboardParams(i)
 
-        local billboard = Billboard.new({
-            levelTexturePacker=self.levelTexturePacker,
-            perspectiveCamera=self.perspectiveCamera,
-            index=i,
-            params=self.params,
-          })
 
-        if billboard:load(billboardParams) then
-          table.insert(self.billboardPool, billboard)
-        end
 
-      end
+
+
+
+
+
+
+
+
+        -- self:loadLevel("country", 0, "arcade")
+
+      -- self.levelLoader:loadLevel({debug=debug, loc="country", levelNum=0, mode="arcade"})
+      -- table.insert(self.levelTexturePacker, TexturePacker({file=string.format("%s0", self.levelLoader.location)}))
+      -- for i = 1, self.levelLoader:numSpawnPoints() do
+      --   local point = self.levelLoader:getSpawnPoint(i)
+      --   self.spawnMachine:addArcadeSpawnPoint(point)
+      -- end
+      -- for i = 1, self.levelLoader:numTiles() do
+      --   local billboardParams = self.levelLoader:getBillboardParams(i)
+
+      --   local billboard = Billboard.new({
+      --       levelTexturePacker=self.levelTexturePacker,
+      --       perspectiveCamera=self.perspectiveCamera,
+      --       index=i,
+      --       params=self.params,
+      --     })
+
+      --   if billboard:load(billboardParams) then
+      --     table.insert(self.billboardPool, billboard)
+      --   end
+
+      -- end
+
+      -- local numberOfDogs = 1
+
+      -- local dog = nil
+      -- for i = 1, numberOfDogs do
+      --   dog = Dog.new({
+      --       texturePacker=self.gameplayTexturePacker,
+      --       perspectiveCamera=self.perspectiveCamera,
+      --       index=i,
+      --       params=self.params,
+      --       game = self,
+      --       })
+      --   dog:load()
+      --   table.insert(self.dogPool, dog)
+      -- end
+
+
+
+
+
 
       local numberOfBirdsEach = 10
-      local numberOfDogs = 1
       local numberOfBalloons = 100
-
-      local dog = nil
-      for i = 1, numberOfDogs do
-        dog = Dog.new({
-            texturePacker=self.gameplayTexturePacker,
-            perspectiveCamera=self.perspectiveCamera,
-            index=i,
-            params=self.params,
-            game = self,
-            })
-        dog:load()
-        table.insert(self.dogPool, dog)
-      end
 
       local bird = nil
       for i = 1, numberOfBirdsEach do
@@ -2712,8 +2789,6 @@ local YappyBirds = {
           self.dogPool[i]:addBirdsToEvade(self.allBirdPool)
       end
 
-
-
     end
 
     function game:unload()
@@ -2809,7 +2884,7 @@ local YappyBirds = {
     end
 
     function game:update(timeStep)
-        local status, err = pcall(self.ui.update, self.ui, timeStep)
+        local status, err = pcall(self.ybUi:getUi().update, self.ybUi:getUi(), timeStep)
         if not status then error(err) end
 
       local from = self.perspectiveCameraNode:getOrigin()
@@ -2832,9 +2907,9 @@ local YappyBirds = {
         end
       end
 
-      if not self.run then
-        self:start()
-      end
+      -- if not self.run then
+      --   self:start()
+      -- end
     end
 
     function game:updateAction(action, timeStep)
@@ -2854,7 +2929,7 @@ local YappyBirds = {
 
     function game:click(x, y)
 
-      if self.run and not self.ui:anyTouched() then
+      if self.run and not self.ybUi:getUi():anyTouched() then
 
         local origin = self.params:originForLayer({x=x, y=y}, 10)
         local dimensions = self.params:dimensionForLayer()
@@ -2871,27 +2946,27 @@ local YappyBirds = {
     end
 
     function game:down(rayContact)
-        local status, err = pcall(self.ui.down, self.ui, rayContact)
+        local status, err = pcall(self.ybUi:getUi().down, self.ybUi:getUi(), rayContact)
         if not status then error(err) end
     end
     
     function game:up(rayContact)
-        local status, err = pcall(self.ui.up, self.ui, rayContact)
+        local status, err = pcall(self.ybUi:getUi().up, self.ybUi:getUi(), rayContact)
         if not status then error(err) end
     end
     
     function game:move(rayContact)
-        local status, err = pcall(self.ui.move, self.ui, rayContact)
+        local status, err = pcall(self.ybUi:getUi().move, self.ybUi:getUi(), rayContact)
         if not status then error(err) end
     end
 
     function game:cancelled(rayContact)
-        local status, err = pcall(self.ui.cancelled, self.ui, rayContact)
+        local status, err = pcall(self.ybUi:getUi().cancelled, self.ybUi:getUi(), rayContact)
         if not status then error(err) end
     end
 
     function game:missed(node)
-        local status, err = pcall(self.ui.missed, self.ui, node)
+        local status, err = pcall(self.ybUi:getUi().missed, self.ybUi:getUi(), node)
         if not status then error(err) end
     end
 
@@ -2901,18 +2976,25 @@ local YappyBirds = {
     function game:unpause()
     end
 
-    function game:start()
+    function game:start(stage, level, mode)
+        print("*******************")
+        print(stage, level, mode)
+        print("*******************")
+
       if not self.run then
 
           self.canPursue = true
 
         self.spawnMachine.gameplay = self
 
+
+
+        self:loadLevel("country", 0, "arcade")
+
         for i = 1, #self.billboardPool do
           local billboard = self.billboardPool[i]
           billboard:spawn()
         end
-
 
         njlic.World.getInstance():setBackgroundColor(self.levelLoader.backgroundColor)
 
@@ -2938,6 +3020,9 @@ local YappyBirds = {
           else
           end
         end
+
+          self.pauseButton:show(self.orthographicCamera)
+          self.displayNode:show(self.orthographicCamera)
 
         self.run = true
       end
@@ -3352,21 +3437,11 @@ local TestTexturePacker = {
 
 }
 
-
-
-
-
-
-
-
-
-
-
 local Create = function()
-    -- yappyBirds = YappyBirds.new()
+    yappyBirds = YappyBirds.new()
     -- yappyBirds = TestDebugDraw.new()
     -- yappyBirds = TestFont.new()
-    yappyBirds = TestTexturePacker.new()
+    -- yappyBirds = TestTexturePacker.new()
     yappyBirds:load()
 end
 
