@@ -2943,7 +2943,16 @@ local YappyBirds = {
       -- self.displayNode:show(self.orthographicCamera)
 
         if self.spawnMachine.done then
+            if self.yappyBirdsUi.mode == "timeattack" then
+            elseif self.yappyBirdsUi.mode == "arcade" then
+                if self.spawnMachine:birdsLeftToSpawn() <= 0 then
+                    self.win = true
+                end
+            elseif self.yappyBirdsUi.mode == "survival" then
+            end
         end
+
+
       end
 
       -- if not self.run then
