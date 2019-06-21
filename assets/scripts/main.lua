@@ -1236,7 +1236,28 @@ local Bird = {
         self.steeringBehaviorPursuit:setProbability(1.0)
 
 
+        self.steeringBehaviorWallAvoidance = njlic.SteeringBehaviorWallAvoidance.create()
+        self.steeringBehaviorWallAvoidance:setFeelerLength(3.0);
+        self.steeringBehaviorWallAvoidance:setWeight(60000.0)
+        self.steeringBehaviorWallAvoidance:setProbability(1.0)
+
+        -- There is 53 units to the right/left
+        -- There is 26 units to the top/right
+        --
+        -- const btVector3 &planePoint, const btVector3 &planeNormal
+        self.topWall    = njlic.Wall(bullet.btVector3(  0.0,  50.0, 0.0), bullet.btVector3( 0.0, -1.0, 0.0))
+        self.bottomWall = njlic.Wall(bullet.btVector3(  0.0, -20.0, 0.0), bullet.btVector3( 0.0,  1.0, 0.0))
+        self.leftWall   = njlic.Wall(bullet.btVector3(-43.0,  0.0, 0.0), bullet.btVector3( 1.0,  0.0, 0.0))
+        self.rightWall  = njlic.Wall(bullet.btVector3( 43.0,  0.0, 0.0), bullet.btVector3(-1.0,  0.0, 0.0))
+
+        self.steeringBehaviorWallAvoidance:addWall(self.topWall)
+        self.steeringBehaviorWallAvoidance:addWall(self.bottomWall)
+        self.steeringBehaviorWallAvoidance:addWall(self.leftWall)
+        self.steeringBehaviorWallAvoidance:addWall(self.rightWall)
+
         self.node:setSteeringBehaviorMachine(self.steeringBehaviourMachine)
+
+        self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorWallAvoidance)
 
         self.yapTimer = njlic.Timer.create()
 
@@ -1367,13 +1388,14 @@ local Bird = {
       
       stateMachine:addState(self.STATEMACHINE_STATES.hit, {
           enter = function()
-            self.game.canPursue = true
+              self.game.canPursue = true
               self.currentAnimationState=self.ANIMATION_STATES.hit
-                self.steeringBehaviourMachine:clearSteering()
-                self.steeringBehaviourMachine:enable(false)
-                self.physicsBody:setDynamicPhysics()
-                self.physicsBody:setMass(1000)
-                -- self.physicsBody:applyForce(bullet.btVector3(0,1000,0), false)
+              self.steeringBehaviourMachine:clearSteering()
+              self.steeringBehaviourMachine:enable(false)
+              self.physicsBody:setDynamicPhysics()
+              self.physicsBody:setMass(1000)
+              self.physicsBody:setCollisionGroup(CollisionGroups.none)
+              self.physicsBody:setCollisionMask(CollisionMasks.none)
           end,
           exit = function()
           end,
@@ -2906,7 +2928,7 @@ local YappyBirds = {
       local dir = self.perspectiveCamera:getForwardVector()
 
       local debugDrawer = njlic.World.getInstance():getDebugDrawer()
-      debugDrawer:line( bullet.btVector3(-100.0, 0.0, 10.0), bullet.btVector3(100.0, 0.0, 10.0))
+      -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 10.0), bullet.btVector3(100.0, 0.0, 10.0))
 
       if self.run then
 
@@ -3277,6 +3299,72 @@ local TestDebugDraw = {
 --      njlic.ShaderProgram.destroy(self.shader)
     end
 
+    function test:plane()
+        local debugDrawer = njlic.World.getInstance():getDebugDrawer()
+
+        local center = bullet.btVector3(0.0, 0.0, 10.0)
+        local planeNormal = bullet.btVector3(0.0, 1.0, -1.0)
+        local planeColor = bullet.btVector3(0.0, 0.0, 1.0)
+        local normalVecColor = bullet.btVector3(1.0, 0.0, 0.0)
+        local planeScale = 1.0
+        local normalVecScale = 1.0
+        debugDrawer:plane(center, planeNormal, planeColor, normalVecColor, planeScale, normalVecScale)
+    end
+
+    function test:arrow()
+        local debugDrawer = njlic.World.getInstance():getDebugDrawer()
+
+        local from = bullet.btVector3(1.0, 0.0, 3.0)
+        local to = bullet.btVector3(1.0, 1.0, 3.0)
+        local color = bullet.btVector3(0.0, 0.0, 1.0)
+        local size = 0.1
+
+        debugDrawer:arrow( from, to, color, size)
+    end
+
+    function test:axisTriad()
+        local debugDrawer = njlic.World.getInstance():getDebugDrawer()
+
+        local transform = bullet.btTransform.getIdentity()
+
+        local origin = bullet.btVector3(-1.0, 0.5, 3.0)
+        transform:setOrigin(origin)
+
+        local size = 0.1
+        local length = 1.0
+
+        debugDrawer:axisTriad(transform, size, length)
+    end
+
+    function test:frustum()
+        local debugDrawer = njlic.World.getInstance():getDebugDrawer()
+
+        local camera = self.perspectiveCameraNode:getCamera()
+        local proj = camera:getProjection()
+        local view = self.perspectiveCameraNode:getTransform()
+
+        local origin = bullet.btVector3(-1.0, 0.5, 3.0)
+        view:setOrigin(origin)
+
+        -- local clip = proj * view
+
+        local color = bullet.btVector3(1.0, 0.0, 0.0)
+
+        debugDrawer:frustum(view, proj, color)
+    end
+
+    function test:xzSquareGrid()
+        local debugDrawer = njlic.World.getInstance():getDebugDrawer()
+
+        local mins = -5000.0
+        local maxs = 5000.0
+        local step = 1.0
+        local color = bullet.btVector3(1.0, 0.0, 0.0)
+
+        debugDrawer:xzSquareGrid(mins, maxs, -1.0, step, color)
+        debugDrawer:xzSquareGrid(mins, maxs, 10.0, step, color)
+    end
+
     function test:update(timestep)
       njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 1.000)
 
@@ -3299,13 +3387,22 @@ local TestDebugDraw = {
       -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 9.0), bullet.btVector3(100.0, 0.0, 9.0))
       -- debugDrawer:line( bullet.btVector3(-100.0, 0.0, 10.0), bullet.btVector3(100.0, 0.0, 10.0))
       --
-      for i=0,100 do
-          debugDrawer:line( bullet.btVector3(i * 0.1, -100.0, 3.0), bullet.btVector3(i * 0.1, 100.0, 3.0), bullet.btVector3(0.0, 0.0, 1.0))
-      end
-      debugDrawer:point(bullet.btVector3(0.0, 0.0, 3.0), bullet.btVector3(1.0, 0.0, 0.0), 200)
-      debugDrawer:projectedText("THIS", bullet.btVector3(0, 0, 3), bullet.btVector3(0,1,0), 10)
-      debugDrawer:screenText("THAT", bullet.btVector3(0, 0, 3), bullet.btVector3(0,1,0), 10)
+      -- local div = 1.0
+      -- for i=0,100 do
+      --     local j = i * 0.1
+      --     local x = j * (j / div)
+      --     debugDrawer:line( bullet.btVector3(x, 0.0, 3.0), bullet.btVector3(x, 1.0, 3.0), bullet.btVector3(0.0, 0.0, 1.0))
+      -- end
+      -- debugDrawer:point(bullet.btVector3(0.0, 0.0, 3.0), bullet.btVector3(1.0, 0.0, 0.0), 20)
+      -- debugDrawer:projectedText("THIS", bullet.btVector3(0, 0, 3), bullet.btVector3(0,1,0), 10)
+      -- debugDrawer:screenText("THAT", bullet.btVector3(0, 0, 3), bullet.btVector3(0,1,0), 10)
 
+
+        -- self:plane()
+        -- self:arrow()
+        -- self:axisTriad()
+        -- self:frustum()
+        -- self:xzSquareGrid()
 
       local scene = njlic.World.getInstance():getScene()
       local rootNode = scene:getRootNode()
