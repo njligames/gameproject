@@ -71,10 +71,10 @@ end
 function SpawnMachine:reset(camera)
 
 
-    print("kill all")
+    -- print("kill all")
 
   for k,v in pairs(self.garbageQueue) do
-      print(k)
+      -- print(k)
       local entity = v
 
       entity.node:hide(camera)
@@ -85,7 +85,7 @@ function SpawnMachine:reset(camera)
   self.garbageQueue = {}
 
   for k,v in pairs(self.birdQueue) do
-      print(k)
+      -- print(k)
       local entity = v
 
       entity.node:hide(camera)
@@ -96,7 +96,7 @@ function SpawnMachine:reset(camera)
   self.birdQueue = {}
 
   for k,v in pairs(self.balloonQueue) do
-      print(k)
+      -- print(k)
       local entity = v
 
       entity.node:hide(camera)
@@ -107,7 +107,7 @@ function SpawnMachine:reset(camera)
   self.balloonQueue = {}
 
   for k,v in pairs(self.dogQueue) do
-      print(k)
+      -- print(k)
       local entity = v
 
       entity.node:hide(camera)
@@ -118,7 +118,7 @@ function SpawnMachine:reset(camera)
   self.dogQueue = {}
 
   for k,v in pairs(self.gameEntities) do
-      print(k)
+      -- print(k)
       local entity = v
 
       entity.node:hide(camera)

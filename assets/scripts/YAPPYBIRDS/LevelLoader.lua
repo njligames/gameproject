@@ -42,9 +42,12 @@ function LevelLoader:loadLevel(...)
   arg=...
 
   local loc = arg.loc or "country"
-  local levelNum = arg.levelNum or 0
+  local _levelNum = arg.levelNum or 1
   local mode = arg.mode or 'arcade'
   local debug = arg.debug or false
+
+
+  local levelNum = _levelNum - 1
 
   --- Extract the layer and subLayer number from the layer name.
   -- The layer.name for tile layers should be in the form:

@@ -60,7 +60,7 @@ local YappyBirdUi = {
         local object = {
             orthographicCamera = camera,
             interfaceTexturePacker = TexturePacker({file="interface0"}),
-            ui = UserInterface(),
+            ui = UserInterface({backgroundSoundFileName="sounds/interface_menu-theme.ogg"}),
             game = game
         }
 
@@ -109,35 +109,6 @@ local YappyBirdUi = {
           return {uiImage, uiImage2, uiImage3}
       end
 
-      -- local createBackButton = function(UI, texturePacker, camera)
-      --     local vert_margin = njlic.SCREEN():y() / 30.0
-      --     local horiz_margin = njlic.SCREEN():x() / 60.0
-
-      --     local backButton, backButtonRect, backButtonId = UI:createButton({
-      --         off = "butn_BACK_off", 
-      --         on = "butn_BACK_on", 
-      --         x = 200, 
-      --         y = 200, 
-      --         node = nil, 
-      --         tp = texturePacker, 
-      --         camera = camera,
-      --         down = function() 
-      --             -- print("backdown")
-      --         end,
-      --         up = function()
-      --             -- print("backup")
-      --         end,
-      --         scale = 7,
-      --         enabled = true,
-      --     })
-      --     local width = (backButtonRect:x() / 3.0) 
-      --     local height = (backButtonRect:y() / 3.0) 
-      --     backButton:setOrigin(
-      --     bullet.btVector3((vert_margin * 1) + width , (vert_margin * 1) + height, -1)
-      --     )
-      --     return backButton
-      -- end
-
       local createWin = function(UI, texturePacker, camera, result, object)
           local object = object
 
@@ -158,10 +129,13 @@ local YappyBirdUi = {
               down = function() 
               end,
               up = function()
-                  object:playGame()
+                  if object.level <= 15 and object.level >= 1 then
+                      object:playGame()
+                  end
               end,
               scale = 7,
               enabled = true,
+              upSoundFileName = "sounds/interface_select-whoosh.ogg",
           })
           local width = (restartButtonRect:x() / 3.0) 
           local height = (restartButtonRect:y() / 3.0) 
@@ -185,6 +159,7 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
+              upSoundFileName = "sounds/interface_select-whoosh.ogg",
           })
           local width = (quitButtonRect:x() / 3.0) 
           local height = (quitButtonRect:y() / 3.0) 
@@ -205,13 +180,13 @@ local YappyBirdUi = {
                   down = function() 
                   end,
                   up = function()
-                      object.level = object.level + 1
-                      if object.level < 20 then
+                      if object.level <= 15 and object.level >= 1 then
                           object:playGame()
                       end
                   end,
                   scale = 7,
                   enabled = true,
+                  upSoundFileName = "sounds/interface_select-whoosh.ogg",
               })
               local width = (nextLevelButtonRect:x() / 3.0) 
               local height = (nextLevelButtonRect:y() / 3.0) 
@@ -260,10 +235,13 @@ local YappyBirdUi = {
               down = function() 
               end,
               up = function()
-                  object:playGame()
+                  if object.level <= 15 and object.level >= 1 then
+                      object:playGame()
+                  end
               end,
               scale = 7,
               enabled = true,
+              upSoundFileName = "sounds/interface_select-whoosh.ogg",
           })
           local width = (restartButtonRect:x() / 3.0) 
           local height = (restartButtonRect:y() / 3.0) 
@@ -287,6 +265,7 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
+              upSoundFileName = "sounds/interface_select-whoosh.ogg",
           })
           local width = (quitButtonRect:x() / 3.0) 
           local height = (quitButtonRect:y() / 3.0) 
@@ -343,6 +322,7 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
+              upSoundFileName = "sounds/interface_select-whoosh.ogg",
           })
           local width = (backButtonRect:x() / 3.0) 
           local height = (backButtonRect:y() / 3.0) 
@@ -360,11 +340,9 @@ local YappyBirdUi = {
           local total_margin_width = (width_div * num_columns)
           local centered_x = (njlic.SCREEN():x() - total_margin_width) * 2.0
 
+          local boardSelectIds = {}
           for i=1,(num_rows * num_columns) do 
-              local enabled = true
-              -- TEMP
-              if i > 1 then enabled = false end
-
+              local enabled = false
               local button, buttonRect, buttonId = UI:createButton({
                   off = "butn_stage_off", 
                   on = "butn_stage_on", 
@@ -379,11 +357,14 @@ local YappyBirdUi = {
                   end,
                   up = function()
                       -- print(string.format("stage button %s, %d - up", object.stage, i))
-                      object.level = i - 1
-                      object:playGame()
+                      object.level = i
+                      if object.level <= 15 and object.level >= 1 then
+                          object:playGame()
+                      end
                   end,
                   scale = 7,
                   enabled = enabled,
+                  upSoundFileName = "sounds/interface_select-whoosh.ogg",
               })
               local width = (buttonRect:x() / 3.5) 
               local height = (buttonRect:y() / 3.5) 
@@ -392,6 +373,7 @@ local YappyBirdUi = {
               bullet.btVector3(centered_x + width + (width_div * column), njlic.SCREEN():y() - height - (height_div * row) - vert_margin, -1)
               )
               table.insert(uiNodes, button)
+              boardSelectIds[i] = buttonId
               
               if (column + 1) >= num_columns then
                   column = 0
@@ -401,7 +383,7 @@ local YappyBirdUi = {
               end
           end
 
-          return uiNodes
+          return uiNodes, boardSelectIds
       end
 
 
@@ -427,6 +409,7 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
+              upSoundFileName = "sounds/interface_select-whoosh.ogg",
           })
           local width = (playButtonRect:x() / 3.0) 
           local height = (playButtonRect:y() / 3.0) 
@@ -483,6 +466,7 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
+              upSoundFileName = "sounds/interface_select-whoosh.ogg",
           })
           local width = (backButtonRect:x() / 3.0) 
           local height = (backButtonRect:y() / 3.0) 
@@ -524,6 +508,7 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = false,
+              upSoundFileName = "sounds/interface_select-whoosh.ogg",
           })
           local width = (timeAttackButtonRect:x() / 3.0) 
           local height = (timeAttackButtonRect:y() / 3.0) 
@@ -549,6 +534,7 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
+              upSoundFileName = "sounds/interface_select-whoosh.ogg",
           })
           local width = (arcadeButtonRect:x() / 3.0) 
           local height = (arcadeButtonRect:y() / 3.0) 
@@ -574,6 +560,7 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = false,
+              upSoundFileName = "sounds/interface_select-whoosh.ogg",
           })
           local width = (survivalButtonRect:x() / 3.0) 
           local height = (survivalButtonRect:y() / 3.0) 
@@ -614,6 +601,7 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
+              upSoundFileName = "sounds/interface_select-whoosh.ogg",
           })
           local width = (backButtonRect:x() / 3.0) 
           local height = (backButtonRect:y() / 3.0) 
@@ -655,6 +643,7 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
+              upSoundFileName = "sounds/interface_select-whoosh.ogg",
           })
           local width = (portraitButtonRect:x() / 3.0) 
           local height = (portraitButtonRect:y() / 3.0) 
@@ -681,6 +670,7 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = false,
+              upSoundFileName = "sounds/interface_select-whoosh.ogg",
           })
           local width = (cityButtonRect:x() / 3.0) 
           local height = (cityButtonRect:y() / 3.0) 
@@ -716,8 +706,10 @@ local YappyBirdUi = {
           return createLose(UI, texturePacker, camera, result, object)
       end
 
+      object.ui:load()
+
       -- #4
-      object.boardSelectNodes = createBoardSelect(object.ui, object.interfaceTexturePacker, object.orthographicCamera, object)
+      object.boardSelectNodes, object.boardSelectIds = createBoardSelect(object.ui, object.interfaceTexturePacker, object.orthographicCamera, object)
       HideNodes({nodes=object.boardSelectNodes, camera=object.orthographicCamera})
 
       -- #1
@@ -765,6 +757,24 @@ local YappyBirdUi = {
 
       function object:showBoardSelect()
           self:hideAll()
+
+          local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
+          local debug = false
+          local fp = njlic.DOCUMENT_PATH("yappybirds.lua")
+          local d = YappyBirdsData.new({filepath=fp})
+
+          for i = 1, 15 do
+              local id = self.boardSelectIds[i]
+              local enabled = true
+              if d:get(self.stage, i, self.mode) == -1 then
+                  enabled = false
+              end
+
+              assert(id, "id is nil")
+
+              self.ui:enable({id=id, enabled=enabled})
+          end
+
           ShowNodes({nodes=self.boardSelectNodes, camera=self.orthographicCamera})
       end
 
@@ -773,54 +783,74 @@ local YappyBirdUi = {
       end
 
       function object:showSplash()
+          self.ui:playBackgroundSound()
+
           self:hideAll()
           ShowNodes({nodes=self.splashScreenNodes, camera=self.orthographicCamera})
       end
 
       function object:showLevelSelect()
+          self.ui:playBackgroundSound()
+
           self:hideAll()
           ShowNodes({nodes=self.levelSelectNodes, camera=self.orthographicCamera})
       end
 
       function object:showStageSelect()
+          self.ui:playBackgroundSound()
+
           self:hideAll()
           ShowNodes({nodes=self.stageSelectNodes, camera=self.orthographicCamera})
       end
 
       function object:showWinTimeAttack()
+          self.ui:playBackgroundSound()
+
           self:hideAll()
           ShowNodes({nodes=self.winTimeAttackNodes, camera=self.orthographicCamera})
       end
 
       function object:showWinArcade()
+          self.ui:playBackgroundSound()
+
           self:hideAll()
           ShowNodes({nodes=self.winArcadeNodes, camera=self.orthographicCamera})
       end
 
       function object:showWinSurvival()
+          self.ui:playBackgroundSound()
+
           self:hideAll()
           ShowNodes({nodes=self.winSurvivalNodes, camera=self.orthographicCamera})
       end
 
       function object:showLoseTimeAttack()
+          self.ui:playBackgroundSound()
+
           self:hideAll()
           ShowNodes({nodes=self.loseTimeAttackNodes, camera=self.orthographicCamera})
       end
 
       function object:showLoseArcade()
+          self.ui:playBackgroundSound()
+
           self:hideAll()
           ShowNodes({nodes=self.loseArcadeNodes, camera=self.orthographicCamera})
       end
 
       function object:showLoseSurvival()
+          self.ui:playBackgroundSound()
+
           self:hideAll()
           ShowNodes({nodes=self.loseSurvivalNodes, camera=self.orthographicCamera})
       end
 
       function object:playGame()
+          self.ui:stopBackgroundSound()
+
           self:hideAll()
 
-          self.game:start(self) --self.stage, level, self.mode)
+          self.game:start(self)
       end
 
         function object:update(timestep)
@@ -1821,6 +1851,7 @@ local Balloon = {
           end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.bird) then
+                  self.sound:play()
                   self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
               end
           end,
@@ -1902,14 +1933,7 @@ local Balloon = {
 
     function balloon:kill(...)
       local arg=... or {}
-
-      local playSound = arg.playSound or false
-
       self.inplay=false
-
-      if playSound then
-        self.sound:play()
-      end
 
       self.node:removeAction(self.node:getName())
 
@@ -2514,10 +2538,7 @@ local YappyBirds = {
     end
 
     function game:load()
-
-      local debug = false
-
-
+        local debug = false
 
 
       local shader = njlic.ShaderProgram.create()
@@ -2642,6 +2663,7 @@ local YappyBirds = {
           end,
           scale = 10,
           enabled = true,
+          upSoundFileName = "sounds/interface_select-whoosh.ogg",
       })
       local vert_margin = njlic.SCREEN():y() / 30.0
       local horiz_margin = njlic.SCREEN():x() / 60.0
@@ -2934,6 +2956,22 @@ local YappyBirds = {
 
           if self.win then
               self:stop()
+
+              local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
+              local fp = njlic.DOCUMENT_PATH("yappybirds.lua")
+              local d = YappyBirdsData.new({filepath=fp})
+
+              local level = self.yappyBirdsUi.level
+              local stage = self.yappyBirdsUi.stage
+              local mode = self.yappyBirdsUi.mode
+
+              -- TODO: Get a score
+              local score = 1
+
+              d:set(stage, level, mode, score)
+              if level < 15 then
+                  d:set(stage, level + 1, mode, 0)
+              end
 
               if self.yappyBirdsUi.mode == "timeattack" then
                   self.yappyBirdsUi:showWinTimeAttack()
@@ -3598,11 +3636,161 @@ local TestTexturePacker = {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+local TestLevelSaver = {
+    new = function()
+        local test = {
+        }
+
+        function test:load()
+
+            local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
+
+            local fp = njlic.DOCUMENT_PATH("yappybirds.lua")
+
+            local d = YappyBirdsData.new({filepath=fp})
+
+            print("READ - $$$$$$$$$$$$$$$$$")
+            print_r(d.data)
+            print("READ - $$$$$$$$$$$$$$$$$")
+
+            local stage = YappyBirdsData.COUNTRY
+            local mode = YappyBirdsData.TIMEATTACK
+
+            for level=1,15 do 
+                d:set(stage, level, mode, 99)
+            end
+
+        end
+
+        function test:unload()
+        end
+
+        function test:update(timestep)
+        end
+
+        function test:collide(node, otherNode, collisionPoint)
+        end
+
+        function test:click(x, y)
+        end
+
+        function test:down(rayContact)
+        end
+
+        function test:up(rayContact)
+        end
+
+        function test:move(rayContact)
+        end
+
+        function test:cancelled(rayContact)
+        end
+
+        function test:missed(node)
+        end
+
+        function test:updateAction(action, timeStep)
+        end
+
+        return test
+
+    end
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+local TestSound = {
+    new = function()
+        local test = {
+        }
+
+        function test:load()
+            self.backgroundSoundFileName = "sounds/interface_menu-theme.ogg"
+            self.backgroundSound = njlic.Sound.create()
+            self.backgroundSound:enableLooping()
+            njlic.World.getInstance():getWorldResourceLoader():load(self.backgroundSoundFileName, self.backgroundSound)
+
+            self.backgroundSound:play()
+
+        end
+
+        function test:unload()
+        end
+
+        function test:update(timestep)
+        end
+
+        function test:collide(node, otherNode, collisionPoint)
+        end
+
+        function test:click(x, y)
+        end
+
+        function test:down(rayContact)
+        end
+
+        function test:up(rayContact)
+        end
+
+        function test:move(rayContact)
+        end
+
+        function test:cancelled(rayContact)
+        end
+
+        function test:missed(node)
+        end
+
+        function test:updateAction(action, timeStep)
+        end
+
+        return test
+
+    end
+
+}
+
+
 local Create = function()
     yappyBirds = YappyBirds.new()
     -- yappyBirds = TestDebugDraw.new()
     -- yappyBirds = TestFont.new()
     -- yappyBirds = TestTexturePacker.new()
+    -- yappyBirds = TestLevelSaver.new()
+    -- yappyBirds = TestSound.new()
     yappyBirds:load()
 end
 
