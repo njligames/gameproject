@@ -47,6 +47,228 @@ local UserInterface = require "NJLIC.UserInterface"
 -- end
 --
 
+        -- self.sound = njlic.Sound.create()
+        -- self.sound:setName(string.format("%sbird_beak_sound_%05d", self.birdName, self.index))
+        -- local soundName = "sounds/projectile_balloon_water-splash.ogg"
+        -- njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
+
+local YappyBirdsSound = {
+    new = function(...)
+        local arg = ... or {}
+
+        local object = {
+
+        }
+
+        function object:load(...)
+            local arg = ... or {}
+
+            self.chubibird_death1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/chubibird_death1.ogg", self.chubibird_death1)
+
+            self.chubibird_death2 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/chubibird_death2.ogg", self.chubibird_death2)
+
+            self.chubibird_taunt1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/chubibird_taunt1.ogg", self.chubibird_taunt1)
+
+            self.chubibird_taunt2 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/chubibird_taunt2.ogg", self.chubibird_taunt2)
+
+            self.chubibird_taunt3 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/chubibird_taunt3.ogg", self.chubibird_taunt3)
+
+            self.chubibird_taunt4 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/chubibird_taunt4.ogg", self.chubibird_taunt4)
+
+            self.dog_bark1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/dog_bark1.ogg", self.dog_bark1)
+
+            self.dog_bark2 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/dog_bark2.ogg", self.dog_bark2)
+
+            self.dog_howl1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/dog_howl1.ogg", self.dog_howl1)
+
+            self.dog_whine1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/dog_whine1.ogg", self.dog_whine1)
+
+            self.gameplay_powerup_pickup = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/gameplay_powerup_pickup.ogg", self.gameplay_powerup_pickup)
+
+            self.garubird_death1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/garubird_death1.ogg", self.garubird_death1)
+
+            self.garubird_death2 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/garubird_death2.ogg", self.garubird_death2)
+
+            self.garubird_taunt1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/garubird_taunt1.ogg", self.garubird_taunt1)
+
+            self.garubird_taunt2 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/garubird_taunt2.ogg", self.garubird_taunt2)
+
+            self.garubird_taunt3 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/garubird_taunt3.ogg", self.garubird_taunt3)
+
+            self.garubird_taunt4 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/garubird_taunt4.ogg", self.garubird_taunt4)
+
+            self.garubird_taunt5 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/garubird_taunt5.ogg", self.garubird_taunt5)
+
+            self.garubird_taunt6 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/garubird_taunt6.ogg", self.garubird_taunt6)
+
+            self.interface_gameplay_theme = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/interface_gameplay_theme.ogg", self.interface_gameplay_theme)
+
+            self.interface_menu_theme = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/interface_menu_theme.ogg", self.interface_menu_theme)
+            self.interface_menu_theme:enableLooping()
+
+            self.interface_previous_click = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/interface_previous_click.ogg", self.interface_previous_click)
+
+            self.interface_select_whoosh = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/interface_select_whoosh.ogg", self.interface_select_whoosh)
+
+            self.interface_title_theme = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/interface_title_theme.ogg", self.interface_title_theme)
+
+            self.momibird_death1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/momibird_death1.ogg", self.momibird_death1)
+
+            self.momibird_taunt1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/momibird_taunt1.ogg", self.momibird_taunt1)
+
+            self.momibird_taunt2 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/momibird_taunt2.ogg", self.momibird_taunt2)
+
+            self.momibird_taunt3 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/momibird_taunt3.ogg", self.momibird_taunt3)
+
+            self.momibird_taunt4 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/momibird_taunt4.ogg", self.momibird_taunt4)
+
+            self.projectile_balloon_water_splash = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/projectile_balloon_water_splash.ogg", self.projectile_balloon_water_splash)
+
+            self.puffybird_death1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/puffybird_death1.ogg", self.puffybird_death1)
+
+            self.puffybird_death2 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/puffybird_death2.ogg", self.puffybird_death2)
+
+            self.puffybird_taunt1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/puffybird_taunt1.ogg", self.puffybird_taunt1)
+
+            self.puffybird_taunt2 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/puffybird_taunt2.ogg", self.puffybird_taunt2)
+
+            self.puffybird_taunt3 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/puffybird_taunt3.ogg", self.puffybird_taunt3)
+
+            self.puffybird_taunt4 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/puffybird_taunt4.ogg", self.puffybird_taunt4)
+
+            self.puffybird_taunt5 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/puffybird_taunt5.ogg", self.puffybird_taunt5)
+
+            self.webobird_death2 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/webobird_death2.ogg", self.webobird_death2)
+
+            self.webobird_taunt1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/webobird_taunt1.ogg", self.webobird_taunt1)
+
+            self.webobird_taunt2 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/webobird_taunt2.ogg", self.webobird_taunt2)
+
+            self.webobird_taunt3 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/webobird_taunt3.ogg", self.webobird_taunt3)
+
+            self.webobird_taunt4 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/webobird_taunt4.ogg", self.webobird_taunt4)
+
+            self.zurubird_death1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/zurubird_death1.ogg", self.zurubird_death1)
+
+            self.zurubird_death2 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/zurubird_death2.ogg", self.zurubird_death2)
+
+            self.zurubird_taunt1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/zurubird_taunt1.ogg", self.zurubird_taunt1)
+
+            self.zurubird_taunt2 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/zurubird_taunt2.ogg", self.zurubird_taunt2)
+
+            self.zurubird_taunt3 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/zurubird_taunt3.ogg", self.zurubird_taunt3)
+
+            self.zurubird_taunt4 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/zurubird_taunt4.ogg", self.zurubird_taunt4)
+
+            self.zurubird_taunt5 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/zurubird_taunt5.ogg", self.zurubird_taunt5)
+        end
+
+        function object:unload(...)
+            local arg = ... or {}
+
+            njlic.Sound.destroy(self.chubibird_death1)
+            njlic.Sound.destroy(self.chubibird_death2)
+            njlic.Sound.destroy(self.chubibird_taunt1)
+            njlic.Sound.destroy(self.chubibird_taunt2)
+            njlic.Sound.destroy(self.chubibird_taunt3)
+            njlic.Sound.destroy(self.chubibird_taunt4)
+            njlic.Sound.destroy(self.dog_bark1)
+            njlic.Sound.destroy(self.dog_bark2)
+            njlic.Sound.destroy(self.dog_howl1)
+            njlic.Sound.destroy(self.dog_whine1)
+            njlic.Sound.destroy(self.gameplay_powerup_pickup)
+            njlic.Sound.destroy(self.garubird_death1)
+            njlic.Sound.destroy(self.garubird_death2)
+            njlic.Sound.destroy(self.garubird_taunt1)
+            njlic.Sound.destroy(self.garubird_taunt2)
+            njlic.Sound.destroy(self.garubird_taunt3)
+            njlic.Sound.destroy(self.garubird_taunt4)
+            njlic.Sound.destroy(self.garubird_taunt5)
+            njlic.Sound.destroy(self.garubird_taunt6)
+            njlic.Sound.destroy(self.interface_gameplay_theme)
+            njlic.Sound.destroy(self.interface_menu_theme)
+            njlic.Sound.destroy(self.interface_previous_click)
+            njlic.Sound.destroy(self.interface_select_whoosh)
+            njlic.Sound.destroy(self.interface_title_theme)
+            njlic.Sound.destroy(self.momibird_death1)
+            njlic.Sound.destroy(self.momibird_taunt1)
+            njlic.Sound.destroy(self.momibird_taunt2)
+            njlic.Sound.destroy(self.momibird_taunt3)
+            njlic.Sound.destroy(self.momibird_taunt4)
+            njlic.Sound.destroy(self.projectile_balloon_water_splash)
+            njlic.Sound.destroy(self.puffybird_death1)
+            njlic.Sound.destroy(self.puffybird_death2)
+            njlic.Sound.destroy(self.puffybird_taunt1)
+            njlic.Sound.destroy(self.puffybird_taunt2)
+            njlic.Sound.destroy(self.puffybird_taunt3)
+            njlic.Sound.destroy(self.puffybird_taunt4)
+            njlic.Sound.destroy(self.puffybird_taunt5)
+            njlic.Sound.destroy(self.webobird_death2)
+            njlic.Sound.destroy(self.webobird_taunt1)
+            njlic.Sound.destroy(self.webobird_taunt2)
+            njlic.Sound.destroy(self.webobird_taunt3)
+            njlic.Sound.destroy(self.webobird_taunt4)
+            njlic.Sound.destroy(self.zurubird_death1)
+            njlic.Sound.destroy(self.zurubird_death2)
+            njlic.Sound.destroy(self.zurubird_taunt1)
+            njlic.Sound.destroy(self.zurubird_taunt2)
+            njlic.Sound.destroy(self.zurubird_taunt3)
+            njlic.Sound.destroy(self.zurubird_taunt4)
+            njlic.Sound.destroy(self.zurubird_taunt5)
+        end
+
+        return object
+    end
+}
 local YappyBirdUi = {
     new = function(...)
         local arg=... or {}
@@ -60,7 +282,9 @@ local YappyBirdUi = {
         local object = {
             orthographicCamera = camera,
             interfaceTexturePacker = TexturePacker({file="interface0"}),
-            ui = UserInterface({backgroundSoundFileName="sounds/interface_menu-theme.ogg"}),
+            -- ui = UserInterface({backgroundSoundFileName="sounds/interface_menu-theme.ogg"}),
+
+            ui = UserInterface({backgroundSound=game.ybSound.interface_menu_theme}),
             game = game
         }
 
@@ -135,7 +359,8 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
-              upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
           })
           local width = (restartButtonRect:x() / 3.0) 
           local height = (restartButtonRect:y() / 3.0) 
@@ -159,7 +384,8 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
-              upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
           })
           local width = (quitButtonRect:x() / 3.0) 
           local height = (quitButtonRect:y() / 3.0) 
@@ -186,7 +412,8 @@ local YappyBirdUi = {
                   end,
                   scale = 7,
                   enabled = true,
-                  upSoundFileName = "sounds/interface_select-whoosh.ogg",
+                  --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+                  soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
               })
               local width = (nextLevelButtonRect:x() / 3.0) 
               local height = (nextLevelButtonRect:y() / 3.0) 
@@ -241,7 +468,8 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
-              upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
           })
           local width = (restartButtonRect:x() / 3.0) 
           local height = (restartButtonRect:y() / 3.0) 
@@ -265,7 +493,8 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
-              upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
           })
           local width = (quitButtonRect:x() / 3.0) 
           local height = (quitButtonRect:y() / 3.0) 
@@ -322,7 +551,8 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
-              upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              soundTouchUpInside = object.game.ybSound.interface_previous_click,
           })
           local width = (backButtonRect:x() / 3.0) 
           local height = (backButtonRect:y() / 3.0) 
@@ -364,7 +594,8 @@ local YappyBirdUi = {
                   end,
                   scale = 7,
                   enabled = enabled,
-                  upSoundFileName = "sounds/interface_select-whoosh.ogg",
+                  --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+                  soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
               })
               local width = (buttonRect:x() / 3.5) 
               local height = (buttonRect:y() / 3.5) 
@@ -409,7 +640,8 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
-              upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
           })
           local width = (playButtonRect:x() / 3.0) 
           local height = (playButtonRect:y() / 3.0) 
@@ -466,7 +698,8 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
-              upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              soundTouchUpInside = object.game.ybSound.interface_previous_click,
           })
           local width = (backButtonRect:x() / 3.0) 
           local height = (backButtonRect:y() / 3.0) 
@@ -508,7 +741,8 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = false,
-              upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
           })
           local width = (timeAttackButtonRect:x() / 3.0) 
           local height = (timeAttackButtonRect:y() / 3.0) 
@@ -534,7 +768,8 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
-              upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
           })
           local width = (arcadeButtonRect:x() / 3.0) 
           local height = (arcadeButtonRect:y() / 3.0) 
@@ -560,7 +795,8 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = false,
-              upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
           })
           local width = (survivalButtonRect:x() / 3.0) 
           local height = (survivalButtonRect:y() / 3.0) 
@@ -601,7 +837,8 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
-              upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              soundTouchUpInside = object.game.ybSound.interface_previous_click,
           })
           local width = (backButtonRect:x() / 3.0) 
           local height = (backButtonRect:y() / 3.0) 
@@ -643,7 +880,8 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = true,
-              upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
           })
           local width = (portraitButtonRect:x() / 3.0) 
           local height = (portraitButtonRect:y() / 3.0) 
@@ -670,7 +908,8 @@ local YappyBirdUi = {
               end,
               scale = 7,
               enabled = false,
-              upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+              soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
           })
           local width = (cityButtonRect:x() / 3.0) 
           local height = (cityButtonRect:y() / 3.0) 
@@ -1032,10 +1271,10 @@ local Beak = {
         bird.node:addChildNode(self.node)
 ----        njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
 
-        self.sound = njlic.Sound.create()
-        self.sound:setName(string.format("%sbird_beak_sound_%05d", self.birdName, self.index))
-        local soundName = "sounds/projectile_balloon_water-splash.ogg"
-        njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
+        -- self.sound = njlic.Sound.create()
+        -- self.sound:setName(string.format("%sbird_beak_sound_%05d", self.birdName, self.index))
+        -- local soundName = "sounds/projectile_balloon_water-splash.ogg"
+        -- njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
 
       else
       end
@@ -1044,7 +1283,7 @@ local Beak = {
 
     function beak:unload()
 
-      njlic.Sound.destroy(self.sound)
+      -- njlic.Sound.destroy(self.sound)
 
       njlic.Clock.destroy(self.animationClock)
       njlic.Action.destroy(self.action)
@@ -1238,10 +1477,10 @@ local Bird = {
         self.physicsBody:setPhysicsShape(self.physicsShape)
         self.physicsBody:setKinematicPhysics()
 
-        self.sound = njlic.Sound.create()
-        self.sound:setName(string.format("%sbird_sound_%05d", self.birdName, self.index))
-        local soundName = "sounds/projectile_balloon_water-splash.ogg"
-        njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
+        -- self.sound = njlic.Sound.create()
+        -- self.sound:setName(string.format("%sbird_sound_%05d", self.birdName, self.index))
+        -- local soundName = "sounds/projectile_balloon_water-splash.ogg"
+        -- njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
 
 
         self.steeringBehaviourMachine = njlic.SteeringBehaviorMachineDithered.create()
@@ -1564,7 +1803,7 @@ local Bird = {
       njlic.SteeringBehaviorOffsetPursuit.destroy(self.steeringBehaviorOffsetPursuit)
       njlic.SteeringBehaviorMachineDithered.destroy(self.steeringBehaviourMachine)
 
-      njlic.Sound.destroy(self.sound)
+      -- njlic.Sound.destroy(self.sound)
 
       njlic.PhysicsBodyRigid.destroy(self.physicsBody)
       njlic.PhysicsShapeSphere.destroy(self.physicsShape)
@@ -1805,10 +2044,10 @@ local Balloon = {
       self.physicsBody:setPhysicsShape(self.physicsShape)
       self.physicsBody:setDynamicPhysics()
 
-      self.sound = njlic.Sound.create()
-      self.sound:setName("balloonsound_"..self.index)
-      local soundName = "sounds/projectile_balloon_water-splash.ogg"
-      njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
+      -- self.sound = njlic.Sound.create()
+      -- self.sound:setName("balloonsound_"..self.index)
+      -- local soundName = "sounds/projectile_balloon_water-splash.ogg"
+      -- njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
 
       local stateMachine = StateMachine.new(self)
 
@@ -1851,7 +2090,7 @@ local Balloon = {
           end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.bird) then
-                  self.sound:play()
+                  -- self.sound:play()
                   self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
               end
           end,
@@ -1886,7 +2125,7 @@ local Balloon = {
     end
 
     function balloon:unload()
-      njlic.Sound.destroy(self.sound)
+      -- njlic.Sound.destroy(self.sound)
 
       njlic.PhysicsBodyRigid.destroy(self.physicsBody)
       njlic.PhysicsShapeSphere.destroy(self.physicsShape)
@@ -2089,10 +2328,10 @@ local Dog = {
         self.physicsBody:setPhysicsShape(self.physicsShape)
         self.physicsBody:setKinematicPhysics()
 
-        self.sound = njlic.Sound.create()
-        self.sound:setName("dog_sound_"..self.index)
-        local soundName = "sounds/projectile_balloon_water-splash.ogg"
-        njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
+        -- self.sound = njlic.Sound.create()
+        -- self.sound:setName("dog_sound_"..self.index)
+        -- local soundName = "sounds/projectile_balloon_water-splash.ogg"
+        -- njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
 
         self.steeringBehaviourMachine = njlic.SteeringBehaviorMachineWeighted.create()
         self.steeringBehaviourFollowPath = njlic.SteeringBehaviorFollowPath.create()
@@ -2243,10 +2482,10 @@ local Dog = {
 
     function dog:unload()
       njlic.PhysicsConstraintPointToPoint.destroy(self.constraint)
-      njlic.Sound.destroy(self.sound)
+      -- njlic.Sound.destroy(self.sound)
 
 
-      njlic.Sound.destroy(self.sound)
+      -- njlic.Sound.destroy(self.sound)
       njlic.SteeringBehaviorMachineWeighted.destroy(self.steeringBehaviourMachine)
       njlic.SteeringBehaviorFollowPath.destroy(self.steeringBehaviourFollowPath)
       njlic.SteeringBehaviorEvade.destroy(self.steeringBehaviorEvade)
@@ -2640,6 +2879,11 @@ local YappyBirds = {
 
       self.interfaceTexturePacker = TexturePacker({file="interface0"})
 
+      self.ybSound = YappyBirdsSound.new()
+
+      self.ybSound:load()
+
+
       -- self.ui = UserInterface()
       self.ybUi = YappyBirdUi.new({camera=self.orthographicCamera, game=self})
 
@@ -2663,7 +2907,8 @@ local YappyBirds = {
           end,
           scale = 10,
           enabled = true,
-          upSoundFileName = "sounds/interface_select-whoosh.ogg",
+          --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+          soundTouchUpInside = self.ybSound.interface_select_whoosh,
       })
       local vert_margin = njlic.SCREEN():y() / 30.0
       local horiz_margin = njlic.SCREEN():x() / 60.0
@@ -3098,14 +3343,18 @@ local YappyBirds = {
             end
 
             self.spawnMachine:reset(self.orthographicCamera)
+            self.ybSound.interface_gameplay_theme:stop()
         end
     end
 
     function game:start(yappyBirdsUi)
 
+
         self.yappyBirdsUi = yappyBirdsUi
 
       if not self.run then
+          self.ybSound.interface_gameplay_theme:play()
+          self.ybSound.interface_gameplay_theme:enableLooping()
 
           self.canPursue = true
 
@@ -3738,7 +3987,7 @@ local TestSound = {
         }
 
         function test:load()
-            self.backgroundSoundFileName = "sounds/interface_menu-theme.ogg"
+            self.backgroundSoundFileName = "sounds/interface_menu_theme.ogg"
             self.backgroundSound = njlic.Sound.create()
             self.backgroundSound:enableLooping()
             njlic.World.getInstance():getWorldResourceLoader():load(self.backgroundSoundFileName, self.backgroundSound)
