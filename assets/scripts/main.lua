@@ -4,6 +4,13 @@ local BitmapFont = require 'NJLIC.BitmapFont'
 local TexturePacker = require "NJLIC.TexturePacker"
 local UserInterface = require "NJLIC.UserInterface"
 
+local YappyBirdFont = BitmapFont({
+    names={
+        "Ranchers", 
+    },
+    maxadvance=160
+})
+
 -- local function DrawButton(...)
 --     local arg = ... or {}
 -- 
@@ -175,8 +182,8 @@ local YappyBirdsSound = {
             self.puffybird_taunt5 = njlic.Sound.create()
             njlic.World.getInstance():getWorldResourceLoader():load("sounds/puffybird_taunt5.ogg", self.puffybird_taunt5)
 
-            self.webobird_death2 = njlic.Sound.create()
-            njlic.World.getInstance():getWorldResourceLoader():load("sounds/webobird_death2.ogg", self.webobird_death2)
+            self.webobird_death1 = njlic.Sound.create()
+            njlic.World.getInstance():getWorldResourceLoader():load("sounds/webobird_death1.ogg", self.webobird_death1)
 
             self.webobird_taunt1 = njlic.Sound.create()
             njlic.World.getInstance():getWorldResourceLoader():load("sounds/webobird_taunt1.ogg", self.webobird_taunt1)
@@ -252,7 +259,7 @@ local YappyBirdsSound = {
             njlic.Sound.destroy(self.puffybird_taunt3)
             njlic.Sound.destroy(self.puffybird_taunt4)
             njlic.Sound.destroy(self.puffybird_taunt5)
-            njlic.Sound.destroy(self.webobird_death2)
+            njlic.Sound.destroy(self.webobird_death1)
             njlic.Sound.destroy(self.webobird_taunt1)
             njlic.Sound.destroy(self.webobird_taunt2)
             njlic.Sound.destroy(self.webobird_taunt3)
@@ -922,27 +929,52 @@ local YappyBirdUi = {
       end
 
       local createWinTimeAttack = function(UI, texturePacker, camera, result, object)
-          return createWin(UI, texturePacker, camera, result, object)
+          local nodes = createWin(UI, texturePacker, camera, result, object)
+          return nodes
       end
 
       local createWinArcade = function(UI, texturePacker, camera, result, object)
-          return createWin(UI, texturePacker, camera, result, object)
+
+          local nodes = createWin(UI, texturePacker, camera, result, object)
+
+
+          local text = string.format("It was %s", "just ok")
+          -- text = "JAMES FOLK"
+
+          -- print("createWinArcade")
+          local displayNode, displayNodeRect = YappyBirdFont:printf({
+              mainNode=nil,
+              text=text,
+              align="center",
+              maxwidth=(njlic.SCREEN():x()),
+          })
+          local vert_margin = njlic.SCREEN():y() / 30.0
+          local horiz_margin = njlic.SCREEN():x() / 60.0
+          displayNode:setOrigin(bullet.btVector3(horiz_margin * 1, njlic.SCREEN():y() * 0.5, -1))
+
+          table.insert(nodes, displayNode)
+
+          return nodes, displayNode
       end
 
       local createWinSurvival = function(UI, texturePacker, camera, result, object)
-          return createWin(UI, texturePacker, camera, result, object)
+          local nodes = createWin(UI, texturePacker, camera, result, object)
+          return nodes
       end
 
       local createLoseTimeAttack = function(UI, texturePacker, camera, result, object)
-          return createLose(UI, texturePacker, camera, result, object)
+          local nodes = createLose(UI, texturePacker, camera, result, object)
+          return nodes
       end
 
       local createLoseArcade = function(UI, texturePacker, camera, result, object)
-          return createLose(UI, texturePacker, camera, result, object)
+          local nodes = createLose(UI, texturePacker, camera, result, object)
+          return nodes
       end
 
       local createLoseSurvival = function(UI, texturePacker, camera, result, object)
-          return createLose(UI, texturePacker, camera, result, object)
+          local nodes = createLose(UI, texturePacker, camera, result, object)
+          return nodes
       end
 
       object.ui:load()
@@ -966,7 +998,7 @@ local YappyBirdUi = {
       object.winTimeAttackNodes = createWinTimeAttack(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result, object)
       HideNodes({nodes=object.winTimeAttackNodes, camera=object.orthographicCamera})
 
-      object.winArcadeNodes = createWinArcade(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result, object)
+      object.winArcadeNodes, object.bfNode = createWinArcade(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result, object)
       HideNodes({nodes=object.winArcadeNodes, camera=object.orthographicCamera})
 
       object.winSurvivalNodes = createWinSurvival(object.ui, object.interfaceTexturePacker, object.orthographicCamera, result, object)
@@ -1049,10 +1081,35 @@ local YappyBirdUi = {
           ShowNodes({nodes=self.winTimeAttackNodes, camera=self.orthographicCamera})
       end
 
-      function object:showWinArcade()
+      function object:showWinArcade(balloonsHit, balloonsThrown, percentage)
+
           self.ui:playBackgroundSound()
 
           self:hideAll()
+
+          local text = ""
+
+          wordStatusFormat = "You threw %.0f ballons and made contact with %.0f of those ballons. \nYour accuracy is %.0f%%!  \n%s" 
+
+          if percentage == 100.0 then
+              wordStatus = "Perfect!"
+          elseif percentage >= 60.0 then
+              wordStatus = "OK!"
+          else
+              wordStatus = "You Passed!"
+          end
+
+          text = string.format(wordStatusFormat, balloonsThrown, balloonsHit, percentage, wordStatus)
+
+          print("showWinArcade")
+          self.bfNode, self.bfNodeNodeRect = YappyBirdFont:printf({
+              mainNode=self.bfNode,
+              text=text,
+              align="center",
+              maxwidth=(njlic.SCREEN():x()),
+          })
+          self.bfNode:setOrigin(bullet.btVector3(njlic.SCREEN():x() * 0.5, njlic.SCREEN():y() * 0.5, -1))
+
           ShowNodes({nodes=self.winArcadeNodes, camera=self.orthographicCamera})
       end
 
@@ -1223,7 +1280,7 @@ local Beak = {
       params = params,
       ANIMATION_STATES={grab="grab",hit="hit",idle="idle"},
       birdName=birdName,
-      STATEMACHINE_STATES={grab="grab",hit="hit",idle="idle",yap="yap"},
+      STATEMACHINE_STATES={idle="idle",yap="yap"},
       currentAnimationState=nil
     }
 
@@ -1269,6 +1326,7 @@ local Beak = {
         self.animationClock = njlic.Clock.create()
 
         bird.node:addChildNode(self.node)
+        self.bird = bird
 ----        njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
 
         -- self.sound = njlic.Sound.create()
@@ -1278,6 +1336,42 @@ local Beak = {
 
       else
       end
+
+
+      local stateMachine = StateMachine.new(self)
+
+      stateMachine:addState(self.STATEMACHINE_STATES.yap, {
+          enter = function()
+              print("beak yap enter")
+          end,
+          exit = function()
+          end,
+          update = function(timeStep)
+              -- print("beak yap update")
+              if nil ~= self.birdSFX then
+                  if not self.birdSFX:isPlaying() then
+                      self.stateMachine:switchStates(self.STATEMACHINE_STATES.idle)
+                  end
+              end
+          end,
+          collide = function(colliderEntity, collisionPoint)
+          end,
+        })
+
+      stateMachine:addState(self.STATEMACHINE_STATES.idle, {
+          enter = function()
+              print("beak idle enter")
+          end,
+          exit = function()
+          end,
+          update = function(timeStep)
+              -- print("beak idle update")
+          end,
+          collide = function(colliderEntity, collisionPoint)
+          end,
+        })
+
+      self.stateMachine = stateMachine
 
     end
 
@@ -1309,6 +1403,11 @@ local Beak = {
 
     end
 
+    function beak:taunt()
+      self.stateMachine:switchStates(self.STATEMACHINE_STATES.yap)
+      self.birdSFX = self.bird:playTaunt()
+    end
+
     function beak:spawn(...)
       local arg=... or {}
 
@@ -1318,6 +1417,8 @@ local Beak = {
       self:show()
       self.node:runAction(self.action)
       self.currentAnimationState=self.ANIMATION_STATES.idle
+
+      self.stateMachine:switchStates(self.STATEMACHINE_STATES.idle)
     end
 
     function beak:kill(...)
@@ -1342,19 +1443,28 @@ local Beak = {
     end
 
     function beak:incrementAnimationFrame()
-      self.currentFrame = self.currentFrame + 1
-      if(self.currentFrame > 8) then self.currentFrame = 0 end
+        if self.stateMachine.currentStateName ~= "idle" then
+            self.currentFrame = self.currentFrame + 1
+        end
 
-      local name = self:getFrameName()
-      if self.texturePacker[1]:has({name=name}) then
-        self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
-      elseif self.texturePacker[2]:has({name=name}) then
-        self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
-      end
+        if(self.currentFrame > 8) then self.currentFrame = 0 end
+
+        local name = self:getFrameName()
+        if self.texturePacker[1]:has({name=name}) then
+            self.node = self.texturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
+        elseif self.texturePacker[2]:has({name=name}) then
+            self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
+        end
+
+        -- print(self.stateMachine.currentStateName)
+    end
+
+    function beak:collide(colliderEntity, collisionPoint)
+      self.stateMachine:collide(colliderEntity, collisionPoint)
     end
 
     function beak:update(timeStep)
-
+        self.stateMachine:update(timeStep)
     end
 
     return beak
@@ -1440,6 +1550,8 @@ local Bird = {
       elseif self.texturePacker[2]:has({name=name}) then
         self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
       end
+
+      self.sfxClock = njlic.Clock.create()
 
       if self.node then
 
@@ -1580,7 +1692,8 @@ local Bird = {
               self.beak:hide()
               self.physicsBody:setDynamicPhysics()
               self.steeringBehaviourMachine:enable(false)
-                        end,
+              -- self.beak:taunt()
+          end,
           exit = function()
               self.beak:show()
               self.steeringBehaviourMachine:enable(true)
@@ -1613,7 +1726,7 @@ local Bird = {
               elseif self.currentFrame == 8 then
               end
 
-            self.physicsBody:applyForce(bullet3.btVector3(0,y_force,0), true)
+              self.physicsBody:applyForce(bullet3.btVector3(0,y_force,0), true)
           end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
@@ -1665,6 +1778,9 @@ local Bird = {
               self.physicsBody:setMass(1000)
               self.physicsBody:setCollisionGroup(CollisionGroups.none)
               self.physicsBody:setCollisionMask(CollisionMasks.none)
+              self:playDeath()
+
+              self.game.balloonsHit = self.game.balloonsHit + 1
           end,
           exit = function()
           end,
@@ -1697,6 +1813,8 @@ local Bird = {
 
                 self.collided = false
                 self.dogAttacked = nil
+
+                  self.beak:taunt()
           end,
           exit = function()
               njlic.Timer.destroy(self.pursueTimer)
@@ -1792,7 +1910,173 @@ local Bird = {
 
     end
 
+    function bird:playSfx(sfx)
+        local sfxTime = (3.0 * 1000)
+        if (self.sfxClock:getTimeMilliseconds() > sfxTime) then
+            if sfx ~= nil then
+                self.sfxClock:reset()
+                sfx:play()
+            end
+        end
+    end
+
+    function bird:isChubi()
+        return self.birdName == "chubi"
+    end
+
+    function bird:isGaru()
+        return self.birdName == "garu" 
+    end
+
+    function bird:isMomi()
+        return self.birdName == "momi"
+    end
+
+    function bird:isPuffy()
+        return self.birdName == "puffy"
+    end
+
+    function bird:isWebo()
+        return self.birdName == "webo"
+    end
+
+    function bird:isZuru()
+        return self.birdName == "zuru"
+    end
+
+    function bird:playDeath()
+        if self:isChubi() then
+            local idx = math.random(1, 2)
+
+            if idx == 1 then
+                self:playSfx(self.game.ybSound.chubibird_death1)
+            elseif idx == 2 then
+                self:playSfx(self.game.ybSound.chubibird_death2)
+            end
+        elseif self:isGaru() then
+            local idx = math.random(1, 2)
+
+            if idx == 1 then
+                self:playSfx(self.game.ybSound.garubird_death1)
+            elseif idx == 2 then
+                self:playSfx(self.game.ybSound.garubird_death2)
+            end
+        elseif self:isMomi() then
+            self:playSfx(self.game.ybSound.momibird_death1)
+        elseif self:isPuffy() then
+            local idx = math.random(1, 2)
+
+            if idx == 1 then
+                self:playSfx(self.game.ybSound.puffybird_death1)
+            elseif idx == 2 then
+                self:playSfx(self.game.ybSound.puffybird_death2)
+            end
+        elseif self:isWebo() then
+            self:playSfx(self.game.ybSound.webobird_death1)
+        elseif self:isZuru() then
+            local idx = math.random(1, 2)
+
+            if idx == 1 then
+                self:playSfx(self.game.ybSound.zurubird_death1)
+            elseif idx == 2 then
+                self:playSfx(self.game.ybSound.zurubird_death2)
+            end
+        end
+    end
+
+    function bird:playTaunt()
+        local snd = nil
+
+        if self:isChubi() then
+            local idx = math.random(1, 4)
+
+            if idx == 1 then
+                snd = self.game.ybSound.chubibird_taunt1
+            elseif idx == 2 then
+                snd = self.game.ybSound.chubibird_taunt2
+            elseif idx == 3 then
+                snd = self.game.ybSound.chubibird_taunt3
+            elseif idx == 4 then
+                snd = self.game.ybSound.chubibird_taunt4
+            end
+        elseif self:isGaru() then
+            local idx = math.random(1, 2)
+
+            if idx == 1 then
+                snd = self.game.ybSound.garubird_taunt1
+            elseif idx == 2 then
+                snd = self.game.ybSound.garubird_taunt2
+            elseif idx == 3 then
+                snd = self.game.ybSound.garubird_taunt3
+            elseif idx == 4 then
+                snd = self.game.ybSound.garubird_taunt4
+            elseif idx == 5 then
+                snd = self.game.ybSound.garubird_taunt5
+            elseif idx == 6 then
+                snd = self.game.ybSound.garubird_taunt6
+            end
+        elseif self:isMomi() then
+            local idx = math.random(1, 4)
+
+            if idx == 1 then
+                snd = self.game.ybSound.momibird_taunt1
+            elseif idx == 2 then
+                snd = self.game.ybSound.momibird_taunt2
+            elseif idx == 3 then
+                snd = self.game.ybSound.momibird_taunt3
+            elseif idx == 4 then
+                snd = self.game.ybSound.momibird_taunt4
+            end
+        elseif self:isPuffy() then
+            local idx = math.random(1, 2)
+
+            if idx == 1 then
+                snd = self.game.ybSound.puffybird_taunt1
+            elseif idx == 2 then
+                snd = self.game.ybSound.puffybird_taunt2
+            elseif idx == 3 then
+                snd = self.game.ybSound.puffybird_taunt3
+            elseif idx == 4 then
+                snd = self.game.ybSound.puffybird_taunt4
+            elseif idx == 5 then
+                snd = self.game.ybSound.puffybird_taunt5
+            end
+        elseif self:isWebo() then
+            local idx = math.random(1, 4)
+
+            if idx == 1 then
+                snd = self.game.ybSound.webobird_taunt1
+            elseif idx == 2 then
+                snd = self.game.ybSound.webobird_taunt2
+            elseif idx == 3 then
+                snd = self.game.ybSound.webobird_taunt3
+            elseif idx == 4 then
+                snd = self.game.ybSound.webobird_taunt4
+            end
+        elseif self:isZuru() then
+            local idx = math.random(1, 2)
+
+            if idx == 1 then
+                snd = self.game.ybSound.zurubird_taunt1
+            elseif idx == 2 then
+                snd = self.game.ybSound.zurubird_taunt2
+            elseif idx == 3 then
+                snd = self.game.ybSound.zurubird_taunt3
+            elseif idx == 4 then
+                snd = self.game.ybSound.zurubird_taunt4
+            elseif idx == 5 then
+                snd = self.game.ybSound.zurubird_taunt5
+            end
+        end
+
+        if nil ~= snd then
+            self:playSfx(snd)
+        end
+        return snd
+    end
+
     function bird:unload()
+      njlic.Clock.destroy(self.sfxClock)
 
       self.beak:unload()
 
@@ -1929,6 +2213,8 @@ local Bird = {
       end
 
       self.stateMachine:update(timeStep)
+
+      self.beak:update(timeStep)
 
     end
 
@@ -2226,6 +2512,7 @@ local Balloon = {
   end
 }
 
+
 local Dog = {
   new = function(...)
     local arg=... or {}
@@ -2291,10 +2578,11 @@ local Dog = {
         self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
       end
 
+      aabbMin, aabbMax = game.levelLoader:getDogWayPointsAabb()
+      self.wayPointAabbMin = aabbMin
+      self.wayPointAabbMax = aabbMax
 
-    aabbMin, aabbMax = game.levelLoader:getDogWayPointsAabb()
-    self.wayPointAabbMin = aabbMin
-    self.wayPointAabbMax = aabbMax
+      self.sfxClock = njlic.Clock.create()
 
       if self.node then
         self.node:setName("dog_node_"..self.index)
@@ -2384,16 +2672,24 @@ local Dog = {
         })
       stateMachine:addState(self.STATEMACHINE_STATES.dazed, {
           enter = function()
-              self.currentAnimationState=self.ANIMATION_STATES.idle
-              self.runClock = njlic.Clock.create()
+              -- self.game.ybSound.dog_bark1
+              -- self.game.ybSound.dog_bark2
+              -- self.game.ybSound.dog_howl1
+              -- self.game.ybSound.dog_whine1
+              self:playSfx(self.game.ybSound.dog_whine1)
 
-                self.steeringBehaviourMachine:clearSteering()
-                self.steeringBehaviourMachine:enable(false)
+              self.currentAnimationState=self.ANIMATION_STATES.idle
+
+              self.steeringBehaviourMachine:clearSteering()
+              self.steeringBehaviourMachine:enable(false)
+
+              self.runClock = njlic.Clock.create()
 
           end,
           exit = function()
               njlic.Clock.destroy(self.runClock)
-                self.steeringBehaviourMachine:enable(true)
+
+              self.steeringBehaviourMachine:enable(true)
           end,
           update = function(timeStep)
               local dazedTime = self.params.Dog.DazedTime
@@ -2409,6 +2705,11 @@ local Dog = {
           enter = function()
               self.currentAnimationState=self.ANIMATION_STATES.idle
               self.physicsBody:setKinematicPhysics()
+              -- self.game.ybSound.dog_bark1
+              -- self.game.ybSound.dog_bark2
+              -- self.game.ybSound.dog_howl1
+              -- self.game.ybSound.dog_whine1
+              self:playSfx(self.game.ybSound.dog_howl1)
           end,
           exit = function()
           end,
@@ -2424,6 +2725,12 @@ local Dog = {
               self.physicsBody:setDynamicPhysics()
               self.constraint:removeConstraint()
               self.steeringBehaviourMachine:enable(false)
+              --
+              -- self.game.ybSound.dog_bark1
+              -- self.game.ybSound.dog_bark2
+              -- self.game.ybSound.dog_howl1
+              -- self.game.ybSound.dog_whine1
+              self:playSfx(self.game.ybSound.dog_bark2)
 
           end,
           exit = function()
@@ -2440,8 +2747,13 @@ local Dog = {
           enter = function()
               self.currentAnimationState=self.ANIMATION_STATES.run
               self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourFollowPath)
-                self.steeringBehaviourMachine:enable(true)
+              self.steeringBehaviourMachine:enable(true)
               self.physicsBody:setKinematicPhysics()
+              -- self.game.ybSound.dog_bark1
+              -- self.game.ybSound.dog_bark2
+              -- self.game.ybSound.dog_howl1
+              -- self.game.ybSound.dog_whine1
+              self:playSfx(self.game.ybSound.dog_bark1)
           end,
           exit = function()
               self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviourFollowPath)
@@ -2480,7 +2792,19 @@ local Dog = {
 
     end
 
+    function dog:playSfx(sfx)
+        local sfxTime = (3.0 * 1000)
+        if (self.sfxClock:getTimeMilliseconds() > sfxTime) then
+            if sfx ~= nil then
+                self.sfxClock:reset()
+                sfx:play()
+            end
+        end
+    end
+
     function dog:unload()
+      njlic.Clock.destroy(self.sfxClock)
+
       njlic.PhysicsConstraintPointToPoint.destroy(self.constraint)
       -- njlic.Sound.destroy(self.sound)
 
@@ -2851,21 +3175,21 @@ local YappyBirds = {
 
 
 
-      self.YappyBirdFont = BitmapFont(
-      {
-        names=
-        {
-        "Ranchers", 
-        },
-        maxadvance=160
-      })
+      -- YappyBirdFont = BitmapFont(
+      -- {
+      --   names=
+      --   {
+      --   "Ranchers", 
+      --   },
+      --   maxadvance=160
+      -- })
 
       -- print_r(self.YappyBirdFont)
 
 
 
-      self.displayNode, self.displayNodeRect = self.YappyBirdFont:printf({
-        mainNode=self.displayNode,
+      self.displayNode, self.displayNodeRect = YappyBirdFont:printf({
+        mainNode=nil,
         text="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
         align="Left",
         maxwidth=(njlic.SCREEN():x()),
@@ -2903,7 +3227,9 @@ local YappyBirds = {
               print("pausedown")
           end,
           up = function()
-              print("pauseup")
+              local paused = njlic.World.getInstance():isPausedGame()
+              print("pause up", paused)
+              njlic.World.getInstance():enablePauseGame(not paused)
           end,
           scale = 10,
           enabled = true,
@@ -3199,6 +3525,7 @@ local YappyBirds = {
 
       if self.run then
 
+
           if self.win then
               self:stop()
 
@@ -3221,7 +3548,12 @@ local YappyBirds = {
               if self.yappyBirdsUi.mode == "timeattack" then
                   self.yappyBirdsUi:showWinTimeAttack()
               elseif self.yappyBirdsUi.mode == "arcade" then
-                  self.yappyBirdsUi:showWinArcade()
+                  local percentage = 0
+                  if self.balloonsThrown > 0 then
+                      percentage = ((self.balloonsHit / self.balloonsThrown ) * 100.0)
+                  end
+
+                  self.yappyBirdsUi:showWinArcade(self.balloonsHit, self.balloonsThrown, percentage)
               elseif self.yappyBirdsUi.mode == "survival" then
                   self.yappyBirdsUi:showWinSurvival()
               end
@@ -3244,7 +3576,17 @@ local YappyBirds = {
         local number_words = njlic.convertToWords(self.spawnMachine:birdsLeftToSpawn())
       local birdsLeft = string.format("There are %s birds left.", number_words)
 
-      self.displayNode, self.displayNodeRect = self.YappyBirdFont:printf(birdsLeft)
+      local displayWords = not(self.win == true or self.lose == true)
+
+      if displayWords then
+
+          self.displayNode, self.displayNodeRect = YappyBirdFont:printf({
+            mainNode=self.displayNode,
+            text=birdsLeft,
+            align="Left",
+            maxwidth=(njlic.SCREEN():x()),
+          })
+      end
       -- self.displayNode:show(self.orthographicCamera)
 
         if self.spawnMachine.done then
@@ -3266,18 +3608,17 @@ local YappyBirds = {
     end
 
     function game:updateAction(action, timeStep)
-      local node = action:getParent()
+        local node = action:getParent()
 
-      local gameEntity = self.spawnMachine:gameEntity(node:getName())
+        local gameEntity = self.spawnMachine:gameEntity(node:getName())
 
-      if gameEntity then
-        local animationClock = gameEntity.animationClock
-        if (animationClock:getTimeMilliseconds() / 1000) > (1.0 / gameEntity.fps) then
-          animationClock:reset()
-          gameEntity:incrementAnimationFrame()
+        if nil ~= gameEntity then
+            local animationClock = gameEntity.animationClock
+            if (animationClock:getTimeMilliseconds() / 1000) > (1.0 / gameEntity.fps) then
+                animationClock:reset()
+                gameEntity:incrementAnimationFrame()
+            end
         end
-
-      end
     end
 
     function game:click(x, y)
@@ -3291,7 +3632,10 @@ local YappyBirds = {
             dimensions = dimensions,
             direction = self.perspectiveCamera:getForwardVector(),
           })
+
         if not queued then
+        else
+            self.balloonsThrown = self.balloonsThrown + 1
         end
 
       end
@@ -3348,7 +3692,8 @@ local YappyBirds = {
     end
 
     function game:start(yappyBirdsUi)
-
+        self.balloonsThrown = 0
+        self.balloonsHit = 0
 
         self.yappyBirdsUi = yappyBirdsUi
 
@@ -3723,6 +4068,8 @@ local TestDebugDraw = {
 local TestFont = {
   new = function()
     local test = {
+        align = 'left',
+        iteration = 1,
     }
 
     function test:load()
@@ -3745,24 +4092,45 @@ local TestFont = {
 
       rootNode:addChildNode(self.orthographicCameraNode)
 
-      self.YappyBirdFont = BitmapFont(
-      {
-        names=
-        {
-        "Ranchers", 
-        },
-        maxadvance=160
-      })
+      -- self.YappyBirdFont = BitmapFont(
+      -- {
+      --   names=
+      --   {
+      --   "Ranchers", 
+      --   },
+      --   maxadvance=160
+      -- })
 
-      self.displayNode, self.displayNodeRect = self.YappyBirdFont:printf({
+
+
+
+
+      local percentage = 100.0
+      wordStatusFormat = "You threw %.0f ballons and made contact with %.0f of those ballons.\nYour accuracy is %.0f%%!\n%s" 
+
+      if percentage == 100.0 then
+          wordStatus = "Perfect!"
+      elseif percentage >= 60.0 then
+          wordStatus = "OK!"
+      else
+          wordStatus = "You Passed!"
+      end
+
+      text = string.format(wordStatusFormat, 10, 10, percentage, wordStatus)
+
+      self.displayNode, self.displayNodeRect = YappyBirdFont:printf({
         mainNode=self.displayNode,
-        text="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
-        align="Left",
+        text=text,
+        align="center",
         maxwidth=(njlic.SCREEN():x()),
       })
       local vert_margin = njlic.SCREEN():y() / 30.0
       local horiz_margin = njlic.SCREEN():x() / 60.0
-      self.displayNode:setOrigin(bullet.btVector3(horiz_margin * 1, vert_margin * 1, -1))
+
+      local x = 0.0 -- njlic.SCREEN():x() - self.displayNodeRect.width
+      local y = 0.0 -- self.displayNodeRect.height --(vert_margin * 10)
+
+      self.displayNode:setOrigin(bullet.btVector3(x, y, -1))
       self.displayNode:show(self.orthographicCamera)
 self.totalTimeStep = 0
     end
@@ -3775,9 +4143,39 @@ self.totalTimeStep = 0
     function test:update(timestep)
       njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 1.000)
       local message = string.format("The timestep is %f. The total amount accumulated is %f.", timestep, self.totalTimeStep)
-      self.displayNode, self.displayNodeRect = self.YappyBirdFont:printf(message)
+      
+      -- self.displayNode, self.displayNodeRect = YappyBirdFont:printf(message)
 
         self.totalTimeStep = self.totalTimeStep + timestep
+
+      local percentage = 100.0
+      wordStatusFormat = "You threw %.0f ballons and made contact with %.0f of those ballons.\nYour accuracy is %.0f%%!\n%s" 
+
+      if percentage == 100.0 then
+          wordStatus = "Perfect!"
+      elseif percentage >= 60.0 then
+          wordStatus = "OK!"
+      else
+          wordStatus = "You Passed!"
+      end
+
+      text = string.format(wordStatusFormat, 10, 10, percentage, wordStatus)
+
+      local align = "left"
+      if math.modf(self.iteration, 3) == 0 then
+          align = "center"
+      elseif math.modf(self.iteration, 3) == 1 then
+          align = "right"
+      end
+      self.iteration = self.iteration + 1
+
+      self.displayNode, self.displayNodeRect = YappyBirdFont:printf({
+        mainNode=self.displayNode,
+        text=text,
+        align="center",
+        maxwidth=(njlic.SCREEN():x()),
+      })
+
     end
 
   function test:collide(node, otherNode, collisionPoint)
@@ -3987,7 +4385,7 @@ local TestSound = {
         }
 
         function test:load()
-            self.backgroundSoundFileName = "sounds/interface_menu_theme.ogg"
+            self.backgroundSoundFileName = "sounds/interface_gameplay_theme.ogg"
             self.backgroundSound = njlic.Sound.create()
             self.backgroundSound:enableLooping()
             njlic.World.getInstance():getWorldResourceLoader():load(self.backgroundSoundFileName, self.backgroundSound)
@@ -4033,6 +4431,104 @@ local TestSound = {
 }
 
 
+
+
+
+
+
+
+
+
+local TestBullet = {
+    new = function()
+        local test = {
+
+        }
+
+        function test:load()
+            require "NJLIC.thirdparty.luaunit.lunit"
+
+            local stats = lunit.main(argv)
+            if stats.errors > 0 or stats.failed > 0 then
+                os.exit(1)
+            end
+
+            -- local bullet3_test = require 'NJLIC.unittests.bullet3'
+            -- local assetPath = njlic.ASSET_PATH("fonts/" .. font .. ".lua")
+
+            local vv1 = bullet3.btVector2()
+            local vv2 = bullet3.btVector2()
+            print(vv1)
+            print(vv1 .. tostring(vv2))
+
+            local vvv1 = bullet3.btVector3()
+            local vvv2 = bullet3.btVector3()
+            print(vvv1)
+            print(vvv1 .. tostring(vvv2))
+
+            local vvvv1 = bullet3.btVector4()
+            local vvvv2 = bullet3.btVector4()
+            print(vvvv1)
+            print(vvvv1 .. tostring(vvvv2))
+
+            local q1 = bullet3.btQuaternion()
+            local q2 = bullet3.btQuaternion()
+            print(q1)
+            print(q1 .. tostring(q2))
+            
+            local t1 = bullet3.btTransform(bullet3.btTransform.getIdentity())
+            local t2 = bullet3.btTransform(bullet3.btTransform.getIdentity())
+            print(t1)
+            print(t1 .. tostring(t2))
+
+            local m1 = bullet3.btMatrix3x3()
+            local m2 = bullet3.btMatrix3x3()
+            print(m1)
+            print(m1 .. tostring(m2))
+
+        end
+
+    function test:unload()
+    end
+
+    function test:update(timestep)
+    end
+
+    function test:collide(node, otherNode, collisionPoint)
+    end
+
+    function test:click(x, y)
+    end
+
+    function test:updateAction(action, timeStep)
+    end
+
+    return test
+
+  end
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 local Create = function()
     yappyBirds = YappyBirds.new()
     -- yappyBirds = TestDebugDraw.new()
@@ -4040,6 +4536,7 @@ local Create = function()
     -- yappyBirds = TestTexturePacker.new()
     -- yappyBirds = TestLevelSaver.new()
     -- yappyBirds = TestSound.new()
+    -- yappyBirds = TestBullet.new()
     yappyBirds:load()
 end
 
