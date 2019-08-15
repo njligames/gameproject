@@ -1101,14 +1101,13 @@ local YappyBirdUi = {
 
           text = string.format(wordStatusFormat, balloonsThrown, balloonsHit, percentage, wordStatus)
 
-          print("showWinArcade")
           self.bfNode, self.bfNodeNodeRect = YappyBirdFont:printf({
               mainNode=self.bfNode,
               text=text,
               align="center",
               maxwidth=(njlic.SCREEN():x()),
           })
-          self.bfNode:setOrigin(bullet.btVector3(njlic.SCREEN():x() * 0.5, njlic.SCREEN():y() * 0.5, -1))
+          self.bfNode:setOrigin(bullet.btVector3((njlic.SCREEN():x() * 0.5) - (self.bfNodeNodeRect.width * 0.5), (njlic.SCREEN():y() * 0.5) - (self.bfNodeNodeRect.height * 0.5), -1))
 
           ShowNodes({nodes=self.winArcadeNodes, camera=self.orthographicCamera})
       end
@@ -1342,7 +1341,7 @@ local Beak = {
 
       stateMachine:addState(self.STATEMACHINE_STATES.yap, {
           enter = function()
-              print("beak yap enter")
+              -- print("beak yap enter")
           end,
           exit = function()
           end,
@@ -1360,7 +1359,7 @@ local Beak = {
 
       stateMachine:addState(self.STATEMACHINE_STATES.idle, {
           enter = function()
-              print("beak idle enter")
+              -- print("beak idle enter")
           end,
           exit = function()
           end,
