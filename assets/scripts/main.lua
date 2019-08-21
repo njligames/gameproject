@@ -2340,11 +2340,11 @@ local Balloon = {
       stateMachine:addState(self.STATEMACHINE_STATES.hit, {
           enter = function()
               self.currentAnimationState=self.ANIMATION_STATES.spawn
+              self.spawnMachine:dispose(self)
           end,
           exit = function()
           end,
           update = function(timeStep)
-              self.spawnMachine:dispose(self)
           end,
           collide = function(colliderEntity, collisionPoint)
           end,
@@ -2442,6 +2442,7 @@ local Balloon = {
     end
 
     function balloon:spawn(...)
+      print("spawn balloon")
       local arg=... or {}
 
 
@@ -2453,18 +2454,24 @@ local Balloon = {
       self.node:setPhysicsBody(self.physicsBody)
 
       self.stateMachine:switchStates(self.STATEMACHINE_STATES.spawn)
+      
+      self.game.balloonsActive = self.game.balloonsActive + 1
     end
 
     function balloon:kill(...)
+      -- print("kill balloon")
+
       local arg=... or {}
       self.inplay=false
 
       self.node:removeAction(self.node:getName())
 
+      self.game.balloonsActive = self.game.balloonsActive - 1
 
       self.node:removePhysicsBody()
       self.node:enableTagged(false)
       self:hide()
+      
 
       -- put back to hiding values
     end
@@ -3513,6 +3520,8 @@ local YappyBirds = {
     end
 
     function game:update(timeStep)
+      print(self.balloonsActive)
+      
         local status, err = pcall(self.ybUi:getUi().update, self.ybUi:getUi(), timeStep)
         if not status then error(err) end
 
@@ -3693,6 +3702,7 @@ local YappyBirds = {
     function game:start(yappyBirdsUi)
         self.balloonsThrown = 0
         self.balloonsHit = 0
+        self.balloonsActive = 0
 
         self.yappyBirdsUi = yappyBirdsUi
 
