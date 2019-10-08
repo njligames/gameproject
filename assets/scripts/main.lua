@@ -413,7 +413,8 @@ local YappyBirdUi = {
                   down = function() 
                   end,
                   up = function()
-                      if object.level <= 15 and object.level >= 1 then
+                      if object.level < 15 and object.level >= 1 then
+                          object.level = object.level + 1
                           object:playGame()
                       end
                   end,
@@ -2105,8 +2106,10 @@ local Bird = {
       local dimensions = arg.dimensions or bullet.btVector2(256.0, 256.0)
       local debug = arg.debug or false
       local spawnMachine = arg.spawnMachine or nil
+      local initialVelocity = arg.initialVelocity or 0
 
       self.spawnMachine = spawnMachine
+      self.initialVelocity = initialVelocity
 
       self.inplay=true
 
@@ -2751,6 +2754,7 @@ local Dog = {
         })
       stateMachine:addState(self.STATEMACHINE_STATES.run, {
           enter = function()
+
               self.currentAnimationState=self.ANIMATION_STATES.run
               self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourFollowPath)
               self.steeringBehaviourMachine:enable(true)
@@ -2776,6 +2780,8 @@ local Dog = {
         })
       stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
           enter = function()
+              self.steeringBehaviourMachine:clearSteering()
+
               self.currentAnimationState=self.ANIMATION_STATES.idle
               self.runClock = njlic.Clock.create()
 
@@ -3520,7 +3526,7 @@ local YappyBirds = {
     end
 
     function game:update(timeStep)
-      print(self.balloonsActive)
+      -- print(self.balloonsActive)
       
         local status, err = pcall(self.ybUi:getUi().update, self.ybUi:getUi(), timeStep)
         if not status then error(err) end
@@ -3762,6 +3768,7 @@ local YappyBirds = {
       local dimensions = arg.dimensions or nil
       local debug = arg.debug or true
       local spawnMachine = arg.spawnMachine or nil
+      local initialVelocity = arg.initialVelocity or 0
 
       assert(origin, "origin is nil")
       assert(dimensions, "dimensions is nil")
@@ -3773,7 +3780,8 @@ local YappyBirds = {
               origin=origin,
               dimensions=dimensions,
               debug=debug,
-              spawnMachine=spawnMachine
+              spawnMachine=spawnMachine,
+              initialVelocity=initialVelocity
               })
             return v
           end
@@ -3785,7 +3793,8 @@ local YappyBirds = {
               origin=origin,
               dimensions=dimensions,
               debug=debug,
-              spawnMachine=spawnMachine
+              spawnMachine=spawnMachine,
+              initialVelocity=initialVelocity
               })
             return v
           end
@@ -3797,7 +3806,8 @@ local YappyBirds = {
               origin=origin,
               dimensions=dimensions,
               debug=debug,
-              spawnMachine=spawnMachine
+              spawnMachine=spawnMachine,
+              initialVelocity=initialVelocity
               })
             return v
           end
@@ -3809,7 +3819,8 @@ local YappyBirds = {
               origin=origin,
               dimensions=dimensions,
               debug=debug,
-              spawnMachine=spawnMachine
+              spawnMachine=spawnMachine,
+              initialVelocity=initialVelocity
               })
             return v
           end
@@ -3821,7 +3832,8 @@ local YappyBirds = {
               origin=origin,
               dimensions=dimensions,
               debug=debug,
-              spawnMachine=spawnMachine
+              spawnMachine=spawnMachine,
+              initialVelocity=initialVelocity
               })
             return v
           end
@@ -3833,7 +3845,8 @@ local YappyBirds = {
               origin=origin,
               dimensions=dimensions,
               debug=debug,
-              spawnMachine=spawnMachine
+              spawnMachine=spawnMachine,
+              initialVelocity=initialVelocity
               })
             return v
           end

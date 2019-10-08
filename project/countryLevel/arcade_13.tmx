@@ -8,7 +8,7 @@
   <object id="8" name="chubi" type="birdSpawnPoint" x="1843.36" y="1442.42" width="40.5186" height="4.05186">
    <properties>
     <property name="birdType" value="chubi"/>
-    <property name="initialVelocity" type="float" value="0"/>
+    <property name="initialVelocity" type="float" value="1.2"/>
     <property name="spawnAmount" type="int" value="4"/>
     <property name="timeFrequency" type="int" value="5"/>
     <property name="timeStart" type="int" value="1"/>
@@ -18,7 +18,7 @@
   <object id="13" name="chubi" type="birdSpawnPoint" x="271.002" y="1445.45" width="24.3112">
    <properties>
     <property name="birdType" value="chubi"/>
-    <property name="initialVelocity" type="float" value="0"/>
+    <property name="initialVelocity" type="float" value="1.2"/>
     <property name="spawnAmount" type="int" value="4"/>
     <property name="timeFrequency" type="int" value="5"/>
     <property name="timeStart" type="int" value="0"/>

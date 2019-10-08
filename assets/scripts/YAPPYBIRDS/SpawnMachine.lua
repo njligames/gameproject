@@ -242,6 +242,7 @@ end
 
 function SpawnMachine:queueBird(spawnPointTable)
   
+    local initialVelocity = spawnPointTable.spawnPoint.initialVelocity or 0
   local name = spawnPointTable.spawnPoint.birdType or "puffy"
   local origin = spawnPointTable.spawnPoint.origin or bullet.btVector3(0.0, 0.0, 0.0)
   local dimensions = spawnPointTable.spawnPoint.dimensions or bullet.btVector2(256.0, 256.0)
@@ -254,7 +255,8 @@ function SpawnMachine:queueBird(spawnPointTable)
     dimensions=dimensions,
     visible=false,
     debug=false,
-    spawnMachine=self
+    spawnMachine=self,
+    initialVelocity=initialVelocity
   })
 
   if nil ~= bird then
