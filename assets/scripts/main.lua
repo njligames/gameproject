@@ -3068,6 +3068,7 @@ local YappyBirds = {
         canPursue = true,
         lose = false,
         win = false,
+        paused = false,
     }
 
     function game:loadLevel(stage, levelNum, mode)
@@ -3526,6 +3527,7 @@ local YappyBirds = {
     end
 
     function game:update(timeStep)
+
       -- print(self.balloonsActive)
       
         local status, err = pcall(self.ybUi:getUi().update, self.ybUi:getUi(), timeStep)
@@ -3585,7 +3587,9 @@ local YappyBirds = {
               end
           end
 
-        self.spawnMachine:tick(self, timeStep)
+        if not self.paused then 
+            self.spawnMachine:tick(self, timeStep)
+        end
 
         local number_words = njlic.convertToWords(self.spawnMachine:birdsLeftToSpawn())
       local birdsLeft = string.format("There are %s birds left.", number_words)
@@ -3622,35 +3626,48 @@ local YappyBirds = {
     end
 
     function game:updateAction(action, timeStep)
-        local node = action:getParent()
+        if not self.paused then 
+    
+            local node = action:getParent()
+            local gameEntity = self.spawnMachine:gameEntity(node:getName())
 
-        local gameEntity = self.spawnMachine:gameEntity(node:getName())
-
-        if nil ~= gameEntity then
-            local animationClock = gameEntity.animationClock
-            if (animationClock:getTimeMilliseconds() / 1000) > (1.0 / gameEntity.fps) then
-                animationClock:reset()
-                gameEntity:incrementAnimationFrame()
+            if nil ~= gameEntity then
+                local animationClock = gameEntity.animationClock
+                if (animationClock:getTimeMilliseconds() / 1000) > (1.0 / gameEntity.fps) then
+                    animationClock:reset()
+                    gameEntity:incrementAnimationFrame()
+                end
             end
         end
+    end
+
+    function game:worldGamePause()
+
+        self.paused = true
+    end
+
+    function game:worldGameUnPause()
+
+        self.paused = false
     end
 
     function game:click(x, y)
 
       if self.run and not self.ybUi:getUi():anyTouched() then
 
-        local origin = self.params:originForLayer({x=x, y=y}, 10)
-        local dimensions = self.params:dimensionForLayer()
-        local queued = self.spawnMachine:queueBalloon({
-            origin = origin,
-            dimensions = dimensions,
-            direction = self.perspectiveCamera:getForwardVector(),
-          })
+          if not self.paused then
+              local origin = self.params:originForLayer({x=x, y=y}, 10)
+              local dimensions = self.params:dimensionForLayer()
+              local queued = self.spawnMachine:queueBalloon({
+                  origin = origin,
+                  dimensions = dimensions,
+                  direction = self.perspectiveCamera:getForwardVector(),
+              })
 
-        if not queued then
-        else
-            self.balloonsThrown = self.balloonsThrown + 1
-        end
+              if queued then
+                  self.balloonsThrown = self.balloonsThrown + 1
+              end
+          end
 
       end
 
@@ -4550,6 +4567,13 @@ local TestBullet = {
 
 
 
+local WorldGamePause = function()
+    yappyBirds:worldGamePause()
+end
+
+local WorldGameUnPause = function()
+    yappyBirds:worldGameUnPause()
+end
 
 local Create = function()
     yappyBirds = YappyBirds.new()
@@ -4766,4 +4790,7 @@ RegisterNodeRayMouseUp("NodeRayMouseUp",                         function(rayCon
 RegisterNodeRayMouseMove("NodeRayMouseMove",                     function(rayContact) pcall(NodeRayMouseMove, rayContact) end )
 RegisterNodeRayTouchMissed("NodeRayTouchMissed",                 function(node) pcall(NodeRayTouchMissed, node) end )
 RegisterNodeRayMouseMissed("NodeRayMouseMissed",                 function(node) pcall(NodeRayMouseMissed, node) end )
+
+RegisterWorldGamePause("WorldGamePause", function() pcall(WorldGamePause) end )
+RegisterWorldGameUnPause("WorldGameUnPause", function() pcall(WorldGameUnPause) end )
 
