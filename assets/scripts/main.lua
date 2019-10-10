@@ -2445,7 +2445,7 @@ local Balloon = {
     end
 
     function balloon:spawn(...)
-      print("spawn balloon")
+      -- print("spawn balloon")
       local arg=... or {}
 
 
@@ -3527,8 +3527,6 @@ local YappyBirds = {
     end
 
     function game:update(timeStep)
-
-      -- print(self.balloonsActive)
       
         local status, err = pcall(self.ybUi:getUi().update, self.ybUi:getUi(), timeStep)
         if not status then error(err) end
@@ -3592,7 +3590,21 @@ local YappyBirds = {
         end
 
         local number_words = njlic.convertToWords(self.spawnMachine:birdsLeftToSpawn())
-      local birdsLeft = string.format("There are %s birds left.", number_words)
+        local balloonsAvailable = self.balloonsAvailable or 0
+        local balloonsActive = self.balloonsActive or 0
+
+        local available = balloonsAvailable - balloonsActive
+        local birds_left = njlic.convertToWords(available)
+        local bal = "balloon"
+        if available > 1 then
+            bal = "balloons"
+        end
+        brd = "bird"
+        if self.spawnMachine:birdsLeftToSpawn() > 1 then
+            brd = "birds"
+        end
+
+      local birdsLeft = string.format("You have %s %s and there are %s %s left.", birds_left, bal, number_words, brd)
 
       local displayWords = not(self.win == true or self.lose == true)
 
@@ -3652,8 +3664,24 @@ local YappyBirds = {
     end
 
     function game:click(x, y)
+        local balloonsAvailable = self.balloonsAvailable or 0
+        local balloonsActive = self.balloonsActive or 0
 
-      if self.run and not self.ybUi:getUi():anyTouched() then
+        local hasBalloon = false
+        local available = balloonsAvailable - balloonsActive
+
+        if available > 0 then
+            hasBalloon = true
+        end
+
+        -- print("avaialbe ballooons", available)
+
+      -- print(self.balloonsActive)
+      if not hasBalloon then
+          print("cannot!")
+      end
+
+      if hasBalloon and self.run and not self.ybUi:getUi():anyTouched() then
 
           if not self.paused then
               local origin = self.params:originForLayer({x=x, y=y}, 10)
@@ -3726,6 +3754,7 @@ local YappyBirds = {
         self.balloonsThrown = 0
         self.balloonsHit = 0
         self.balloonsActive = 0
+        self.balloonsAvailable = 3
 
         self.yappyBirdsUi = yappyBirdsUi
 
