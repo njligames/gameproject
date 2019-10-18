@@ -1180,8 +1180,8 @@ local YappyBirdUi = {
             if not status then error(err) end
         end
 
-        function object:missed(node)
-            local status, err = pcall(self.ui.missed, self.ui, node)
+        function object:missed(node, deviceTouch)
+            local status, err = pcall(self.ui.missed, self.ui, node, deviceTouch)
             if not status then error(err) end
         end
 
@@ -3663,7 +3663,11 @@ local YappyBirds = {
         self.paused = false
     end
 
+
     function game:click(x, y)
+        checkEnableDebugFunctions(x, y)
+
+
         local balloonsAvailable = self.balloonsAvailable or 0
         local balloonsActive = self.balloonsActive or 0
 
@@ -3702,16 +3706,19 @@ local YappyBirds = {
     end
 
     function game:down(rayContact)
+        local addr = rayContact:getDeviceTouch():getAddress()
         local status, err = pcall(self.ybUi:getUi().down, self.ybUi:getUi(), rayContact)
         if not status then error(err) end
     end
     
     function game:up(rayContact)
+        local addr = rayContact:getDeviceTouch():getAddress()
         local status, err = pcall(self.ybUi:getUi().up, self.ybUi:getUi(), rayContact)
         if not status then error(err) end
     end
     
     function game:move(rayContact)
+        local addr = rayContact:getDeviceTouch():getAddress()
         local status, err = pcall(self.ybUi:getUi().move, self.ybUi:getUi(), rayContact)
         if not status then error(err) end
     end
@@ -3721,8 +3728,8 @@ local YappyBirds = {
         if not status then error(err) end
     end
 
-    function game:missed(node)
-        local status, err = pcall(self.ybUi:getUi().missed, self.ybUi:getUi(), node)
+    function game:missed(node, deviceTouch)
+        local status, err = pcall(self.ybUi:getUi().missed, self.ybUi:getUi(), node, deviceTouch)
         if not status then error(err) end
     end
 
@@ -4337,8 +4344,8 @@ local TestTexturePacker = {
         if not status then error(err) end
     end
 
-    function test:missed(node)
-        local status, err = pcall(self.ui.missed, self.ui, node)
+    function test:missed(node, deviceTouch)
+        local status, err = pcall(self.ui.missed, self.ui, node, deviceTouch)
         if not status then error(err) end
     end
 
@@ -4418,7 +4425,7 @@ local TestLevelSaver = {
         function test:cancelled(rayContact)
         end
 
-        function test:missed(node)
+        function test:missed(node, deviceTouch)
         end
 
         function test:updateAction(action, timeStep)
@@ -4486,7 +4493,7 @@ local TestSound = {
         function test:cancelled(rayContact)
         end
 
-        function test:missed(node)
+        function test:missed(node, deviceTouch)
         end
 
         function test:updateAction(action, timeStep)
@@ -4709,9 +4716,8 @@ local NodeRayTouchesCancelled = function(rayContact)
     -- print("* NodeRayTouchesCancelled")
 end
 
-local NodeRayTouchesMissed = function(node)
-    yappyBirds:missed(node)
-    -- print("* NodeRayTouchesMissed")
+local NodeRayTouchesMissed = function(node, deviceTouch)
+    yappyBirds:missed(node, deviceTouch)
 end
 
 local NodeRayTouchDown = function(rayContact)
@@ -4749,14 +4755,12 @@ local NodeRayMouseMove = function(rayContact)
     -- print("# NodeRayMouseMove")
 end
 
-local NodeRayTouchMissed = function(node)
-    yappyBirds:missed(node)
-    -- print("# NodeRayTouchMissed")
+local NodeRayTouchMissed = function(node, deviceTouch)
+    yappyBirds:missed(node, deviceTouch)
 end
 
 local NodeRayMouseMissed = function(node)
-    yappyBirds:missed(node)
-    -- print("# NodeRayMouseMissed")
+    yappyBirds:missed(node, nil)
 end
 
 RegisterCreate("Create",                                         function() pcall(Create) end)
@@ -4809,7 +4813,7 @@ RegisterNodeRayTouchesDown("NodeRayTouchesDown",                 function(rayCon
 RegisterNodeRayTouchesUp("NodeRayTouchesUp",                     function(rayContact) pcall(NodeRayTouchesUp, rayContact) end )
 RegisterNodeRayTouchesMove("NodeRayTouchesMove",                 function(rayContact) pcall(NodeRayTouchesMove, rayContact) end )
 RegisterNodeRayTouchesCancelled("NodeRayTouchesCancelled",       function(rayContact) pcall(NodeRayTouchesCancelled, rayContact) end )
-RegisterNodeRayTouchesMissed("NodeRayTouchesMissed",             function(node) pcall(NodeRayTouchesMissed, node) end )
+RegisterNodeRayTouchesMissed("NodeRayTouchesMissed",             function(node) pcall(NodeRayTouchesMissed, node, deviceTouch) end )
 RegisterNodeRayTouchDown("NodeRayTouchDown",                     function(rayContact) pcall(NodeRayTouchDown, rayContact) end )
 RegisterNodeRayTouchUp("NodeRayTouchUp",                         function(rayContact) pcall(NodeRayTouchUp, rayContact) end )
 RegisterNodeRayTouchMove("NodeRayTouchMove",                     function(rayContact) pcall(NodeRayTouchMove, rayContact) end )
@@ -4817,7 +4821,7 @@ RegisterNodeRayTouchCancelled("NodeRayTouchCancelled",           function(rayCon
 RegisterNodeRayMouseDown("NodeRayMouseDown",                     function(rayContact) pcall(NodeRayMouseDown, rayContact) end )
 RegisterNodeRayMouseUp("NodeRayMouseUp",                         function(rayContact) pcall(NodeRayMouseUp, rayContact) end )
 RegisterNodeRayMouseMove("NodeRayMouseMove",                     function(rayContact) pcall(NodeRayMouseMove, rayContact) end )
-RegisterNodeRayTouchMissed("NodeRayTouchMissed",                 function(node) pcall(NodeRayTouchMissed, node) end )
+RegisterNodeRayTouchMissed("NodeRayTouchMissed",                 function(node) pcall(NodeRayTouchMissed, node, deviceTouch) end )
 RegisterNodeRayMouseMissed("NodeRayMouseMissed",                 function(node) pcall(NodeRayMouseMissed, node) end )
 
 RegisterWorldGamePause("WorldGamePause", function() pcall(WorldGamePause) end )

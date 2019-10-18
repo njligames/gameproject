@@ -1,24 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-up" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#9eceef" nextobjectid="18">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-up" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#9eceef" nextobjectid="20">
  <tileset firstgid="1" source="images/country.tsx"/>
  <imagelayer name="DebugArea" visible="0">
   <image source="../debugLevel/debugArea.png" width="2048" height="2048"/>
  </imagelayer>
  <objectgroup color="#22ff0e" name="Bird Spawnpoint">
-  <object id="8" name="chubi" type="birdSpawnPoint" x="1843.36" y="1442.42" width="40.5186" height="4.05186">
+  <object id="8" name="webo" type="birdSpawnPoint" x="1843.36" y="1442.42" width="40.5186" height="4.05186">
    <properties>
-    <property name="birdType" value="chubi"/>
-    <property name="initialVelocity" type="float" value="1.2"/>
+    <property name="birdType" value="webo"/>
+    <property name="initialVelocity" type="float" value="0"/>
     <property name="spawnAmount" type="int" value="4"/>
     <property name="timeFrequency" type="int" value="5"/>
     <property name="timeStart" type="int" value="1"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="13" name="chubi" type="birdSpawnPoint" x="271.002" y="1445.45" width="24.3112">
+  <object id="13" name="webo" type="birdSpawnPoint" x="271.002" y="1445.45" width="24.3112">
    <properties>
-    <property name="birdType" value="chubi"/>
-    <property name="initialVelocity" type="float" value="1.2"/>
+    <property name="birdType" value="webo"/>
+    <property name="initialVelocity" type="float" value="0"/>
+    <property name="spawnAmount" type="int" value="4"/>
+    <property name="timeFrequency" type="int" value="5"/>
+    <property name="timeStart" type="int" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="18" name="zuru" type="birdSpawnPoint" x="2628.92" y="1440.97" width="40.5186" height="4.05186">
+   <properties>
+    <property name="birdType" value="zuru"/>
+    <property name="initialVelocity" type="float" value="0"/>
+    <property name="spawnAmount" type="int" value="4"/>
+    <property name="timeFrequency" type="int" value="5"/>
+    <property name="timeStart" type="int" value="1"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="19" name="zuru" type="birdSpawnPoint" x="1056.56" y="1444" width="24.3112">
+   <properties>
+    <property name="birdType" value="zuru"/>
+    <property name="initialVelocity" type="float" value="0"/>
     <property name="spawnAmount" type="int" value="4"/>
     <property name="timeFrequency" type="int" value="5"/>
     <property name="timeStart" type="int" value="0"/>

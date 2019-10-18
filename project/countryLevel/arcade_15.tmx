@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-up" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#9eceef" nextobjectid="18">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-up" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#9eceef" nextobjectid="28">
  <tileset firstgid="1" source="images/country.tsx"/>
  <imagelayer name="DebugArea" visible="0">
   <image source="../debugLevel/debugArea.png" width="2048" height="2048"/>
@@ -8,7 +8,7 @@
   <object id="8" name="chubi" type="birdSpawnPoint" x="1843.36" y="1442.42" width="40.5186" height="4.05186">
    <properties>
     <property name="birdType" value="chubi"/>
-    <property name="initialVelocity" type="float" value="1.2"/>
+    <property name="initialVelocity" type="float" value="0"/>
     <property name="spawnAmount" type="int" value="4"/>
     <property name="timeFrequency" type="int" value="5"/>
     <property name="timeStart" type="int" value="1"/>
@@ -18,7 +18,107 @@
   <object id="13" name="chubi" type="birdSpawnPoint" x="271.002" y="1445.45" width="24.3112">
    <properties>
     <property name="birdType" value="chubi"/>
-    <property name="initialVelocity" type="float" value="1.2"/>
+    <property name="initialVelocity" type="float" value="0"/>
+    <property name="spawnAmount" type="int" value="4"/>
+    <property name="timeFrequency" type="int" value="5"/>
+    <property name="timeStart" type="int" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="18" name="garu" type="birdSpawnPoint" x="2626.81" y="1443.71" width="40.5186" height="4.05186">
+   <properties>
+    <property name="birdType" value="garu"/>
+    <property name="initialVelocity" type="float" value="0"/>
+    <property name="spawnAmount" type="int" value="4"/>
+    <property name="timeFrequency" type="int" value="5"/>
+    <property name="timeStart" type="int" value="1"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="19" name="garu" type="birdSpawnPoint" x="1054.45" y="1446.74" width="24.3112">
+   <properties>
+    <property name="birdType" value="garu"/>
+    <property name="initialVelocity" type="float" value="0"/>
+    <property name="spawnAmount" type="int" value="4"/>
+    <property name="timeFrequency" type="int" value="5"/>
+    <property name="timeStart" type="int" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="20" name="momi" type="birdSpawnPoint" x="2626.81" y="1443.71" width="40.5186" height="4.05186">
+   <properties>
+    <property name="birdType" value="momi"/>
+    <property name="initialVelocity" type="float" value="0"/>
+    <property name="spawnAmount" type="int" value="4"/>
+    <property name="timeFrequency" type="int" value="5"/>
+    <property name="timeStart" type="int" value="1"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="21" name="momi" type="birdSpawnPoint" x="1054.45" y="1446.74" width="24.3112">
+   <properties>
+    <property name="birdType" value="momi"/>
+    <property name="initialVelocity" type="float" value="0"/>
+    <property name="spawnAmount" type="int" value="4"/>
+    <property name="timeFrequency" type="int" value="5"/>
+    <property name="timeStart" type="int" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="22" name="puffy" type="birdSpawnPoint" x="2626.81" y="1443.71" width="40.5186" height="4.05186">
+   <properties>
+    <property name="birdType" value="puffy"/>
+    <property name="initialVelocity" type="float" value="0"/>
+    <property name="spawnAmount" type="int" value="4"/>
+    <property name="timeFrequency" type="int" value="5"/>
+    <property name="timeStart" type="int" value="1"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="23" name="puffy" type="birdSpawnPoint" x="1054.45" y="1446.74" width="24.3112">
+   <properties>
+    <property name="birdType" value="puffy"/>
+    <property name="initialVelocity" type="float" value="0"/>
+    <property name="spawnAmount" type="int" value="4"/>
+    <property name="timeFrequency" type="int" value="5"/>
+    <property name="timeStart" type="int" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="24" name="webo" type="birdSpawnPoint" x="2626.81" y="1443.71" width="40.5186" height="4.05186">
+   <properties>
+    <property name="birdType" value="webo"/>
+    <property name="initialVelocity" type="float" value="0"/>
+    <property name="spawnAmount" type="int" value="4"/>
+    <property name="timeFrequency" type="int" value="5"/>
+    <property name="timeStart" type="int" value="1"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="25" name="webo" type="birdSpawnPoint" x="1054.45" y="1446.74" width="24.3112">
+   <properties>
+    <property name="birdType" value="webo"/>
+    <property name="initialVelocity" type="float" value="0"/>
+    <property name="spawnAmount" type="int" value="4"/>
+    <property name="timeFrequency" type="int" value="5"/>
+    <property name="timeStart" type="int" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="26" name="zuru" type="birdSpawnPoint" x="2626.81" y="1443.71" width="40.5186" height="4.05186">
+   <properties>
+    <property name="birdType" value="zuru"/>
+    <property name="initialVelocity" type="float" value="0"/>
+    <property name="spawnAmount" type="int" value="4"/>
+    <property name="timeFrequency" type="int" value="5"/>
+    <property name="timeStart" type="int" value="1"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="27" name="zuru" type="birdSpawnPoint" x="1054.45" y="1446.74" width="24.3112" visible="0">
+   <properties>
+    <property name="birdType" value="zuru"/>
+    <property name="initialVelocity" type="float" value="0"/>
     <property name="spawnAmount" type="int" value="4"/>
     <property name="timeFrequency" type="int" value="5"/>
     <property name="timeStart" type="int" value="0"/>
