@@ -300,7 +300,7 @@ local YappyBirdUi = {
               name = "ui_background_tile",
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               scale = 7,
@@ -315,7 +315,7 @@ local YappyBirdUi = {
               name = "ui_background_tile",
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               scale = 7,
@@ -328,7 +328,7 @@ local YappyBirdUi = {
               name = "ui_background_tile",
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               scale = 7,
@@ -354,7 +354,7 @@ local YappyBirdUi = {
               dis = "butn_RESTART_dis", 
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               down = function() 
@@ -381,7 +381,7 @@ local YappyBirdUi = {
               on = "butn_QUIT_on", 
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               down = function() 
@@ -407,7 +407,7 @@ local YappyBirdUi = {
                   on = "butn_NEXT_LEVEL_on", 
                   x = 200, 
                   y = 200, 
-                  node = nil, 
+                  node = njlic.Node.create(), 
                   tp = texturePacker, 
                   camera = camera,
                   down = function() 
@@ -435,7 +435,7 @@ local YappyBirdUi = {
               name = "text_YOU_WIN",
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               scale = 7,
@@ -464,7 +464,7 @@ local YappyBirdUi = {
               dis = "butn_RESTART_dis", 
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               down = function() 
@@ -491,7 +491,7 @@ local YappyBirdUi = {
               on = "butn_QUIT_on", 
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               down = function() 
@@ -515,7 +515,7 @@ local YappyBirdUi = {
               name = "text_YOU_LOSE",
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               scale = 7,
@@ -549,7 +549,7 @@ local YappyBirdUi = {
               on = "butn_BACK_on", 
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               down = function() 
@@ -587,7 +587,7 @@ local YappyBirdUi = {
                   dis = "butn_stage_dis", 
                   x = 200, 
                   y = 200, 
-                  node = nil, 
+                  node = njlic.Node.create(), 
                   tp = texturePacker, 
                   camera = camera,
                   down = function() 
@@ -637,7 +637,7 @@ local YappyBirdUi = {
               dis = "butn_PLAY_dis", 
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               down = function() 
@@ -663,7 +663,7 @@ local YappyBirdUi = {
               name = "logo_yb",
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               scale = 7,
@@ -696,7 +696,7 @@ local YappyBirdUi = {
               on = "butn_BACK_on", 
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               down = function() 
@@ -720,7 +720,7 @@ local YappyBirdUi = {
               name = "header_LEVEL_SELECT",
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               scale = 7,
@@ -738,7 +738,7 @@ local YappyBirdUi = {
               dis = "butn_TIME_ATTACK_dis", 
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               down = function() 
@@ -765,7 +765,7 @@ local YappyBirdUi = {
               dis = "butn_ARCADE_dis", 
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               down = function() 
@@ -792,7 +792,7 @@ local YappyBirdUi = {
               dis = "butn_SURVIVAL_dis", 
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               down = function() 
@@ -835,7 +835,7 @@ local YappyBirdUi = {
               on = "butn_BACK_on", 
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               down = function() 
@@ -859,7 +859,7 @@ local YappyBirdUi = {
               name = "header_STAGE_SELECT",
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               scale = 7,
@@ -877,7 +877,7 @@ local YappyBirdUi = {
               dis = "butn_portrait_country_dis", 
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               down = function() 
@@ -904,11 +904,11 @@ local YappyBirdUi = {
               dis = "butn_portrait_city_dis", 
               x = 200, 
               y = 200, 
-              node = nil, 
+              node = njlic.Node.create(), 
               tp = texturePacker, 
               camera = camera,
               down = function() 
-                  print("playdown")
+                  -- print("playdown")
               end,
               up = function()
                   object.stage = "city"
@@ -3069,48 +3069,48 @@ local YappyBirds = {
         lose = false,
         win = false,
         paused = false,
+        stageTexturePackerTable = {},
     }
 
     function game:loadLevel(stage, levelNum, mode)
         local debug = false
 
-      -- self.levelLoader:loadLevel({debug=debug, loc="country", levelNum=0, mode="arcade"})
-      self.levelLoader:loadLevel({debug=debug, loc=stage, levelNum=levelNum, mode=mode})
-      table.insert(self.levelTexturePacker, TexturePacker({file=string.format("%s0", self.levelLoader.location)}))
-      for i = 1, self.levelLoader:numSpawnPoints() do
-        local point = self.levelLoader:getSpawnPoint(i)
-        self.spawnMachine:addArcadeSpawnPoint(point)
-      end
-      for i = 1, self.levelLoader:numTiles() do
-        local billboardParams = self.levelLoader:getBillboardParams(i)
+        self.levelLoader:loadLevel({debug=debug, loc=stage, levelNum=levelNum, mode=mode})
+        -- table.insert(self.levelTexturePacker, TexturePacker({file=string.format("%s0", stage)}))
+        table.insert(self.levelTexturePacker, self.stageTexturePackerTable[stage])
 
-        local billboard = Billboard.new({
-            levelTexturePacker=self.levelTexturePacker,
-            perspectiveCamera=self.perspectiveCamera,
-            index=i,
-            params=self.params,
-          })
-
-        if billboard:load(billboardParams) then
-          table.insert(self.billboardPool, billboard)
+        for i = 1, self.levelLoader:numSpawnPoints() do
+            local point = self.levelLoader:getSpawnPoint(i)
+            self.spawnMachine:addArcadeSpawnPoint(point)
         end
 
-      end
-
-      local numberOfDogs = 1
-
-      local dog = nil
-      for i = 1, numberOfDogs do
-        dog = Dog.new({
-            texturePacker=self.gameplayTexturePacker,
-            perspectiveCamera=self.perspectiveCamera,
-            index=i,
-            params=self.params,
-            game = self,
+        for i = 1, self.levelLoader:numTiles() do
+            local billboardParams = self.levelLoader:getBillboardParams(i)
+            local billboard = Billboard.new({
+                levelTexturePacker=self.levelTexturePacker,
+                perspectiveCamera=self.perspectiveCamera,
+                index=i,
+                params=self.params,
             })
-        dog:load()
-        table.insert(self.dogPool, dog)
-      end
+
+            if billboard:load(billboardParams) then
+                table.insert(self.billboardPool, billboard)
+            end
+        end
+
+        local numberOfDogs = 1
+
+        for i = 1, numberOfDogs do
+            local dog = Dog.new({
+                texturePacker=self.gameplayTexturePacker,
+                perspectiveCamera=self.perspectiveCamera,
+                index=i,
+                params=self.params,
+                game = self,
+            })
+            dog:load()
+            table.insert(self.dogPool, dog)
+        end
     end
 
     function game:load()
@@ -3122,6 +3122,8 @@ local YappyBirds = {
       self.shader = shader
 
       -- ###################################################################################################
+      --
+      self.stageTexturePackerTable["country"] = TexturePacker({file=string.format("%s0", "country")})
 
       table.insert(self.gameplayTexturePacker, TexturePacker({file="gameplay0"}))
       table.insert(self.gameplayTexturePacker, TexturePacker({file="gameplay1"}))
@@ -3158,7 +3160,9 @@ local YappyBirds = {
       self.perspectiveCameraNode:setCamera(self.perspectiveCamera)
 
       rootNode:addChildNode(self.perspectiveCameraNode)
-      njlic.World.getInstance():enableDebugDraw(self.perspectiveCamera)
+      if debug then
+          njlic.World.getInstance():enableDebugDraw(self.perspectiveCamera)
+      end
 
       -- ###################################################################################################
 
@@ -3233,15 +3237,15 @@ local YappyBirds = {
           on = "butn_pause_on", 
           x = 200, 
           y = 200, 
-          node = nil, 
+          node = njlic.Node.create(), 
           tp = self.interfaceTexturePacker, 
           camera = self.orthographicCamera,
           down = function() 
-              print("pausedown")
+              -- print("pausedown")
           end,
           up = function()
               local paused = njlic.World.getInstance():isPausedGame()
-              print("pause up", paused)
+              -- print("pause up", paused)
               njlic.World.getInstance():enablePauseGame(not paused)
           end,
           scale = 10,
@@ -3259,61 +3263,6 @@ local YappyBirds = {
       )
       self.pauseButton = pauseButton
       self.pauseButton:hide(self.orthographicCamera)
-
-
-
-
-
-
-
-
-
-
-
-
-
-        -- self:loadLevel("country", 0, "arcade")
-
-      -- self.levelLoader:loadLevel({debug=debug, loc="country", levelNum=0, mode="arcade"})
-      -- table.insert(self.levelTexturePacker, TexturePacker({file=string.format("%s0", self.levelLoader.location)}))
-      -- for i = 1, self.levelLoader:numSpawnPoints() do
-      --   local point = self.levelLoader:getSpawnPoint(i)
-      --   self.spawnMachine:addArcadeSpawnPoint(point)
-      -- end
-      -- for i = 1, self.levelLoader:numTiles() do
-      --   local billboardParams = self.levelLoader:getBillboardParams(i)
-
-      --   local billboard = Billboard.new({
-      --       levelTexturePacker=self.levelTexturePacker,
-      --       perspectiveCamera=self.perspectiveCamera,
-      --       index=i,
-      --       params=self.params,
-      --     })
-
-      --   if billboard:load(billboardParams) then
-      --     table.insert(self.billboardPool, billboard)
-      --   end
-
-      -- end
-
-      -- local numberOfDogs = 1
-
-      -- local dog = nil
-      -- for i = 1, numberOfDogs do
-      --   dog = Dog.new({
-      --       texturePacker=self.gameplayTexturePacker,
-      --       perspectiveCamera=self.perspectiveCamera,
-      --       index=i,
-      --       params=self.params,
-      --       game = self,
-      --       })
-      --   dog:load()
-      --   table.insert(self.dogPool, dog)
-      -- end
-
-
-
-
 
 
       local numberOfBirdsEach = 10
@@ -3435,21 +3384,41 @@ local YappyBirds = {
     end
 
     function game:unload()
+        print('game:unload()')
+
+      self.stageTexturePackerTable = {}
 
       self.run = false
 
-      njlic.PhysicsWorld.destroy(self.physicsWorld)
+      if nil ~= self.physicsWorld then
+          njlic.PhysicsWorld.destroy(self.physicsWorld)
+      end
 
-      njlic.Camera.destroy(self.orthographicCamera)
-      njlic.Node.destroy(self.orthographicCameraNode)
+      if nil ~= self.orthographicCamera then
+          njlic.Camera.destroy(self.orthographicCamera)
+      end
 
-      njlic.Camera.destroy(self.perspectiveCamera)
-      njlic.Node.destroy(self.perspectiveCameraNode)
+      if nil ~= self.orthographicCameraNode then
+          njlic.Node.destroy(self.orthographicCameraNode)
+      end
+
+      if nil ~= self.perspectiveCamera then
+          njlic.Camera.destroy(self.perspectiveCamera)
+      end
+
+      if nil ~= self.perspectiveCameraNode then
+          njlic.Node.destroy(self.perspectiveCameraNode)
+      end
 
       local scene = njlic.World.getInstance():getScene()
       local rootNode = scene:getRootNode()
-      njlic.Node.destroy(rootNode)
-      njlic.Scene.destroy(njlic.World.getInstance():getScene())
+      if nil ~= rootNode then
+          njlic.Node.destroy(rootNode)
+      end
+
+      if nil ~= scene then
+          njlic.Scene.destroy(scene)
+      end
 
       for i = 1, #self.levelTexturePacker do
         self.levelTexturePacker[i]:_destroy()
@@ -3466,7 +3435,9 @@ local YappyBirds = {
       end
       self.debugTexturePacker = {}
 
-      njlic.ShaderProgram.destroy(self.shader)
+      if nil ~= self.shader then
+          njlic.ShaderProgram.destroy(self.shader)
+      end
 
       for i = 1, #self.chubiBirdPool do
         local bird = self.chubiBirdPool[i]
@@ -3681,9 +3652,9 @@ local YappyBirds = {
         -- print("avaialbe ballooons", available)
 
       -- print(self.balloonsActive)
-      if not hasBalloon then
-          print("cannot!")
-      end
+      -- if not hasBalloon then
+      --     print("cannot!")
+      -- end
 
       if hasBalloon and self.run and not self.ybUi:getUi():anyTouched() then
 
@@ -3745,7 +3716,6 @@ local YappyBirds = {
 
             self.pauseButton:hide(self.orthographicCamera)
             self.displayNode:hide(self.orthographicCamera)
-
 
             for i = 1, #self.billboardPool do
               local billboard = self.billboardPool[i]
@@ -4388,9 +4358,9 @@ local TestLevelSaver = {
 
             local d = YappyBirdsData.new({filepath=fp})
 
-            print("READ - $$$$$$$$$$$$$$$$$")
-            print_r(d.data)
-            print("READ - $$$$$$$$$$$$$$$$$")
+            -- print("READ - $$$$$$$$$$$$$$$$$")
+            -- print_r(d.data)
+            -- print("READ - $$$$$$$$$$$$$$$$$")
 
             local stage = YappyBirdsData.COUNTRY
             local mode = YappyBirdsData.TIMEATTACK
