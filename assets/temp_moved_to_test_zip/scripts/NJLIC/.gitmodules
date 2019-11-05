@@ -1,9 +1,0 @@
-[submodule "thirdparty/lua-term"]
-	path = thirdparty/lua-term
-	url = https://github.com/hoelzro/lua-term.git
-[submodule "thirdparty/Penlight"]
-	path = thirdparty/Penlight
-	url = https://github.com/stevedonovan/Penlight.git
-[submodule "thirdparty/busted"]
-	path = thirdparty/busted
-	url = https://github.com/Olivine-Labs/busted.git
