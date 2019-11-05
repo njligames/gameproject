@@ -1,6 +1,6 @@
-[submodule "assets/scripts/NJLIC_LuaTests"]
-	path = assets/scripts/NJLIC_LuaTests
-	url = https://github.com/njligames/NJLIC_LuaTests.git
 [submodule "assets/scripts/NJLIC"]
 	path = assets/scripts/NJLIC
 	url = https://github.com/njligames/NJLICLua.git
+[submodule "assets/scripts/NJLIC_LuaTests"]
+	path = assets/scripts/NJLIC_LuaTests
+	url = https://github.com/njligames/NJLIC_LuaTests.git
