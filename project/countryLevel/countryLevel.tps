@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.11.1</string>
+        <string>4.12.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -108,7 +108,7 @@
             <key>sizeConstraints</key>
             <enum type="AlgorithmSettings::SizeConstraints">POT</enum>
             <key>forceSquared</key>
-            <false/>
+            <true/>
             <key>maxRects</key>
             <struct type="AlgorithmMaxRectsSettings">
                 <key>heuristic</key>
@@ -181,7 +181,7 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">images/128cloud00.png</key>
+            <key type="filename">../../../../buildbot_ios/gameproject/project/countryLevel/images/128cloud00.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0,1</point_f>
@@ -194,7 +194,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">images/128tree00.png</key>
+            <key type="filename">../../../../buildbot_ios/gameproject/project/countryLevel/images/128tree00.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0,1</point_f>
@@ -207,7 +207,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">images/2048hills00.png</key>
+            <key type="filename">../../../../buildbot_ios/gameproject/project/countryLevel/images/2048hills00.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0,1</point_f>
@@ -220,7 +220,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">images/2048hills01.png</key>
+            <key type="filename">../../../../buildbot_ios/gameproject/project/countryLevel/images/2048hills01.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0,1</point_f>
@@ -233,7 +233,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">images/2048hills02.png</key>
+            <key type="filename">../../../../buildbot_ios/gameproject/project/countryLevel/images/2048hills02.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0,1</point_f>
@@ -246,7 +246,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">images/256cloud00.png</key>
+            <key type="filename">../../../../buildbot_ios/gameproject/project/countryLevel/images/256cloud00.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0,1</point_f>
@@ -259,7 +259,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">images/256house00.png</key>
+            <key type="filename">../../../../buildbot_ios/gameproject/project/countryLevel/images/256house00.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0,1</point_f>
@@ -272,7 +272,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">images/256tree00.png</key>
+            <key type="filename">../../../../buildbot_ios/gameproject/project/countryLevel/images/256tree00.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0,1</point_f>
@@ -285,7 +285,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">images/512tree00.png</key>
+            <key type="filename">../../../../buildbot_ios/gameproject/project/countryLevel/images/512tree00.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0,1</point_f>
@@ -301,7 +301,7 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>images</filename>
+            <filename>../../../../buildbot_ios/gameproject/project/countryLevel/images</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
