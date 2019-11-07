@@ -2,7 +2,7 @@
 -- created with TexturePacker - https://www.codeandweb.com/texturepacker
 --
 -- TODO: Change this exmaple to make sense for NJLICEngine
--- $TexturePacker:SmartUpdate:7e65332ae319c77fd88d79603300cae5:c819214bca96bf3c5c0c951ce8397410:18cc0faedb801f0310f07fa32ca9fcf5$
+-- $TexturePacker:SmartUpdate:450dee36a4c5c22bcda3a901213bf34c:c819214bca96bf3c5c0c951ce8397410:18cc0faedb801f0310f07fa32ca9fcf5$
 --
 -- local sheetInfo = require("mysheet")
 -- local myImageSheet = graphics.newImageSheet( "mysheet.png", sheetInfo:getSheet() )
@@ -16,8 +16,8 @@ SheetInfo.sheet =
 frames = {
   
   {
-    x=104,
-    y=1874,
+    x=3004,
+    y=1,
 
     width=128,
     height=105,
@@ -37,8 +37,8 @@ frames = {
   },
   
   {
-    x=1,
-    y=1874,
+    x=3134,
+    y=1,
 
     width=101,
     height=128,
@@ -58,8 +58,8 @@ frames = {
   },
   
   {
-    x=236,
-    y=1616,
+    x=2507,
+    y=1,
 
     width=256,
     height=209,
@@ -79,8 +79,8 @@ frames = {
   },
   
   {
-    x=1,
-    y=1616,
+    x=2507,
+    y=212,
 
     width=233,
     height=256,
@@ -100,8 +100,8 @@ frames = {
   },
   
   {
-    x=1,
-    y=1358,
+    x=2765,
+    y=1,
 
     width=237,
     height=256,
@@ -121,7 +121,7 @@ frames = {
   },
   
   {
-    x=1,
+    x=2051,
     y=1,
 
     width=454,
@@ -143,7 +143,7 @@ frames = {
   
   {
     x=1,
-    y=980,
+    y=891,
 
     width=2048,
     height=376,
@@ -164,7 +164,7 @@ frames = {
   
   {
     x=1,
-    y=515,
+    y=1,
 
     width=2048,
     height=463,
@@ -184,8 +184,8 @@ frames = {
   },
   
   {
-    x=457,
-    y=1,
+    x=1,
+    y=466,
 
     width=2048,
     height=423,
@@ -207,7 +207,7 @@ frames = {
   },
   fileName = "images/country0.png",
   sheetContentWidth = 4096,
-  sheetContentHeight = 2048,
+  sheetContentHeight = 4096,
   scale = 1,
   shapePadding = 0,
   borderPadding = 0,
