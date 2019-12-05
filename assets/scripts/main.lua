@@ -3232,6 +3232,24 @@ local YappyBirds = {
 
       self.ybUi:showSplash()
 
+
+
+
+
+          local uiPaused, uiPausedRect, uiPausedId = self.ybUi:getUi():createImage({
+              name = "ui_paused",
+              x = 200, 
+              y = 200, 
+              node = njlic.Node.create(), 
+              tp = self.interfaceTexturePacker, 
+              camera = self.orthographicCamera,
+              scale = 7,
+          })
+          uiPaused:setOrigin( bullet.btVector3(njlic.SCREEN():x() * 0.5 , njlic.SCREEN():y() * 0.5, 10))
+          self.uiPaused = uiPaused
+          self.uiPaused:hide(self.orthographicCamera)
+          self.paused = false
+
       local pauseButton, pauseButtonRect, pauseButtonId = self.ybUi:getUi():createButton({
           off = "butn_pause_off", 
           on = "butn_pause_on", 
@@ -3244,9 +3262,24 @@ local YappyBirds = {
               -- print("pausedown")
           end,
           up = function()
-              local paused = njlic.World.getInstance():isPausedGame()
-              -- print("pause up", paused)
-              njlic.World.getInstance():enablePauseGame(not paused)
+
+              -- njlic.World.getInstance():enablePauseGame(not self.paused)
+
+              -- self.paused = njlic.World.getInstance():isPausedGame()
+              self.paused = not self.paused
+
+              njlic.World.getInstance():enablePauseGame(self.paused)
+
+              print("pause up", self.paused)
+
+              if self.paused then
+                  self.uiPaused:show(self.orthographicCamera)
+              else
+                  self.uiPaused:hide(self.orthographicCamera)
+              end
+
+                  -- self.uiPaused:show(self.camera)
+
           end,
           scale = 10,
           enabled = true,
@@ -3714,6 +3747,7 @@ local YappyBirds = {
         if self.run then
             self.run = false
 
+            -- self.uiPaused:hide(self.orthographicCamera)
             self.pauseButton:hide(self.orthographicCamera)
             self.displayNode:hide(self.orthographicCamera)
 
@@ -3775,6 +3809,7 @@ local YappyBirds = {
           end
         end
 
+            -- self.uiPaused:show(self.orthographicCamera)
           self.pauseButton:show(self.orthographicCamera)
           self.displayNode:show(self.orthographicCamera)
 
@@ -3940,31 +3975,64 @@ local TestDebugDraw = {
     local test = {
     }
 
+    function test:createCamera(rootNode, orthographic)
+        self.perspectiveCameraNode = njlic.Node.create()
+        -- self.perspectiveCameraNode:setName("perspectiveCamera")
+
+        self.perspectiveCamera = njlic.Camera.create()
+        self.perspectiveCamera:enableOrthographic(orthographic)
+--      self.perspectiveCamera:setRenderCategory(RenderCategories.perspective)
+        -- self.perspectiveCamera:setName("perspectiveCamera")
+
+        self.perspectiveCameraNode:setCamera(self.perspectiveCamera)
+        -- self.perspectiveCamera:lookAt(btVector3(0,0,0))
+
+        rootNode:addChildNode(self.perspectiveCameraNode)
+
+        njlic.World.getInstance():enableDebugDraw(self.perspectiveCamera)
+    end
+
     function test:load()
+
 
 --      self.shader = njlic.ShaderProgram.create()
 --      assert(njlic.World.getInstance():getWorldResourceLoader():load("shaders/PassThrough.vert", "shaders/PassThrough.frag", self.shader))
 
+        local debugDrawer = njlic.World.getInstance():getDebugDrawer()
       local scene = njlic.Scene.create()
       local rootNode = njlic.Node.create()
-      rootNode:setOrigin(bullet3.btVector3(0,-0.5,-1))
+      -- rootNode:setOrigin(bullet3.btVector3(0,-0.5,-1))
+      local width = debugDrawer:getWidth()
+      local height = debugDrawer:getHeight()
+      print(width, height)
+      local y = ( height/ width ) * -1
+      print('y pos', y)
+      rootNode:setOrigin(bullet3.btVector3(0.0, 0.0, 0.0))
       scene:setRootNode(rootNode)
       njlic.World.getInstance():setScene(scene)
 
-      self.perspectiveCameraNode = njlic.Node.create()
-      self.perspectiveCameraNode:setName("perspectiveCamera")
+      self:createCamera(rootNode, true)
 
-      self.perspectiveCamera = njlic.Camera.create()
-      self.perspectiveCamera:enableOrthographic(false)
---      self.perspectiveCamera:setRenderCategory(RenderCategories.perspective)
-      self.perspectiveCamera:setName("perspectiveCamera")
+        debugDrawer:setLineWidth(200)
+        print('line width', debugDrawer:getLineWidth())
 
-      self.perspectiveCameraNode:setCamera(self.perspectiveCamera)
-      -- self.perspectiveCamera:lookAt(btVector3(0,0,0))
 
-      rootNode:addChildNode(self.perspectiveCameraNode)
 
-      njlic.World.getInstance():enableDebugDraw(self.perspectiveCamera)
+
+      -- self.perspectiveCameraNode = njlic.Node.create()
+      -- self.perspectiveCameraNode:setName("perspectiveCamera")
+
+      -- self.perspectiveCamera = njlic.Camera.create()
+      -- self.perspectiveCamera:enableOrthographic(false)
+--    --   self.perspectiveCamera:setRenderCategory(RenderCategories.perspective)
+      -- self.perspectiveCamera:setName("perspectiveCamera")
+
+      -- self.perspectiveCameraNode:setCamera(self.perspectiveCamera)
+      -- -- self.perspectiveCamera:lookAt(btVector3(0,0,0))
+
+      -- rootNode:addChildNode(self.perspectiveCameraNode)
+
+      -- njlic.World.getInstance():enableDebugDraw(self.perspectiveCamera)
 
     end
 
@@ -4070,6 +4138,29 @@ local TestDebugDraw = {
       --     local x = j * (j / div)
       --     debugDrawer:line( bullet.btVector3(x, 0.0, 3.0), bullet.btVector3(x, 1.0, 3.0), bullet.btVector3(0.0, 0.0, 1.0))
       -- end
+      --
+        local convert = function(x,y)
+            local debugDrawer = njlic.World.getInstance():getDebugDrawer()
+            local width = debugDrawer:getWidth()
+            local height = debugDrawer:getHeight()
+
+            maxheight = height / width
+
+            _x = (x / width) * 2
+            _y = (y / height) * (2 * maxheight)
+
+            return _x, _y
+        end
+
+      local width = debugDrawer:getWidth() * 0.5
+      local height = debugDrawer:getHeight() * 0.5
+      -- print(width, height)
+      local z = 10.0 
+      debugDrawer:line( bullet.btVector3(0.0, 0.0, z), bullet.btVector3(width, 0.0, z), bullet.btVector3(0.0, 0.0, 1.0))
+      debugDrawer:line( bullet.btVector3(0.0, 0.0, z), bullet.btVector3(0.0, height, z), bullet.btVector3(0.0, 0.0, 1.0))
+      debugDrawer:line( bullet.btVector3(0.0, 0.0, z), bullet.btVector3(width, height, z), bullet.btVector3(0.0, 0.0, 1.0))
+
+
       -- debugDrawer:point(bullet.btVector3(0.0, 0.0, 3.0), bullet.btVector3(1.0, 0.0, 0.0), 20)
       -- debugDrawer:projectedText("THIS", bullet.btVector3(0, 0, 3), bullet.btVector3(0,1,0), 10)
       -- debugDrawer:screenText("THAT", bullet.btVector3(0, 0, 3), bullet.btVector3(0,1,0), 10)
