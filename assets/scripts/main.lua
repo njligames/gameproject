@@ -2332,10 +2332,10 @@ local Balloon = {
       self.physicsBody:setPhysicsShape(self.physicsShape)
       self.physicsBody:setDynamicPhysics()
 
-      -- self.sound = njlic.Sound.create()
-      -- self.sound:setName("balloonsound_"..self.index)
-      -- local soundName = "sounds/projectile_balloon_water-splash.ogg"
-      -- njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
+      self.sound = njlic.Sound.create()
+      self.sound:setName("balloonsound_"..self.index)
+      local soundName = "sounds/projectile_balloon_water_splash.ogg"
+      njlic.World.getInstance():getWorldResourceLoader():load(soundName, self.sound)
 
       local stateMachine = StateMachine.new(self)
 
@@ -2378,7 +2378,7 @@ local Balloon = {
           end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.bird) then
-                  -- self.sound:play()
+                  self.sound:play()
                   self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
               end
           end,
@@ -2413,7 +2413,7 @@ local Balloon = {
     end
 
     function balloon:unload()
-      -- njlic.Sound.destroy(self.sound)
+      njlic.Sound.destroy(self.sound)
 
       njlic.PhysicsBodyRigid.destroy(self.physicsBody)
       njlic.PhysicsShapeSphere.destroy(self.physicsShape)
