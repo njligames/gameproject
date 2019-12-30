@@ -1652,21 +1652,24 @@ local Bird = {
 
       stateMachine:addState(self.STATEMACHINE_STATES.fly, {
           enter = function()
-                self.pursueTimer = njlic.Timer.create()
-                self.steeringBehaviourMachine:enable()
-              self.currentAnimationState=self.ANIMATION_STATES.idle
-                self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorOffsetPursuit)
-                self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorSeparation)
+              self.pursueTimer = njlic.Timer.create()
+              self.pursueTimer:start(self.params.Bird[self.birdName].PursueTime)
 
-                self.pursueTimer:start(self.params.Bird[self.birdName].PursueTime)
+              self.steeringBehaviourMachine:enable()
+
+              self.currentAnimationState = self.ANIMATION_STATES.idle
+
+              self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorOffsetPursuit)
+              self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorSeparation)
+
           end,
           exit = function()
-                njlic.Timer.destroy(self.pursueTimer)
-                self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorOffsetPursuit)
-                self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorSeparation)
-            end,
+              njlic.Timer.destroy(self.pursueTimer)
+              
+              self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorOffsetPursuit)
+              self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorSeparation)
+          end,
           update = function(timeStep)
-
               if self.pursueTimer:isFinished() then
                   if self.game.canPursue then
                       self.stateMachine:switchStates(self.STATEMACHINE_STATES.pursue)
@@ -1692,7 +1695,6 @@ local Bird = {
               self.beak:hide()
               self.physicsBody:setDynamicPhysics()
               self.steeringBehaviourMachine:enable(false)
-              -- self.beak:taunt()
           end,
           exit = function()
               self.beak:show()
@@ -1700,39 +1702,31 @@ local Bird = {
 
           end,
           update = function(timeStep)
-
               if self.node:getOrigin():y() >= self.params.World.LoseBirdHeight then
 
                   self.game.lose = true
 
-                  assert(self.dogAttacked ~= nil, "the dog being attacked is nil")
+              else
+                  local y_force = 0
 
-                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.release)
-                  self.dogAttacked.stateMachine:switchStates(self.dogAttacked.STATEMACHINE_STATES.released)
-                  return
+                  if self.currentFrame == 1 then
+                  elseif self.currentFrame == 2 then
+                  elseif self.currentFrame == 3 then
+                  elseif self.currentFrame == 4 then
+                  elseif self.currentFrame == 5 then
+                  elseif self.currentFrame == 6 then
+                  elseif self.currentFrame == 7 then
+                      y_force = self.params.Bird[self.birdName].StealSpeed
+                  elseif self.currentFrame == 8 then
+                  end
 
+                  self.physicsBody:applyForce(bullet3.btVector3(0,y_force,0), true)
               end
 
-              local y_force = 0
-
-              if self.currentFrame == 1 then
-              elseif self.currentFrame == 2 then
-              elseif self.currentFrame == 3 then
-              elseif self.currentFrame == 4 then
-              elseif self.currentFrame == 5 then
-              elseif self.currentFrame == 6 then
-              elseif self.currentFrame == 7 then
-                  y_force = self.params.Bird[self.birdName].StealSpeed
-              elseif self.currentFrame == 8 then
-              end
-
-              self.physicsBody:applyForce(bullet3.btVector3(0,y_force,0), true)
           end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
                   self.stateMachine:switchStates(self.STATEMACHINE_STATES.release)
-                  self.dogAttacked.stateMachine:switchStates(self.dogAttacked.STATEMACHINE_STATES.released)
-                  -- self.stateMachine:switchStates(self.STATEMACHINE_STATES.release)
               end
           end,
         })
@@ -1744,13 +1738,12 @@ local Bird = {
               self.currentAnimationState=self.ANIMATION_STATES.grab
               self.beak:hide()
 
-              assert(self.dogAttacked ~= nil, "the dog being attacked is nil")
-
               self.steeringBehaviourMachine:clearSteering()
               self.steeringBehaviourMachine:enable(false)
               self.physicsBody:setKinematicPhysics()
 
-              self.dogAttacked.birdAttacking = self
+              assert(nil ~= self.dogAttacked)
+
               self.dogAttacked.stateMachine:switchStates(self.dogAttacked.STATEMACHINE_STATES.caught)
           end,
           exit = function()
@@ -1762,6 +1755,7 @@ local Bird = {
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
                   self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
+                  self.game.canPursue = true
               end
           end,
         })
@@ -1770,7 +1764,7 @@ local Bird = {
       
       stateMachine:addState(self.STATEMACHINE_STATES.hit, {
           enter = function()
-              self.game.canPursue = true
+
               self.currentAnimationState=self.ANIMATION_STATES.hit
               self.steeringBehaviourMachine:clearSteering()
               self.steeringBehaviourMachine:enable(false)
@@ -1801,113 +1795,96 @@ local Bird = {
 
       -- Bird Pursue --------------------------------------------------------------------------
       
-        stateMachine:addState(self.STATEMACHINE_STATES.pursue, {
-            enter = function()
-                self.pursueTimer = njlic.Timer.create()
+      stateMachine:addState(self.STATEMACHINE_STATES.pursue, {
+          enter = function()
+              -- self.pursueTimer = njlic.Timer.create()
 
-                self.game.canPursue = false
-                self.currentAnimationState=self.ANIMATION_STATES.idle
-                self.offsetPosition = self.steeringBehaviorOffsetPursuit:getOffsetPosition()
-                self.steeringBehaviorOffsetPursuit:setOffsetPosition(bullet.btVector3(0,6,-2))
-                self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorOffsetPursuit)
+              self.game.canPursue = false
 
-                self.collided = false
-                self.dogAttacked = nil
+              self.currentAnimationState = self.ANIMATION_STATES.idle
 
-                  self.beak:taunt()
+              self.offsetPosition = self.steeringBehaviorOffsetPursuit:getOffsetPosition()
+
+              self.steeringBehaviorOffsetPursuit:setOffsetPosition(bullet.btVector3(0,6,-2))
+              self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviorOffsetPursuit)
+
+              self.beak:taunt()
           end,
           exit = function()
-              njlic.Timer.destroy(self.pursueTimer)
+              -- njlic.Timer.destroy(self.pursueTimer)
 
-                self.steeringBehaviorOffsetPursuit:setOffsetPosition(self.offsetPosition)
-                -- self.steeringBehaviorOffsetPursuit:setOffsetPosition(bullet.btVector3(0,20,0))
-                self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorOffsetPursuit)
-                self.game.canPursue = false
+              self.steeringBehaviorOffsetPursuit:setOffsetPosition(self.offsetPosition)
+              self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviorOffsetPursuit)
+
           end,
           update = function(timeStep)
-
-              if self.dogAttacked then
-                  self.pursueTimer:tick()
-
-                  if self.pursueTimer:isFinished() then
-                      self.stateMachine:switchStates(self.STATEMACHINE_STATES.grabbing)
-                      return
-                  end
-
-                  -- if not self.collided then
-                  --     self.collided = true
-                  --     self.pursueTimer:start(self.params.Bird[self.birdName].PursueTime)
-                  -- else
-                  --     if self.pursueTimer:isFinished() then
-                  --         self.stateMachine:switchStates(self.STATEMACHINE_STATES.grabbing)
-                  --         return
-                  --     end
-                  -- end
-              else
-                  self.pursueTimer:start(self.params.Bird[self.birdName].PursueTime)
-                  self.pursueTimer:enablePause()
-              end
-
-              self.dogAttacked = nil
-
           end,
           collide = function(colliderEntity, collisionPoint)
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.dog) then
+
                   self.dogAttacked = colliderEntity
-                  self.pursueTimer:enablePause(false)
+                  self.dogAttacked.birdAttacking = self
+
+                  -- self.pursueTimer:enablePause(false)
+
+                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.grabbing)
               end
+
               if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
                   self.stateMachine:switchStates(self.STATEMACHINE_STATES.hit)
+                  self.game.canPursue = true
               end
           end,
         })
 
-      -- Bird Spawn --------------------------------------------------------------------------
+        -- Bird Spawn --------------------------------------------------------------------------
       
-      stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
-          enter = function()
-              self.currentAnimationState=self.ANIMATION_STATES.idle
-          end,
-          exit = function()
-        end,
-          update = function(timeStep)
-              self.stateMachine:switchStates(self.STATEMACHINE_STATES.fly)
+        stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
+            enter = function()
+                self.currentAnimationState=self.ANIMATION_STATES.idle
             end,
-          collide = function(colliderEntity, collisionPoint)
-              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-              end
-          end,
+            exit = function()
+            end,
+            update = function(timeStep)
+                self.stateMachine:switchStates(self.STATEMACHINE_STATES.fly)
+            end,
+            collide = function(colliderEntity, collisionPoint)
+                if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                end
+            end,
         })
 
-      -- Bird Release --------------------------------------------------------------------------
+        -- Bird Release --------------------------------------------------------------------------
       
-      stateMachine:addState(self.STATEMACHINE_STATES.release, {
-          enter = function()
-              self.currentAnimationState=self.ANIMATION_STATES.hit
-              self.physicsBody:setKinematicPhysics()
+        stateMachine:addState(self.STATEMACHINE_STATES.release, {
+            enter = function()
+                self.dogAttacked.stateMachine:switchStates(self.dogAttacked.STATEMACHINE_STATES.released)
+                self.dogAttacked.birdAttacking = nil
+                self.dogAttacked = nil
+
+                self.currentAnimationState=self.ANIMATION_STATES.hit
+                self.physicsBody:setKinematicPhysics()
                 self.stunTimer = njlic.Timer.create()
-
                 self.stunTimer:start(self.params.Bird[self.birdName].StunTime)
-            self.game.canPursue = true
-          end,
-          exit = function()
-            njlic.Timer.destroy(self.stunTimer)
-        end,
-          update = function(timeStep)
-              if self.stunTimer:isFinished() then
-                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.fly)
-              end
 
-              self.stunTimer:tick()
             end,
-          collide = function(colliderEntity, collisionPoint)
-              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-              end
-          end,
+            exit = function()
+                njlic.Timer.destroy(self.stunTimer)
+            end,
+            update = function(timeStep)
+
+                if self.stunTimer:isFinished() then
+                    self.stateMachine:switchStates(self.STATEMACHINE_STATES.fly)
+                end
+
+                self.stunTimer:tick()
+            end,
+            collide = function(colliderEntity, collisionPoint)
+                if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                end
+            end,
         })
-
-      self.stateMachine = stateMachine
-
+        self.stateMachine = stateMachine
     end
 
     function bird:playSfx(sfx)
@@ -2659,17 +2636,15 @@ local Dog = {
               local birdNode_min, birdNode_max = self.birdAttacking.node:getAabb()
               local dogNode_min, dogNode_max = self.node:getAabb()
 
-
-                self.steeringBehaviourMachine:enable(false)
-                self.physicsBody:setDynamicPhysics()
-                self.physicsBody:setLinearFactor(bullet3.btVector3(1,1,0))
+              self.steeringBehaviourMachine:enable(false)
+              self.physicsBody:setDynamicPhysics()
+              self.physicsBody:setLinearFactor(bullet3.btVector3(1,1,0))
 
               self.constraint:setNodes(self.birdAttacking.node, self.node, bullet3.btVector3(0,birdNode_min:y() + 3,0), bullet3.btVector3(0,dogNode_max:y() - 3,-1))
-
           end,
           exit = function()
-                self.physicsBody:setLinearFactor(bullet3.btVector3(1,1,1))
-                self.steeringBehaviourMachine:enable(true)
+              self.physicsBody:setLinearFactor(bullet3.btVector3(1,1,1))
+              self.steeringBehaviourMachine:enable(true)
           end,
           update = function(timeStep)
           end,
@@ -2681,10 +2656,6 @@ local Dog = {
         })
       stateMachine:addState(self.STATEMACHINE_STATES.dazed, {
           enter = function()
-              -- self.game.ybSound.dog_bark1
-              -- self.game.ybSound.dog_bark2
-              -- self.game.ybSound.dog_howl1
-              -- self.game.ybSound.dog_whine1
               self:playSfx(self.game.ybSound.dog_whine1)
 
               self.currentAnimationState=self.ANIMATION_STATES.idle
@@ -2693,7 +2664,6 @@ local Dog = {
               self.steeringBehaviourMachine:enable(false)
 
               self.runClock = njlic.Clock.create()
-
           end,
           exit = function()
               njlic.Clock.destroy(self.runClock)
@@ -2714,11 +2684,10 @@ local Dog = {
           enter = function()
               self.currentAnimationState=self.ANIMATION_STATES.idle
               self.physicsBody:setKinematicPhysics()
-              -- self.game.ybSound.dog_bark1
-              -- self.game.ybSound.dog_bark2
-              -- self.game.ybSound.dog_howl1
-              -- self.game.ybSound.dog_whine1
+
               self:playSfx(self.game.ybSound.dog_howl1)
+
+              self.game.canPursue = true
           end,
           exit = function()
           end,
@@ -2728,80 +2697,71 @@ local Dog = {
           collide = function(colliderEntity, collisionPoint)
           end,
         })
-      stateMachine:addState(self.STATEMACHINE_STATES.released, {
-          enter = function()
-              self.currentAnimationState=self.ANIMATION_STATES.fall
-              self.physicsBody:setDynamicPhysics()
-              self.constraint:removeConstraint()
-              self.steeringBehaviourMachine:enable(false)
-              --
-              -- self.game.ybSound.dog_bark1
-              -- self.game.ybSound.dog_bark2
-              -- self.game.ybSound.dog_howl1
-              -- self.game.ybSound.dog_whine1
-              self:playSfx(self.game.ybSound.dog_bark2)
 
-          end,
-          exit = function()
-          end,
-          update = function(timeStep)
-            if self.node:getOrigin():y() < self.wayPointAabbMin:y() then
-                self.stateMachine:switchStates(self.STATEMACHINE_STATES.land)
-            end
-          end,
-          collide = function(colliderEntity, collisionPoint)
-          end,
+        stateMachine:addState(self.STATEMACHINE_STATES.released, {
+            enter = function()
+                self.currentAnimationState=self.ANIMATION_STATES.fall
+                self.physicsBody:setDynamicPhysics()
+                self.constraint:removeConstraint()
+                self.steeringBehaviourMachine:enable(false)
+
+                self:playSfx(self.game.ybSound.dog_bark2)
+            end,
+            exit = function()
+            end,
+            update = function(timeStep)
+                self.constraint:removeConstraint()
+                if self.node:getOrigin():y() < self.wayPointAabbMin:y() then
+                    self.stateMachine:switchStates(self.STATEMACHINE_STATES.land)
+                end
+            end,
+            collide = function(colliderEntity, collisionPoint)
+            end,
         })
-      stateMachine:addState(self.STATEMACHINE_STATES.run, {
-          enter = function()
+        stateMachine:addState(self.STATEMACHINE_STATES.run, {
+            enter = function()
+                self.currentAnimationState=self.ANIMATION_STATES.run
+                self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourFollowPath)
+                self.steeringBehaviourMachine:enable(true)
+                self.physicsBody:setKinematicPhysics()
 
-              self.currentAnimationState=self.ANIMATION_STATES.run
-              self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourFollowPath)
-              self.steeringBehaviourMachine:enable(true)
-              self.physicsBody:setKinematicPhysics()
-              -- self.game.ybSound.dog_bark1
-              -- self.game.ybSound.dog_bark2
-              -- self.game.ybSound.dog_howl1
-              -- self.game.ybSound.dog_whine1
-              self:playSfx(self.game.ybSound.dog_bark1)
-          end,
-          exit = function()
-              self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviourFollowPath)
-          end,
-          update = function(timeStep)
-          end,
-          collide = function(colliderEntity, collisionPoint)
-              if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.dazed)
-              elseif(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.bird) then
-                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.dazed)
-              end
-          end,
+                self:playSfx(self.game.ybSound.dog_bark1)
+            end,
+            exit = function()
+                self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviourFollowPath)
+            end,
+            update = function(timeStep)
+            end,
+            collide = function(colliderEntity, collisionPoint)
+                if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+                    self.stateMachine:switchStates(self.STATEMACHINE_STATES.dazed)
+                elseif(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.bird) then
+                    self.stateMachine:switchStates(self.STATEMACHINE_STATES.dazed)
+                end
+            end,
         })
-      stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
-          enter = function()
-              self.steeringBehaviourMachine:clearSteering()
+        stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
+            enter = function()
+                self.steeringBehaviourMachine:clearSteering()
 
-              self.currentAnimationState=self.ANIMATION_STATES.idle
-              self.runClock = njlic.Clock.create()
+                self.currentAnimationState=self.ANIMATION_STATES.idle
+                self.runClock = njlic.Clock.create()
 
-              self.physicsBody:setKinematicPhysics()
-          end,
-          exit = function()
-              njlic.Clock.destroy(self.runClock)
-          end,
-          update = function(timeStep)
-              if (self.runClock:getTimeMilliseconds() > 3000) then
-                  self.runClock:reset()
-                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.run)
-              end
-          end,
-          collide = function(colliderEntity, collisionPoint)
-          end,
+                self.physicsBody:setKinematicPhysics()
+            end,
+            exit = function()
+                njlic.Clock.destroy(self.runClock)
+            end,
+            update = function(timeStep)
+                if (self.runClock:getTimeMilliseconds() > 3000) then
+                    self.runClock:reset()
+                    self.stateMachine:switchStates(self.STATEMACHINE_STATES.run)
+                end
+            end,
+            collide = function(colliderEntity, collisionPoint)
+            end,
         })
-      self.stateMachine = stateMachine
-
-
+        self.stateMachine = stateMachine
     end
 
     function dog:playSfx(sfx)
@@ -3291,8 +3251,14 @@ local YappyBirds = {
       local width = (pauseButtonRect:x() / 3.0) 
       local height = (pauseButtonRect:y() / 3.0) 
 
+      njlic.SCREEN():y()
+
+      local pause_x = (njlic.SCREEN():x() - (width))
+      local pause_y = (height / 2.0) + (vert_margin * 2)
+      pause_y = njlic.SCREEN():y() - height
+
       pauseButton:setOrigin(
-      bullet.btVector3((njlic.SCREEN():x() - (width)) , (height / 2.0) + (vert_margin * 2), -1)
+      bullet.btVector3(pause_x , pause_y, -1)
       )
       self.pauseButton = pauseButton
       self.pauseButton:hide(self.orthographicCamera)
