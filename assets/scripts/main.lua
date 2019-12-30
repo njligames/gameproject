@@ -1704,6 +1704,7 @@ local Bird = {
           update = function(timeStep)
               if self.node:getOrigin():y() >= self.params.World.LoseBirdHeight then
 
+                  self.stateMachine:switchStates(self.STATEMACHINE_STATES.release)
                   self.game.lose = true
 
               else
@@ -3774,6 +3775,8 @@ local YappyBirds = {
     end
 
     function game:stop()
+        print('called game:stop()', self.run)
+
         if self.run then
             self.run = false
 
@@ -3786,6 +3789,7 @@ local YappyBirds = {
             end
 
             self.spawnMachine:reset(self.orthographicCamera)
+
             self.ybSound.interface_gameplay_theme:stop()
         end
     end
@@ -3798,53 +3802,54 @@ local YappyBirds = {
 
         self.yappyBirdsUi = yappyBirdsUi
 
-      if not self.run then
-          self.ybSound.interface_gameplay_theme:play()
-          self.ybSound.interface_gameplay_theme:enableLooping()
+        if not self.run then
+            self.ybSound.interface_gameplay_theme:play()
+            self.ybSound.interface_gameplay_theme:enableLooping()
 
-          self.canPursue = true
+            self.canPursue = true
 
-        self.spawnMachine.gameplay = self
+            self.spawnMachine.gameplay = self
 
-        self:loadLevel(yappyBirdsUi.stage, yappyBirdsUi.level, yappyBirdsUi.mode)
+            self:loadLevel(yappyBirdsUi.stage, yappyBirdsUi.level, yappyBirdsUi.mode)
 
-        for i = 1, #self.billboardPool do
-          local billboard = self.billboardPool[i]
-          billboard:spawn()
+            for i = 1, #self.billboardPool do
+                local billboard = self.billboardPool[i]
+                billboard:spawn()
+            end
+
+            njlic.World.getInstance():setBackgroundColor(self.levelLoader.backgroundColor)
+
+            local numDogsInLevel = 1
+
+            local numWayPoints = self.levelLoader:numDogWayPoints()
+
+            assert(numWayPoints > 0, "There are no way points")
+
+            for i=1, numDogsInLevel do
+                local index = math.random(numWayPoints)
+                local wayPoint = self.levelLoader:getDogWayPointParams(1)
+
+                local path = self.levelLoader:createWaypointPath()
+
+                assert(path, "The path is nil")
+
+                local queued = self.spawnMachine:queueDog({
+                    path=path,
+                    dimensions = wayPoint.dimensions,
+                })
+
+                if not queued then
+                else
+                end
+            end
+
+            self.pauseButton:show(self.orthographicCamera)
+            self.displayNode:show(self.orthographicCamera)
+
+            self.run = true
+            self.lose = false
+            self.win = false
         end
-
-        njlic.World.getInstance():setBackgroundColor(self.levelLoader.backgroundColor)
-
-        local numDogsInLevel = 1
-
-        local numWayPoints = self.levelLoader:numDogWayPoints()
-        assert(numWayPoints > 0, "There are no way points")
-
-        for i=1, numDogsInLevel do
-
-          local index = math.random(numWayPoints)
-          local wayPoint = self.levelLoader:getDogWayPointParams(1)
-
-          local path = self.levelLoader:createWaypointPath()
-
-          assert(path, "The path is nil")
-
-          local queued = self.spawnMachine:queueDog({
-              path=path,
-              dimensions = wayPoint.dimensions,
-            })
-          if not queued then
-          else
-          end
-        end
-
-          self.pauseButton:show(self.orthographicCamera)
-          self.displayNode:show(self.orthographicCamera)
-
-        self.run = true
-        self.lose = false
-        self.win = false
-      end
     end
 
     function game:_availableBird(...)

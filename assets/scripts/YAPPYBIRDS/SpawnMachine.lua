@@ -70,67 +70,69 @@ end
 
 function SpawnMachine:reset(camera)
 
+    print("kill all")
 
-    -- print("kill all")
+    for k,v in pairs(self.garbageQueue) do
+        print('garbageQueue')
 
-  for k,v in pairs(self.garbageQueue) do
-      -- print(k)
-      local entity = v
+        local entity = v
 
-      entity.node:hide(camera)
+        entity.node:hide(camera)
+        local status, err = pcall(entity.kill, entity)
+        if not status then print(err) end
+    end
+    self.garbageQueue = {}
 
-      local status, err = pcall(entity.kill, entity)
-      if not status then print(err) end
-  end
-  self.garbageQueue = {}
+    for k,v in pairs(self.birdQueue) do
+        print('birdQueue')
 
-  for k,v in pairs(self.birdQueue) do
-      -- print(k)
-      local entity = v
+        local entity = v
 
-      entity.node:hide(camera)
+        entity.node:hide(camera)
 
-      local status, err = pcall(entity.kill, entity)
-      if not status then print(err) end
-  end
-  self.birdQueue = {}
+        local status, err = pcall(entity.kill, entity)
+        if not status then print(err) end
+    end
+    self.birdQueue = {}
 
-  for k,v in pairs(self.balloonQueue) do
-      -- print(k)
-      local entity = v
+    for k,v in pairs(self.balloonQueue) do
+        print('balloonQueue')
 
-      entity.node:hide(camera)
+        local entity = v
 
-      local status, err = pcall(entity.kill, entity)
-      if not status then print(err) end
-  end
-  self.balloonQueue = {}
+        entity.node:hide(camera)
 
-  for k,v in pairs(self.dogQueue) do
-      -- print(k)
-      local entity = v
+        local status, err = pcall(entity.kill, entity)
+        if not status then print(err) end
+    end
+    self.balloonQueue = {}
 
-      entity.node:hide(camera)
+    for k,v in pairs(self.dogQueue) do
+        print('dogQueue')
 
-      local status, err = pcall(entity.kill, entity)
-      if not status then print(err) end
-  end
-  self.dogQueue = {}
+        local entity = v
 
-  for k,v in pairs(self.gameEntities) do
-      -- print(k)
-      local entity = v
+        entity.node:hide(camera)
+        local status, err = pcall(entity.kill, entity)
+        if not status then print(err) end
+    end
+    self.dogQueue = {}
 
-      entity.node:hide(camera)
+    for k,v in pairs(self.gameEntities) do
+        print('gameEntities', k, v)
 
-      local status, err = pcall(entity.kill, entity)
-      if not status then print(err) end
-  end
-  
-  self.gameEntities = {}
-  self.totalTicks = 0
-  self.arcadeSpawnPoints = {}
-  self.done = false
+        local entity = v
+
+        entity.node:hide(camera)
+
+        local status, err = pcall(entity.kill, entity)
+        if not status then print(err) end
+    end
+
+    self.gameEntities = {}
+    self.totalTicks = 0
+    self.arcadeSpawnPoints = {}
+    self.done = false
     self.spawnLeft = 0
 end
 
