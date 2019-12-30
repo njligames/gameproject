@@ -3210,6 +3210,70 @@ local YappyBirds = {
           self.uiPaused:hide(self.orthographicCamera)
           self.paused = false
 
+
+
+
+
+
+
+
+
+
+
+
+
+      local pauseQuitButton, pauseButtonRect, pauseButtonId = self.ybUi:getUi():createButton({
+          off = "butn_QUIT_off", 
+          on = "butn_QUIT_on", 
+          x = 200, 
+          y = 200, 
+          node = njlic.Node.create(), 
+          tp = self.interfaceTexturePacker, 
+          camera = self.orthographicCamera,
+          down = function() 
+          end,
+          up = function()
+
+              self.lose = true
+              self.paused = false
+              njlic.World.getInstance():enablePauseGame(self.paused)
+              self.uiPaused:hide(self.orthographicCamera)
+              self.pauseQuitButton:hide(self.orthographicCamera)
+
+          end,
+          scale = 10,
+          enabled = true,
+          --upSoundFileName = "sounds/interface_select-whoosh.ogg",
+          soundTouchUpInside = self.ybSound.interface_select_whoosh,
+      })
+      local _x = (njlic.SCREEN():x() * 0.5) - (pauseButtonRect:x() / 10)
+      local _y = (njlic.SCREEN():y() * 0.5) - (uiPausedRect:y() * 0.5) - (vert_margin * 2)
+
+      pauseQuitButton:setOrigin( bullet.btVector3(_x , _y, 10))
+      self.pauseQuitButton = pauseQuitButton
+      self.pauseQuitButton:hide(self.orthographicCamera)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       local pauseButton, pauseButtonRect, pauseButtonId = self.ybUi:getUi():createButton({
           off = "butn_pause_off", 
           on = "butn_pause_on", 
@@ -3234,11 +3298,11 @@ local YappyBirds = {
 
               if self.paused then
                   self.uiPaused:show(self.orthographicCamera)
+                  self.pauseQuitButton:show(self.orthographicCamera)
               else
                   self.uiPaused:hide(self.orthographicCamera)
+                  self.pauseQuitButton:hide(self.orthographicCamera)
               end
-
-                  -- self.uiPaused:show(self.camera)
 
           end,
           scale = 10,
@@ -3713,7 +3777,6 @@ local YappyBirds = {
         if self.run then
             self.run = false
 
-            -- self.uiPaused:hide(self.orthographicCamera)
             self.pauseButton:hide(self.orthographicCamera)
             self.displayNode:hide(self.orthographicCamera)
 
@@ -3775,7 +3838,6 @@ local YappyBirds = {
           end
         end
 
-            -- self.uiPaused:show(self.orthographicCamera)
           self.pauseButton:show(self.orthographicCamera)
           self.displayNode:show(self.orthographicCamera)
 
