@@ -1443,6 +1443,7 @@ local Beak = {
     end
 
     function beak:incrementAnimationFrame()
+
         if self.stateMachine.currentStateName ~= "idle" then
             self.currentFrame = self.currentFrame + 1
         end
@@ -2086,6 +2087,7 @@ local Bird = {
       local spawnMachine = arg.spawnMachine or nil
       local initialVelocity = arg.initialVelocity or 0
 
+      self.dimensions = dimensions
       self.spawnMachine = spawnMachine
       self.initialVelocity = initialVelocity
 
@@ -2171,6 +2173,7 @@ local Bird = {
         self.node = self.texturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
       end
 
+      self.node:getGeometry():setDimensions(self.node, self.dimensions)
       self.beak:incrementAnimationFrame()
     end
 
@@ -3078,12 +3081,7 @@ local YappyBirds = {
         local debug = false
 
 
-      local shader = njlic.ShaderProgram.create()
-      assert(njlic.World.getInstance():getWorldResourceLoader():load("shaders/StandardShader.vert", "shaders/StandardShader.frag", shader))
-      self.shader = shader
 
-      -- ###################################################################################################
-      --
       self.stageTexturePackerTable["country"] = TexturePacker({file=string.format("%s0", "country")})
 
       table.insert(self.gameplayTexturePacker, TexturePacker({file="gameplay0"}))
@@ -3092,60 +3090,77 @@ local YappyBirds = {
         table.insert(self.debugTexturePacker, TexturePacker({file="debug0"}))
       end
 
-      -- ###################################################################################################
 
 
 
 
-      -- ###################################################################################################
 
-      local scene = njlic.Scene.create()
 
-      local rootNode = njlic.Node.create()
-      rootNode:setOrigin(bullet3.btVector3(0,0,0))
+    self.shader, self.perspectiveCameraNode, self.orthographicCameraNode, self.physicsWorld = SetupStandardWorld(debug, self.params.World.Gravity)
 
-      scene:setRootNode(rootNode)
 
-      njlic.World.getInstance():setScene(scene)
+      self.orthographicCamera = self.orthographicCameraNode:getCamera()
+      self.perspectiveCamera = self.perspectiveCameraNode:getCamera()
 
-      -- ###################################################################################################
+      -- local shader = njlic.ShaderProgram.create()
+      -- assert(njlic.World.getInstance():getWorldResourceLoader():load("shaders/StandardShader.vert", "shaders/StandardShader.frag", shader))
+      -- self.shader = shader
 
-      self.perspectiveCameraNode = njlic.Node.create()
-      self.perspectiveCameraNode:setName("perspectiveCamera")
 
-      self.perspectiveCamera = njlic.Camera.create()
-      self.perspectiveCamera:enableOrthographic(false)
-      self.perspectiveCamera:setRenderCategory(RenderCategories.perspective)
-      self.perspectiveCamera:setName("perspectiveCamera")
+      -- -- ###################################################################################################
 
-      self.perspectiveCameraNode:setCamera(self.perspectiveCamera)
 
-      rootNode:addChildNode(self.perspectiveCameraNode)
-      if debug then
-          njlic.World.getInstance():enableDebugDraw(self.perspectiveCamera)
-      end
 
-      -- ###################################################################################################
 
-      self.orthographicCameraNode = njlic.Node.create()
-      self.orthographicCameraNode:setName("orthographicCameraNode")
+      -- -- ###################################################################################################
 
-      self.orthographicCamera = njlic.Camera.create()
-      self.orthographicCamera:enableOrthographic(true)
-      self.orthographicCamera:setRenderCategory(RenderCategories.orthographic)
-      self.orthographicCamera:setName("orthographicCamera")
+      -- local scene = njlic.Scene.create()
 
-      self.orthographicCameraNode:setCamera(self.orthographicCamera)
+      -- local rootNode = njlic.Node.create()
+      -- rootNode:setOrigin(bullet3.btVector3(0,0,0))
 
-      rootNode:addChildNode(self.orthographicCameraNode)
-      njlic.World.getInstance():getScene():setTouchCamera(self.orthographicCamera)
+      -- scene:setRootNode(rootNode)
 
-      -- ###################################################################################################
+      -- njlic.World.getInstance():setScene(scene)
 
-      self.physicsWorld = njlic.PhysicsWorld.create()
-      self.physicsWorld:setGravity(self.params.World.Gravity)
+      -- -- ###################################################################################################
 
-      njlic.World.getInstance():getScene():setPhysicsWorld(self.physicsWorld)
+      -- self.perspectiveCameraNode = njlic.Node.create()
+      -- self.perspectiveCameraNode:setName("perspectiveCamera")
+
+      -- self.perspectiveCamera = njlic.Camera.create()
+      -- self.perspectiveCamera:enableOrthographic(false)
+      -- self.perspectiveCamera:setRenderCategory(RenderCategories.perspective)
+      -- self.perspectiveCamera:setName("perspectiveCamera")
+
+      -- self.perspectiveCameraNode:setCamera(self.perspectiveCamera)
+
+      -- rootNode:addChildNode(self.perspectiveCameraNode)
+      -- if debug then
+      --     njlic.World.getInstance():enableDebugDraw(self.perspectiveCamera)
+      -- end
+
+      -- -- ###################################################################################################
+
+      -- self.orthographicCameraNode = njlic.Node.create()
+      -- self.orthographicCameraNode:setName("orthographicCameraNode")
+
+      -- self.orthographicCamera = njlic.Camera.create()
+      -- self.orthographicCamera:enableOrthographic(true)
+      -- self.orthographicCamera:setRenderCategory(RenderCategories.orthographic)
+      -- self.orthographicCamera:setName("orthographicCamera")
+
+      -- self.orthographicCameraNode:setCamera(self.orthographicCamera)
+
+      -- rootNode:addChildNode(self.orthographicCameraNode)
+      -- njlic.World.getInstance():getScene():setTouchCamera(self.orthographicCamera)
+
+      -- -- ###################################################################################################
+
+      -- self.physicsWorld = njlic.PhysicsWorld.create()
+      -- self.physicsWorld:setGravity(self.params.World.Gravity)
+
+      -- njlic.World.getInstance():getScene():setPhysicsWorld(self.physicsWorld)
 
       -- ###################################################################################################
 
@@ -4533,6 +4548,129 @@ local TestLevelSaver = {
 
 
 
+local TestGameTexturePacker = {
+    new = function()
+        local test = {
+            gameplayTexturePacker = {},
+            currentAnimationState = "grab",
+            birdName = "webo",
+            currentFrame = 0,
+        }
+
+        function test:getFrameName()
+            local state = self.currentAnimationState
+            local birdName = self.birdName
+
+            if state == "fly" then
+            elseif state == "grabbed" then
+            elseif state == "grabbing" then
+            elseif state == "hit" then
+            elseif state == "pursue" then
+            elseif state == "spawn" then
+            end
+
+            local name = string.format("character_%sBird_%s_front/character_%sBird_%s_front_%05d", birdName, state, birdName, state, self.currentFrame)
+            return name
+        end
+
+        function test:incrementAnimationFrame()
+            -- if self.stateMachine.currentStateName ~= "idle" then
+                self.currentFrame = self.currentFrame + 1
+            -- end
+            -- print('incrementAnimationFrame')
+
+            if(self.currentFrame > 8) then self.currentFrame = 0 end
+
+            -- print(self.currentFrame)
+
+            local name = self:getFrameName()
+
+            print(name)
+
+            if self.gameplayTexturePacker[1]:has({name=name}) then
+                self.node, d, frame = self.gameplayTexturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
+            elseif self.gameplayTexturePacker[2]:has({name=name}) then
+                self.node, d, frame = self.gameplayTexturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
+            end
+
+            -- print("*", self.node:getName(), self.node:getGeometry():getName())
+
+            -- print_r(frame)
+
+            self.node:show(self.perspectiveCamera)
+            self.node:show(self.orthographicCamera)
+        end
+
+        function test:load()
+            self.shader, self.perspectiveCameraNode, self.orthographicCameraNode, self.physicsWorld = SetupStandardWorld(debug)
+
+            self.orthographicCamera = self.orthographicCameraNode:getCamera()
+            self.perspectiveCamera = self.perspectiveCameraNode:getCamera()
+
+
+            table.insert(self.gameplayTexturePacker, TexturePacker({file="gameplay0"}))
+            table.insert(self.gameplayTexturePacker, TexturePacker({file="gameplay1"}))
+
+            self.node = njlic.Node.create()
+            if self.gameplayTexturePacker[1]:has({name=name}) then
+                self.node = self.gameplayTexturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
+            elseif self.gameplayTexturePacker[2]:has({name=name}) then
+                self.node = self.gameplayTexturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
+            end
+            self.node:setOrigin(bullet3.btVector3(100,100,-1))
+            self.node:setScale(100)
+            self.node:show(self.orthographicCamera)
+    
+            njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
+
+            self.animationClock = njlic.Clock.create()
+        end
+
+        function test:unload()
+        end
+
+        function test:update(timestep)
+            local fps = 30
+            local animationClock = self.animationClock
+            if nil ~= animationClock then
+                if (animationClock:getTimeMilliseconds() / 1000) > (1.0 / fps) then
+                    -- print('reset')
+                    animationClock:reset()
+
+                    self:incrementAnimationFrame()
+                end
+            end
+        end
+
+        function test:collide(node, otherNode, collisionPoint)
+        end
+
+        function test:click(x, y)
+        end
+
+        function test:down(rayContact)
+        end
+
+        function test:up(rayContact)
+        end
+
+        function test:move(rayContact)
+        end
+
+        function test:cancelled(rayContact)
+        end
+
+        function test:missed(node, deviceTouch)
+        end
+
+        function test:updateAction(action, timeStep)
+        end
+
+        return test
+
+    end
+
+}
 
 
 
@@ -4713,6 +4851,7 @@ local Create = function()
     -- yappyBirds = TestLevelSaver.new()
     -- yappyBirds = TestSound.new()
     -- yappyBirds = TestBullet.new()
+    -- yappyBirds = TestGameTexturePacker.new()
     yappyBirds:load()
 end
 
