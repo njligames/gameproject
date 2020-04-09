@@ -3226,16 +3226,31 @@ local YappyBirds = {
           self.uiPaused:hide(self.orthographicCamera)
           self.paused = false
 
+          local windowLeftPane, windowLeftPaneRect, windowLeftPaneId = self.ybUi:getUi():createImage({
+              name = "window_pane_left",
+              x = 0, 
+              y = 0, 
+              node = njlic.Node.create(), 
+              tp = self.interfaceTexturePacker, 
+              camera = self.orthographicCamera,
+              scale = 7,
+          })
+          windowLeftPane:setOrigin( bullet.btVector3(110 , 0, 10))
+          self.windowLeftPane = windowLeftPane
+          self.windowLeftPane:show(self.orthographicCamera)
 
-
-
-
-
-
-
-
-
-
+          local windowRightPane, windowRightPaneRect, windowRightPaneId = self.ybUi:getUi():createImage({
+              name = "window_pane_right",
+              x = 0, 
+              y = 0, 
+              node = njlic.Node.create(), 
+              tp = self.interfaceTexturePacker, 
+              camera = self.orthographicCamera,
+              scale = 7,
+          })
+          windowRightPane:setOrigin( bullet.btVector3(njlic.SCREEN():x() - 110 , 0, 10))
+          self.windowRightPane = windowRightPane
+          self.windowRightPane:show(self.orthographicCamera)
 
 
       local pauseQuitButton, pauseButtonRect, pauseButtonId = self.ybUi:getUi():createButton({
@@ -3738,8 +3753,8 @@ local YappyBirds = {
       if hasBalloon and self.run and not self.ybUi:getUi():anyTouched() then
 
           if not self.paused then
-              local origin = self.params:originForLayer({x=x, y=y}, 10)
               local dimensions = self.params:dimensionForLayer()
+              local origin = self.params:originForLayer({x=x-(dimensions:x()*0.5), y=y-(dimensions:y()*0.5)}, 10)
               local queued = self.spawnMachine:queueBalloon({
                   origin = origin,
                   dimensions = dimensions,

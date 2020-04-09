@@ -381,6 +381,33 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">TexturePacker/ui_paused.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>42,12,83,25</rect>
+                <key>scale9Paddings</key>
+                <rect>42,12,83,25</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">TexturePacker/window_pane_left.png</key>
+            <key type="filename">TexturePacker/window_pane_right.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,256,32,512</rect>
+                <key>scale9Paddings</key>
+                <rect>16,256,32,512</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>

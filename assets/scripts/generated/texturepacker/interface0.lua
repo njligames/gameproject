@@ -2,7 +2,7 @@
 -- created with TexturePacker - https://www.codeandweb.com/texturepacker
 --
 -- TODO: Change this exmaple to make sense for NJLICEngine
--- $TexturePacker:SmartUpdate:603fcf8fdec8e1ead3476c8f34a8cc67:5ac60addccf875259b58e616b861ba6f:7c7b926951ecd55be01c75913320eada$
+-- $TexturePacker:SmartUpdate:f1792a9a64108de8f7d627c03fc05a2c:bfa13f6e04e0157f6705d8566ffd3165:7c7b926951ecd55be01c75913320eada$
 --
 -- local sheetInfo = require("mysheet")
 -- local myImageSheet = graphics.newImageSheet( "mysheet.png", sheetInfo:getSheet() )
@@ -16,8 +16,8 @@ SheetInfo.sheet =
 frames = {
   
   {
-    x=1910,
-    y=1,
+    x=133,
+    y=907,
 
     width=114,
     height=48,
@@ -37,8 +37,8 @@ frames = {
   },
   
   {
-    x=1910,
-    y=51,
+    x=133,
+    y=957,
 
     width=114,
     height=48,
@@ -58,8 +58,8 @@ frames = {
   },
   
   {
-    x=1910,
-    y=101,
+    x=249,
+    y=907,
 
     width=114,
     height=48,
@@ -79,8 +79,8 @@ frames = {
   },
   
   {
-    x=1910,
-    y=151,
+    x=249,
+    y=957,
 
     width=114,
     height=48,
@@ -100,8 +100,8 @@ frames = {
   },
   
   {
-    x=1910,
-    y=201,
+    x=365,
+    y=907,
 
     width=114,
     height=48,
@@ -121,8 +121,8 @@ frames = {
   },
   
   {
-    x=1910,
-    y=251,
+    x=365,
+    y=957,
 
     width=114,
     height=48,
@@ -142,8 +142,8 @@ frames = {
   },
   
   {
-    x=1910,
-    y=301,
+    x=391,
+    y=775,
 
     width=114,
     height=48,
@@ -163,8 +163,8 @@ frames = {
   },
   
   {
-    x=1899,
-    y=351,
+    x=391,
+    y=825,
 
     width=114,
     height=48,
@@ -184,8 +184,8 @@ frames = {
   },
   
   {
-    x=1394,
-    y=375,
+    x=481,
+    y=875,
 
     width=114,
     height=48,
@@ -205,8 +205,8 @@ frames = {
   },
   
   {
-    x=1394,
-    y=425,
+    x=507,
+    y=775,
 
     width=114,
     height=48,
@@ -226,8 +226,8 @@ frames = {
   },
   
   {
-    x=1608,
-    y=423,
+    x=507,
+    y=825,
 
     width=114,
     height=48,
@@ -247,8 +247,8 @@ frames = {
   },
   
   {
-    x=1724,
-    y=430,
+    x=481,
+    y=925,
 
     width=114,
     height=48,
@@ -268,8 +268,8 @@ frames = {
   },
   
   {
-    x=1890,
-    y=475,
+    x=481,
+    y=975,
 
     width=114,
     height=48,
@@ -289,8 +289,8 @@ frames = {
   },
   
   {
-    x=1510,
-    y=473,
+    x=566,
+    y=1025,
 
     width=114,
     height=48,
@@ -310,8 +310,8 @@ frames = {
   },
   
   {
-    x=1724,
-    y=480,
+    x=597,
+    y=875,
 
     width=114,
     height=48,
@@ -331,8 +331,8 @@ frames = {
   },
   
   {
-    x=1840,
-    y=441,
+    x=641,
+    y=1875,
 
     width=48,
     height=48,
@@ -352,8 +352,8 @@ frames = {
   },
   
   {
-    x=1840,
-    y=491,
+    x=641,
+    y=1925,
 
     width=48,
     height=48,
@@ -373,8 +373,8 @@ frames = {
   },
   
   {
-    x=1724,
-    y=530,
+    x=623,
+    y=775,
 
     width=114,
     height=48,
@@ -394,8 +394,8 @@ frames = {
   },
   
   {
-    x=1394,
-    y=475,
+    x=623,
+    y=825,
 
     width=114,
     height=48,
@@ -415,8 +415,8 @@ frames = {
   },
   
   {
-    x=1510,
-    y=375,
+    x=1,
+    y=1914,
 
     width=96,
     height=96,
@@ -436,8 +436,8 @@ frames = {
   },
   
   {
-    x=1626,
-    y=473,
+    x=99,
+    y=1914,
 
     width=96,
     height=96,
@@ -457,8 +457,8 @@ frames = {
   },
   
   {
-    x=291,
-    y=323,
+    x=133,
+    y=1,
 
     width=256,
     height=256,
@@ -478,8 +478,8 @@ frames = {
   },
   
   {
-    x=1,
-    y=397,
+    x=133,
+    y=259,
 
     width=256,
     height=256,
@@ -499,8 +499,8 @@ frames = {
   },
   
   {
-    x=1136,
-    y=1,
+    x=133,
+    y=517,
 
     width=256,
     height=256,
@@ -520,7 +520,7 @@ frames = {
   },
   
   {
-    x=1394,
+    x=391,
     y=1,
 
     width=256,
@@ -541,8 +541,8 @@ frames = {
   },
   
   {
-    x=1652,
-    y=1,
+    x=391,
+    y=259,
 
     width=256,
     height=256,
@@ -562,8 +562,8 @@ frames = {
   },
   
   {
-    x=1136,
-    y=259,
+    x=391,
+    y=517,
 
     width=256,
     height=256,
@@ -583,8 +583,8 @@ frames = {
   },
   
   {
-    x=1510,
-    y=523,
+    x=597,
+    y=925,
 
     width=114,
     height=48,
@@ -604,8 +604,8 @@ frames = {
   },
   
   {
-    x=1890,
-    y=525,
+    x=597,
+    y=975,
 
     width=114,
     height=48,
@@ -625,8 +625,8 @@ frames = {
   },
   
   {
-    x=1840,
-    y=575,
+    x=566,
+    y=1075,
 
     width=114,
     height=48,
@@ -646,8 +646,8 @@ frames = {
   },
   
   {
-    x=1136,
-    y=517,
+    x=566,
+    y=1125,
 
     width=114,
     height=48,
@@ -667,8 +667,8 @@ frames = {
   },
   
   {
-    x=1252,
-    y=517,
+    x=566,
+    y=1175,
 
     width=114,
     height=48,
@@ -688,8 +688,8 @@ frames = {
   },
   
   {
-    x=1368,
-    y=525,
+    x=566,
+    y=1225,
 
     width=114,
     height=48,
@@ -709,8 +709,8 @@ frames = {
   },
   
   {
-    x=1484,
-    y=573,
+    x=566,
+    y=1275,
 
     width=114,
     height=48,
@@ -730,8 +730,8 @@ frames = {
   },
   
   {
-    x=1600,
-    y=573,
+    x=566,
+    y=1325,
 
     width=114,
     height=48,
@@ -751,8 +751,8 @@ frames = {
   },
   
   {
-    x=1716,
-    y=580,
+    x=566,
+    y=1375,
 
     width=114,
     height=48,
@@ -772,8 +772,8 @@ frames = {
   },
   
   {
-    x=1832,
-    y=625,
+    x=566,
+    y=1425,
 
     width=114,
     height=48,
@@ -793,8 +793,8 @@ frames = {
   },
   
   {
-    x=549,
-    y=566,
+    x=566,
+    y=1475,
 
     width=114,
     height=48,
@@ -814,8 +814,8 @@ frames = {
   },
   
   {
-    x=259,
-    y=581,
+    x=566,
+    y=1525,
 
     width=114,
     height=48,
@@ -835,8 +835,8 @@ frames = {
   },
   
   {
-    x=1846,
-    y=325,
+    x=197,
+    y=1988,
 
     width=51,
     height=56,
@@ -856,8 +856,8 @@ frames = {
   },
   
   {
-    x=1788,
-    y=372,
+    x=250,
+    y=1988,
 
     width=51,
     height=56,
@@ -877,8 +877,8 @@ frames = {
   },
   
   {
-    x=1841,
-    y=383,
+    x=303,
+    y=1988,
 
     width=51,
     height=56,
@@ -898,8 +898,8 @@ frames = {
   },
   
   {
-    x=375,
-    y=581,
+    x=571,
+    y=1575,
 
     width=114,
     height=48,
@@ -919,8 +919,8 @@ frames = {
   },
   
   {
-    x=665,
-    y=566,
+    x=571,
+    y=1625,
 
     width=114,
     height=48,
@@ -940,8 +940,8 @@ frames = {
   },
   
   {
-    x=781,
-    y=566,
+    x=571,
+    y=1675,
 
     width=114,
     height=48,
@@ -961,8 +961,8 @@ frames = {
   },
   
   {
-    x=897,
-    y=566,
+    x=571,
+    y=1725,
 
     width=114,
     height=48,
@@ -982,8 +982,8 @@ frames = {
   },
   
   {
-    x=1013,
-    y=566,
+    x=571,
+    y=1775,
 
     width=114,
     height=48,
@@ -1003,8 +1003,8 @@ frames = {
   },
   
   {
-    x=1129,
-    y=567,
+    x=571,
+    y=1825,
 
     width=114,
     height=48,
@@ -1024,8 +1024,8 @@ frames = {
   },
   
   {
-    x=1620,
-    y=325,
+    x=682,
+    y=1025,
 
     width=224,
     height=45,
@@ -1045,8 +1045,8 @@ frames = {
   },
   
   {
-    x=1394,
-    y=325,
+    x=524,
+    y=1988,
 
     width=224,
     height=48,
@@ -1067,7 +1067,7 @@ frames = {
   
   {
     x=1,
-    y=1,
+    y=1592,
 
     width=568,
     height=320,
@@ -1087,8 +1087,8 @@ frames = {
   },
   
   {
-    x=1394,
-    y=259,
+    x=133,
+    y=775,
 
     width=256,
     height=64,
@@ -1108,8 +1108,8 @@ frames = {
   },
   
   {
-    x=1652,
-    y=259,
+    x=133,
+    y=841,
 
     width=256,
     height=64,
@@ -1129,8 +1129,8 @@ frames = {
   },
   
   {
-    x=1894,
-    y=401,
+    x=487,
+    y=1914,
 
     width=152,
     height=72,
@@ -1150,8 +1150,8 @@ frames = {
   },
   
   {
-    x=1,
-    y=323,
+    x=197,
+    y=1914,
 
     width=288,
     height=72,
@@ -1171,8 +1171,8 @@ frames = {
   },
   
   {
-    x=571,
-    y=1,
+    x=1,
+    y=1027,
 
     width=563,
     height=563,
@@ -1192,8 +1192,8 @@ frames = {
   },
   
   {
-    x=1620,
-    y=372,
+    x=356,
+    y=1988,
 
     width=166,
     height=49,
@@ -1210,6 +1210,48 @@ frames = {
     sourceHeight = 49,
 
     trimmedName = "ui_paused",
+  },
+  
+  {
+    x=1,
+    y=1,
+
+    width=64,
+    height=1024,
+
+    widthFile=64,
+    heightFile=1024,
+
+    pivotx=32,
+    pivoty=512,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 64,
+    sourceHeight = 1024,
+
+    trimmedName = "window_pane_left",
+  },
+  
+  {
+    x=67,
+    y=1,
+
+    width=64,
+    height=1024,
+
+    widthFile=64,
+    heightFile=1024,
+
+    pivotx=32,
+    pivoty=512,
+
+    sourceX = 0,
+    sourceY = 0,
+    sourceWidth = 64,
+    sourceHeight = 1024,
+
+    trimmedName = "window_pane_right",
   },
   
   },
@@ -1357,6 +1399,10 @@ SheetInfo.frameIndex =
   ["ui_background_tile"] = 56,
 
   ["ui_paused"] = 57,
+
+  ["window_pane_left"] = 58,
+
+  ["window_pane_right"] = 59,
 
 }
 
