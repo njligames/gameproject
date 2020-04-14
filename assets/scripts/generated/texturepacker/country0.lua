@@ -2,7 +2,7 @@
 -- created with TexturePacker - https://www.codeandweb.com/texturepacker
 --
 -- TODO: Change this exmaple to make sense for NJLICEngine
--- $TexturePacker:SmartUpdate:450dee36a4c5c22bcda3a901213bf34c:c819214bca96bf3c5c0c951ce8397410:18cc0faedb801f0310f07fa32ca9fcf5$
+-- $TexturePacker:SmartUpdate:9313ef5a79501be90ffdec396d4ff0d4:b9c36eac85f85d82e2ecc25db110f789:18cc0faedb801f0310f07fa32ca9fcf5$
 --
 -- local sheetInfo = require("mysheet")
 -- local myImageSheet = graphics.newImageSheet( "mysheet.png", sheetInfo:getSheet() )
@@ -143,21 +143,21 @@ frames = {
   
   {
     x=1,
-    y=891,
+    y=1777,
 
     width=2048,
-    height=376,
+    height=752,
 
     widthFile=2048,
-    heightFile=376,
+    heightFile=752,
 
     pivotx=0,
-    pivoty=376,
+    pivoty=752,
 
     sourceX = 0,
     sourceY = 0,
     sourceWidth = 2048,
-    sourceHeight = 376,
+    sourceHeight = 752,
 
     trimmedName = "2048hills00",
   },
@@ -167,39 +167,39 @@ frames = {
     y=1,
 
     width=2048,
-    height=463,
+    height=926,
 
     widthFile=2048,
-    heightFile=463,
+    heightFile=926,
 
     pivotx=0,
-    pivoty=463,
+    pivoty=926,
 
     sourceX = 0,
     sourceY = 0,
     sourceWidth = 2048,
-    sourceHeight = 463,
+    sourceHeight = 926,
 
     trimmedName = "2048hills01",
   },
   
   {
     x=1,
-    y=466,
+    y=929,
 
     width=2048,
-    height=423,
+    height=846,
 
     widthFile=2048,
-    heightFile=423,
+    heightFile=846,
 
     pivotx=0,
-    pivoty=423,
+    pivoty=846,
 
     sourceX = 0,
     sourceY = 0,
     sourceWidth = 2048,
-    sourceHeight = 423,
+    sourceHeight = 846,
 
     trimmedName = "2048hills02",
   },

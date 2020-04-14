@@ -12,261 +12,261 @@ local ParamInfo = {}
 
 ParamInfo =
 {
-    World =
+  World =
+  {
+    Gravity = bullet.btVector3(0,-60.81,0),
+    LayerDistance = 0.1, --meters (50 feet), How far each layer is from eachother
+    LayerMax = 60.4125, --meters (200 feet), How far the 4th (farthest) layer is from the camera
+    WorldOffset = bullet.btVector2(0.00, 19.52),
+    WorldScale = 89.0430,
+    MinBrightnessForDistance = 0.8, --value from 0.0 (black) to 1.0 (the image's brightness)
+    LoseBirdHeight = 36.0,
+  },
+  Projectile = 
+  {
+    WaterBalloon =
     {
-        Gravity = bullet.btVector3(0,-60.81,0),
-        LayerDistance = 0.1, --meters (50 feet), How far each layer is from eachother
-        LayerMax = 60.4125, --meters (200 feet), How far the 4th (farthest) layer is from the camera
-        WorldOffset = bullet.btVector2(0.00, 19.52),
-        WorldScale = 89.0430,
-        MinBrightnessForDistance = 0.8, --value from 0.0 (black) to 1.0 (the image's brightness)
-        LoseBirdHeight = 36.0,
+      Azimuth = 10*0.5, --Angle fro mthe ground up
+      Magnitude = 45*2, --How fast the balloon goes when you tap the screen.
+      DieY = -50, --Y position for when the balloon's memory gets cleaned up.
+      Mass = 1, --The mass of the balloon.
+      FramesPerSecond = 30.0, -- must be: 1 <= fps <= 60
+      Hues = {
+        0,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        160,
+        170,
+        180,
+        -10,
+        -20,
+        -30,
+        -40,
+        -50,
+        -60,
+        -70,
+        -80,
+        -90,
+        -100,
+        -110,
+        -120,
+        -130,
+        -140,
+        -150,
+        -160,
+        -170,
+        -180,
+      },
+      ScaleMin = 0.1,
+      ScaleMax = 1.0,
+      --Still have to make these variables live...
+      DeathVariables = {
+        FramesPerSecond = 30.0, -- must be: 1 <= fps <= 60
+        ShowParticles = false,
+      },
     },
-	Projectile = 
-	{
-		WaterBalloon =
-		{
-			Azimuth = 10*0.5, --Angle fro mthe ground up
-			Magnitude = 45*2, --How fast the balloon goes when you tap the screen.
-			DieY = -50, --Y position for when the balloon's memory gets cleaned up.
-            Mass = 1, --The mass of the balloon.
-            FramesPerSecond = 30.0, -- must be: 1 <= fps <= 60
-            Hues = {
-                0,
-                10,
-                20,
-                30,
-                40,
-                50,
-                60,
-                70,
-                80,
-                90,
-                100,
-                110,
-                120,
-                130,
-                140,
-                150,
-                160,
-                170,
-                180,
-                -10,
-                -20,
-                -30,
-                -40,
-                -50,
-                -60,
-                -70,
-                -80,
-                -90,
-                -100,
-                -110,
-                -120,
-                -130,
-                -140,
-                -150,
-                -160,
-                -170,
-                -180,
-            },
-            ScaleMin = 0.1,
-            ScaleMax = 1.0,
-            --Still have to make these variables live...
-            DeathVariables = {
-                FramesPerSecond = 30.0, -- must be: 1 <= fps <= 60
-                ShowParticles = false,
-            },
-		},
-	},
-	Dog = 
-	{
-		MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
-		MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),		
-		DazedTime = (0.5 * 1000),
-		CapturedHeight = 20,
-	},
-	Bird =
-	{
-		chubi =
-		{
-			MaxSpeed = 50.0,
-			MaxForce = 2000.0,
-            PursueTime = (6 * 100),
-            StunTime = (6 * 100),
-			StealSpeed = 16,
-			DieY = -50,
-		},
-		garu =
-		{
-			MaxSpeed = 60.0,
-			MaxForce = 2000.0,
-			PursueTime = (5 * 100),
-            StunTime = (5 * 100),
-			StealSpeed = 17,
-			DieY = -50,
-		},
-		momi =
-		{
-			MaxSpeed = 70.0,
-			MaxForce = 2000.0,
-			PursueTime = (4 * 100),
-            StunTime = (4 * 100),
-			StealSpeed = 18,
-			DieY = -50,
-		},
-		puffy =
-		{
-			MaxSpeed = 80.0,
-			MaxForce = 2000.0,
-			PursueTime = (3 * 100),
-            StunTime = (3 * 100),
-			StealSpeed = 19,
-			DieY = -50,
-		},
-		webo =
-		{
-			MaxSpeed = 90.0,
-			MaxForce = 2000.0,
-			PursueTime = (2 * 100),
-            StunTime = (2 * 100),
-			StealSpeed = 20,
-			DieY = -50,
-		},
-		zuru =
-		{
-			MaxSpeed = 100.0,
-			MaxForce = 2000.0,
-			PursueTime = (1 * 100),
-            StunTime = (1 * 100),
-			StealSpeed = 21,
-			DieY = -50,
-		},
-		
-	},
+  },
+  Dog = 
+  {
+    MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+    MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),		
+    DazedTime = (0.5 * 1000),
+    CapturedHeight = 20,
+  },
+  Bird =
+  {
+    chubi =
+    {
+      MaxSpeed = 50.0,
+      MaxForce = 2000.0,
+      PursueTime = (6 * 100),
+      StunTime = (6 * 100),
+      StealSpeed = 16,
+      DieY = -50,
+    },
+    garu =
+    {
+      MaxSpeed = 60.0,
+      MaxForce = 2000.0,
+      PursueTime = (5 * 100),
+      StunTime = (5 * 100),
+      StealSpeed = 17,
+      DieY = -50,
+    },
+    momi =
+    {
+      MaxSpeed = 70.0,
+      MaxForce = 2000.0,
+      PursueTime = (4 * 100),
+      StunTime = (4 * 100),
+      StealSpeed = 18,
+      DieY = -50,
+    },
+    puffy =
+    {
+      MaxSpeed = 80.0,
+      MaxForce = 2000.0,
+      PursueTime = (3 * 100),
+      StunTime = (3 * 100),
+      StealSpeed = 19,
+      DieY = -50,
+    },
+    webo =
+    {
+      MaxSpeed = 90.0,
+      MaxForce = 2000.0,
+      PursueTime = (2 * 100),
+      StunTime = (2 * 100),
+      StealSpeed = 20,
+      DieY = -50,
+    },
+    zuru =
+    {
+      MaxSpeed = 100.0,
+      MaxForce = 2000.0,
+      PursueTime = (1 * 100),
+      StunTime = (1 * 100),
+      StealSpeed = 21,
+      DieY = -50,
+    },
+
+  },
   dimensionForLayer = function(self, layer)
     local width, height = 256, 256
-    
+
     local _layer = layer or 1
-    
+
     local z = self.World.LayerMax - (self.World.LayerDistance * (4 - _layer))
-    
+
     local scaleFactor = (z / self.World.LayerMax)
     local width = (width) * scaleFactor
     local height = (height) * scaleFactor
     local divisor = self:getGameViewDivisor()
-    
+
     return bullet.btVector2( (width / divisor) * 2, (height / divisor) * 2 )
   end,
-	originForLayer = function(self, tileInfo, zzz)
-		local x        = tileInfo.x or 0
-		local y        = tileInfo.y or 0
-		local layer    = tileInfo.layer or 1
-		local sublayer = tileInfo.sublayer or 1
-		local width    = 1.0
-		local height   = 1.0
-		if tileInfo.tile then
-			width    = tileInfo.tile.width or 1.0
-			height   = tileInfo.tile.height or 1.0
-		end
+  originForLayer = function(self, tileInfo, zzz)
+    local x        = tileInfo.x or 0
+    local y        = tileInfo.y or 0
+    local layer    = tileInfo.layer or 1
+    local sublayer = tileInfo.sublayer or 1
+    local width    = 1.0
+    local height   = 1.0
+    if tileInfo.tile then
+      width    = tileInfo.tile.width or 1.0
+      height   = tileInfo.tile.height or 1.0
+    end
 
-		function transformCoordinate(origin, layerMax)
-			function adjustPosition(oldPosition, newDistance)
-		        local ret                     = oldPosition
-		        local totalDistanceFromCamera = layerMax
+    function transformCoordinate(origin, layerMax)
+      function adjustPosition(oldPosition, newDistance)
+        local ret                     = oldPosition
+        local totalDistanceFromCamera = layerMax
 
-		        if newDistance ~= totalDistanceFromCamera then
-		            local theta       = math.atan(oldPosition, totalDistanceFromCamera)
-		            local newPosition = math.tan(theta) * newDistance
-		            ret               = newPosition
-		        end
+        if newDistance ~= totalDistanceFromCamera then
+          local theta       = math.atan(oldPosition, totalDistanceFromCamera)
+          local newPosition = math.tan(theta) * newDistance
+          ret               = newPosition
+        end
 
-		        return ret
-		    end
+        return ret
+      end
 
-		    local zz = origin:z() 
-		    local xx = adjustPosition(origin:x() , zz)
-		    local yy = adjustPosition(origin:y() , zz)
+      local zz = origin:z() 
+      local xx = adjustPosition(origin:x() , zz)
+      local yy = adjustPosition(origin:y() , zz)
 
-		    return bullet.btVector3(xx, yy, zz)
-		end
+      return bullet.btVector3(xx, yy, zz)
+    end
 
-		-- local subLayerOffset = -0.1
-		local divisor = self:getGameViewDivisor() --self:getDivisor()
+    -- local subLayerOffset = -0.1
+    local divisor = self:getGameViewDivisor() --self:getDivisor()
 
-		local x_offset = ( 0.5 * self.World.WorldScale )
-		local y_offset = ( 0.5 * self.World.WorldScale )
+    local x_offset = ( 0.5 * self.World.WorldScale )
+    local y_offset = ( 0.5 * self.World.WorldScale )
 
-		local xx = ((self.World.WorldOffset:x()) + (((x + (width * 0.5)) / divisor) - x_offset))
-		local yy = ((self.World.WorldOffset:y()) + (((y + (height * 0.5)) / divisor) - y_offset))
-		-- local offset = 0
-		-- if sublayer ~= nil then
-		-- 	offset = (sublayer * subLayerOffset)
-		-- end
+    local xx = ((self.World.WorldOffset:x()) + (((x + (width * 0.5)) / divisor) - x_offset))
+    local yy = ((self.World.WorldOffset:y()) + (((y + (height * 0.5)) / divisor) - y_offset))
+    -- local offset = 0
+    -- if sublayer ~= nil then
+    -- 	offset = (sublayer * subLayerOffset)
+    -- end
 
-		-- print("sublayer, subLayerOffset", sublayer, subLayerOffset)
+    -- print("sublayer, subLayerOffset", sublayer, subLayerOffset)
 
-		-- 4th layer is the furthest layer number.
+    -- 4th layer is the furthest layer number.
 
-		-- local layer_offset = self.World.LayerDistance * ((4 - layer) + 1)
+    -- local layer_offset = self.World.LayerDistance * ((4 - layer) + 1)
 
-		
-		-- local zz = self.World.LayerMax - (self.World.LayerDistance * 0) -- furthest layer (4th)
-		-- local zz = self.World.LayerMax - (self.World.LayerDistance * 1) -- second furthest layer (3rd)
-		-- local zz = self.World.LayerMax - (self.World.LayerDistance * 2) -- second closest layer (2nd)
-		-- local zz = self.World.LayerMax - (self.World.LayerDistance * 3) -- closest layer (1st)
 
-		-- local zz = self.World.LayerMax + (0.1 - (self.World.LayerDistance * (layer - 1))) -- + offset
+    -- local zz = self.World.LayerMax - (self.World.LayerDistance * 0) -- furthest layer (4th)
+    -- local zz = self.World.LayerMax - (self.World.LayerDistance * 1) -- second furthest layer (3rd)
+    -- local zz = self.World.LayerMax - (self.World.LayerDistance * 2) -- second closest layer (2nd)
+    -- local zz = self.World.LayerMax - (self.World.LayerDistance * 3) -- closest layer (1st)
 
-		-- print_r(tileInfo)
-		local zz = zzz or self.World.LayerMax - (self.World.LayerDistance * (4 - layer))
-		-- print(zz)
+    -- local zz = self.World.LayerMax + (0.1 - (self.World.LayerDistance * (layer - 1))) -- + offset
 
-		local origin = bullet.btVector3(xx, yy, zz)
+    -- print_r(tileInfo)
+    local zz = zzz or self.World.LayerMax - (self.World.LayerDistance * (4 - layer))
+    -- print(zz)
 
-		return transformCoordinate(origin, self.World.LayerMax)
-	end,
-	tileDimensions = function(self, tile, z)
-		local width, height = 256, 256
-		if tile then
-			width = tile.width or width
-			height = tile.height or height
-		end
-		
+    local origin = bullet.btVector3(xx, yy, zz)
+
+    return transformCoordinate(origin, self.World.LayerMax)
+  end,
+  tileDimensions = function(self, tile, z)
+    local width, height = 256, 256
+    if tile then
+      width = tile.width or width
+      height = tile.height or height
+    end
+
     local scaleFactor = (z / self.World.LayerMax)
     width = (width) * scaleFactor
     height = (height) * scaleFactor
     local divisor = self:getGameViewDivisor()
 
-		return bullet.btVector2( (width / divisor) * 2, (height / divisor) * 2 )
-	end,
-	getGameViewDivisor = function(self)
-		local scale = self.World.WorldScale
-    	return math.floor(2048.0 / scale)
-	end,
-	setupSpriteFrame = function(self, frameName, node, characterSheetInfo, spriteAtlas, geometry)
-		for k,v in pairs(characterSheetInfo) do
-			if v:getFrameIndex(frameName) then
-				local frameIndex = v:getFrameIndex(frameName)
-				local width = v:getSheet().frames[frameIndex].width - 2
-				local height = v:getSheet().frames[frameIndex].height - 2
-				local divisor = self:getGameViewDivisor()
-				local dimSprite = bullet3.btVector2( (width/divisor)*2, (height/divisor)*2 )
+    return bullet.btVector2( (width / divisor) * 2, (height / divisor) * 2 )
+  end,
+  getGameViewDivisor = function(self)
+    local scale = self.World.WorldScale
+    return math.floor(2048.0 / scale)
+  end,
+  setupSpriteFrame = function(self, frameName, node, characterSheetInfo, spriteAtlas, geometry)
+    for k,v in pairs(characterSheetInfo) do
+      if v:getFrameIndex(frameName) then
+        local frameIndex = v:getFrameIndex(frameName)
+        local width = v:getSheet().frames[frameIndex].width - 2
+        local height = v:getSheet().frames[frameIndex].height - 2
+        local divisor = self:getGameViewDivisor()
+        local dimSprite = bullet3.btVector2( (width/divisor)*2, (height/divisor)*2 )
 
-				node:addGeometry(geometry[k])
+        node:addGeometry(geometry[k])
 
-				node:getGeometry():setSpriteAtlasFrame(node, spriteAtlas[k], frameName, false)
-				node:getGeometry():setDimensions(node, dimSprite)
-			end
-		end
-	end,
-	getSpriteAlasFromFrameName = function(self, frameName, spriteAtlasArray)
-		for k, v in pairs(spriteAtlasArray) do
-			print(k)
-			print(v)
-			print('end')
-		end
-	end
+        node:getGeometry():setSpriteAtlasFrame(node, spriteAtlas[k], frameName, false)
+        node:getGeometry():setDimensions(node, dimSprite)
+      end
+    end
+  end,
+  getSpriteAlasFromFrameName = function(self, frameName, spriteAtlasArray)
+    for k, v in pairs(spriteAtlasArray) do
+      print(k)
+      print(v)
+      print('end')
+    end
+  end
 
 }
 

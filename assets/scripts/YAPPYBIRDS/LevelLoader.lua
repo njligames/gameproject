@@ -85,16 +85,16 @@ function LevelLoader:loadLevel(...)
   end
 
   local path = string.format("scripts/generated/tiled/%s/%s_%02d.lua", loc, mode, levelNum)
-  
-	local filePath = njlic.ASSET_PATH(path)
+
+  local filePath = njlic.ASSET_PATH(path)
 
   if debug then
     filePath = njlic.ASSET_PATH("scripts/generated/tiled/debug/debugLevel.lua")
   end
-  
+
   local level = loadfile(filePath)()
 --  print_r(level)
-  
+
   self.tiles = self:_parseTiles(level)
 --  print_r("self.tiles", self.tiles)
 
@@ -193,7 +193,7 @@ function LevelLoader:_parseObject(object, objectLayer, subObjectLayer)
 
   if object.type == "birdSpawnPoint" then
     local spawnPoint = self:_parseBirdSpawnPointObject(object, objectLayer, subObjectLayer)
-    
+
     table.insert(self.spawnPointTable, spawnPoint)
     -- print_r(spawnPoint)
   elseif object.type== "dogWayPoint" then
@@ -202,7 +202,7 @@ function LevelLoader:_parseObject(object, objectLayer, subObjectLayer)
     assert(object.id, "There has to be an ID for objects of type dogWayPoint")
 
     table.insert(self.wayPointTable, object.id, dogWayPoint)
-   -- print_r(dogWayPoint)
+    -- print_r(dogWayPoint)
   end
 end
 
@@ -218,21 +218,21 @@ function LevelLoader:_parseTileLayer(level, layer, objectLayer, subObjectLayer, 
       local instanceName = instanceCount .. "/" .. tile.image
       local tileInfo = 
       {
-          x = x,
-          y = y,
-          layer = objectLayer,
-          sublayer = subObjectLayer,
-          opacity = opacity,
-          tile = tile,
-          instanceName = instanceName,
+        x = x,
+        y = y,
+        layer = objectLayer,
+        sublayer = subObjectLayer,
+        opacity = opacity,
+        tile = tile,
+        instanceName = instanceName,
       }
 
       table.insert(self.tileTable, tileInfo)
     end
     x = x + (level.tilewidth)
     if x >= (layer.width * level.tilewidth) then
-        x = layer.x
-        y = y - (level.tileheight)
+      x = layer.x
+      y = y - (level.tileheight)
     end
   end
 end     
@@ -242,8 +242,8 @@ function LevelLoader:_parseBackgroundColor(level)
 
   if level.backgroundcolor then
     backgroundcolor = bullet.btVector4(level.backgroundcolor[1]/255,
-    level.backgroundcolor[2]/255,
-    level.backgroundcolor[3]/255,1.0)
+      level.backgroundcolor[2]/255,
+      level.backgroundcolor[3]/255,1.0)
   end
 
   return backgroundcolor
@@ -323,15 +323,15 @@ end
 
 function LevelLoader:createWaypointPath(...)
   local arg=... or {}
-  
+
 --  assert(self.steeringBehaviourFollowPath, "The follow path steering behaviour can't be  nil")
-  
+
   local numWaypoints = #self.wayPointTable
   local path = nil
-  
+
   if numWaypoints > 0 then
     path = njlic.Path()
-    
+
     for i = 1, numWaypoints do
       local point = self:getDogWayPointParams(i).origin
       if point then
@@ -347,40 +347,40 @@ function LevelLoader:numDogWayPoints()
 end
 
 function LevelLoader:getDogWayPointsAabb(...)
-    local arg=... or {}
+  local arg=... or {}
 
-    local min_x, min_y, min_z = 0, 0, 0
-    local max_x, max_y, max_z = 0, 0, 0
+  local min_x, min_y, min_z = 0, 0, 0
+  local max_x, max_y, max_z = 0, 0, 0
 
-    local numWaypoints = #self.wayPointTable
+  local numWaypoints = #self.wayPointTable
 
-    if numWaypoints > 0 then
-        local point = self:getDogWayPointParams(1).origin
-        if point then
-            max_x = point:x()
-            max_y = point:y()
-            max_z = point:z()
+  if numWaypoints > 0 then
+    local point = self:getDogWayPointParams(1).origin
+    if point then
+      max_x = point:x()
+      max_y = point:y()
+      max_z = point:z()
 
-            min_x = point:x()
-            min_y = point:y()
-            min_z = point:z()
-        end
-
-        for i = 2, numWaypoints do
-            local point = self:getDogWayPointParams(i).origin
-            if point then
-                max_x = math.max(point:x(), max_x)
-                max_y = math.max(point:y(), max_y)
-                max_z = math.max(point:z(), max_z)
-
-                min_x = math.min(point:x(), min_x)
-                min_y = math.min(point:y(), min_y)
-                min_z = math.min(point:z(), min_z)
-            end
-        end
+      min_x = point:x()
+      min_y = point:y()
+      min_z = point:z()
     end
 
-    return bullet3.btVector3(min_x, min_y, min_z), bullet3.btVector3(max_x, max_y, max_z)
+    for i = 2, numWaypoints do
+      local point = self:getDogWayPointParams(i).origin
+      if point then
+        max_x = math.max(point:x(), max_x)
+        max_y = math.max(point:y(), max_y)
+        max_z = math.max(point:z(), max_z)
+
+        min_x = math.min(point:x(), min_x)
+        min_y = math.min(point:y(), min_y)
+        min_z = math.min(point:z(), min_z)
+      end
+    end
+  end
+
+  return bullet3.btVector3(min_x, min_y, min_z), bullet3.btVector3(max_x, max_y, max_z)
 end
 
 function LevelLoader:getSpawnPointOrigin(index)
@@ -389,6 +389,17 @@ function LevelLoader:getSpawnPointOrigin(index)
   local spawnPoint = self.spawnPointTable[index]
 
   local origin = self.Params:originForLayer(spawnPoint)
+  print("%%%%%%%%%%")
+  print("%%%%%%%%%%")
+  print("%%%%%%%%%%")
+  print("%%%%%%%%%%")
+  print("%%%%%%%%%%")
+  print_r(spawnPoint)
+  print("%%%%%%%%%%")
+  print("%%%%%%%%%%")
+  print("%%%%%%%%%%")
+  print("%%%%%%%%%%")
+  print("%%%%%%%%%%")
 
   return origin
 end
@@ -455,7 +466,7 @@ end
 
 function LevelLoader:__tostring()
   local ret = self:className() .. " =\n{\n"
-  
+
   for pos,val in pairs(self) do 
     ret = ret .. "\t" .. "["..pos.."]" .. " => " .. type(val) .. " = " .. tostring(val) .. "\n"
   end
@@ -465,25 +476,25 @@ end
 
 function LevelLoader:_destroy()
   assert(not self.__LevelLoaderCalledLoad, "Must unload before you destroy")
-  
+
   __dtor(self)
 end
 
 function LevelLoader:_create(init)
   self.__LevelLoaderCalledLoad = false
-  
+
   __ctor(self, init)
 end
 
 function LevelLoader:load()
   __load(self)
-  
+
   self.__LevelLoaderCalledLoad = true
 end
 
 function LevelLoader:unLoad()
   assert(self.__LevelLoaderCalledLoad, "Must load before unloading")
-  
+
   __unLoad(self)
   self.__LevelLoaderCalledLoad = false
 end
