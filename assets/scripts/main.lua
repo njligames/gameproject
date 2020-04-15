@@ -310,7 +310,7 @@ local YappyBirdUi = {
       uiImage:setOrigin(
         bullet.btVector3(0.0 , njlic.SCREEN():y() * 0.5, 10)
       )
-      
+
       local r = njlic.RATIO()
 
       local uiImage2, uiImageRect2, uiImageId2 = UI:createImage({
@@ -2535,7 +2535,7 @@ local Dog = {
       ANIMATION_STATES={fall="fall",grabbed="grabbed",idle="idle",run="run"},
       left = false,
 
-      STATEMACHINE_STATES={caught="caught",dazed="dazed",land="land",released="released",run="run",spawn="spawn"},
+      STATEMACHINE_STATES={caught="caught",dazed="dazed",land="land",released="released",run="run",sprint="sprint",spawn="spawn"},
       stateMachine=nil,
       currentAnimationState=nil,
     }
@@ -2726,6 +2726,9 @@ local Dog = {
         })
       stateMachine:addState(self.STATEMACHINE_STATES.run, {
           enter = function()
+            self.steeringBehaviourMachine:setMaxSpeed(self.params.Dog.MaxSpeed)
+            self.steeringBehaviourMachine:setMaxForce(self.params.Dog.MaxForce)
+
             self.currentAnimationState=self.ANIMATION_STATES.run
             self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourFollowPath)
             self.steeringBehaviourMachine:enable(true)
@@ -2740,12 +2743,59 @@ local Dog = {
           end,
           collide = function(colliderEntity, collisionPoint)
             if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
-              self.stateMachine:switchStates(self.STATEMACHINE_STATES.dazed)
+              self.stateMachine:switchStates(self.STATEMACHINE_STATES.sprint)
             elseif(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.bird) then
               self.stateMachine:switchStates(self.STATEMACHINE_STATES.dazed)
             end
           end,
         })
+
+
+
+
+
+      stateMachine:addState(self.STATEMACHINE_STATES.sprint, {
+          enter = function()
+            self.steeringBehaviourMachine:setMaxSpeed(self.params.Dog.MaxSpeedSprint)
+            self.steeringBehaviourMachine:setMaxForce(self.params.Dog.MaxForceSprint)
+
+            self.currentAnimationState=self.ANIMATION_STATES.run
+            self.steeringBehaviourMachine:addSteeringBehavior(self.steeringBehaviourFollowPath)
+            self.steeringBehaviourMachine:enable(true)
+            self.physicsBody:setKinematicPhysics()
+
+            self:playSfx(self.game.ybSound.dog_bark1)
+            self.runClock = njlic.Clock.create()
+          end,
+          exit = function()
+            njlic.Clock.destroy(self.runClock)
+            self.steeringBehaviourMachine:removeSteeringBehavior(self.steeringBehaviourFollowPath)
+          end,
+          update = function(timeStep)
+            local sprintTime = self.params.Dog.SprintTime
+            if (self.runClock:getTimeMilliseconds() > sprintTime) then
+              self.runClock:reset()
+              self.stateMachine:switchStates(self.STATEMACHINE_STATES.run)
+            end
+          end,
+          collide = function(colliderEntity, collisionPoint)
+            if(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.projectile) then
+              self.stateMachine:switchStates(self.STATEMACHINE_STATES.run)
+            elseif(colliderEntity.node:getPhysicsBody():getCollisionGroup() == CollisionGroups.bird) then
+              self.stateMachine:switchStates(self.STATEMACHINE_STATES.dazed)
+            end
+          end,
+        })
+
+
+
+
+
+
+
+
+
+
       stateMachine:addState(self.STATEMACHINE_STATES.spawn, {
           enter = function()
             self.steeringBehaviourMachine:clearSteering()

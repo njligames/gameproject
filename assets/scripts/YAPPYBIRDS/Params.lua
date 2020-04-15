@@ -81,8 +81,12 @@ ParamInfo =
   },
   Dog = 
   {
-    MaxSpeed = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
-    MaxForce = njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),		
+    MaxSpeed = 75.0, --njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+    MaxForce = 2000, --njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),		
+    MaxSpeedSprint = 375.0, --njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),
+    MaxForceSprint = 8000, --njlic.World.getInstance():getWorldLuaVirtualMachine():getMaxNumber(),		
+    SprintTime = (0.5 * 100),
+
     DazedTime = (0.5 * 1000),
     CapturedHeight = 20,
   },
