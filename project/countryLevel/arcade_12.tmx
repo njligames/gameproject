@@ -195,8 +195,8 @@
    <properties>
     <property name="birdType" value="garu"/>
     <property name="initialVelocity" type="float" value="0"/>
-    <property name="spawnAmount" type="int" value="4"/>
-    <property name="timeFrequency" type="int" value="3"/>
+    <property name="spawnAmount" type="int" value="8"/>
+    <property name="timeFrequency" type="int" value="1"/>
     <property name="timeStart" type="int" value="0"/>
    </properties>
    <ellipse/>
@@ -245,8 +245,8 @@
    <properties>
     <property name="birdType" value="garu"/>
     <property name="initialVelocity" type="float" value="0"/>
-    <property name="spawnAmount" type="int" value="4"/>
-    <property name="timeFrequency" type="int" value="3"/>
+    <property name="spawnAmount" type="int" value="8"/>
+    <property name="timeFrequency" type="int" value="1"/>
     <property name="timeStart" type="int" value="1"/>
    </properties>
    <ellipse/>

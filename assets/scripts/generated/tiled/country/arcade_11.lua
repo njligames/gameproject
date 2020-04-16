@@ -8,7 +8,7 @@ return {
   height = 64,
   tilewidth = 32,
   tileheight = 32,
-  nextobjectid = 18,
+  nextobjectid = 28,
   backgroundcolor = { 158, 206, 239 },
   properties = {},
   tilesets = {
@@ -279,7 +279,7 @@ return {
           x = 2100,
           y = 1000,
           width = 40.5186,
-          height = 4.05186,
+          height = 27.0519,
           rotation = 0,
           visible = true,
           properties = {
@@ -298,7 +298,7 @@ return {
           x = -100,
           y = 1000,
           width = 24.3112,
-          height = 0,
+          height = 18,
           rotation = 0,
           visible = true,
           properties = {
@@ -307,6 +307,196 @@ return {
             ["spawnAmount"] = 4,
             ["timeFrequency"] = 3,
             ["timeStart"] = 0
+          }
+        },
+        {
+          id = 18,
+          name = "webo",
+          type = "birdSpawnPoint",
+          shape = "ellipse",
+          x = -99.1556,
+          y = 940,
+          width = 24.3112,
+          height = 18,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["birdType"] = "webo",
+            ["initialVelocity"] = 0,
+            ["spawnAmount"] = 4,
+            ["timeFrequency"] = 3,
+            ["timeStart"] = 0
+          }
+        },
+        {
+          id = 19,
+          name = "puffy",
+          type = "birdSpawnPoint",
+          shape = "ellipse",
+          x = -101.156,
+          y = 881,
+          width = 24.3112,
+          height = 18,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["birdType"] = "puffy",
+            ["initialVelocity"] = 0,
+            ["spawnAmount"] = 4,
+            ["timeFrequency"] = 3,
+            ["timeStart"] = 0
+          }
+        },
+        {
+          id = 20,
+          name = "momi",
+          type = "birdSpawnPoint",
+          shape = "ellipse",
+          x = -101.156,
+          y = 821,
+          width = 24.3112,
+          height = 18,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["birdType"] = "momi",
+            ["initialVelocity"] = 0,
+            ["spawnAmount"] = 4,
+            ["timeFrequency"] = 3,
+            ["timeStart"] = 0
+          }
+        },
+        {
+          id = 21,
+          name = "garu",
+          type = "birdSpawnPoint",
+          shape = "ellipse",
+          x = -102.156,
+          y = 762,
+          width = 24.3112,
+          height = 18,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["birdType"] = "garu",
+            ["initialVelocity"] = 0,
+            ["spawnAmount"] = 4,
+            ["timeFrequency"] = 3,
+            ["timeStart"] = 0
+          }
+        },
+        {
+          id = 22,
+          name = "chubi",
+          type = "birdSpawnPoint",
+          shape = "ellipse",
+          x = -101.156,
+          y = 697,
+          width = 24.3112,
+          height = 18,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["birdType"] = "chubi",
+            ["initialVelocity"] = 0,
+            ["spawnAmount"] = 8,
+            ["timeFrequency"] = 1,
+            ["timeStart"] = 0
+          }
+        },
+        {
+          id = 23,
+          name = "webo",
+          type = "birdSpawnPoint",
+          shape = "ellipse",
+          x = 2098.74,
+          y = 935.474,
+          width = 40.5186,
+          height = 27.0519,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["birdType"] = "webo",
+            ["initialVelocity"] = 0,
+            ["spawnAmount"] = 4,
+            ["timeFrequency"] = 3,
+            ["timeStart"] = 1
+          }
+        },
+        {
+          id = 24,
+          name = "puffy",
+          type = "birdSpawnPoint",
+          shape = "ellipse",
+          x = 2101.74,
+          y = 870.474,
+          width = 40.5186,
+          height = 27.0519,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["birdType"] = "puffy",
+            ["initialVelocity"] = 0,
+            ["spawnAmount"] = 4,
+            ["timeFrequency"] = 3,
+            ["timeStart"] = 1
+          }
+        },
+        {
+          id = 25,
+          name = "momi",
+          type = "birdSpawnPoint",
+          shape = "ellipse",
+          x = 2096.74,
+          y = 804.474,
+          width = 40.5186,
+          height = 27.0519,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["birdType"] = "momi",
+            ["initialVelocity"] = 0,
+            ["spawnAmount"] = 4,
+            ["timeFrequency"] = 3,
+            ["timeStart"] = 1
+          }
+        },
+        {
+          id = 26,
+          name = "garu",
+          type = "birdSpawnPoint",
+          shape = "ellipse",
+          x = 2095.74,
+          y = 736.474,
+          width = 40.5186,
+          height = 27.0519,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["birdType"] = "garu",
+            ["initialVelocity"] = 0,
+            ["spawnAmount"] = 4,
+            ["timeFrequency"] = 3,
+            ["timeStart"] = 1
+          }
+        },
+        {
+          id = 27,
+          name = "chubi",
+          type = "birdSpawnPoint",
+          shape = "ellipse",
+          x = 2089.74,
+          y = 668.474,
+          width = 40.5186,
+          height = 27.0519,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["birdType"] = "chubi",
+            ["initialVelocity"] = 0,
+            ["spawnAmount"] = 8,
+            ["timeFrequency"] = 1,
+            ["timeStart"] = 1
           }
         }
       }
