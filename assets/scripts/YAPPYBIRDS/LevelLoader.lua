@@ -389,17 +389,6 @@ function LevelLoader:getSpawnPointOrigin(index)
   local spawnPoint = self.spawnPointTable[index]
 
   local origin = self.Params:originForLayer(spawnPoint)
-  print("%%%%%%%%%%")
-  print("%%%%%%%%%%")
-  print("%%%%%%%%%%")
-  print("%%%%%%%%%%")
-  print("%%%%%%%%%%")
-  print_r(spawnPoint)
-  print("%%%%%%%%%%")
-  print("%%%%%%%%%%")
-  print("%%%%%%%%%%")
-  print("%%%%%%%%%%")
-  print("%%%%%%%%%%")
 
   return origin
 end

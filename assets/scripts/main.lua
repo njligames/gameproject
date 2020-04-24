@@ -3657,7 +3657,11 @@ local YappyBirds = {
       if self.run then
 
 
+        local showAd = false
+        
         if self.win then
+          showAd = true
+          
           self:stop()
 
           local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
@@ -3691,6 +3695,7 @@ local YappyBirds = {
         end
 
         if self.lose then
+          showAd = true
           self:stop()
 
           if self.yappyBirdsUi.mode == "timeattack" then
@@ -3700,6 +3705,10 @@ local YappyBirds = {
           elseif self.yappyBirdsUi.mode == "survival" then
             self.yappyBirdsUi:showLoseSurvival()
           end
+        end
+        
+        if showAd then
+          njlic.World.getInstance():showAd()
         end
 
         if not self.paused then 
