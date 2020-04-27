@@ -4632,6 +4632,13 @@ local TestGameTexturePacker = {
       birdName = "webo",
       currentFrame = 0,
     }
+    
+    function test:worldGamePause()
+    end
+
+    function test:worldGameUnPause()
+
+    end
 
     function test:getFrameName()
       local state = self.currentAnimationState
@@ -4661,7 +4668,7 @@ local TestGameTexturePacker = {
 
       local name = self:getFrameName()
 
-      print(name)
+      -- print(name)
 
       if self.gameplayTexturePacker[1]:has({name=name}) then
         self.node, d, frame = self.gameplayTexturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
