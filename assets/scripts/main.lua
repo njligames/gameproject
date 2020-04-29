@@ -4629,7 +4629,8 @@ local TestGameTexturePacker = {
     local test = {
       gameplayTexturePacker = {},
       currentAnimationState = "grab",
-      birdName = "webo",
+      birdNameA = "webo",
+      birdNameB = "webo",
       currentFrame = 0,
     }
     
@@ -4640,9 +4641,9 @@ local TestGameTexturePacker = {
 
     end
 
-    function test:getFrameName()
+    function test:getFrameNameA()
       local state = self.currentAnimationState
-      local birdName = self.birdName
+      local birdNameA = self.birdNameA
 
       if state == "fly" then
       elseif state == "grabbed" then
@@ -4652,36 +4653,88 @@ local TestGameTexturePacker = {
       elseif state == "spawn" then
       end
 
-      local name = string.format("character_%sBird_%s_front/character_%sBird_%s_front_%05d", birdName, state, birdName, state, self.currentFrame)
+      local name = string.format("character_%sBird_%s_front/character_%sBird_%s_front_%05d", birdNameA, state, birdNameA, state, self.currentFrame)
       return name
     end
 
-    function test:incrementAnimationFrame()
-      -- if self.stateMachine.currentStateName ~= "idle" then
-      self.currentFrame = self.currentFrame + 1
-      -- end
-      -- print('incrementAnimationFrame')
+    function test:getFrameNameB()
+      local state = self.currentAnimationState
+      local birdNameB = self.birdNameB
 
-      if(self.currentFrame > 8) then self.currentFrame = 0 end
-
-      -- print(self.currentFrame)
-
-      local name = self:getFrameName()
-
-      -- print(name)
-
-      if self.gameplayTexturePacker[1]:has({name=name}) then
-        self.node, d, frame = self.gameplayTexturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
-      elseif self.gameplayTexturePacker[2]:has({name=name}) then
-        self.node, d, frame = self.gameplayTexturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
+      if state == "fly" then
+      elseif state == "grabbed" then
+      elseif state == "grabbing" then
+      elseif state == "hit" then
+      elseif state == "pursue" then
+      elseif state == "spawn" then
       end
 
-      -- print("*", self.node:getName(), self.node:getGeometry():getName())
+      local name = string.format("character_%sBird_%s_front/character_%sBird_%s_front_%05d", birdNameB, state, birdNameB, state, self.currentFrame)
+      return name
+    end
 
-      -- print_r(frame)
+    function test:incrementAnimationFrameA()
 
-      self.node:show(self.perspectiveCamera)
-      self.node:show(self.orthographicCamera)
+
+
+      local nameA = self:getFrameNameA()
+
+
+      if self.gameplayTexturePacker[1]:has({name=nameA}) then
+        self.nodeA, d, frame = self.gameplayTexturePacker[1]:draw({name=nameA, node=self.nodeA, updateDimensions=false})
+      elseif self.gameplayTexturePacker[2]:has({name=nameA}) then
+        self.nodeA, d, frame = self.gameplayTexturePacker[2]:draw({name=nameA, node=self.nodeA, updateDimensions=false})
+      end
+
+
+      self.nodeA:show(self.perspectiveCamera)
+      self.nodeA:show(self.orthographicCamera)
+    end
+
+    function test:incrementAnimationFrameB()
+
+
+
+      local nameA = self:getFrameNameA()
+
+
+      if self.gameplayTexturePacker[1]:has({name=nameA}) then
+        self.nodeB, d, frame = self.gameplayTexturePacker[1]:draw({name=nameA, node=self.nodeB, updateDimensions=false})
+      elseif self.gameplayTexturePacker[2]:has({name=nameA}) then
+        self.nodeB, d, frame = self.gameplayTexturePacker[2]:draw({name=nameA, node=self.nodeB, updateDimensions=false})
+      end
+
+
+      self.nodeB:show(self.perspectiveCamera)
+      self.nodeB:show(self.orthographicCamera)
+    end
+
+    function test:loadNodeA()
+      self.nodeA = njlic.Node.create()
+      if self.gameplayTexturePacker[1]:has({name=name}) then
+        self.nodeA = self.gameplayTexturePacker[1]:draw({name=name, node=self.nodeA, updateDimensions=false})
+      elseif self.gameplayTexturePacker[2]:has({name=name}) then
+        self.nodeA = self.gameplayTexturePacker[2]:draw({name=name, node=self.nodeA, updateDimensions=false})
+      end
+      self.nodeA:setOrigin(bullet3.btVector3(500,500,-1))
+      self.nodeA:setScale(1000)
+      self.nodeA:show(self.orthographicCamera)
+
+      njlic.World.getInstance():getScene():getRootNode():addChildNode(self.nodeA)
+    end
+
+    function test:loadNodeB()
+      self.nodeB = njlic.Node.create()
+      if self.gameplayTexturePacker[1]:has({name=name}) then
+        self.nodeB = self.gameplayTexturePacker[1]:draw({name=name, node=self.nodeB, updateDimensions=false})
+      elseif self.gameplayTexturePacker[2]:has({name=name}) then
+        self.nodeB = self.gameplayTexturePacker[2]:draw({name=name, node=self.nodeB, updateDimensions=false})
+      end
+      self.nodeB:setOrigin(bullet3.btVector3(800,500,-1))
+      self.nodeB:setScale(1000)
+      self.nodeB:show(self.orthographicCamera)
+
+      njlic.World.getInstance():getScene():getRootNode():addChildNode(self.nodeB)
     end
 
     function test:load()
@@ -4694,17 +4747,10 @@ local TestGameTexturePacker = {
       table.insert(self.gameplayTexturePacker, TexturePacker({file="gameplay0"}))
       table.insert(self.gameplayTexturePacker, TexturePacker({file="gameplay1"}))
 
-      self.node = njlic.Node.create()
-      if self.gameplayTexturePacker[1]:has({name=name}) then
-        self.node = self.gameplayTexturePacker[1]:draw({name=name, node=self.node, updateDimensions=false})
-      elseif self.gameplayTexturePacker[2]:has({name=name}) then
-        self.node = self.gameplayTexturePacker[2]:draw({name=name, node=self.node, updateDimensions=false})
-      end
-      self.node:setOrigin(bullet3.btVector3(100,100,-1))
-      self.node:setScale(100)
-      self.node:show(self.orthographicCamera)
 
-      njlic.World.getInstance():getScene():getRootNode():addChildNode(self.node)
+      self:loadNodeA()
+      self:loadNodeB()
+
 
       self.animationClock = njlic.Clock.create()
     end
@@ -4720,7 +4766,11 @@ local TestGameTexturePacker = {
           -- print('reset')
           animationClock:reset()
 
-          self:incrementAnimationFrame()
+          self.currentFrame = self.currentFrame + 1
+          if(self.currentFrame > 8) then self.currentFrame = 0 end
+
+          self:incrementAnimationFrameA()
+          self:incrementAnimationFrameB()
         end
       end
     end
