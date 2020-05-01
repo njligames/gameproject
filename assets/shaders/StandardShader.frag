@@ -3,6 +3,8 @@
 #ifdef GL_ES
 precision highp float;
 #endif
+ 
+// https://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/lighting.php
 
 varying vec2 VertexUV_modelspace;
 varying vec3 Position_worldspace;
