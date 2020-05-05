@@ -193,6 +193,8 @@ function SpawnMachine:tick(gameplay, timeStep)
       if not status then print(err) end
     end
   end
+  
+  
 
   self.done = true
   for i = 1, #self.arcadeSpawnPoints do
@@ -209,7 +211,10 @@ function SpawnMachine:tick(gameplay, timeStep)
 
           if self:queueBird(spawnPointTable) then
 
-            spawnPointTable.spawnPoint.spawnAmount = spawnPointTable.spawnPoint.spawnAmount - 1
+            if self.gameplay.yappyBirdsUi.mode == "arcade" then
+              spawnPointTable.spawnPoint.spawnAmount = spawnPointTable.spawnPoint.spawnAmount - 1
+            end
+            
             spawnPointTable.currentTick = spawnPointTable.spawnPoint.timeFrequency
           end
 
@@ -228,7 +233,10 @@ function SpawnMachine:birdsLeftToSpawn()
 end
 
 function SpawnMachine:decreaseSpawnLeft()
-  self.spawnLeft = self.spawnLeft - 1
+  if self.gameplay.yappyBirdsUi.mode == "arcade" then
+    self.spawnLeft = self.spawnLeft - 1
+  end
+  
 end
 
 function SpawnMachine:addArcadeSpawnPoint(spawnPoint)

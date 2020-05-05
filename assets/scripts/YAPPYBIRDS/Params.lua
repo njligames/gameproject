@@ -21,6 +21,11 @@ ParamInfo =
     WorldScale = 89.0430,
     MinBrightnessForDistance = 0.8, --value from 0.0 (black) to 1.0 (the image's brightness)
     LoseBirdHeight = 36.0,
+    TimeAttackTime =
+    {
+      Minutes = 2,
+      Seconds = 30,
+    },
   },
   Projectile = 
   {
@@ -89,6 +94,7 @@ ParamInfo =
 
     DazedTime = (0.5 * 1000),
     CapturedHeight = 20,
+    Points = -100,
   },
   Bird =
   {
@@ -100,6 +106,7 @@ ParamInfo =
       StunTime = (6 * 100),
       StealSpeed = 16,
       DieY = -50,
+      points = 100,
     },
     garu =
     {
@@ -109,6 +116,7 @@ ParamInfo =
       StunTime = (5 * 100),
       StealSpeed = 17,
       DieY = -50,
+      points = 200,
     },
     momi =
     {
@@ -118,6 +126,7 @@ ParamInfo =
       StunTime = (4 * 100),
       StealSpeed = 18,
       DieY = -50,
+      points = 300,
     },
     puffy =
     {
@@ -127,6 +136,7 @@ ParamInfo =
       StunTime = (3 * 100),
       StealSpeed = 19,
       DieY = -50,
+      points = 400,
     },
     webo =
     {
@@ -136,6 +146,7 @@ ParamInfo =
       StunTime = (2 * 100),
       StealSpeed = 20,
       DieY = -50,
+      points = 500,
     },
     zuru =
     {
@@ -145,6 +156,7 @@ ParamInfo =
       StunTime = (1 * 100),
       StealSpeed = 21,
       DieY = -50,
+      points = 600,
     },
 
   },

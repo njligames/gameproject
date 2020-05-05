@@ -746,11 +746,13 @@ local YappyBirdUi = {
           down = function() 
           end,
           up = function()
-            object.mode = "timeAttack"
+            local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
+            
+            object.mode = YappyBirdsData.TIMEATTACK
             object:showBoardSelect()
           end,
           scale = 7,
-          enabled = false,
+          enabled = true,
           --upSoundFileName = "sounds/interface_select-whoosh.ogg",
           soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
         })
@@ -773,7 +775,9 @@ local YappyBirdUi = {
           down = function() 
           end,
           up = function()
-            object.mode = "arcade"
+            local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
+            
+            object.mode = YappyBirdsData.ARCADE
             object:showBoardSelect()
           end,
           scale = 7,
@@ -800,11 +804,13 @@ local YappyBirdUi = {
           down = function() 
           end,
           up = function()
-            object.mode = "survival"
+            local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
+            
+            object.mode = YappyBirdsData.SURVIVAL
             object:showBoardSelect()
           end,
           scale = 7,
-          enabled = false,
+          enabled = true,
           --upSoundFileName = "sounds/interface_select-whoosh.ogg",
           soundTouchUpInside = object.game.ybSound.interface_select_whoosh,
         })
@@ -3132,7 +3138,7 @@ local YappyBirds = {
     function game:load()
       local debug = false
 
-
+      self.survivalClock = njlic.Clock.create()
 
       self.stageTexturePackerTable["country"] = TexturePacker({file=string.format("%s0", "country")})
 
@@ -3532,6 +3538,9 @@ local YappyBirds = {
     function game:unload()
       print('game:unload()')
 
+ 
+      njlic.Clock.destroy(self.survivalClock)
+
       self.stageTexturePackerTable = {}
 
       self.run = false
@@ -3644,6 +3653,8 @@ local YappyBirds = {
     end
 
     function game:update(timeStep)
+      
+      local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
 
       local status, err = pcall(self.ybUi:getUi().update, self.ybUi:getUi(), timeStep)
       if not status then error(err) end
@@ -3658,13 +3669,13 @@ local YappyBirds = {
 
 
         local showAd = false
-        
+
         if self.win then
           showAd = true
-          
+
           self:stop()
 
-          local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
+          
           local fp = njlic.DOCUMENT_PATH("yappybirds.lua")
           local d = YappyBirdsData.new({filepath=fp})
 
@@ -3706,7 +3717,7 @@ local YappyBirds = {
             self.yappyBirdsUi:showLoseSurvival()
           end
         end
-        
+
         if showAd then
           njlic.World.getInstance():showAd()
         end
@@ -3730,7 +3741,58 @@ local YappyBirds = {
           brd = "birds"
         end
 
-        local birdsLeft = string.format("You have %s %s and there are %s %s left.", birds_left, bal, number_words, brd)
+        local birdsLeft = self.yappyBirdsUi.mode
+        if YappyBirdsData.ARCADE == self.yappyBirdsUi.mode then
+          birdsLeft = string.format("You have %s %s and there are %s %s left.", birds_left, bal, number_words, brd)
+        elseif YappyBirdsData.TIMEATTACK == self.yappyBirdsUi.mode then
+          local seconds = self.params.World.TimeAttackTime.Seconds
+          local milliseconds = 999
+          local minutes = self.params.World.TimeAttackTime.Minutes
+          
+          if nil ~= self.survivalClock then
+            s = self.survivalClock:getTimeSeconds()
+            local f, mantissa = math.modf(s)
+            ms = mantissa * 1000.0
+            M = s / 60.0
+            
+            seconds = seconds - s
+            milliseconds = milliseconds - ms
+            minutes = minutes - M
+            
+            if(seconds < 0) then seconds = 0 end
+            if(milliseconds < 0) then milliseconds = 0 end
+            if(minutes < 0) then minutes = 0 end
+            
+            if(seconds + milliseconds + minutes <= 0) then
+              print("The timeattack game is finished")
+            end
+            
+          end 
+          
+          birdsLeft = string.format("%02d:%02d.%03d", math.floor(minutes), math.floor(seconds % 60), math.floor(milliseconds % 1000))
+          
+        elseif YappyBirdsData.SURVIVAL == self.yappyBirdsUi.mode then
+          local seconds = 0
+          local milliseconds = 0
+          local minutes = 0
+          
+          if nil ~= self.survivalClock then
+            seconds = self.survivalClock:getTimeSeconds()
+            local f, mantissa = math.modf(seconds)
+            milliseconds = mantissa * 1000.0
+            minutes = seconds / 60.0
+          end 
+          
+          birdsLeft = string.format("%02d:%02d.%03d", math.floor(minutes), math.floor(seconds % 60), math.floor(milliseconds % 1000))
+          
+
+--          self.displayNode, self.displayNodeRect = YappyBirdFont:printf({
+--              mainNode=self.displayNode,
+--              text=message3,
+--              align=align,
+--              maxwidth=(njlic.SCREEN():x()),
+--            })
+        end
 
         local displayWords = not(self.win == true or self.lose == true)
 
@@ -3940,6 +4002,8 @@ local YappyBirds = {
         self.run = true
         self.lose = false
         self.win = false
+        
+        self.survivalClock:reset()
       end
     end
 
@@ -4325,6 +4389,126 @@ local TestDebugDraw = {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+local TestTimerFont = {
+  new = function()
+    local test = {
+      align = 'left',
+      iteration = 1,
+    }
+
+    function test:load()
+
+      local scene = njlic.Scene.create()
+      local rootNode = njlic.Node.create()
+      rootNode:setOrigin(bullet3.btVector3(0,0,0))
+      scene:setRootNode(rootNode)
+      njlic.World.getInstance():setScene(scene)
+
+      self.orthographicCameraNode = njlic.Node.create()
+      self.orthographicCameraNode:setName("orthographicCameraNode")
+
+      self.orthographicCamera = njlic.Camera.create()
+      self.orthographicCamera:enableOrthographic(true)
+      self.orthographicCamera:setRenderCategory(RenderCategories.orthographic)
+      self.orthographicCamera:setName("orthographicCamera")
+
+      self.orthographicCameraNode:setCamera(self.orthographicCamera)
+
+      rootNode:addChildNode(self.orthographicCameraNode)
+      
+      self.animationClock = njlic.Clock.create()
+
+      self.displayNode, self.displayNodeRect = YappyBirdFont:printf({
+          mainNode=self.displayNode,
+          text="something",
+          align="center",
+          maxwidth=(njlic.SCREEN():x()),
+        })
+      local vert_margin = njlic.SCREEN():y() / 30.0
+      local horiz_margin = njlic.SCREEN():x() / 60.0
+
+      local x = 0.0 -- njlic.SCREEN():x() - self.displayNodeRect.width
+      local y = 0.0 -- self.displayNodeRect.height --(vert_margin * 10)
+
+      self.displayNode:setOrigin(bullet.btVector3(x, y, -1))
+      self.displayNode:show(self.orthographicCamera)
+      self.totalTimeStep = 0
+    end
+
+    function test:unload()
+      njlic.Camera.destroy(self.orthographicCamera)
+      njlic.Node.destroy(self.orthographicCameraNode)
+      
+      njlic.Clock.destroy(self.animationClock)
+    end
+
+    function test:update(timestep)
+      njlic.World.getInstance():setBackgroundColor(1.000, 1.000, 1.000)
+
+      local align = "left"
+      if math.modf(self.iteration, 3) == 0 then
+        align = "center"
+      elseif math.modf(self.iteration, 3) == 1 then
+        align = "right"
+      end
+      self.iteration = self.iteration + 1
+      
+      
+
+      local seconds = self.animationClock:getTimeSeconds()
+      local f, mantissa = math.modf(seconds)
+      local milliseconds = mantissa * 1000.0
+      local minutes = seconds / 60.0
+      
+      local message3 = string.format("%02d:%02d.%03d", math.floor(minutes), math.floor(seconds % 60), math.floor(milliseconds % 1000))
+
+      self.displayNode, self.displayNodeRect = YappyBirdFont:printf({
+          mainNode=self.displayNode,
+          text=message3,
+          align=align,
+          maxwidth=(njlic.SCREEN():x()),
+        })
+
+    end
+
+    function test:collide(node, otherNode, collisionPoint)
+    end
+
+    function test:click(x, y)
+    end
+
+    function test:updateAction(action, timeStep)
+    end
+
+    return test
+
+  end
+
+}
+
 local TestFont = {
   new = function()
     local test = {
@@ -4633,7 +4817,7 @@ local TestGameTexturePacker = {
       birdNameB = "webo",
       currentFrame = 0,
     }
-    
+
     function test:worldGamePause()
     end
 
@@ -4977,7 +5161,9 @@ local WorldGameUnPause = function()
 end
 
 local Create = function()
-  yappyBirds = YappyBirds.new()
+   yappyBirds = YappyBirds.new()
+--  yappyBirds = TestTimerFont.new()
+  
   -- yappyBirds = TestDebugDraw.new()
   -- yappyBirds = TestFont.new()
   -- yappyBirds = TestTexturePacker.new()
