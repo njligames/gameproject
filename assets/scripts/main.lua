@@ -2333,6 +2333,8 @@ local Balloon = {
           enter = function()
             self.currentAnimationState=self.ANIMATION_STATES.spawn
             self.spawnMachine:dispose(self)
+            self.spawnMachine.scoreManager:addScore(1)
+            --Balloon was hit
           end,
           exit = function()
           end,
@@ -2501,6 +2503,8 @@ local Balloon = {
       if self.node:getOrigin():y() < die then
         -- self:kill()
         self.spawnMachine:dispose(self)
+        self.spawnMachine.scoreManager:addScore(0)
+        -- Ballon was missed.
       end
 
       self.stateMachine:update(timeStep)
@@ -3654,6 +3658,9 @@ local YappyBirds = {
 
     function game:update(timeStep)
       
+      -- local score = self.spawnMachine.scoreManager:getScore()
+      -- print(score)
+
       local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
 
       local status, err = pcall(self.ybUi:getUi().update, self.ybUi:getUi(), timeStep)

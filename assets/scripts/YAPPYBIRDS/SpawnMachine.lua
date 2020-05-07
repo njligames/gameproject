@@ -15,6 +15,9 @@ SpawnMachine.__index = SpawnMachine
 --  __unLoad()
 --#############################################################################
 
+
+local ScoreManager = require("YAPPYBIRDS.ScoreManager")
+
 local __ctor = function(self)
 
   --TODO: construct this Entity
@@ -31,6 +34,8 @@ local __ctor = function(self)
 
   self.done = false
   self.spawnLeft = 0
+
+  self.scoreManager = ScoreManager()
 end
 
 local __dtor = function(self)
