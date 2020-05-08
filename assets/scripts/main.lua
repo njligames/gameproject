@@ -3,6 +3,7 @@ require "NJLIC.util"
 local BitmapFont = require 'NJLIC.BitmapFont'
 local TexturePacker = require "NJLIC.TexturePacker"
 local UserInterface = require "NJLIC.UserInterface"
+local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
 
 local YappyBirdFont = BitmapFont({
     names={
@@ -746,7 +747,6 @@ local YappyBirdUi = {
           down = function() 
           end,
           up = function()
-            local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
             
             object.mode = YappyBirdsData.TIMEATTACK
             object:showBoardSelect()
@@ -775,7 +775,6 @@ local YappyBirdUi = {
           down = function() 
           end,
           up = function()
-            local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
             
             object.mode = YappyBirdsData.ARCADE
             object:showBoardSelect()
@@ -804,7 +803,6 @@ local YappyBirdUi = {
           down = function() 
           end,
           up = function()
-            local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
             
             object.mode = YappyBirdsData.SURVIVAL
             object:showBoardSelect()
@@ -939,7 +937,25 @@ local YappyBirdUi = {
 
     local createWinTimeAttack = function(UI, texturePacker, camera, result, object)
       local nodes = createWin(UI, texturePacker, camera, result, object)
-      return nodes
+
+
+      local text = string.format("It was %s", "just ok")
+      -- text = "JAMES FOLK"
+
+      -- print("createWinArcade")
+      local displayNode, displayNodeRect = YappyBirdFont:printf({
+          mainNode=nil,
+          text=text,
+          align="center",
+          maxwidth=(njlic.SCREEN():x()),
+        })
+      local vert_margin = njlic.SCREEN():y() / 30.0
+      local horiz_margin = njlic.SCREEN():x() / 60.0
+      displayNode:setOrigin(bullet.btVector3(horiz_margin * 1, njlic.SCREEN():y() * 0.5, -1))
+
+      table.insert(nodes, displayNode)
+
+      return nodes, displayNode
     end
 
     local createWinArcade = function(UI, texturePacker, camera, result, object)
@@ -968,7 +984,25 @@ local YappyBirdUi = {
 
     local createWinSurvival = function(UI, texturePacker, camera, result, object)
       local nodes = createWin(UI, texturePacker, camera, result, object)
-      return nodes
+
+
+      local text = string.format("It was %s", "just ok")
+      -- text = "JAMES FOLK"
+
+      -- print("createWinArcade")
+      local displayNode, displayNodeRect = YappyBirdFont:printf({
+          mainNode=nil,
+          text=text,
+          align="center",
+          maxwidth=(njlic.SCREEN():x()),
+        })
+      local vert_margin = njlic.SCREEN():y() / 30.0
+      local horiz_margin = njlic.SCREEN():x() / 60.0
+      displayNode:setOrigin(bullet.btVector3(horiz_margin * 1, njlic.SCREEN():y() * 0.5, -1))
+
+      table.insert(nodes, displayNode)
+
+      return nodes, displayNode
     end
 
     local createLoseTimeAttack = function(UI, texturePacker, camera, result, object)
@@ -1038,7 +1072,6 @@ local YappyBirdUi = {
     function object:showBoardSelect()
       self:hideAll()
 
-      local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
       local debug = false
       local fp = njlic.DOCUMENT_PATH("yappybirds.lua")
       local d = YappyBirdsData.new({filepath=fp})
@@ -1083,14 +1116,43 @@ local YappyBirdUi = {
       ShowNodes({nodes=self.stageSelectNodes, camera=self.orthographicCamera})
     end
 
-    function object:showWinTimeAttack()
+    function object:showWinTimeAttack(balloonsHit, balloonsThrown, percentage, score, seconds)
+
       self.ui:playBackgroundSound()
 
       self:hideAll()
-      ShowNodes({nodes=self.winTimeAttackNodes, camera=self.orthographicCamera})
+
+      local text = ""
+
+--[[
+      wordStatusFormat = "You threw %.0f ballons and made contact with %.0f of those ballons. \nYour accuracy is %.0f%%!  \n%s" 
+
+      if percentage == 100.0 then
+        wordStatus = "Perfect!"
+      elseif percentage >= 60.0 then
+        wordStatus = "OK!"
+      else
+        wordStatus = "You Passed!"
+      end
+      
+
+      text = string.format(wordStatusFormat, balloonsThrown, balloonsHit, percentage, wordStatus)
+      ]]
+      
+      text = string.format("Your score was %d!", seconds, score)
+
+      self.bfNode, self.bfNodeNodeRect = YappyBirdFont:printf({
+          mainNode=self.bfNode,
+          text=text,
+          align="center",
+          maxwidth=(njlic.SCREEN():x()),
+        })
+      self.bfNode:setOrigin(bullet.btVector3((njlic.SCREEN():x() * 0.5) - (self.bfNodeNodeRect.width * 0.5), (njlic.SCREEN():y() * 0.5) - (self.bfNodeNodeRect.height * 0.5), -1))
+
+      ShowNodes({nodes=self.winArcadeNodes, camera=self.orthographicCamera})
     end
 
-    function object:showWinArcade(balloonsHit, balloonsThrown, percentage)
+    function object:showWinArcade(balloonsHit, balloonsThrown, percentage, score, seconds)
 
       self.ui:playBackgroundSound()
 
@@ -1121,11 +1183,39 @@ local YappyBirdUi = {
       ShowNodes({nodes=self.winArcadeNodes, camera=self.orthographicCamera})
     end
 
-    function object:showWinSurvival()
+    function object:showWinSurvival(balloonsHit, balloonsThrown, percentage, score, seconds)
+
       self.ui:playBackgroundSound()
 
       self:hideAll()
-      ShowNodes({nodes=self.winSurvivalNodes, camera=self.orthographicCamera})
+
+      local text = ""
+
+--[[
+      wordStatusFormat = "You threw %.0f ballons and made contact with %.0f of those ballons. \nYour accuracy is %.0f%%!  \n%s" 
+
+      if percentage == 100.0 then
+        wordStatus = "Perfect!"
+      elseif percentage >= 60.0 then
+        wordStatus = "OK!"
+      else
+        wordStatus = "You Passed!"
+      end
+
+      text = string.format(wordStatusFormat, balloonsThrown, balloonsHit, percentage, wordStatus)
+      ]]
+      
+      text = string.format("You survived for %f seconds, with a score of %d", seconds, score)
+
+      self.bfNode, self.bfNodeNodeRect = YappyBirdFont:printf({
+          mainNode=self.bfNode,
+          text=text,
+          align="center",
+          maxwidth=(njlic.SCREEN():x()),
+        })
+      self.bfNode:setOrigin(bullet.btVector3((njlic.SCREEN():x() * 0.5) - (self.bfNodeNodeRect.width * 0.5), (njlic.SCREEN():y() * 0.5) - (self.bfNodeNodeRect.height * 0.5), -1))
+
+      ShowNodes({nodes=self.winArcadeNodes, camera=self.orthographicCamera})
     end
 
     function object:showLoseTimeAttack()
@@ -1704,6 +1794,12 @@ local Bird = {
             self.beak:hide()
             self.physicsBody:setDynamicPhysics()
             self.steeringBehaviourMachine:enable(false)
+            
+            -- grabbed
+            if YappyBirdsData.SURVIVAL == self.game.yappyBirdsUi.mode then
+              self.game.win = true
+            end
+            
           end,
           exit = function()
             self.beak:show()
@@ -3661,7 +3757,7 @@ local YappyBirds = {
       -- local score = self.spawnMachine.scoreManager:getScore()
       -- print(score)
 
-      local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
+      
 
       local status, err = pcall(self.ybUi:getUi().update, self.ybUi:getUi(), timeStep)
       if not status then error(err) end
@@ -3699,16 +3795,26 @@ local YappyBirds = {
           end
 
           if self.yappyBirdsUi.mode == "timeattack" then
-            self.yappyBirdsUi:showWinTimeAttack()
+            local percentage = 0
+            if self.balloonsThrown > 0 then
+              percentage = ((self.balloonsHit / self.balloonsThrown ) * 100.0)
+            end
+
+            self.yappyBirdsUi:showWinTimeAttack(self.balloonsHit, self.balloonsThrown, percentage, self.spawnMachine.scoreManager:getScore(), self.survivalClock:getTimeSeconds())
           elseif self.yappyBirdsUi.mode == "arcade" then
             local percentage = 0
             if self.balloonsThrown > 0 then
               percentage = ((self.balloonsHit / self.balloonsThrown ) * 100.0)
             end
 
-            self.yappyBirdsUi:showWinArcade(self.balloonsHit, self.balloonsThrown, percentage)
+            self.yappyBirdsUi:showWinArcade(self.balloonsHit, self.balloonsThrown, percentage, self.spawnMachine.scoreManager:getScore(), self.survivalClock:getTimeSeconds())
           elseif self.yappyBirdsUi.mode == "survival" then
-            self.yappyBirdsUi:showWinSurvival()
+            local percentage = 0
+            if self.balloonsThrown > 0 then
+              percentage = ((self.balloonsHit / self.balloonsThrown ) * 100.0)
+            end
+
+            self.yappyBirdsUi:showWinSurvival(self.balloonsHit, self.balloonsThrown, percentage, self.spawnMachine.scoreManager:getScore(), self.survivalClock:getTimeSeconds())
           end
         end
 
@@ -3752,45 +3858,32 @@ local YappyBirds = {
         if YappyBirdsData.ARCADE == self.yappyBirdsUi.mode then
           birdsLeft = string.format("You have %s %s and there are %s %s left.", birds_left, bal, number_words, brd)
         elseif YappyBirdsData.TIMEATTACK == self.yappyBirdsUi.mode then
-          local seconds = self.params.World.TimeAttackTime.Seconds
-          local milliseconds = 999
-          local minutes = self.params.World.TimeAttackTime.Minutes
           
-          if nil ~= self.survivalClock then
-            s = self.survivalClock:getTimeSeconds()
-            local f, mantissa = math.modf(s)
-            ms = mantissa * 1000.0
-            M = s / 60.0
-            
-            seconds = seconds - s
-            milliseconds = milliseconds - ms
-            minutes = minutes - M
-            
-            if(seconds < 0) then seconds = 0 end
-            if(milliseconds < 0) then milliseconds = 0 end
-            if(minutes < 0) then minutes = 0 end
-            
-            if(seconds + milliseconds + minutes <= 0) then
-              print("The timeattack game is finished")
-            end
-            
-          end 
+          local f, mantissa = math.modf(self.survivalClock:getTimeSeconds())
+          local endTotalSeconds = self.params.World.TimeAttackTime.Seconds + (60 * self.params.World.TimeAttackTime.Minutes)
           
-          birdsLeft = string.format("%02d:%02d.%03d", math.floor(minutes), math.floor(seconds % 60), math.floor(milliseconds % 1000))
+          if(self.survivalClock:getTimeSeconds() >= endTotalSeconds) then
+            print("The timeattack game is finished")
+            self.win = true
+          end
+          
+          local remaining = endTotalSeconds - f
+          if remaining == 1 then
+            birdsLeft = string.format("There is %s second left.", njlic.convertToWords(remaining))
+          else
+            birdsLeft = string.format("There is %s seconds left.", njlic.convertToWords(remaining))
+          end
           
         elseif YappyBirdsData.SURVIVAL == self.yappyBirdsUi.mode then
-          local seconds = 0
-          local milliseconds = 0
-          local minutes = 0
+          local totalMilliseconds = self.survivalClock:getTimeMilliseconds()
           
-          if nil ~= self.survivalClock then
-            seconds = self.survivalClock:getTimeSeconds()
-            local f, mantissa = math.modf(seconds)
-            milliseconds = mantissa * 1000.0
-            minutes = seconds / 60.0
-          end 
+          local f, mantissa = math.modf(self.survivalClock:getTimeSeconds())
           
-          birdsLeft = string.format("%02d:%02d.%03d", math.floor(minutes), math.floor(seconds % 60), math.floor(milliseconds % 1000))
+          local seconds = f % 60
+          local milliseconds = totalMilliseconds % 1000
+          local minutes = f / 60
+          
+          birdsLeft = string.format("%02d:%02d.%03d", math.floor(minutes), math.floor(seconds), math.floor(milliseconds))
           
 
 --          self.displayNode, self.displayNodeRect = YappyBirdFont:printf({
@@ -3816,11 +3909,13 @@ local YappyBirds = {
 
         if self.spawnMachine.done then
           if self.yappyBirdsUi.mode == "timeattack" then
+            -- never should happen
           elseif self.yappyBirdsUi.mode == "arcade" then
             if self.spawnMachine:birdsLeftToSpawn() <= 0 then
               self.win = true
             end
           elseif self.yappyBirdsUi.mode == "survival" then
+            -- never should happen
           end
         end
 
@@ -4758,7 +4853,6 @@ local TestLevelSaver = {
 
     function test:load()
 
-      local YappyBirdsData = require 'YAPPYBIRDS.SaveData'
 
       local fp = njlic.DOCUMENT_PATH("yappybirds.lua")
 
