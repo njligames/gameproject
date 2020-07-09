@@ -288,6 +288,7 @@ local YappyBirdUi = {
     assert(game ~= nil, "camera is nil")
 
     local object = {
+        stage = "country",
       orthographicCamera = camera,
       interfaceTexturePacker = TexturePacker({file="interface0"}),
       -- ui = UserInterface({backgroundSoundFileName="sounds/interface_menu-theme.ogg"}),
@@ -647,7 +648,8 @@ local YappyBirdUi = {
             -- print("playdown")
           end,
           up = function()
-            object:showStageSelect()
+            -- object:showStageSelect()
+            object:showLevelSelect()
           end,
           scale = 7,
           enabled = true,
@@ -705,7 +707,8 @@ local YappyBirdUi = {
           down = function() 
           end,
           up = function()
-            object:showStageSelect()
+            -- object:showStageSelect()
+            object:showSplash()
           end,
           scale = 7,
           enabled = true,
